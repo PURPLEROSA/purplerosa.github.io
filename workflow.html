@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI.GOS Workflow Automation</title>
+    <link rel="icon" type="image/jpeg" href="aigos.jpg">
+    <style>
+        /* אותם סגנונות בסיסיים מהדף הראשי */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* סגנונות ייחודיים לדף הזרימה */
+        .workflow-container {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .workflow-steps {
+            flex: 1;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .workflow-preview {
+            flex: 2;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .step-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            cursor: grab;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .workflow-sequence {
+            min-height: 200px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title-container">
+            <img src="aigos.jpg" alt="AI.GOS Logo" class="logo">
+            <h1 class="title">AI.GOS Workflow Automation</h1>
+            <a href="index.html" class="nav-link">Back to Main</a>
+        </div>
+
+        <div class="workflow-container">
+            <div class="workflow-steps">
+                <h2>Available Steps</h2>
+                <div class="step-card" draggable="true" data-type="image-gen">
+                    <h3>Image Generation</h3>
+                    <p>Generate images using AI</p>
+                </div>
+                <div class="step-card" draggable="true" data-type="video-edit">
+                    <h3>Video Processing</h3>
+                    <p>Convert to video with effects</p>
+                </div>
+                <div class="step-card" draggable="true" data-type="social">
+                    <h3>Social Media Post</h3>
+                    <p>Prepare and schedule posts</p>
+                </div>
+            </div>
+
+            <div class="workflow-preview">
+                <h2>Your Workflow</h2>
+                <div id="workflowSequence" class="workflow-sequence">
+                    <!-- כאן יופיעו הצעדים שנבחרו -->
+                </div>
+                <button id="runWorkflow" class="run-btn">Run Workflow</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // קוד JavaScript לניהול גרירה ושחרור של צעדים
+        document.addEventListener('DOMContentLoaded', () => {
+            const stepCards = document.querySelectorAll('.step-card');
+            const workflowSequence = document.getElementById('workflowSequence');
+
+            stepCards.forEach(card => {
+                card.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', card.dataset.type);
+                });
+            });
+
+            workflowSequence.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            workflowSequence.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const type = e.dataTransfer.getData('text/plain');
+                
+                // יצירת צעד חדש בזרימה
+                const newStep = document.createElement('div');
+                newStep.className = 'step-card';
+                newStep.innerHTML = stepCards.find(card => 
+                    card.dataset.type === type).innerHTML;
+                
+                workflowSequence.appendChild(newStep);
+            });
+
+            // כפתור להפעלת הזרימה
+            document.getElementById('runWorkflow').addEventListener('click', async () => {
+                const steps = workflowSequence.children;
+                for (let step of steps) {
+                    // כאן נוסיף את הלוגיקה של הפעלת כל צעד
+                    console.log(`Running step: ${step.querySelector('h3').textContent}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
