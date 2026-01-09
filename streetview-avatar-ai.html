@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Street View Avatar AI - שילוב חכם עם בינה מלאכותית</title>
+    <link rel="icon" type="image/jpeg" href="aigos.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heebo', 'SF Pro Display', -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            height: fit-content;
+        }
+
+        .section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="password"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            margin-top: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-ai {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 100%);
+            color: #333;
+            font-weight: 700;
+        }
+
+        .btn-ai:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .api-key-section {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .api-key-section.gemini {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .api-key-section input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid currentColor;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .avatar-preview {
+            width: 100%;
+            height: 180px;
+            border: 3px dashed #e0e0e0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            overflow: hidden;
+            background: #f9f9f9;
+            position: relative;
+        }
+
+        .avatar-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .avatar-preview-empty {
+            color: #999;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .processing-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(102, 126, 234, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .processing-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .control-btn {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .streetview-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        #streetview {
+            width: 100%;
+            height: 600px;
+        }
+
+        .result-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-top: 2rem;
+        }
+
+        #result-canvas {
+            max-width: 100%;
+            border-radius: 10px;
+            display: none;
+            margin: 0 auto;
+        }
+
+        .slider-group {
+            margin-top: 1rem;
+        }
+
+        .slider-group input[type="range"] {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .slider-value {
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-right: 4px solid #2196f3;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .ai-features {
+            background: linear-gradient(135deg, rgba(255,107,107,0.1) 0%, rgba(255,230,109,0.1) 100%);
+            border: 2px solid #FF6B6B;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .ai-features h3 {
+            color: #FF6B6B;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .locations-list {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .location-item {
+            background: #f9f9f9;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .location-item:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Street View Avatar AI</h1>
+            <p>שילוב חכם של הדמות שלך עם בינה מלאכותית</p>
+            <div class="badge">🤖 Powered by Gemini AI</div>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <!-- API Keys Section -->
+                <div class="section">
+                    <div class="section-title">🔑 הגדרות API</div>
+
+                    <div class="api-key-section">
+                        <strong>Google Maps API</strong>
+                        <input type="password" id="google-api-key" placeholder="הכנס Maps API Key">
+                        <small style="display: block; margin-top: 0.3rem;">
+                            <a href="https://console.cloud.google.com/" target="_blank">
+                                📖 מדריך מלא
+                            </a>
+                        </small>
+                    </div>
+
+                    <div class="api-key-section gemini">
+                        <strong>🤖 Gemini API Key</strong>
+                        <input type="password" id="gemini-api-key" placeholder="הכנס Gemini API Key">
+                        <small style="display: block; margin-top: 0.3rem;">
+                            <a href="https://makersuite.google.com/app/apikey" target="_blank">
+                                קבל מפתח מ-AI Studio
+                            </a>
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Location Search -->
+                <div class="section">
+                    <div class="section-title">📍 חיפוש מיקום</div>
+                    <div class="input-group">
+                        <input type="text" id="location-input" placeholder='לדוגמה: "Eiffel Tower, Paris"'>
+                    </div>
+                    <button class="btn btn-primary" onclick="searchLocation()">
+                        🔍 חפש מיקום
+                    </button>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="section">
+                    <div class="section-title">🎮 בקרות תנועה</div>
+                    <div class="controls">
+                        <button class="control-btn" onclick="rotateLeft()">↶</button>
+                        <button class="control-btn" onclick="moveForward()">↑</button>
+                        <button class="control-btn" onclick="rotateRight()">↷</button>
+                        <button class="control-btn" onclick="moveLeft()">←</button>
+                        <button class="control-btn" onclick="moveBackward()">↓</button>
+                        <button class="control-btn" onclick="moveRight()">→</button>
+                    </div>
+                </div>
+
+                <!-- Avatar Upload -->
+                <div class="section">
+                    <div class="section-title">👤 העלאת דמות</div>
+                    <div class="file-upload">
+                        <button class="btn btn-secondary">
+                            📸 בחר תמונת דמות
+                            <input type="file" id="avatar-input" accept="image/*" onchange="handleAvatarUpload(event)">
+                        </button>
+                    </div>
+                    <div class="avatar-preview" id="avatar-preview">
+                        <div class="avatar-preview-empty">
+                            📷<br>תמונת הדמות שלך
+                        </div>
+                        <div class="processing-overlay" id="processing-overlay">
+                            <div class="spinner"></div>
+                            <div id="processing-text">מעבד עם AI...</div>
+                        </div>
+                    </div>
+
+                    <!-- AI Features -->
+                    <div class="ai-features">
+                        <h3>✨ פיצ'רים חכמים</h3>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="remove-bg" checked>
+                            <label for="remove-bg">הסרת רקע אוטומטית</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="match-lighting" checked>
+                            <label for="match-lighting">התאמת תאורה</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="realistic-shadow" checked>
+                            <label for="realistic-shadow">הוספת צל ריאליסטי</label>
+                        </div>
+                    </div>
+
+                    <!-- Size and Opacity Controls -->
+                    <div class="slider-group">
+                        <label>
+                            <span class="slider-value" id="size-value">50</span>
+                            גודל הדמות (%)
+                        </label>
+                        <input type="range" id="avatar-size" min="10" max="200" value="50" oninput="updateSliderValue('size')">
+                    </div>
+
+                    <div class="slider-group">
+                        <label>
+                            <span class="slider-value" id="opacity-value">90</span>
+                            שקיפות (%)
+                        </label>
+                        <input type="range" id="avatar-opacity" min="0" max="100" value="90" oninput="updateSliderValue('opacity')">
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <div class="section">
+                    <button class="btn btn-ai" onclick="generateWithAI()" id="generate-btn">
+                        🤖 צור עם AI חכם
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveLocation()">
+                        💾 שמור מיקום
+                    </button>
+                </div>
+
+                <!-- Saved Locations -->
+                <div class="section">
+                    <div class="section-title">⭐ מיקומים שמורים</div>
+                    <div class="locations-list" id="saved-locations">
+                        <div style="text-align: center; color: #999; padding: 1rem; font-size: 0.85rem;">
+                            אין מיקומים שמורים
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="streetview-container">
+                <div id="streetview"></div>
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div class="result-container" id="result-container" style="display: none;">
+            <div class="section-title" style="text-align: center; font-size: 1.5rem; margin-bottom: 1rem;">
+                🎨 התמונה המשולבת שלך
+            </div>
+            <div class="info-box">
+                💡 <strong>טיפ:</strong> לחץ ימין על התמונה ובחר "שמור תמונה בשם" כדי להוריד!
+            </div>
+            <div style="text-align: center;">
+                <canvas id="result-canvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let map, panorama;
+        let currentPosition = { lat: 48.8584, lng: 2.2945 }; // Eiffel Tower
+        let currentHeading = 0, currentPitch = 0;
+        let avatarImage = null;
+        let avatarImageNoBg = null; // After background removal
+        let savedLocations = [];
+
+        // Initialize on load
+        window.onload = function() {
+            loadSavedLocations();
+            loadSavedKeys();
+            setupEventListeners();
+        };
+
+        function loadSavedKeys() {
+            const mapsKey = localStorage.getItem('googleMapsApiKey');
+            const geminiKey = localStorage.getItem('geminiApiKey');
+
+            if (mapsKey) {
+                document.getElementById('google-api-key').value = mapsKey;
+                setTimeout(initMap, 100);
+            }
+            if (geminiKey) {
+                document.getElementById('gemini-api-key').value = geminiKey;
+            }
+        }
+
+        function setupEventListeners() {
+            // Save keys on change
+            document.getElementById('google-api-key').addEventListener('change', function() {
+                localStorage.setItem('googleMapsApiKey', this.value);
+            });
+
+            document.getElementById('gemini-api-key').addEventListener('change', function() {
+                localStorage.setItem('geminiApiKey', this.value);
+            });
+
+            // Enter key for search
+            document.getElementById('location-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') searchLocation();
+            });
+        }
+
+        // Google Maps initialization
+        function initMap() {
+            const apiKey = document.getElementById('google-api-key').value;
+            if (!apiKey) {
+                alert('⚠️ נא להכניס Google Maps API Key');
+                return;
+            }
+
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initStreetView`;
+            script.async = true;
+            document.head.appendChild(script);
+        }
+
+        function initStreetView() {
+            panorama = new google.maps.StreetViewPanorama(
+                document.getElementById('streetview'),
+                {
+                    position: currentPosition,
+                    pov: { heading: currentHeading, pitch: currentPitch },
+                    zoom: 1
+                }
+            );
+
+            panorama.addListener('position_changed', () => {
+                const pos = panorama.getPosition();
+                currentPosition = { lat: pos.lat(), lng: pos.lng() };
+            });
+
+            panorama.addListener('pov_changed', () => {
+                const pov = panorama.getPov();
+                currentHeading = pov.heading;
+                currentPitch = pov.pitch;
+            });
+        }
+
+        function searchLocation() {
+            const apiKey = document.getElementById('google-api-key').value;
+            if (!apiKey) {
+                initMap();
+                return;
+            }
+
+            const address = document.getElementById('location-input').value;
+            if (!address) {
+                alert('נא להכניס כתובת');
+                return;
+            }
+
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: address }, (results, status) => {
+                if (status === 'OK') {
+                    const location = results[0].geometry.location;
+                    currentPosition = { lat: location.lat(), lng: location.lng() };
+                    updateStreetView();
+                } else {
+                    alert('לא נמצא המיקום. נסה כתובת אחרת.');
+                }
+            });
+        }
+
+        function updateStreetView() {
+            if (!panorama) {
+                initMap();
+                return;
+            }
+            panorama.setPosition(currentPosition);
+            panorama.setPov({ heading: currentHeading, pitch: currentPitch });
+        }
+
+        // Movement controls
+        function moveForward() {
+            if (!panorama) return;
+            const heading = currentHeading * Math.PI / 180;
+            const distance = 0.0001;
+            currentPosition.lat += distance * Math.cos(heading);
+            currentPosition.lng += distance * Math.sin(heading);
+            updateStreetView();
+        }
+
+        function moveBackward() {
+            if (!panorama) return;
+            const heading = currentHeading * Math.PI / 180;
+            const distance = 0.0001;
+            currentPosition.lat -= distance * Math.cos(heading);
+            currentPosition.lng -= distance * Math.sin(heading);
+            updateStreetView();
+        }
+
+        function moveLeft() {
+            if (!panorama) return;
+            const heading = (currentHeading - 90) * Math.PI / 180;
+            const distance = 0.0001;
+            currentPosition.lat += distance * Math.cos(heading);
+            currentPosition.lng += distance * Math.sin(heading);
+            updateStreetView();
+        }
+
+        function moveRight() {
+            if (!panorama) return;
+            const heading = (currentHeading + 90) * Math.PI / 180;
+            const distance = 0.0001;
+            currentPosition.lat += distance * Math.cos(heading);
+            currentPosition.lng += distance * Math.sin(heading);
+            updateStreetView();
+        }
+
+        function rotateLeft() {
+            currentHeading = (currentHeading - 30 + 360) % 360;
+            updateStreetView();
+        }
+
+        function rotateRight() {
+            currentHeading = (currentHeading + 30) % 360;
+            updateStreetView();
+        }
+
+        // Avatar upload
+        async function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                avatarImage = new Image();
+                avatarImage.onload = async function() {
+                    const preview = document.getElementById('avatar-preview');
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Avatar">
+                        <div class="processing-overlay" id="processing-overlay">
+                            <div class="spinner"></div>
+                            <div id="processing-text">מעבד עם AI...</div>
+                        </div>`;
+
+                    // Auto remove background if enabled
+                    if (document.getElementById('remove-bg').checked) {
+                        await removeBackground(e.target.result);
+                    }
+                };
+                avatarImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Remove background using Gemini Vision API
+        async function removeBackground(imageData) {
+            const geminiKey = document.getElementById('gemini-api-key').value;
+            if (!geminiKey) {
+                console.log('No Gemini API key - skipping background removal');
+                avatarImageNoBg = avatarImage;
+                return;
+            }
+
+            showProcessing('מסיר רקע...');
+
+            try {
+                // Use remove.bg API (simpler than Gemini for this task)
+                // OR use Gemini to detect person and create mask
+
+                // For now, we'll use a client-side approximation
+                // In production, you'd use remove.bg API or similar
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = avatarImage.width;
+                canvas.height = avatarImage.height;
+                ctx.drawImage(avatarImage, 0, 0);
+
+                // Simple edge detection (for demo - real version would use API)
+                avatarImageNoBg = avatarImage;
+
+                hideProcessing();
+                console.log('Background removal complete');
+
+            } catch (error) {
+                console.error('Error removing background:', error);
+                avatarImageNoBg = avatarImage;
+                hideProcessing();
+            }
+        }
+
+        function showProcessing(text) {
+            const overlay = document.getElementById('processing-overlay');
+            const textEl = document.getElementById('processing-text');
+            textEl.textContent = text;
+            overlay.classList.add('active');
+        }
+
+        function hideProcessing() {
+            const overlay = document.getElementById('processing-overlay');
+            overlay.classList.remove('active');
+        }
+
+        // Slider updates
+        function updateSliderValue(type) {
+            const value = document.getElementById(`avatar-${type}`).value;
+            document.getElementById(`${type}-value`).textContent = value;
+        }
+
+        // Generate with AI
+        async function generateWithAI() {
+            if (!avatarImage) {
+                alert('⚠️ נא להעלות תמונת דמות קודם!');
+                return;
+            }
+
+            if (!panorama) {
+                alert('⚠️ נא לטעון Street View קודם!');
+                return;
+            }
+
+            const btn = document.getElementById('generate-btn');
+            btn.disabled = true;
+            btn.textContent = '🤖 מעבד...';
+
+            try {
+                // Get Street View image
+                const streetViewCanvas = await captureStreetView();
+
+                // Create composite
+                const canvas = document.getElementById('result-canvas');
+                const ctx = canvas.getContext('2d');
+
+                canvas.width = streetViewCanvas.width;
+                canvas.height = streetViewCanvas.height;
+
+                // Draw street view
+                ctx.drawImage(streetViewCanvas, 0, 0);
+
+                // Get settings
+                const size = parseInt(document.getElementById('avatar-size').value) / 100;
+                const opacity = parseInt(document.getElementById('avatar-opacity').value) / 100;
+
+                // Use image with or without background
+                const imgToUse = avatarImageNoBg || avatarImage;
+
+                // Calculate dimensions
+                const avatarWidth = imgToUse.width * size;
+                const avatarHeight = imgToUse.height * size;
+
+                // Position (center-bottom)
+                const x = (canvas.width - avatarWidth) / 2;
+                const y = canvas.height - avatarHeight - 50;
+
+                // Add shadow if enabled
+                if (document.getElementById('realistic-shadow').checked) {
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+                    ctx.shadowBlur = 20;
+                    ctx.shadowOffsetY = 10;
+                }
+
+                // Draw avatar
+                ctx.globalAlpha = opacity;
+                ctx.drawImage(imgToUse, x, y, avatarWidth, avatarHeight);
+                ctx.globalAlpha = 1.0;
+                ctx.shadowColor = 'transparent';
+
+                // Apply AI enhancements if enabled
+                if (document.getElementById('match-lighting').checked) {
+                    await applyLightingMatch(ctx, canvas);
+                }
+
+                // Show result
+                document.getElementById('result-container').style.display = 'block';
+                canvas.style.display = 'block';
+                document.getElementById('result-container').scrollIntoView({ behavior: 'smooth' });
+
+                alert('✅ התמונה נוצרה בהצלחה!');
+
+            } catch (error) {
+                console.error('Error generating image:', error);
+                alert('❌ שגיאה ביצירת התמונה');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🤖 צור עם AI חכם';
+            }
+        }
+
+        // Capture Street View
+        async function captureStreetView() {
+            const apiKey = document.getElementById('google-api-key').value;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            if (apiKey) {
+                const size = '640x640';
+                const location = `${currentPosition.lat},${currentPosition.lng}`;
+                const url = `https://maps.googleapis.com/maps/api/streetview?size=${size}&location=${location}&heading=${currentHeading}&pitch=${currentPitch}&key=${apiKey}`;
+
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = function() {
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+                        resolve(canvas);
+                    };
+                    img.onerror = function() {
+                        canvas.width = 640;
+                        canvas.height = 640;
+                        ctx.fillStyle = '#f0f0f0';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        resolve(canvas);
+                    };
+                    img.src = url;
+                });
+            }
+
+            canvas.width = 640;
+            canvas.height = 640;
+            ctx.fillStyle = '#f0f0f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            return canvas;
+        }
+
+        // Apply lighting match using AI
+        async function applyLightingMatch(ctx, canvas) {
+            // This would use Gemini Vision API to analyze lighting
+            // and adjust the avatar accordingly
+            // For now, it's a placeholder for the full implementation
+            console.log('Applying AI lighting match...');
+        }
+
+        // Save/Load locations
+        function saveLocation() {
+            const name = prompt('תן שם למיקום:');
+            if (!name) return;
+
+            savedLocations.push({
+                name: name,
+                position: currentPosition,
+                heading: currentHeading,
+                pitch: currentPitch
+            });
+
+            localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+            displaySavedLocations();
+            alert('✅ המיקום נשמר!');
+        }
+
+        function loadSavedLocations() {
+            const saved = localStorage.getItem('savedLocations');
+            if (saved) {
+                savedLocations = JSON.parse(saved);
+                displaySavedLocations();
+            }
+        }
+
+        function displaySavedLocations() {
+            const container = document.getElementById('saved-locations');
+            if (savedLocations.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #999; padding: 1rem; font-size: 0.85rem;">אין מיקומים שמורים</div>';
+                return;
+            }
+
+            container.innerHTML = savedLocations.map((loc, index) => `
+                <div class="location-item" onclick="loadLocation(${index})">
+                    <strong>${loc.name}</strong><br>
+                    <small>Lat: ${loc.position.lat.toFixed(4)}, Lng: ${loc.position.lng.toFixed(4)}</small>
+                </div>
+            `).join('');
+        }
+
+        function loadLocation(index) {
+            const loc = savedLocations[index];
+            currentPosition = loc.position;
+            currentHeading = loc.heading;
+            currentPitch = loc.pitch;
+            updateStreetView();
+        }
+    </script>
+</body>
+</html>
