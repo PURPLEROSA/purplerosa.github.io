@@ -259,7 +259,7 @@
 
     <!-- Theme Indicator -->
     <div id="theme-indicator" class="hidden">
-        Theme: Rainbow
+        Theme: Purple Pink
     </div>
 
     <!-- Keyboard Shortcuts -->
@@ -306,6 +306,11 @@
 
         // Color Themes
         const themes = {
+            'Purple Pink': (i, total) => {
+                const progress = i / total;
+                const hue = 280 + progress * 40; // Purple (280) to Pink (320)
+                return `hsla(${hue}, 85%, 65%, 0.9)`;
+            },
             Rainbow: (i, total) => {
                 const hue = (i / total) * 360;
                 return `hsla(${hue}, 80%, 60%, 0.8)`;
@@ -342,7 +347,7 @@
                 this.vy = (Math.random() - 0.5) * 2;
                 this.targetX = x;
                 this.targetY = y;
-                this.size = Math.random() * 2 + 1;
+                this.size = Math.random() * 2.5 + 1.5; // Larger particles (was 2 + 1)
                 this.trailX = [];
                 this.trailY = [];
                 this.maxTrailLength = 5;
@@ -384,10 +389,17 @@
                     const dist = Math.sqrt(dx * dx + dy * dy);
 
                     if (dist > 1) {
-                        const force = mode === 'attract' ? 0.3 : -0.5;
+                        const force = mode === 'attract' ? 0.5 : -0.5; // Increased attraction force
                         const spreadFactor = closestTarget.spread || 1;
                         this.vx += (dx / dist) * force * spreadFactor;
                         this.vy += (dy / dist) * force * spreadFactor;
+                    }
+
+                    // Make particles bigger when attracted to face
+                    if (closestTarget.isFace && dist < 50) {
+                        this.size = Math.min(4, this.size * 1.02); // Gradually grow near face
+                    } else {
+                        this.size = Math.max(1.5, this.size * 0.99); // Gradually shrink away from face
                     }
                 }
 
@@ -435,7 +447,7 @@
         function generateTargets() {
             const targets = [];
 
-            // Face landmarks
+            // Face landmarks - MORE FOCUS ON FACE
             if (faceResults && faceResults.multiFaceLandmarks) {
                 for (let face of faceResults.multiFaceLandmarks) {
                     for (let i = 0; i < face.length; i++) {
@@ -445,22 +457,36 @@
                         const z = landmark.z || 0;
 
                         // Boost depth for facial features
-                        let depthBoost = 1;
-                        if (i >= 1 && i <= 9) depthBoost = 1.5; // Nose
-                        if (i >= 234 && i <= 447) depthBoost = 1.3; // Cheekbones
-                        if ((i >= 33 && i <= 133) || (i >= 362 && i <= 263)) depthBoost = 1.4; // Eye sockets
+                        let depthBoost = 1.8; // Increased from 1
+                        let duplicates = 3; // Add multiple targets per landmark for denser particles
 
-                        // Very tight clustering for face (1-2 pixels)
-                        targets.push({
-                            x: x,
-                            y: y,
-                            spread: 0.1 + Math.abs(z) * depthBoost
-                        });
+                        if (i >= 1 && i <= 9) {
+                            depthBoost = 2.5; // Nose - even more prominent
+                            duplicates = 5;
+                        }
+                        if (i >= 234 && i <= 447) {
+                            depthBoost = 2.2; // Cheekbones
+                            duplicates = 4;
+                        }
+                        if ((i >= 33 && i <= 133) || (i >= 362 && i <= 263)) {
+                            depthBoost = 2.3; // Eye sockets
+                            duplicates = 4;
+                        }
+
+                        // Add multiple target points for each landmark (makes face denser)
+                        for (let dup = 0; dup < duplicates; dup++) {
+                            targets.push({
+                                x: x + (Math.random() - 0.5) * 2, // Small random offset
+                                y: y + (Math.random() - 0.5) * 2,
+                                spread: 0.05 + Math.abs(z) * depthBoost, // Even tighter clustering
+                                isFace: true
+                            });
+                        }
                     }
                 }
             }
 
-            // Hand landmarks
+            // Hand landmarks - LESS FOCUS (only add if face is not detected or fewer points)
             if (handsResults && handsResults.multiHandLandmarks) {
                 for (let handIdx = 0; handIdx < handsResults.multiHandLandmarks.length; handIdx++) {
                     const hand = handsResults.multiHandLandmarks[handIdx];
@@ -485,7 +511,8 @@
                         targets.push({
                             x: x,
                             y: y,
-                            spread: spread
+                            spread: spread,
+                            isFace: false
                         });
                     }
                 }
