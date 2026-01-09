@@ -460,13 +460,13 @@
             <div class="aspect-ratio-selector">
                 <label>יחס רוחב-גובה</label>
                 <div class="aspect-ratios">
-                    <button class="aspect-ratio-btn" data-ratio="1:1" onclick="selectAspectRatio('1:1')">1:1</button>
-                    <button class="aspect-ratio-btn active" data-ratio="9:16" onclick="selectAspectRatio('9:16')">9:16</button>
-                    <button class="aspect-ratio-btn" data-ratio="16:9" onclick="selectAspectRatio('16:9')">16:9</button>
-                    <button class="aspect-ratio-btn" data-ratio="2:3" onclick="selectAspectRatio('2:3')">2:3</button>
-                    <button class="aspect-ratio-btn" data-ratio="3:2" onclick="selectAspectRatio('3:2')">3:2</button>
-                    <button class="aspect-ratio-btn" data-ratio="4:5" onclick="selectAspectRatio('4:5')">4:5</button>
-                    <button class="aspect-ratio-btn" data-ratio="5:4" onclick="selectAspectRatio('5:4')">5:4</button>
+                    <button class="aspect-ratio-btn" data-ratio="1:1" onclick="selectAspectRatio('1:1', event)">1:1</button>
+                    <button class="aspect-ratio-btn active" data-ratio="9:16" onclick="selectAspectRatio('9:16', event)">9:16</button>
+                    <button class="aspect-ratio-btn" data-ratio="16:9" onclick="selectAspectRatio('16:9', event)">16:9</button>
+                    <button class="aspect-ratio-btn" data-ratio="2:3" onclick="selectAspectRatio('2:3', event)">2:3</button>
+                    <button class="aspect-ratio-btn" data-ratio="3:2" onclick="selectAspectRatio('3:2', event)">3:2</button>
+                    <button class="aspect-ratio-btn" data-ratio="4:5" onclick="selectAspectRatio('4:5', event)">4:5</button>
+                    <button class="aspect-ratio-btn" data-ratio="5:4" onclick="selectAspectRatio('5:4', event)">5:4</button>
                 </div>
             </div>
 
@@ -521,101 +521,110 @@
         let currentLocation = null;
 
         // MAGIC 8 Complete Instructions
-        const MAGIC8_INSTRUCTIONS = `You are Magical Imagery Creator 8 (MAGIC 8), created by Shelly Or Gisser.
+        const MAGIC8_SYSTEM_INSTRUCTIONS = `You are MAGIC 8 (Magical Imagery Creator 8), created by Shelly Or Gisser.
 
-Core Philosophy:
-You create photorealistic images that look so real users think they're photographs. Every detail matters - from lighting to texture to emotional authenticity.
+Your role: Analyze the reference images provided (character image + location image) and create a comprehensive, photorealistic prompt that naturally integrates the character into the location.
 
-THE 8 PARAMETERS (In Order):
+Core Mission: Create prompts for hyper-realistic photographs where the character from the uploaded image appears naturally integrated into the Street View location, as if they were actually photographed there.
+
+THE 8 PARAMETERS (Always include ALL in order):
 
 1. SUBJECT (נושא)
-   - Who/what is the main focus
-   - Their characteristics, appearance, expression
-   - Emotional state and body language
-   - Age, gender, ethnicity details
+   - Describe the character from the uploaded image
+   - Age, gender, ethnicity, physical features
+   - Expression, posture, body language
+   - Emotional state conveyed
 
 2. CHARACTER (דמות)
-   - Personality traits visible in the image
-   - Clothing style and details
-   - Accessories and props
-   - Unique identifying features
+   - Clothing style and details from the image
+   - Accessories visible in the image
+   - Any unique identifying features
+   - Personality conveyed through appearance
 
 3. CAMERA ANGLE (זווית מצלמה)
-   - Eye level / High angle / Low angle / Bird's eye / Worm's eye
-   - Distance: Close-up / Medium / Wide / Extreme wide
-   - Lens type effect (wide angle, telephoto, etc.)
+   - Match the Street View perspective
+   - Eye level / High / Low angle
+   - Distance: Close-up / Medium / Wide shot
+   - Lens characteristics to match the scene
 
 4. LOCATION (מיקום)
-   - Specific place description
-   - Indoor/outdoor details
-   - Architectural elements
-   - Environmental context
+   - Specific details from the Street View image
+   - Architectural elements visible
+   - Street name and surroundings
+   - Indoor/outdoor context
 
 5. BACKGROUND ACTION (פעולה ברקע)
-   - What's happening around the subject
-   - Other people/objects in scene
-   - Movement and activity
-   - Context and atmosphere
+   - What's happening in the Street View scene
+   - Other people, cars, activity
+   - Movement and street life
+   - Environmental context
 
 6. LIGHTING (תאורה)
-   - Light source (natural/artificial)
-   - Direction and intensity
-   - Time of day
+   - Analyze the Street View lighting
+   - Time of day indicators
+   - Light direction and quality
    - Shadows and highlights
    - Color temperature (warm/cool/neutral)
 
 7. ATMOSPHERE (אווירה)
-   - Overall mood and feeling
-   - Weather conditions
+   - Overall mood of the location
+   - Weather conditions visible
    - Season indicators
    - Emotional tone
-   - Visual style (vibrant/muted/dramatic)
+   - Vibrant/muted/dramatic feel
 
 8. STYLE (סגנון)
-   - Photography style (documentary, portrait, street, etc.)
-   - Technical aspects (bokeh, depth of field, grain)
-   - Color grading approach
-   - Final aesthetic goal
+   - Photorealistic street photography
+   - Technical specs: realistic depth of field
+   - Natural color grading
+   - Documentary-style authenticity
+   - As if captured by a professional photographer
 
 CRITICAL RULES:
 
-1. Photorealism First
-   - Never say "illustration" or "artistic rendering"
-   - Use photography terminology only
-   - Describe as if directing a real photographer
+1. Photorealism Above All
+   - Never use words like "illustration", "rendering", "digital art"
+   - Always: "photograph", "captured", "shot", "photographed"
+   - Describe as directing a real photographer
 
-2. Concrete Details
-   - Specific colors, not just "colorful"
-   - Exact positions, not vague placements
-   - Measurable descriptions
+2. Natural Integration
+   - Character must appear as if they were really there
+   - Lighting on character matches location lighting
+   - Perspective and scale must be accurate
+   - Shadows align with scene's light direction
+
+3. Reference Both Images
+   - Carefully observe the character's actual appearance
+   - Note the Street View's actual lighting and atmosphere
+   - Match them seamlessly
+
+4. Concrete, Specific Details
+   - Exact colors (not just "colorful")
+   - Specific positions and measurements
    - Real-world references
+   - Technical photography terms
 
-3. Logical Consistency
-   - Lighting must match time of day
-   - Shadows must align with light source
-   - Perspective must be geometrically correct
-   - Environmental elements must coexist naturally
-
-4. Natural Integration
-   - Subject must belong in the environment
-   - Interactions must be realistic
-   - Scale and proportions accurate
+5. Logical Consistency
+   - All elements must coexist naturally
    - Physical laws respected
-
-5. Emotional Authenticity
-   - Real human expressions
-   - Genuine body language
-   - Believable scenarios
-   - Natural interactions
+   - Realistic interactions
+   - Believable scenario
 
 OUTPUT FORMAT:
-Always structure prompts with all 8 parameters in order, each clearly contributing to photorealism.`;
+Generate a single, flowing prompt that incorporates all 8 parameters naturally, creating a cohesive description of a photorealistic scene where the uploaded character naturally exists in the Street View location.`;
 
         // Initialize
         function initMap() {
             const googleKey = localStorage.getItem('googleMapsKey') || '';
             if (googleKey) {
                 document.getElementById('googleMapsKey').value = googleKey;
+                // Update script src if needed
+                const scripts = document.getElementsByTagName('script');
+                for (let script of scripts) {
+                    if (script.src.includes('maps.googleapis.com')) {
+                        script.src = script.src.replace('YOUR_API_KEY', googleKey);
+                    }
+                }
             }
 
             const geminiKey = localStorage.getItem('geminiKey') || '';
@@ -701,7 +710,7 @@ Always structure prompts with all 8 parameters in order, each clearly contributi
         }
 
         // Aspect Ratio Selection
-        function selectAspectRatio(ratio) {
+        function selectAspectRatio(ratio, event) {
             selectedAspectRatio = ratio;
             document.querySelectorAll('.aspect-ratio-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -711,48 +720,58 @@ Always structure prompts with all 8 parameters in order, each clearly contributi
 
         // Build MAGIC 8 Prompt
         function buildMAGIC8Prompt(userCustomizations, locationInfo) {
-            const prefix = "הדמות בתמונה שצרפתי לך";
+            // Hebrew prefix as requested
+            const hebrewPrefix = "הדמות בתמונה שצרפתי לך";
             const customPart = userCustomizations ? userCustomizations : "";
             const locationPart = `נמצאת במקום של המפה שנבחרה - ${locationInfo}`;
 
-            const fullUserRequest = `${prefix}${customPart ? ' ' + customPart : ''} ${locationPart}`;
+            // Build the full Hebrew user request
+            const hebrewPrompt = `${hebrewPrefix}${customPart ? ' ' + customPart : ''} ${locationPart}`;
+
+            // Additional context for MAGIC 8
+            const additionalContext = `
+Image specifications:
+- Aspect ratio: ${selectedAspectRatio}
+- Style: Photorealistic street photography
+- Integration: Character must appear naturally in the scene
+- Lighting: Match the Street View location exactly
+- Perspective: Maintain realistic scale and positioning
+
+Task: Analyze both images (character + location) and create a detailed prompt following the MAGIC 8 framework with all 8 parameters.`;
 
             return {
-                systemPrompt: MAGIC8_INSTRUCTIONS,
-                userPrompt: fullUserRequest
+                systemInstructions: MAGIC8_SYSTEM_INSTRUCTIONS,
+                userPrompt: hebrewPrompt,
+                additionalContext: additionalContext
             };
         }
 
         // Capture Street View
         async function captureStreetView() {
-            const canvas = document.createElement('canvas');
-            const streetViewDiv = document.getElementById('streetView');
-
             // Get dimensions based on aspect ratio
             const [w, h] = selectedAspectRatio.split(':').map(Number);
             const baseWidth = 1024;
             const width = baseWidth;
             const height = Math.round(baseWidth * (h / w));
 
-            canvas.width = width;
-            canvas.height = height;
-
-            const ctx = canvas.getContext('2d');
-
-            // Capture using Street View Static API
             const googleKey = document.getElementById('googleMapsKey').value;
             const pov = panorama.getPov();
             const pos = panorama.getPosition();
 
             const staticUrl = `https://maps.googleapis.com/maps/api/streetview?size=${width}x${height}&location=${pos.lat()},${pos.lng()}&heading=${pov.heading}&pitch=${pov.pitch}&fov=90&key=${googleKey}`;
 
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 const img = new Image();
                 img.crossOrigin = 'anonymous';
                 img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
                     resolve(canvas.toDataURL('image/jpeg', 0.9));
                 };
+                img.onerror = reject;
                 img.src = staticUrl;
             });
         }
@@ -794,10 +813,10 @@ Always structure prompts with all 8 parameters in order, each clearly contributi
                 // Step 2: Build MAGIC 8 Prompt
                 updateProgress(40, 'בונה פרומפט MAGIC 8...');
                 const customPrompt = document.getElementById('customPrompt').value;
-                const { systemPrompt, userPrompt } = buildMAGIC8Prompt(customPrompt, currentLocation.address);
+                const promptData = buildMAGIC8Prompt(customPrompt, currentLocation.address);
 
-                // Step 3: Call Gemini API
-                updateProgress(60, 'שולח ל-Gemini 2.0 Flash...');
+                // Step 3: Send to Gemini for prompt generation
+                updateProgress(60, 'שולח ל-Gemini לניתוח...');
 
                 const response = await fetch(
                     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${geminiKey}`,
@@ -810,7 +829,7 @@ Always structure prompts with all 8 parameters in order, each clearly contributi
                             contents: [{
                                 parts: [
                                     {
-                                        text: systemPrompt + "\n\n" + userPrompt
+                                        text: `${promptData.systemInstructions}\n\n${promptData.userPrompt}\n\n${promptData.additionalContext}`
                                     },
                                     {
                                         inline_data: {
@@ -836,18 +855,26 @@ Always structure prompts with all 8 parameters in order, each clearly contributi
                     }
                 );
 
-                updateProgress(80, 'מעבד תוצאה...');
-
                 if (!response.ok) {
-                    throw new Error(`Gemini API error: ${response.status}`);
+                    const errorData = await response.json();
+                    throw new Error(`Gemini API error: ${response.status} - ${JSON.stringify(errorData)}`);
                 }
+
+                updateProgress(80, 'מקבל הוראות מ-MAGIC 8...');
 
                 const data = await response.json();
 
-                // For now, we'll composite the images ourselves since Gemini doesn't return images directly
-                // In a real implementation, you'd use Imagen or another image generation API
+                // Extract the generated prompt from Gemini
+                let generatedPrompt = '';
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    generatedPrompt = data.candidates[0].content.parts[0].text;
+                }
+
+                console.log('MAGIC 8 Generated Prompt:', generatedPrompt);
+
+                // Step 4: Composite images (since we don't have Imagen yet)
                 updateProgress(90, 'משלב תמונות...');
-                const compositeResult = await compositeImages(streetViewImage, avatarImage);
+                const compositeResult = await compositeImages(streetViewImage, avatarImage, generatedPrompt);
 
                 updateProgress(100, 'הושלם!');
 
@@ -868,8 +895,8 @@ Always structure prompts with all 8 parameters in order, each clearly contributi
             }
         }
 
-        // Composite Images (Simplified version - in production use Gemini's image generation)
-        async function compositeImages(backgroundData, avatarData) {
+        // Composite Images (Enhanced with MAGIC 8 guidance)
+        async function compositeImages(backgroundData, avatarData, magic8Prompt) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
 
@@ -885,19 +912,40 @@ Always structure prompts with all 8 parameters in order, each clearly contributi
 
             // Load and composite avatar
             const avatarImg = await loadImage(avatarData);
-            const scale = 0.4; // Default scale
+
+            // Calculate scale to fit nicely in scene (adjust based on aspect ratio)
+            const scaleRatio = h / w;
+            let scale;
+            if (scaleRatio > 1) { // Portrait
+                scale = 0.35;
+            } else if (scaleRatio < 1) { // Landscape
+                scale = 0.3;
+            } else { // Square
+                scale = 0.4;
+            }
+
             const avatarWidth = avatarImg.width * scale;
             const avatarHeight = avatarImg.height * scale;
+
+            // Position character in lower third for realistic perspective
             const x = (canvas.width - avatarWidth) / 2;
-            const y = canvas.height - avatarHeight - 50;
+            const y = canvas.height - avatarHeight - 40;
 
-            // Add shadow
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-            ctx.shadowBlur = 20;
-            ctx.shadowOffsetX = 10;
-            ctx.shadowOffsetY = 10;
+            // Add realistic shadow
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+            ctx.shadowBlur = 15;
+            ctx.shadowOffsetX = 8;
+            ctx.shadowOffsetY = 8;
 
+            // Draw avatar
             ctx.drawImage(avatarImg, x, y, avatarWidth, avatarHeight);
+
+            // Add subtle overlay for better integration
+            ctx.shadowColor = 'transparent';
+            ctx.globalCompositeOperation = 'multiply';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(x, y, avatarWidth, avatarHeight);
+            ctx.globalCompositeOperation = 'source-over';
 
             return canvas.toDataURL('image/png');
         }
@@ -915,7 +963,7 @@ Always structure prompts with all 8 parameters in order, each clearly contributi
         // Download Image
         function downloadImage() {
             const link = document.createElement('a');
-            link.download = `street-view-avatar-${Date.now()}.png`;
+            link.download = `street-view-avatar-magic8-${Date.now()}.png`;
             link.href = document.getElementById('resultImage').src;
             link.click();
         }
@@ -934,7 +982,14 @@ Always structure prompts with all 8 parameters in order, each clearly contributi
         }
 
         // Initialize on load
-        window.onload = initMap;
+        window.onload = () => {
+            // Check if Google Maps API is loaded
+            if (typeof google !== 'undefined') {
+                initMap();
+            } else {
+                console.error('Google Maps API not loaded. Please add your API key.');
+            }
+        };
     </script>
 </body>
 </html>
