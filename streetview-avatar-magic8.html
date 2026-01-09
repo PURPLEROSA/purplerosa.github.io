@@ -413,12 +413,22 @@
                 <div class="input-group">
                     <label for="googleMapsKey">Google Maps API Key</label>
                     <input type="text" id="googleMapsKey" placeholder="הכנס את המפתח...">
+                    <small style="color: var(--apple-text-secondary); display: block; margin-top: var(--space-xs);">
+                        לטעינת המפה ו-Street View
+                    </small>
                 </div>
                 <div class="input-group">
-                    <label for="geminiKey">Gemini API Key</label>
+                    <label for="geminiKey">Gemini API Key (2.0 Flash / Imagen)</label>
                     <input type="text" id="geminiKey" placeholder="הכנס את המפתח...">
+                    <small style="color: var(--apple-text-secondary); display: block; margin-top: var(--space-xs);">
+                        לניתוח תמונות ויצירת פרומפט MAGIC 8
+                    </small>
                 </div>
             </div>
+            <small style="color: var(--apple-text-secondary); display: block; margin-top: var(--space-sm);">
+                💡 כרגע: Gemini מנתח את התמונות ויוצר פרומפט MAGIC 8. הקובץ משלב את התמונות ידנית.
+                בעתיד: כשיהיה גישה ל-Imagen 3, נשתמש באותו API key ליצירת תמונות ריאליסטיות.
+            </small>
         </div>
 
         <!-- Step 1: Location Selection -->
@@ -512,13 +522,13 @@
         </div>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
     <script>
         // Global State
         let map, panorama, geocoder;
         let selectedAspectRatio = '9:16';
         let avatarImage = null;
         let currentLocation = null;
+        let googleMapsLoaded = false;
 
         // MAGIC 8 Complete Instructions
         const MAGIC8_SYSTEM_INSTRUCTIONS = `You are MAGIC 8 (Magical Imagery Creator 8), created by Shelly Or Gisser.
@@ -613,23 +623,32 @@ CRITICAL RULES:
 OUTPUT FORMAT:
 Generate a single, flowing prompt that incorporates all 8 parameters naturally, creating a cohesive description of a photorealistic scene where the uploaded character naturally exists in the Street View location.`;
 
-        // Initialize
-        function initMap() {
-            const googleKey = localStorage.getItem('googleMapsKey') || '';
-            if (googleKey) {
-                document.getElementById('googleMapsKey').value = googleKey;
-                // Update script src if needed
-                const scripts = document.getElementsByTagName('script');
-                for (let script of scripts) {
-                    if (script.src.includes('maps.googleapis.com')) {
-                        script.src = script.src.replace('YOUR_API_KEY', googleKey);
-                    }
-                }
+        // Load Google Maps dynamically
+        function loadGoogleMaps(apiKey) {
+            if (googleMapsLoaded || typeof google !== 'undefined') {
+                initMap();
+                return;
             }
 
-            const geminiKey = localStorage.getItem('geminiKey') || '';
-            if (geminiKey) {
-                document.getElementById('geminiKey').value = geminiKey;
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+            script.async = true;
+            script.defer = true;
+            script.onload = () => {
+                googleMapsLoaded = true;
+                initMap();
+            };
+            script.onerror = () => {
+                alert('שגיאה בטעינת Google Maps. אנא בדוק את ה-API Key.');
+            };
+            document.head.appendChild(script);
+        }
+
+        // Initialize Map
+        function initMap() {
+            if (typeof google === 'undefined') {
+                console.error('Google Maps not loaded yet');
+                return;
             }
 
             geocoder = new google.maps.Geocoder();
@@ -653,9 +672,27 @@ Generate a single, flowing prompt that incorporates all 8 parameters naturally, 
             map.setStreetView(panorama);
         }
 
+        // Load saved API Keys
+        function loadSavedKeys() {
+            const googleKey = localStorage.getItem('googleMapsKey') || '';
+            if (googleKey) {
+                document.getElementById('googleMapsKey').value = googleKey;
+                loadGoogleMaps(googleKey);
+            }
+
+            const geminiKey = localStorage.getItem('geminiKey') || '';
+            if (geminiKey) {
+                document.getElementById('geminiKey').value = geminiKey;
+            }
+        }
+
         // Save API Keys
         document.getElementById('googleMapsKey').addEventListener('change', (e) => {
-            localStorage.setItem('googleMapsKey', e.target.value);
+            const apiKey = e.target.value.trim();
+            localStorage.setItem('googleMapsKey', apiKey);
+            if (apiKey) {
+                loadGoogleMaps(apiKey);
+            }
         });
 
         document.getElementById('geminiKey').addEventListener('change', (e) => {
@@ -983,12 +1020,7 @@ Task: Analyze both images (character + location) and create a detailed photoreal
 
         // Initialize on load
         window.onload = () => {
-            // Check if Google Maps API is loaded
-            if (typeof google !== 'undefined') {
-                initMap();
-            } else {
-                console.error('Google Maps API not loaded. Please add your API key.');
-            }
+            loadSavedKeys();
         };
     </script>
 </body>
