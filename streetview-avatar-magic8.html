@@ -472,13 +472,13 @@
 
             <!-- Custom Prompt -->
             <div class="input-group" style="margin-top: var(--space-md);">
-                <label for="customPrompt">פרומפט מותאם אישית (אופציונלי)</label>
+                <label for="customPrompt">פרומפט מותאם אישית (אופציונלי) - ניתן לכתוב בעברית או אנגלית</label>
                 <textarea
                     id="customPrompt"
-                    placeholder="לדוגמה: אישה עם שמלה אדומה, מחייכת, משקפי שמש..."
+                    placeholder="לדוגמה: woman with red dress, smiling, sunglasses / אישה עם שמלה אדומה, מחייכת, משקפי שמש"
                 ></textarea>
                 <small style="color: var(--apple-text-secondary); display: block; margin-top: var(--space-xs);">
-                    הפרומפט יתחיל אוטומטית ב: "הדמות בתמונה שצרפתי לך..."
+                    הפרומפט יתחיל אוטומטית ב: "The character in the image I attached to you..."
                 </small>
             </div>
 
@@ -718,15 +718,15 @@ Generate a single, flowing prompt that incorporates all 8 parameters naturally, 
             event.target.classList.add('active');
         }
 
-        // Build MAGIC 8 Prompt
+        // Build MAGIC 8 Prompt (in English)
         function buildMAGIC8Prompt(userCustomizations, locationInfo) {
-            // Hebrew prefix as requested
-            const hebrewPrefix = "הדמות בתמונה שצרפתי לך";
+            // English prefix for Gemini (prompt always in English)
+            const englishPrefix = "The character in the image I attached to you";
             const customPart = userCustomizations ? userCustomizations : "";
-            const locationPart = `נמצאת במקום של המפה שנבחרה - ${locationInfo}`;
+            const locationPart = `is located at the map location selected - ${locationInfo}`;
 
-            // Build the full Hebrew user request
-            const hebrewPrompt = `${hebrewPrefix}${customPart ? ' ' + customPart : ''} ${locationPart}`;
+            // Build the full English prompt
+            const englishPrompt = `${englishPrefix}${customPart ? ' ' + customPart : ''} ${locationPart}`;
 
             // Additional context for MAGIC 8
             const additionalContext = `
@@ -737,11 +737,11 @@ Image specifications:
 - Lighting: Match the Street View location exactly
 - Perspective: Maintain realistic scale and positioning
 
-Task: Analyze both images (character + location) and create a detailed prompt following the MAGIC 8 framework with all 8 parameters.`;
+Task: Analyze both images (character + location) and create a detailed photorealistic prompt following the MAGIC 8 framework with all 8 parameters.`;
 
             return {
                 systemInstructions: MAGIC8_SYSTEM_INSTRUCTIONS,
-                userPrompt: hebrewPrompt,
+                userPrompt: englishPrompt,
                 additionalContext: additionalContext
             };
         }
