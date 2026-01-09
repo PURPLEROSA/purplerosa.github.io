@@ -289,8 +289,8 @@
         // Constants
         const GOLDEN_RATIO = 1.618033988749895;
         const MIN_PARTICLES = 8000;
-        const MAX_PARTICLES = 15000;
-        const PARTICLE_COUNT = 12000;
+        const MAX_PARTICLES = 25000;
+        const PARTICLE_COUNT = 20000; // Increased from 12000 for much denser face
 
         // Global State
         let particleCanvas, ctx;
@@ -350,7 +350,7 @@
                 this.size = Math.random() * 2.5 + 1.5; // Larger particles (was 2 + 1)
                 this.trailX = [];
                 this.trailY = [];
-                this.maxTrailLength = 5;
+                this.maxTrailLength = 3; // Shorter trails for better performance
             }
 
             update(targets, mode) {
@@ -389,7 +389,7 @@
                     const dist = Math.sqrt(dx * dx + dy * dy);
 
                     if (dist > 1) {
-                        const force = mode === 'attract' ? 0.5 : -0.5; // Increased attraction force
+                        const force = mode === 'attract' ? 0.8 : -0.5; // MUCH stronger attraction
                         const spreadFactor = closestTarget.spread || 1;
                         this.vx += (dx / dist) * force * spreadFactor;
                         this.vy += (dy / dist) * force * spreadFactor;
@@ -397,15 +397,15 @@
 
                     // Make particles bigger when attracted to face
                     if (closestTarget.isFace && dist < 50) {
-                        this.size = Math.min(4, this.size * 1.02); // Gradually grow near face
+                        this.size = Math.min(5, this.size * 1.03); // Larger particles near face
                     } else {
                         this.size = Math.max(1.5, this.size * 0.99); // Gradually shrink away from face
                     }
                 }
 
-                // Apply velocity
-                this.vx *= 0.9;
-                this.vy *= 0.9;
+                // Apply velocity with less friction for faster movement
+                this.vx *= 0.92; // Less friction (was 0.9)
+                this.vy *= 0.92;
                 this.x += this.vx;
                 this.y += this.vy;
 
@@ -457,28 +457,32 @@
                         const z = landmark.z || 0;
 
                         // Boost depth for facial features
-                        let depthBoost = 1.8; // Increased from 1
-                        let duplicates = 3; // Add multiple targets per landmark for denser particles
+                        let depthBoost = 2.5; // Much higher base depth
+                        let duplicates = 6; // More targets per landmark for MUCH denser particles
 
                         if (i >= 1 && i <= 9) {
-                            depthBoost = 2.5; // Nose - even more prominent
-                            duplicates = 5;
+                            depthBoost = 3.5; // Nose - VERY prominent
+                            duplicates = 10;
                         }
                         if (i >= 234 && i <= 447) {
-                            depthBoost = 2.2; // Cheekbones
-                            duplicates = 4;
+                            depthBoost = 3.0; // Cheekbones
+                            duplicates = 8;
                         }
                         if ((i >= 33 && i <= 133) || (i >= 362 && i <= 263)) {
-                            depthBoost = 2.3; // Eye sockets
-                            duplicates = 4;
+                            depthBoost = 3.2; // Eye sockets
+                            duplicates = 8;
+                        }
+                        // Eyes, lips, eyebrows
+                        if ((i >= 33 && i <= 145) || (i >= 362 && i <= 374) || (i >= 61 && i <= 291)) {
+                            duplicates = 7;
                         }
 
-                        // Add multiple target points for each landmark (makes face denser)
+                        // Add multiple target points for each landmark (makes face VERY dense)
                         for (let dup = 0; dup < duplicates; dup++) {
                             targets.push({
-                                x: x + (Math.random() - 0.5) * 2, // Small random offset
-                                y: y + (Math.random() - 0.5) * 2,
-                                spread: 0.05 + Math.abs(z) * depthBoost, // Even tighter clustering
+                                x: x + (Math.random() - 0.5) * 1, // Tighter random offset
+                                y: y + (Math.random() - 0.5) * 1,
+                                spread: 0.02 + Math.abs(z) * depthBoost, // VERY tight clustering (was 0.05)
                                 isFace: true
                             });
                         }
@@ -646,8 +650,8 @@
 
         // Animation Loop
         function animate() {
-            // Clear canvas with trail effect
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            // Clear canvas with less trail for sharper face definition
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.25)'; // Faster fade (was 0.15)
             ctx.fillRect(0, 0, particleCanvas.width, particleCanvas.height);
 
             // Generate targets from landmarks
