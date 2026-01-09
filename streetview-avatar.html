@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Street View Avatar - שלב את הדמות שלך בעולם</title>
+    <link rel="icon" type="image/jpeg" href="aigos.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heebo', 'SF Pro Display', -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            height: fit-content;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .input-group input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .input-group input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            margin-top: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .avatar-preview {
+            width: 100%;
+            height: 200px;
+            border: 3px dashed #e0e0e0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            overflow: hidden;
+            background: #f9f9f9;
+        }
+
+        .avatar-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .avatar-preview-empty {
+            color: #999;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .control-btn {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .streetview-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        #streetview {
+            width: 100%;
+            height: 600px;
+        }
+
+        .result-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-top: 2rem;
+        }
+
+        #result-canvas {
+            max-width: 100%;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .api-key-section {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .api-key-section input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+        }
+
+        .locations-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .location-item {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .location-item:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .slider-group {
+            margin-top: 1rem;
+        }
+
+        .slider-group input[type="range"] {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .slider-value {
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-right: 4px solid #2196f3;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Street View Avatar</h1>
+            <p>שלב את הדמות שלך בכל מקום בעולם!</p>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <!-- API Key Section -->
+                <div class="api-key-section">
+                    <strong>🔑 Google Maps API Key</strong>
+                    <input type="text" id="google-api-key" placeholder="הכנס את ה-API Key שלך">
+                    <small style="display: block; margin-top: 0.5rem;">
+                        <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">
+                            איך לקבל API Key?
+                        </a>
+                    </small>
+                </div>
+
+                <!-- Location Search -->
+                <div class="section">
+                    <div class="section-title">📍 חיפוש מיקום</div>
+                    <div class="input-group">
+                        <label>הכנס כתובת או שם מקום</label>
+                        <input type="text" id="location-input" placeholder='לדוגמה: "Eiffel Tower, Paris"'>
+                    </div>
+                    <button class="btn btn-primary" onclick="searchLocation()">
+                        🔍 חפש מיקום
+                    </button>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="section">
+                    <div class="section-title">🎮 בקרות תנועה</div>
+                    <div class="controls">
+                        <button class="control-btn" onclick="rotateLeft()" title="סובב שמאלה">↶</button>
+                        <button class="control-btn" onclick="moveForward()" title="התקדם">↑</button>
+                        <button class="control-btn" onclick="rotateRight()" title="סובב ימינה">↷</button>
+                        <button class="control-btn" onclick="moveLeft()" title="שמאלה">←</button>
+                        <button class="control-btn" onclick="moveBackward()" title="אחורה">↓</button>
+                        <button class="control-btn" onclick="moveRight()" title="ימינה">→</button>
+                    </div>
+                </div>
+
+                <!-- Avatar Upload -->
+                <div class="section">
+                    <div class="section-title">👤 העלאת דמות</div>
+                    <div class="file-upload">
+                        <button class="btn btn-secondary">
+                            📸 בחר תמונת דמות
+                            <input type="file" id="avatar-input" accept="image/*" onchange="handleAvatarUpload(event)">
+                        </button>
+                    </div>
+                    <div class="avatar-preview" id="avatar-preview">
+                        <div class="avatar-preview-empty">
+                            📷<br>תמונת הדמות שלך תופיע כאן
+                        </div>
+                    </div>
+
+                    <!-- Avatar Size and Position -->
+                    <div class="slider-group">
+                        <label>
+                            <span class="slider-value" id="size-value">50</span>
+                            גודל הדמות (%)
+                        </label>
+                        <input type="range" id="avatar-size" min="10" max="200" value="50" oninput="updateSliderValue('size')">
+                    </div>
+
+                    <div class="slider-group">
+                        <label>
+                            <span class="slider-value" id="opacity-value">80</span>
+                            שקיפות (%)
+                        </label>
+                        <input type="range" id="avatar-opacity" min="0" max="100" value="80" oninput="updateSliderValue('opacity')">
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <div class="section">
+                    <button class="btn btn-primary" onclick="generateComposite()" style="font-size: 1.2rem; padding: 1.5rem;">
+                        ✨ צור תמונה משולבת
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveLocation()">
+                        💾 שמור מיקום זה
+                    </button>
+                </div>
+
+                <!-- Saved Locations -->
+                <div class="section">
+                    <div class="section-title">⭐ מיקומים שמורים</div>
+                    <div class="locations-list" id="saved-locations">
+                        <div style="text-align: center; color: #999; padding: 1rem;">
+                            עדיין אין מיקומים שמורים
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="streetview-container">
+                <div id="streetview"></div>
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div class="result-container" id="result-container" style="display: none;">
+            <div class="section-title" style="text-align: center; font-size: 1.5rem; margin-bottom: 1rem;">
+                🎨 התמונה המשולבת שלך
+            </div>
+            <div class="info-box">
+                💡 <strong>טיפ:</strong> לחץ ימין על התמונה ובחר "שמור תמונה בשם" כדי להוריד אותה!
+            </div>
+            <canvas id="result-canvas"></canvas>
+        </div>
+    </div>
+
+    <script>
+        let map;
+        let panorama;
+        let currentPosition = { lat: 48.8584, lng: 2.2945 }; // Eiffel Tower default
+        let currentHeading = 0;
+        let currentPitch = 0;
+        let avatarImage = null;
+        let savedLocations = [];
+
+        // Load saved locations from localStorage
+        function loadSavedLocations() {
+            const saved = localStorage.getItem('savedLocations');
+            if (saved) {
+                savedLocations = JSON.parse(saved);
+                displaySavedLocations();
+            }
+        }
+
+        // Display saved locations
+        function displaySavedLocations() {
+            const container = document.getElementById('saved-locations');
+            if (savedLocations.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #999; padding: 1rem;">עדיין אין מיקומים שמורים</div>';
+                return;
+            }
+
+            container.innerHTML = savedLocations.map((loc, index) => `
+                <div class="location-item" onclick="loadLocation(${index})">
+                    <strong>${loc.name || 'מיקום ' + (index + 1)}</strong><br>
+                    <small>Lat: ${loc.position.lat.toFixed(4)}, Lng: ${loc.position.lng.toFixed(4)}</small>
+                </div>
+            `).join('');
+        }
+
+        // Save current location
+        function saveLocation() {
+            const name = prompt('תן שם למיקום הזה:');
+            if (!name) return;
+
+            const location = {
+                name: name,
+                position: currentPosition,
+                heading: currentHeading,
+                pitch: currentPitch
+            };
+
+            savedLocations.push(location);
+            localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+            displaySavedLocations();
+            alert('המיקום נשמר בהצלחה! ✅');
+        }
+
+        // Load saved location
+        function loadLocation(index) {
+            const loc = savedLocations[index];
+            currentPosition = loc.position;
+            currentHeading = loc.heading;
+            currentPitch = loc.pitch;
+            updateStreetView();
+        }
+
+        // Initialize Google Maps
+        function initMap() {
+            const apiKey = document.getElementById('google-api-key').value;
+            if (!apiKey) {
+                alert('⚠️ נא להכניס Google Maps API Key כדי להשתמש באפליקציה');
+                return;
+            }
+
+            // Load Google Maps API
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initStreetView`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+
+        // Initialize Street View
+        function initStreetView() {
+            panorama = new google.maps.StreetViewPanorama(
+                document.getElementById('streetview'),
+                {
+                    position: currentPosition,
+                    pov: {
+                        heading: currentHeading,
+                        pitch: currentPitch
+                    },
+                    zoom: 1
+                }
+            );
+
+            // Listen to position changes
+            panorama.addListener('position_changed', () => {
+                const pos = panorama.getPosition();
+                currentPosition = { lat: pos.lat(), lng: pos.lng() };
+            });
+
+            // Listen to POV changes
+            panorama.addListener('pov_changed', () => {
+                const pov = panorama.getPov();
+                currentHeading = pov.heading;
+                currentPitch = pov.pitch;
+            });
+        }
+
+        // Search for location
+        function searchLocation() {
+            const apiKey = document.getElementById('google-api-key').value;
+            if (!apiKey) {
+                initMap();
+                return;
+            }
+
+            const address = document.getElementById('location-input').value;
+            if (!address) {
+                alert('נא להכניס כתובת או שם מקום');
+                return;
+            }
+
+            // Use Geocoding API
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: address }, (results, status) => {
+                if (status === 'OK') {
+                    const location = results[0].geometry.location;
+                    currentPosition = { lat: location.lat(), lng: location.lng() };
+                    updateStreetView();
+                } else {
+                    alert('לא נמצא המיקום. נסה כתובת אחרת.');
+                }
+            });
+        }
+
+        // Update Street View
+        function updateStreetView() {
+            if (!panorama) {
+                initMap();
+                return;
+            }
+
+            panorama.setPosition(currentPosition);
+            panorama.setPov({
+                heading: currentHeading,
+                pitch: currentPitch
+            });
+        }
+
+        // Movement controls
+        function moveForward() {
+            if (!panorama) return;
+
+            const heading = currentHeading * Math.PI / 180;
+            const distance = 0.0001; // approximately 10 meters
+
+            currentPosition.lat += distance * Math.cos(heading);
+            currentPosition.lng += distance * Math.sin(heading);
+            updateStreetView();
+        }
+
+        function moveBackward() {
+            if (!panorama) return;
+
+            const heading = currentHeading * Math.PI / 180;
+            const distance = 0.0001;
+
+            currentPosition.lat -= distance * Math.cos(heading);
+            currentPosition.lng -= distance * Math.sin(heading);
+            updateStreetView();
+        }
+
+        function moveLeft() {
+            if (!panorama) return;
+
+            const heading = (currentHeading - 90) * Math.PI / 180;
+            const distance = 0.0001;
+
+            currentPosition.lat += distance * Math.cos(heading);
+            currentPosition.lng += distance * Math.sin(heading);
+            updateStreetView();
+        }
+
+        function moveRight() {
+            if (!panorama) return;
+
+            const heading = (currentHeading + 90) * Math.PI / 180;
+            const distance = 0.0001;
+
+            currentPosition.lat += distance * Math.cos(heading);
+            currentPosition.lng += distance * Math.sin(heading);
+            updateStreetView();
+        }
+
+        function rotateLeft() {
+            currentHeading = (currentHeading - 30 + 360) % 360;
+            updateStreetView();
+        }
+
+        function rotateRight() {
+            currentHeading = (currentHeading + 30) % 360;
+            updateStreetView();
+        }
+
+        // Handle avatar upload
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                avatarImage = new Image();
+                avatarImage.onload = function() {
+                    const preview = document.getElementById('avatar-preview');
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+                };
+                avatarImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Update slider values display
+        function updateSliderValue(type) {
+            const value = document.getElementById(`avatar-${type}`).value;
+            document.getElementById(`${type}-value`).textContent = value;
+        }
+
+        // Generate composite image
+        async function generateComposite() {
+            if (!avatarImage) {
+                alert('⚠️ נא להעלות תמונת דמות קודם!');
+                return;
+            }
+
+            if (!panorama) {
+                alert('⚠️ נא לטעון Street View קודם!');
+                return;
+            }
+
+            // Get Street View image
+            const streetViewDiv = document.getElementById('streetview');
+
+            // Create canvas
+            const canvas = document.getElementById('result-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size
+            canvas.width = streetViewDiv.offsetWidth;
+            canvas.height = streetViewDiv.offsetHeight;
+
+            // Capture Street View using html2canvas or similar
+            // For now, we'll use a simpler approach with panorama screenshot
+
+            // Take screenshot of street view
+            const streetViewCanvas = await captureStreetView();
+
+            // Draw street view
+            ctx.drawImage(streetViewCanvas, 0, 0, canvas.width, canvas.height);
+
+            // Get avatar settings
+            const size = parseInt(document.getElementById('avatar-size').value) / 100;
+            const opacity = parseInt(document.getElementById('avatar-opacity').value) / 100;
+
+            // Calculate avatar dimensions
+            const avatarWidth = avatarImage.width * size;
+            const avatarHeight = avatarImage.height * size;
+
+            // Position avatar in center-bottom
+            const x = (canvas.width - avatarWidth) / 2;
+            const y = canvas.height - avatarHeight - 50;
+
+            // Draw avatar with opacity
+            ctx.globalAlpha = opacity;
+            ctx.drawImage(avatarImage, x, y, avatarWidth, avatarHeight);
+            ctx.globalAlpha = 1.0;
+
+            // Show result
+            document.getElementById('result-container').style.display = 'block';
+            canvas.style.display = 'block';
+
+            // Scroll to result
+            document.getElementById('result-container').scrollIntoView({ behavior: 'smooth' });
+
+            alert('✅ התמונה נוצרה בהצלחה! גלול למטה לראות את התוצאה');
+        }
+
+        // Capture Street View (simplified version)
+        async function captureStreetView() {
+            const streetViewDiv = document.getElementById('streetview');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = streetViewDiv.offsetWidth;
+            canvas.height = streetViewDiv.offsetHeight;
+
+            // Try to capture using html2canvas if available
+            // For now, create a placeholder or use direct screenshot
+
+            // This is a simplified version - in production, you'd use:
+            // 1. html2canvas library for better capture
+            // 2. Street View Static API for server-side rendering
+            // 3. Canvas manipulation for better quality
+
+            // For now, we'll create a message that directs to use screenshot
+            ctx.fillStyle = '#f0f0f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#333';
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('📸 צור צילום מסך של Street View', canvas.width / 2, canvas.height / 2);
+            ctx.fillText('(בגרסה מלאה נשתמש ב-API לצילום אוטומטי)', canvas.width / 2, canvas.height / 2 + 30);
+
+            // Better approach: Use Street View Static API
+            const apiKey = document.getElementById('google-api-key').value;
+            if (apiKey) {
+                return await loadStreetViewStaticImage(apiKey);
+            }
+
+            return canvas;
+        }
+
+        // Load Street View Static Image
+        async function loadStreetViewStaticImage(apiKey) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Build Street View Static API URL
+            const size = '640x640';
+            const location = `${currentPosition.lat},${currentPosition.lng}`;
+            const url = `https://maps.googleapis.com/maps/api/streetview?size=${size}&location=${location}&heading=${currentHeading}&pitch=${currentPitch}&key=${apiKey}`;
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = function() {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    resolve(canvas);
+                };
+                img.onerror = function() {
+                    canvas.width = 640;
+                    canvas.height = 640;
+                    ctx.fillStyle = '#f0f0f0';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    resolve(canvas);
+                };
+                img.src = url;
+            });
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            loadSavedLocations();
+
+            // Try to initialize map if API key is already saved
+            const savedApiKey = localStorage.getItem('googleMapsApiKey');
+            if (savedApiKey) {
+                document.getElementById('google-api-key').value = savedApiKey;
+                initMap();
+            }
+
+            // Save API key on change
+            document.getElementById('google-api-key').addEventListener('blur', function() {
+                const apiKey = this.value;
+                if (apiKey) {
+                    localStorage.setItem('googleMapsApiKey', apiKey);
+                }
+            });
+
+            // Allow Enter key for search
+            document.getElementById('location-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchLocation();
+                }
+            });
+        };
+    </script>
+</body>
+</html>
