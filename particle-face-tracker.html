@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particle Face & Hand Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: #000;
+            color: #fff;
+        }
+
+        /* Intro Screen */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #intro-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #intro-screen h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        #intro-screen p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        #enable-camera-btn {
+            padding: 20px 40px;
+            font-size: 1.3em;
+            background: #fff;
+            color: #667eea;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #enable-camera-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        #enable-camera-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Main Canvas */
+        #particle-canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+        }
+
+        /* Camera Preview */
+        #camera-preview {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 256px;
+            height: 144px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+
+        #camera-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
+
+        #camera-preview canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: scaleX(-1);
+        }
+
+        /* Mode Controls */
+        #mode-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .control-btn.active {
+            background: rgba(100, 255, 218, 0.3);
+            border-color: #64ffda;
+        }
+
+        /* Status Indicator */
+        #status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        #status-indicator.loading {
+            border-color: #ffd700;
+        }
+
+        #status-indicator.detecting {
+            border-color: #64ffda;
+        }
+
+        #status-indicator.prompt {
+            border-color: #ff6b9d;
+        }
+
+        /* Keyboard Shortcuts Panel */
+        #shortcuts-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            font-size: 0.85em;
+        }
+
+        #shortcuts-panel h3 {
+            margin-bottom: 10px;
+            font-size: 1em;
+            opacity: 0.8;
+        }
+
+        .shortcut-item {
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .shortcut-key {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        /* Theme Indicator */
+        #theme-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 15px 25px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Screen -->
+    <div id="intro-screen">
+        <h1>✨ Particle Face & Hand Tracker</h1>
+        <p>Experience the magic of particles forming your face and hands in real-time</p>
+        <button id="enable-camera-btn">Enable Camera</button>
+    </div>
+
+    <!-- Main App -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Camera Preview -->
+    <div id="camera-preview" class="hidden">
+        <video id="camera-video" autoplay playsinline></video>
+        <canvas id="overlay-canvas"></canvas>
+    </div>
+
+    <!-- Mode Controls -->
+    <div id="mode-controls" class="hidden">
+        <button class="control-btn active" id="attract-btn">Attract Mode</button>
+        <button class="control-btn" id="repel-btn">Repel Mode</button>
+    </div>
+
+    <!-- Status Indicator -->
+    <div id="status-indicator" class="hidden loading">
+        Initializing...
+    </div>
+
+    <!-- Theme Indicator -->
+    <div id="theme-indicator" class="hidden">
+        Theme: Rainbow
+    </div>
+
+    <!-- Keyboard Shortcuts -->
+    <div id="shortcuts-panel" class="hidden">
+        <h3>Keyboard Shortcuts</h3>
+        <div class="shortcut-item">
+            <span class="shortcut-key">SPACE</span>
+            <span>Toggle Mode</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">V</span>
+            <span>Toggle Camera</span>
+        </div>
+        <div class="shortcut-item">
+            <span class="shortcut-key">👊</span>
+            <span>Fist = Change Theme</span>
+        </div>
+    </div>
+
+    <!-- MediaPipe -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+
+    <script>
+        // Constants
+        const GOLDEN_RATIO = 1.618033988749895;
+        const MIN_PARTICLES = 8000;
+        const MAX_PARTICLES = 15000;
+        const PARTICLE_COUNT = 12000;
+
+        // Global State
+        let particleCanvas, ctx;
+        let cameraVideo, overlayCanvas, overlayCtx;
+        let particles = [];
+        let attractionMode = true;
+        let cameraEnabled = false;
+        let currentTheme = 0;
+        let faceMesh, hands;
+        let faceResults = null;
+        let handsResults = null;
+        let lastFistDetected = false;
+
+        // Color Themes
+        const themes = {
+            Rainbow: (i, total) => {
+                const hue = (i / total) * 360;
+                return `hsla(${hue}, 80%, 60%, 0.8)`;
+            },
+            Fire: (i, total) => {
+                const progress = i / total;
+                const hue = 0 + progress * 60;
+                return `hsla(${hue}, 100%, 50%, 0.8)`;
+            },
+            Ocean: (i, total) => {
+                const progress = i / total;
+                const hue = 180 + progress * 40;
+                return `hsla(${hue}, 70%, 50%, 0.8)`;
+            },
+            Galaxy: (i, total) => {
+                const progress = i / total;
+                const hue = 240 + progress * 80;
+                return `hsla(${hue}, 80%, 60%, 0.8)`;
+            },
+            Matrix: (i, total) => {
+                const lightness = 30 + (i / total) * 40;
+                return `hsla(120, 100%, ${lightness}%, 0.8)`;
+            }
+        };
+
+        const themeNames = Object.keys(themes);
+
+        // Particle Class
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.targetX = x;
+                this.targetY = y;
+                this.size = Math.random() * 2 + 1;
+                this.trailX = [];
+                this.trailY = [];
+                this.maxTrailLength = 5;
+            }
+
+            update(targets, mode) {
+                // Add current position to trail
+                this.trailX.unshift(this.x);
+                this.trailY.unshift(this.y);
+                if (this.trailX.length > this.maxTrailLength) {
+                    this.trailX.pop();
+                    this.trailY.pop();
+                }
+
+                if (targets.length === 0) {
+                    // Random movement when no targets
+                    this.vx += (Math.random() - 0.5) * 0.5;
+                    this.vy += (Math.random() - 0.5) * 0.5;
+                    this.vx *= 0.95;
+                    this.vy *= 0.95;
+                } else {
+                    // Find closest target
+                    let closestTarget = targets[0];
+                    let minDist = Infinity;
+
+                    for (let target of targets) {
+                        const dx = target.x - this.x;
+                        const dy = target.y - this.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < minDist) {
+                            minDist = dist;
+                            closestTarget = target;
+                        }
+                    }
+
+                    // Apply attraction or repulsion
+                    const dx = closestTarget.x - this.x;
+                    const dy = closestTarget.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist > 1) {
+                        const force = mode === 'attract' ? 0.3 : -0.5;
+                        const spreadFactor = closestTarget.spread || 1;
+                        this.vx += (dx / dist) * force * spreadFactor;
+                        this.vy += (dy / dist) * force * spreadFactor;
+                    }
+                }
+
+                // Apply velocity
+                this.vx *= 0.9;
+                this.vy *= 0.9;
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > particleCanvas.width) this.vx *= -0.8;
+                if (this.y < 0 || this.y > particleCanvas.height) this.vy *= -0.8;
+                this.x = Math.max(0, Math.min(particleCanvas.width, this.x));
+                this.y = Math.max(0, Math.min(particleCanvas.height, this.y));
+            }
+
+            draw(color) {
+                // Draw trail
+                for (let i = 1; i < this.trailX.length; i++) {
+                    ctx.globalAlpha = 0.3 * (1 - i / this.trailX.length);
+                    ctx.fillStyle = color;
+                    ctx.fillRect(this.trailX[i], this.trailY[i], this.size * 0.5, this.size * 0.5);
+                }
+
+                // Draw particle
+                ctx.globalAlpha = 0.8;
+                ctx.fillStyle = color;
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Initialize Particles
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push(new Particle(
+                    Math.random() * particleCanvas.width,
+                    Math.random() * particleCanvas.height
+                ));
+            }
+        }
+
+        // Generate Target Points from Landmarks
+        function generateTargets() {
+            const targets = [];
+
+            // Face landmarks
+            if (faceResults && faceResults.multiFaceLandmarks) {
+                for (let face of faceResults.multiFaceLandmarks) {
+                    for (let i = 0; i < face.length; i++) {
+                        const landmark = face[i];
+                        const x = landmark.x * particleCanvas.width;
+                        const y = landmark.y * particleCanvas.height;
+                        const z = landmark.z || 0;
+
+                        // Boost depth for facial features
+                        let depthBoost = 1;
+                        if (i >= 1 && i <= 9) depthBoost = 1.5; // Nose
+                        if (i >= 234 && i <= 447) depthBoost = 1.3; // Cheekbones
+                        if ((i >= 33 && i <= 133) || (i >= 362 && i <= 263)) depthBoost = 1.4; // Eye sockets
+
+                        // Very tight clustering for face (1-2 pixels)
+                        targets.push({
+                            x: x,
+                            y: y,
+                            spread: 0.1 + Math.abs(z) * depthBoost
+                        });
+                    }
+                }
+            }
+
+            // Hand landmarks
+            if (handsResults && handsResults.multiHandLandmarks) {
+                for (let handIdx = 0; handIdx < handsResults.multiHandLandmarks.length; handIdx++) {
+                    const hand = handsResults.multiHandLandmarks[handIdx];
+
+                    for (let i = 0; i < hand.length; i++) {
+                        const landmark = hand[i];
+                        const x = landmark.x * particleCanvas.width;
+                        const y = landmark.y * particleCanvas.height;
+
+                        // Tapered spread: fingertips narrow, palm wider
+                        let spread = 1;
+                        if ([4, 8, 12, 16, 20].includes(i)) {
+                            spread = 0.5; // Fingertips - narrow
+                        } else if ([0].includes(i)) {
+                            spread = 0.6; // Wrist
+                        } else if ([1, 5, 9, 13, 17].includes(i)) {
+                            spread = 2.5 / GOLDEN_RATIO; // Palm base - wider
+                        } else {
+                            spread = 1.5 / GOLDEN_RATIO; // Finger segments - medium
+                        }
+
+                        targets.push({
+                            x: x,
+                            y: y,
+                            spread: spread
+                        });
+                    }
+                }
+            }
+
+            return targets;
+        }
+
+        // Draw Hand Skeleton Overlay
+        function drawHandSkeleton(hand, handedness) {
+            const connections = [
+                [0, 1], [1, 2], [2, 3], [3, 4], // Thumb
+                [0, 5], [5, 6], [6, 7], [7, 8], // Index
+                [0, 9], [9, 10], [10, 11], [11, 12], // Middle
+                [0, 13], [13, 14], [14, 15], [15, 16], // Ring
+                [0, 17], [17, 18], [18, 19], [19, 20], // Pinky
+                [5, 9], [9, 13], [13, 17] // Palm
+            ];
+
+            const color = handedness === 'Right' ? '#00ffff' : '#ff69b4'; // Cyan for right, pink for left
+
+            // Draw connections with glow
+            overlayCtx.strokeStyle = color;
+            overlayCtx.lineWidth = 2;
+            overlayCtx.shadowBlur = 10;
+            overlayCtx.shadowColor = color;
+
+            for (let connection of connections) {
+                const start = hand[connection[0]];
+                const end = hand[connection[1]];
+
+                overlayCtx.beginPath();
+                overlayCtx.moveTo(start.x * overlayCanvas.width, start.y * overlayCanvas.height);
+                overlayCtx.lineTo(end.x * overlayCanvas.width, end.y * overlayCanvas.height);
+                overlayCtx.stroke();
+            }
+
+            // Draw landmarks with larger dots at fingertips and wrist
+            overlayCtx.shadowBlur = 15;
+            for (let i = 0; i < hand.length; i++) {
+                const landmark = hand[i];
+                const x = landmark.x * overlayCanvas.width;
+                const y = landmark.y * overlayCanvas.height;
+
+                let radius = 3;
+                if ([0, 4, 8, 12, 16, 20].includes(i)) {
+                    radius = 5; // Larger for wrist and fingertips
+                }
+
+                overlayCtx.fillStyle = color;
+                overlayCtx.beginPath();
+                overlayCtx.arc(x, y, radius, 0, Math.PI * 2);
+                overlayCtx.fill();
+            }
+            overlayCtx.shadowBlur = 0;
+        }
+
+        // Draw Face Mesh Overlay
+        function drawFaceMesh(face) {
+            // Define contours
+            const eyeContours = {
+                left: [33, 160, 159, 158, 157, 173, 133, 155, 154, 153, 145, 144, 163, 7],
+                right: [362, 385, 386, 387, 388, 466, 263, 249, 390, 373, 374, 380, 381, 382]
+            };
+            const lipContours = [61, 185, 40, 39, 37, 0, 267, 269, 270, 409, 291, 375, 321, 405, 314, 17, 84, 181, 91, 146];
+            const faceOval = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109];
+
+            // Draw eye contours (teal)
+            overlayCtx.strokeStyle = '#00CED1';
+            overlayCtx.lineWidth = 2;
+            overlayCtx.shadowBlur = 8;
+            overlayCtx.shadowColor = '#00CED1';
+
+            drawContour(face, eyeContours.left);
+            drawContour(face, eyeContours.right);
+
+            // Draw lip contours (pink)
+            overlayCtx.strokeStyle = '#FF69B4';
+            overlayCtx.shadowColor = '#FF69B4';
+            drawContour(face, lipContours);
+
+            // Draw face oval (cyan)
+            overlayCtx.strokeStyle = '#00FFFF';
+            overlayCtx.shadowColor = '#00FFFF';
+            drawContour(face, faceOval);
+
+            overlayCtx.shadowBlur = 0;
+        }
+
+        function drawContour(face, indices) {
+            overlayCtx.beginPath();
+            for (let i = 0; i < indices.length; i++) {
+                const landmark = face[indices[i]];
+                const x = landmark.x * overlayCanvas.width;
+                const y = landmark.y * overlayCanvas.height;
+
+                if (i === 0) {
+                    overlayCtx.moveTo(x, y);
+                } else {
+                    overlayCtx.lineTo(x, y);
+                }
+            }
+            overlayCtx.closePath();
+            overlayCtx.stroke();
+        }
+
+        // Detect Fist Gesture
+        function detectFist(hand) {
+            // Check if all fingertips are close to palm (fist)
+            const wrist = hand[0];
+            const fingertips = [4, 8, 12, 16, 20];
+
+            let closedCount = 0;
+            for (let tip of fingertips) {
+                const dx = hand[tip].x - wrist.x;
+                const dy = hand[tip].y - wrist.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 0.15) closedCount++;
+            }
+
+            return closedCount >= 4;
+        }
+
+        // Update Status
+        function updateStatus(text, type = 'detecting') {
+            const statusEl = document.getElementById('status-indicator');
+            statusEl.textContent = text;
+            statusEl.className = type;
+        }
+
+        // Animation Loop
+        function animate() {
+            // Clear canvas with trail effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillRect(0, 0, particleCanvas.width, particleCanvas.height);
+
+            // Generate targets from landmarks
+            const targets = generateTargets();
+
+            // Update status
+            if (targets.length > 0) {
+                updateStatus('Tracking Active', 'detecting');
+            } else {
+                updateStatus('Show your hands or face', 'prompt');
+            }
+
+            // Update and draw particles
+            const mode = attractionMode ? 'attract' : 'repel';
+            const themeName = themeNames[currentTheme];
+            const colorFunc = themes[themeName];
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(targets, mode);
+                const color = colorFunc(i, particles.length);
+                particles[i].draw(color);
+            }
+
+            // Clear overlay canvas
+            overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+
+            // Draw overlays
+            if (handsResults && handsResults.multiHandLandmarks) {
+                for (let i = 0; i < handsResults.multiHandLandmarks.length; i++) {
+                    const hand = handsResults.multiHandLandmarks[i];
+                    const handedness = handsResults.multiHandedness[i].label;
+                    drawHandSkeleton(hand, handedness);
+
+                    // Detect fist gesture
+                    const isFist = detectFist(hand);
+                    if (isFist && !lastFistDetected) {
+                        // Cycle theme
+                        currentTheme = (currentTheme + 1) % themeNames.length;
+                        document.getElementById('theme-indicator').textContent = `Theme: ${themeNames[currentTheme]}`;
+                    }
+                    lastFistDetected = isFist;
+                }
+            }
+
+            if (faceResults && faceResults.multiFaceLandmarks) {
+                for (let face of faceResults.multiFaceLandmarks) {
+                    drawFaceMesh(face);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // MediaPipe Callbacks
+        function onFaceResults(results) {
+            faceResults = results;
+        }
+
+        function onHandsResults(results) {
+            handsResults = results;
+        }
+
+        // Initialize MediaPipe
+        async function initMediaPipe() {
+            updateStatus('Loading MediaPipe...', 'loading');
+
+            // Initialize Face Mesh
+            faceMesh = new FaceMesh({
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+            });
+            faceMesh.setOptions({
+                maxNumFaces: 2,
+                refineLandmarks: true,
+                minDetectionConfidence: 0.5,
+                minTrackingConfidence: 0.5
+            });
+            faceMesh.onResults(onFaceResults);
+
+            // Initialize Hands
+            hands = new Hands({
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+            });
+            hands.setOptions({
+                maxNumHands: 2,
+                modelComplexity: 1,
+                minDetectionConfidence: 0.5,
+                minTrackingConfidence: 0.5
+            });
+            hands.onResults(onHandsResults);
+
+            // Start camera
+            const camera = new Camera(cameraVideo, {
+                onFrame: async () => {
+                    await faceMesh.send({ image: cameraVideo });
+                    await hands.send({ image: cameraVideo });
+                },
+                width: 1280,
+                height: 720
+            });
+            camera.start();
+
+            updateStatus('Ready!', 'detecting');
+        }
+
+        // Initialize App
+        async function initApp() {
+            // Setup canvases
+            particleCanvas = document.getElementById('particle-canvas');
+            ctx = particleCanvas.getContext('2d');
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
+
+            cameraVideo = document.getElementById('camera-video');
+            overlayCanvas = document.getElementById('overlay-canvas');
+            overlayCtx = overlayCanvas.getContext('2d');
+            overlayCanvas.width = 256;
+            overlayCanvas.height = 144;
+
+            // Initialize particles
+            initParticles();
+
+            // Show UI
+            document.getElementById('camera-preview').classList.remove('hidden');
+            document.getElementById('mode-controls').classList.remove('hidden');
+            document.getElementById('status-indicator').classList.remove('hidden');
+            document.getElementById('shortcuts-panel').classList.remove('hidden');
+            document.getElementById('theme-indicator').classList.remove('hidden');
+
+            // Initialize MediaPipe
+            await initMediaPipe();
+
+            // Start animation
+            animate();
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                particleCanvas.width = window.innerWidth;
+                particleCanvas.height = window.innerHeight;
+            });
+        }
+
+        // Event Listeners
+        document.getElementById('enable-camera-btn').addEventListener('click', async () => {
+            document.getElementById('intro-screen').classList.add('hidden');
+            cameraEnabled = true;
+            await initApp();
+        });
+
+        document.getElementById('attract-btn').addEventListener('click', () => {
+            attractionMode = true;
+            document.getElementById('attract-btn').classList.add('active');
+            document.getElementById('repel-btn').classList.remove('active');
+        });
+
+        document.getElementById('repel-btn').addEventListener('click', () => {
+            attractionMode = false;
+            document.getElementById('attract-btn').classList.remove('active');
+            document.getElementById('repel-btn').classList.add('active');
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                attractionMode = !attractionMode;
+                if (attractionMode) {
+                    document.getElementById('attract-btn').classList.add('active');
+                    document.getElementById('repel-btn').classList.remove('active');
+                } else {
+                    document.getElementById('attract-btn').classList.remove('active');
+                    document.getElementById('repel-btn').classList.add('active');
+                }
+            } else if (e.code === 'KeyV') {
+                e.preventDefault();
+                const preview = document.getElementById('camera-preview');
+                preview.classList.toggle('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
