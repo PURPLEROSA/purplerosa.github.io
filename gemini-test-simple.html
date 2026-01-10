@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>בדיקה מהירה - Gemini יוצר תמונות?</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; max-width: 800px; margin: 0 auto; }
+        h1 { color: #333; }
+        input { width: 100%; padding: 10px; margin: 10px 0; font-size: 16px; }
+        button { width: 100%; padding: 15px; background: #4CAF50; color: white; border: none; font-size: 18px; cursor: pointer; }
+        button:hover { background: #45a049; }
+        #output { background: white; padding: 20px; margin-top: 20px; border-radius: 8px; white-space: pre-wrap; font-family: monospace; font-size: 14px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>🧪 בדיקה: האם Gemini יכול ליצור תמונות?</h1>
+    <p><strong>נבדוק את זה ביחד!</strong></p>
+
+    <input type="password" id="apikey" placeholder="הכניסי את ה-Gemini API Key שלך">
+    <button onclick="runTest()">🔬 בדוק עכשיו!</button>
+
+    <div id="output"></div>
+
+    <script type="module">
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+        window.runTest = async function() {
+            const apiKey = document.getElementById('apikey').value;
+            const output = document.getElementById('output');
+
+            if (!apiKey) {
+                output.innerHTML = '<span class="error">❌ נא להכניס API Key</span>';
+                return;
+            }
+
+            output.innerHTML = '⏳ בודק...\n\n';
+
+            try {
+                const genAI = new GoogleGenerativeAI(apiKey);
+
+                // ===== בדיקה 1: מודלים זמינים =====
+                output.innerHTML += '📋 <strong>בדיקה 1: אילו מודלים זמינים?</strong>\n';
+                output.innerHTML += '-------------------------------------------\n';
+
+                try {
+                    const models = await genAI.listModels();
+                    output.innerHTML += `✅ נמצאו ${models.length} מודלים:\n\n`;
+                    models.forEach(model => {
+                        output.innerHTML += `• ${model.name}\n`;
+                    });
+                    output.innerHTML += '\n';
+
+                    // בדוק אם gemini-3-pro-image-preview קיים
+                    const hasModel = models.some(m => m.name.includes('gemini-3-pro-image-preview'));
+                    if (hasModel) {
+                        output.innerHTML += '<span class="success">✅ gemini-3-pro-image-preview נמצא!</span>\n\n';
+                    } else {
+                        output.innerHTML += '<span class="error">❌ gemini-3-pro-image-preview לא קיים ברשימה!</span>\n\n';
+                    }
+                } catch (e) {
+                    output.innerHTML += `<span class="error">❌ שגיאה בקבלת רשימת מודלים: ${e.message}</span>\n\n`;
+                }
+
+                // ===== בדיקה 2: מה קורה כשמבקשים תמונה? =====
+                output.innerHTML += '🎨 <strong>בדיקה 2: מבקש מ-Gemini ליצור תמונה</strong>\n';
+                output.innerHTML += '-------------------------------------------\n';
+
+                try {
+                    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+                    const result = await model.generateContent([
+                        "Generate a photorealistic image of a red apple on a white table. Return the image as base64 encoded data."
+                    ]);
+                    const response = await result.response;
+                    const text = response.text();
+
+                    output.innerHTML += `📝 <strong>תשובת Gemini:</strong>\n${text.substring(0, 500)}...\n\n`;
+
+                    // בדוק אם זה תמונה או טקסט
+                    if (text.startsWith('data:image') || text.match(/^[A-Za-z0-9+/]{100,}={0,2}$/)) {
+                        output.innerHTML += '<span class="success">✅ נראה כמו תמונה (base64)!</span>\n\n';
+                    } else if (text.toLowerCase().includes('cannot') || text.toLowerCase().includes('unable')) {
+                        output.innerHTML += '<span class="error">❌ Gemini אומר שהוא לא יכול ליצור תמונות!</span>\n\n';
+                    } else {
+                        output.innerHTML += '<span class="error">❌ זה טקסט רגיל, לא תמונה!</span>\n\n';
+                    }
+                } catch (e) {
+                    output.innerHTML += `<span class="error">❌ שגיאה: ${e.message}</span>\n\n`;
+                }
+
+                // ===== בדיקה 3: מה Gemini כן יכול? =====
+                output.innerHTML += '✅ <strong>בדיקה 3: מה Gemini כן יכול לעשות?</strong>\n';
+                output.innerHTML += '-------------------------------------------\n';
+
+                try {
+                    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+                    const result = await model.generateContent("What are your capabilities? Can you generate images?");
+                    const response = await result.response;
+                    output.innerHTML += `📝 ${response.text()}\n\n`;
+                } catch (e) {
+                    output.innerHTML += `<span class="error">❌ שגיאה: ${e.message}</span>\n\n`;
+                }
+
+                // ===== סיכום =====
+                output.innerHTML += '═══════════════════════════════════════════\n';
+                output.innerHTML += '<strong>📊 סיכום הבדיקות:</strong>\n';
+                output.innerHTML += '═══════════════════════════════════════════\n\n';
+                output.innerHTML += 'עכשיו את יכולה לראות בדיוק מה Gemini מחזיר!\n';
+                output.innerHTML += 'אם הוא מחזיר טקסט ולא תמונה - זה מוכיח שהוא לא יכול ליצור תמונות.\n';
+
+            } catch (error) {
+                output.innerHTML += `\n\n<span class="error">❌ שגיאה כללית: ${error.message}</span>`;
+            }
+        };
+    </script>
+</body>
+</html>
