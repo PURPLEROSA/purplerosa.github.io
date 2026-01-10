@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בדיקה: Gemini יכול ליצור תמונות?</title>
+    <style>
+        body { font-family: 'Heebo', sans-serif; padding: 2rem; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; }
+        input { width: 100%; padding: 1rem; margin: 1rem 0; border: 2px solid #ddd; border-radius: 8px; }
+        button { width: 100%; padding: 1rem; background: #667eea; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #5568d3; }
+        .result { margin-top: 2rem; padding: 1rem; background: #f9f9f9; border-radius: 8px; white-space: pre-wrap; font-family: monospace; max-height: 400px; overflow-y: auto; }
+        .error { background: #ffe6e6; color: #d32f2f; }
+        .success { background: #e6ffe6; color: #388e3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 בדיקת יכולות Gemini</h1>
+        <p><strong>השאלה:</strong> האם Gemini יכול ליצור תמונות?</p>
+        <p>בואי נבדוק!</p>
+
+        <input type="password" id="api-key" placeholder="הכניסי את ה-Gemini API Key שלך">
+        <button onclick="testGemini()">🔬 בדוק מה Gemini באמת מחזיר</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script type="importmap">
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+    </script>
+
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+
+        window.testGemini = async () => {
+            const apiKey = document.getElementById('api-key').value;
+            const resultDiv = document.getElementById('result');
+
+            if (!apiKey) {
+                resultDiv.innerHTML = '<div class="result error">נא להכניס API Key</div>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<div class="result">⏳ בודק...</div>';
+
+            try {
+                const genAI = new GoogleGenerativeAI(apiKey);
+
+                // בדיקה 1: אילו מודלים זמינים?
+                resultDiv.innerHTML += '<div class="result"><strong>📋 מודלים זמינים:</strong>\n';
+                try {
+                    const models = await genAI.listModels();
+                    resultDiv.innerHTML += JSON.stringify(models, null, 2) + '</div>';
+                } catch (e) {
+                    resultDiv.innerHTML += 'לא ניתן לקבל רשימת מודלים\n</div>';
+                }
+
+                // בדיקה 2: האם gemini-3-pro-image-preview קיים?
+                resultDiv.innerHTML += '<div class="result"><strong>🔍 בדיקת המודל "gemini-3-pro-image-preview":</strong>\n';
+                try {
+                    const model = genAI.getGenerativeModel({ model: "gemini-3-pro-image-preview" });
+                    resultDiv.innerHTML += '✅ המודל נטען (אבל זה לא אומר שהוא קיים!)\n</div>';
+                } catch (e) {
+                    resultDiv.innerHTML += '❌ שגיאה: ' + e.message + '\n</div>';
+                }
+
+                // בדיקה 3: מה Gemini מחזיר כשמבקשים ממנו תמונה?
+                resultDiv.innerHTML += '<div class="result"><strong>🎨 מבקש מ-Gemini ליצור תמונה:</strong>\n';
+                try {
+                    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+                    const result = await model.generateContent("Generate an image of a red apple");
+                    const response = await result.response;
+                    const text = response.text();
+
+                    resultDiv.innerHTML += '📝 תשובת Gemini:\n' + text + '\n\n';
+
+                    // האם זה base64 של תמונה?
+                    if (text.startsWith('data:image') || text.match(/^[A-Za-z0-9+/]+=*$/)) {
+                        resultDiv.innerHTML += '✅ נראה כמו תמונה!\n</div>';
+                    } else {
+                        resultDiv.innerHTML += '❌ זה טקסט רגיל, לא תמונה!\n</div>';
+                    }
+
+                } catch (e) {
+                    resultDiv.innerHTML += '❌ שגיאה: ' + e.message + '\n</div>';
+                }
+
+                // בדיקה 4: המודל האמיתי
+                resultDiv.innerHTML += '<div class="result success"><strong>✅ המודל האמיתי שעובד:</strong>\n';
+                const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+                const result = await model.generateContent("Hello! What can you do?");
+                const response = await result.response;
+                resultDiv.innerHTML += response.text() + '\n</div>';
+
+            } catch (error) {
+                resultDiv.innerHTML += '<div class="result error"><strong>❌ שגיאה:</strong>\n' + error.message + '</div>';
+            }
+        };
+    </script>
+</body>
+</html>
