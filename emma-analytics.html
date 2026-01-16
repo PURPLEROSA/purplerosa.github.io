@@ -813,6 +813,40 @@
 
         <!-- API Panel -->
         <div id="api" class="panel">
+            <!-- Google Sheets Integration -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔗 חיבור ל-Google Sheets</h3>
+                </div>
+                <p style="color: var(--text-secondary); margin-bottom: 15px;">
+                    חברי את הדשבורד ל-Google Sheets לקבלת נתונים אוטומטית. הדביקי את כתובת ה-Web App מהסקריפט.
+                </p>
+                <div class="api-key-section">
+                    <label style="margin-bottom: 10px; display: block;">כתובת Google Apps Script Web App</label>
+                    <div class="api-key-input">
+                        <input type="text" id="googleSheetsUrl" placeholder="https://script.google.com/macros/s/xxx/exec">
+                        <button class="btn btn-primary" onclick="saveGoogleSheetsUrl()">שמור</button>
+                    </div>
+                    <small style="color: var(--text-secondary); margin-top: 10px; display: block;">
+                        📋 <a href="emma-google-apps-script.js" target="_blank" style="color: var(--primary);">הורידי את הסקריפט</a> והתקיני ב-Google Sheets
+                    </small>
+                </div>
+                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="syncFromGoogleSheets()">
+                        🔄 סנכרן עכשיו
+                    </button>
+                    <button class="btn btn-secondary" onclick="testGoogleSheetsConnection()">
+                        🧪 בדוק חיבור
+                    </button>
+                    <label style="display: flex; align-items: center; gap: 8px; color: var(--text-secondary);">
+                        <input type="checkbox" id="autoSync" onchange="toggleAutoSync()"> סנכרון אוטומטי בטעינה
+                    </label>
+                </div>
+                <div id="syncStatus" style="margin-top: 15px; display: none;" class="emma-report">
+                    <div id="syncStatusContent"></div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">API / Webhook Endpoint</h3>
@@ -1772,6 +1806,167 @@
             event.target.value = '';
         }
 
+        // ============ GOOGLE SHEETS SYNC ============
+        function saveGoogleSheetsUrl() {
+            const url = document.getElementById('googleSheetsUrl').value.trim();
+            if (!url) {
+                showToast('הזיני כתובת תקינה', 'error');
+                return;
+            }
+            const settings = DB.getSettings();
+            settings.googleSheetsUrl = url;
+            DB.setSettings(settings);
+            showToast('כתובת Google Sheets נשמרה');
+        }
+
+        function toggleAutoSync() {
+            const autoSync = document.getElementById('autoSync').checked;
+            const settings = DB.getSettings();
+            settings.autoSync = autoSync;
+            DB.setSettings(settings);
+            showToast(autoSync ? 'סנכרון אוטומטי הופעל' : 'סנכרון אוטומטי כובה');
+        }
+
+        async function testGoogleSheetsConnection() {
+            const settings = DB.getSettings();
+            const url = settings.googleSheetsUrl || document.getElementById('googleSheetsUrl').value;
+
+            if (!url) {
+                showToast('הזיני כתובת Google Sheets קודם', 'error');
+                return;
+            }
+
+            showSyncStatus('בודק חיבור...', 'loading');
+
+            try {
+                const response = await fetch(url + '?action=creators');
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    showSyncStatus(`✅ החיבור תקין! נמצאו ${data.length} יוצרים`, 'success');
+                    showToast('החיבור תקין!');
+                } else {
+                    showSyncStatus('⚠️ תשובה לא צפויה מהשרת', 'warning');
+                }
+            } catch (error) {
+                showSyncStatus(`❌ שגיאה: ${error.message}`, 'error');
+                showToast('שגיאה בחיבור', 'error');
+            }
+        }
+
+        async function syncFromGoogleSheets() {
+            const settings = DB.getSettings();
+            const url = settings.googleSheetsUrl || document.getElementById('googleSheetsUrl').value;
+
+            if (!url) {
+                showToast('הזיני כתובת Google Sheets קודם', 'error');
+                return;
+            }
+
+            showSyncStatus('🔄 מסנכרן נתונים מ-Google Sheets...', 'loading');
+
+            try {
+                const response = await fetch(url + '?action=all');
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+
+                const data = await response.json();
+
+                let stats = {
+                    creators: 0,
+                    dailyStats: 0,
+                    posts: 0
+                };
+
+                // סנכרון יוצרים
+                if (data.creators && Array.isArray(data.creators)) {
+                    const existingCreators = DB.get('creators');
+                    const existingIds = new Set(existingCreators.map(c => c.id));
+
+                    data.creators.forEach(creator => {
+                        if (!existingIds.has(creator.id)) {
+                            existingCreators.push(creator);
+                            stats.creators++;
+                        } else {
+                            // עדכון יוצר קיים
+                            const idx = existingCreators.findIndex(c => c.id === creator.id);
+                            if (idx !== -1) {
+                                existingCreators[idx] = { ...existingCreators[idx], ...creator };
+                            }
+                        }
+                    });
+                    DB.set('creators', existingCreators);
+                }
+
+                // סנכרון סטטיסטיקות יומיות
+                if (data.dailyStats && Array.isArray(data.dailyStats)) {
+                    const existingStats = DB.get('dailyStats');
+                    const existingKeys = new Set(existingStats.map(s => `${s.creatorId}_${s.date}`));
+
+                    data.dailyStats.forEach(stat => {
+                        const key = `${stat.creatorId}_${stat.date}`;
+                        if (!existingKeys.has(key)) {
+                            existingStats.push(stat);
+                            stats.dailyStats++;
+                        }
+                    });
+                    DB.set('dailyStats', existingStats);
+                }
+
+                // סנכרון פוסטים
+                if (data.posts && Array.isArray(data.posts)) {
+                    const existingPosts = DB.get('posts');
+                    const existingIds = new Set(existingPosts.map(p => p.id));
+
+                    data.posts.forEach(post => {
+                        if (!existingIds.has(post.id)) {
+                            existingPosts.push(post);
+                            stats.posts++;
+                        }
+                    });
+                    DB.set('posts', existingPosts);
+                }
+
+                // רענון התצוגה
+                loadCreators();
+                loadStatsHistory();
+                loadPosts();
+
+                const statusMsg = `✅ סנכרון הושלם!
+
+📊 סיכום:
+• יוצרים חדשים: ${stats.creators}
+• סטטיסטיקות חדשות: ${stats.dailyStats}
+• פוסטים חדשים: ${stats.posts}
+• עדכון אחרון: ${data.lastUpdate || new Date().toISOString()}`;
+
+                showSyncStatus(statusMsg, 'success');
+                showToast('הסנכרון הושלם בהצלחה!');
+
+            } catch (error) {
+                console.error('Sync error:', error);
+                showSyncStatus(`❌ שגיאה בסנכרון: ${error.message}`, 'error');
+                showToast('שגיאה בסנכרון', 'error');
+            }
+        }
+
+        function showSyncStatus(message, type) {
+            const container = document.getElementById('syncStatus');
+            const content = document.getElementById('syncStatusContent');
+            container.style.display = 'block';
+            content.textContent = message;
+            content.style.whiteSpace = 'pre-wrap';
+
+            // צבע לפי סוג
+            if (type === 'loading') {
+                container.style.borderColor = 'var(--warning)';
+            } else if (type === 'success') {
+                container.style.borderColor = 'var(--success)';
+            } else if (type === 'error') {
+                container.style.borderColor = 'var(--danger)';
+            }
+        }
+
         // ============ AI REPORT ============
         function toggleApiKeyVisibility() {
             const input = document.getElementById('geminiApiKey');
@@ -2006,10 +2201,22 @@ ${Object.entries(data.platformStats).map(([platform, stats]) =>
             document.getElementById('statsDate').value = new Date().toISOString().split('T')[0];
             document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
 
-            // Load saved API key
+            // Load saved settings
             const settings = DB.getSettings();
+
+            // Load Gemini API key
             if (settings.geminiApiKey) {
                 document.getElementById('geminiApiKey').value = settings.geminiApiKey;
+            }
+
+            // Load Google Sheets URL
+            if (settings.googleSheetsUrl) {
+                document.getElementById('googleSheetsUrl').value = settings.googleSheetsUrl;
+            }
+
+            // Load auto-sync setting
+            if (settings.autoSync) {
+                document.getElementById('autoSync').checked = true;
             }
 
             // Load all data
@@ -2021,6 +2228,13 @@ ${Object.entries(data.platformStats).map(([platform, stats]) =>
             // Add some demo data if empty
             if (DB.get('creators').length === 0) {
                 addDemoData();
+            }
+
+            // Auto-sync from Google Sheets if enabled
+            if (settings.autoSync && settings.googleSheetsUrl) {
+                setTimeout(() => {
+                    syncFromGoogleSheets();
+                }, 1000);
             }
         }
 
