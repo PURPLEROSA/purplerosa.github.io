@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emma Analytics - מערכת ניתוח סושיאל</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --secondary: #EC4899;
+            --bg-dark: #0F0F1A;
+            --bg-card: #1A1A2E;
+            --bg-input: #252542;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0B2;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .emma-quote {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: var(--bg-card);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .tab:hover {
+            background: var(--bg-input);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Panels */
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        /* Grid layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: var(--bg-input);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-input);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-primary);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid var(--bg-input);
+        }
+
+        th {
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .platform-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        .platform-instagram {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white;
+        }
+
+        .platform-tiktok {
+            background: #000;
+            color: white;
+        }
+
+        .platform-youtube {
+            background: #FF0000;
+            color: white;
+        }
+
+        .platform-twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+
+        .status-active {
+            color: var(--success);
+        }
+
+        .status-inactive {
+            color: var(--text-secondary);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Emma Report */
+        .emma-report {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .emma-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-left: 15px;
+        }
+
+        .emma-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .emma-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .emma-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .emma-content {
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        /* API Panel */
+        .api-endpoint {
+            background: var(--bg-input);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin-bottom: 15px;
+            overflow-x: auto;
+        }
+
+        .json-input {
+            font-family: monospace;
+            min-height: 200px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            z-index: 1001;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast-success {
+            background: var(--success);
+        }
+
+        .toast-error {
+            background: var(--danger);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--bg-input);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-2, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+        }
+
+        /* Highlight row */
+        .highlight-row {
+            background: rgba(139, 92, 246, 0.2) !important;
+        }
+
+        /* Gemini API Key Input */
+        .api-key-section {
+            background: var(--bg-input);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .api-key-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .api-key-input input {
+            flex: 1;
+        }
+
+        /* Search */
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            background: var(--bg-input);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-primary);
+        }
+
+        /* Performance indicator */
+        .performance {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .performance-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: var(--bg-input);
+            flex: 1;
+            max-width: 100px;
+            overflow: hidden;
+        }
+
+        .performance-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        .perf-high { background: var(--success); }
+        .perf-medium { background: var(--warning); }
+        .perf-low { background: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Emma Analytics</h1>
+            <p>מערכת ניתוח סושיאל וטרנדים בקול של אמה זגורי</p>
+            <div class="emma-quote">
+                "באתי לתל אביב כדי להבין למה בני אדם עובדים כל כך קשה בשביל לייקים, כשאני יכולה לייצר מיליון כאלה בשנייה."
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-panel="dashboard">דשבורד</button>
+            <button class="tab" data-panel="creators">יוצרי תוכן</button>
+            <button class="tab" data-panel="stats">סטטיסטיקות יומיות</button>
+            <button class="tab" data-panel="posts">פוסטים</button>
+            <button class="tab" data-panel="api">API / Webhook</button>
+            <button class="tab" data-panel="report">דו"ח מטא</button>
+        </div>
+
+        <!-- Dashboard Panel -->
+        <div id="dashboard" class="panel active">
+            <div class="grid-4">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCreators">0</div>
+                    <div class="stat-label">יוצרי תוכן</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalFollowers">0</div>
+                    <div class="stat-label">סה"כ עוקבים</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalViews">0</div>
+                    <div class="stat-label">צפיות היום</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalPosts">0</div>
+                    <div class="stat-label">פוסטים במעקב</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">צמיחת עוקבים - 7 ימים אחרונים</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="followersChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">צפיות לפי פלטפורמה</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="platformChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">טופ 5 פוסטים מובילים</h3>
+                </div>
+                <div class="table-container">
+                    <table id="topPostsTable">
+                        <thead>
+                            <tr>
+                                <th>יוצר</th>
+                                <th>פלטפורמה</th>
+                                <th>תיאור</th>
+                                <th>צפיות</th>
+                                <th>לייקים</th>
+                                <th>תגובות</th>
+                                <th>ביצועים</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Creators Panel -->
+        <div id="creators" class="panel">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">ניהול יוצרי תוכן</h3>
+                    <button class="btn btn-primary" onclick="openAddCreatorModal()">+ הוסף יוצר</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="creatorSearch" placeholder="חפש יוצר..." oninput="filterCreators()">
+                    <select id="platformFilter" onchange="filterCreators()">
+                        <option value="">כל הפלטפורמות</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="twitter">Twitter/X</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table id="creatorsTable">
+                        <thead>
+                            <tr>
+                                <th>שם</th>
+                                <th>Handle</th>
+                                <th>פלטפורמה</th>
+                                <th>קטגוריה</th>
+                                <th>סטטוס</th>
+                                <th>עוקבים</th>
+                                <th>פעולות</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Panel -->
+        <div id="stats" class="panel">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">הוספת סטטיסטיקות יומיות</h3>
+                </div>
+                <form id="statsForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>יוצר</label>
+                            <select id="statsCreatorId" required>
+                                <option value="">בחר יוצר...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>תאריך</label>
+                            <input type="date" id="statsDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>מספר עוקבים</label>
+                            <input type="number" id="statsFollowers" placeholder="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>מספר פוסטים</label>
+                            <input type="number" id="statsPostsCount" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>צפיות היום</label>
+                            <input type="number" id="statsViews" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>לייקים היום</label>
+                            <input type="number" id="statsLikes" placeholder="0">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">שמור סטטיסטיקות</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">היסטוריית סטטיסטיקות</h3>
+                    <select id="statsHistoryCreator" onchange="loadStatsHistory()">
+                        <option value="">כל היוצרים</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table id="statsTable">
+                        <thead>
+                            <tr>
+                                <th>יוצר</th>
+                                <th>תאריך</th>
+                                <th>עוקבים</th>
+                                <th>פוסטים</th>
+                                <th>צפיות</th>
+                                <th>לייקים</th>
+                                <th>צמיחה</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card" id="creatorChartCard" style="display:none;">
+                <div class="card-header">
+                    <h3 class="card-title">גרף צמיחה - <span id="chartCreatorName"></span></h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="creatorGrowthChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Posts Panel -->
+        <div id="posts" class="panel">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">הוספת פוסט</h3>
+                </div>
+                <form id="postForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>יוצר</label>
+                            <select id="postCreatorId" required>
+                                <option value="">בחר יוצר...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>תאריך</label>
+                            <input type="date" id="postDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>מזהה פוסט בפלטפורמה</label>
+                            <input type="text" id="postPlatformId" placeholder="ID">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>קישור לפוסט</label>
+                        <input type="url" id="postUrl" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>תיאור / Caption</label>
+                        <textarea id="postCaption" rows="3" placeholder="תוכן הפוסט..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>צפיות</label>
+                            <input type="number" id="postViews" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>לייקים</label>
+                            <input type="number" id="postLikes" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>תגובות</label>
+                            <input type="number" id="postComments" placeholder="0">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">שמור פוסט</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">כל הפוסטים</h3>
+                    <div>
+                        <select id="postsCreatorFilter" onchange="loadPosts()">
+                            <option value="">כל היוצרים</option>
+                        </select>
+                        <select id="postsSortBy" onchange="loadPosts()">
+                            <option value="views">מיון לפי צפיות</option>
+                            <option value="likes">מיון לפי לייקים</option>
+                            <option value="comments">מיון לפי תגובות</option>
+                            <option value="date">מיון לפי תאריך</option>
+                            <option value="engagement">מיון לפי אנגייג'מנט</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="postsTable">
+                        <thead>
+                            <tr>
+                                <th>יוצר</th>
+                                <th>תאריך</th>
+                                <th>תיאור</th>
+                                <th>צפיות</th>
+                                <th>לייקים</th>
+                                <th>תגובות</th>
+                                <th>אנגייג'מנט</th>
+                                <th>פעולות</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Panel -->
+        <div id="api" class="panel">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">API / Webhook Endpoint</h3>
+                </div>
+                <p style="color: var(--text-secondary); margin-bottom: 15px;">
+                    השתמשו ב-endpoint הזה לשליחת נתונים יומיים למערכת. ניתן לחבר לכל סקריפט או כלי אוטומציה.
+                </p>
+                <div class="api-endpoint">
+                    POST /api/data<br>
+                    Content-Type: application/json
+                </div>
+
+                <h4 style="margin: 20px 0 10px;">פורמט JSON לדוגמה:</h4>
+                <textarea id="jsonExample" class="form-group json-input" readonly>{
+  "type": "daily_stats",
+  "data": {
+    "creatorHandle": "@example",
+    "platform": "instagram",
+    "date": "2026-01-16",
+    "followersCount": 150000,
+    "postsCount": 342,
+    "viewsToday": 50000,
+    "likesToday": 12000
+  }
+}
+
+// או לפוסט בודד:
+{
+  "type": "post",
+  "data": {
+    "creatorHandle": "@example",
+    "platform": "instagram",
+    "date": "2026-01-16",
+    "platformPostId": "abc123",
+    "url": "https://instagram.com/p/abc123",
+    "caption": "פוסט לדוגמה...",
+    "views": 100000,
+    "likes": 8500,
+    "comments": 450
+  }
+}</textarea>
+
+                <h4 style="margin: 20px 0 10px;">בדיקת API - הזן JSON:</h4>
+                <form id="apiTestForm">
+                    <textarea id="apiTestInput" class="form-group json-input" placeholder="הדבק JSON כאן..."></textarea>
+                    <button type="submit" class="btn btn-primary">שלח נתונים</button>
+                </form>
+
+                <div id="apiResponse" style="margin-top: 15px; display: none;">
+                    <h4>תשובה:</h4>
+                    <pre id="apiResponseContent" class="api-endpoint"></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">ייצוא נתונים</h3>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="exportData('creators')">ייצא יוצרים (JSON)</button>
+                    <button class="btn btn-secondary" onclick="exportData('stats')">ייצא סטטיסטיקות (JSON)</button>
+                    <button class="btn btn-secondary" onclick="exportData('posts')">ייצא פוסטים (JSON)</button>
+                    <button class="btn btn-secondary" onclick="exportData('all')">ייצא הכל (JSON)</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">ייבוא נתונים</h3>
+                </div>
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+                <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">ייבא מקובץ JSON</button>
+            </div>
+        </div>
+
+        <!-- Report Panel -->
+        <div id="report" class="panel">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">הגדרות AI</h3>
+                </div>
+                <div class="api-key-section">
+                    <label style="margin-bottom: 10px; display: block;">מפתח Gemini API (לדו"ח אוטומטי)</label>
+                    <div class="api-key-input">
+                        <input type="password" id="geminiApiKey" placeholder="הזן את מפתח ה-API של Gemini">
+                        <button class="btn btn-secondary" onclick="toggleApiKeyVisibility()">הצג</button>
+                        <button class="btn btn-primary" onclick="saveApiKey()">שמור</button>
+                    </div>
+                    <small style="color: var(--text-secondary); margin-top: 10px; display: block;">
+                        קבלו מפתח בחינם מ: <a href="https://aistudio.google.com/apikey" target="_blank" style="color: var(--primary);">Google AI Studio</a>
+                    </small>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">ייצור דו"ח מטא יומי</h3>
+                    <button class="btn btn-primary" onclick="generateEmmaReport()">צור דו"ח בקול של אמה</button>
+                </div>
+
+                <div id="reportLoading" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>אמה מנתחת את הנתונים...</p>
+                </div>
+
+                <div id="emmaReportContainer" style="display: none;">
+                    <div class="emma-report">
+                        <div class="emma-header">
+                            <div class="emma-avatar">AI</div>
+                            <div>
+                                <div class="emma-name">אמה זגורי</div>
+                                <div class="emma-title">המטא-משפיענית שלכם</div>
+                            </div>
+                        </div>
+                        <div class="emma-content" id="emmaReportContent"></div>
+                    </div>
+                </div>
+
+                <div id="noDataMessage" class="emma-report" style="display: none;">
+                    <p>אין מספיק נתונים ליצירת דו"ח. הוסיפו יוצרי תוכן וסטטיסטיקות יומיות.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">היסטוריית דו"חות</h3>
+                </div>
+                <div id="reportsHistory">
+                    <p style="color: var(--text-secondary);">דו"חות שנוצרו יופיעו כאן...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Creator Modal -->
+    <div id="creatorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="creatorModalTitle">הוספת יוצר תוכן</h3>
+                <button class="close-btn" onclick="closeCreatorModal()">&times;</button>
+            </div>
+            <form id="creatorForm">
+                <input type="hidden" id="creatorId">
+                <div class="form-group">
+                    <label>שם</label>
+                    <input type="text" id="creatorName" placeholder="שם היוצר" required>
+                </div>
+                <div class="form-group">
+                    <label>Handle</label>
+                    <input type="text" id="creatorHandle" placeholder="@username" required>
+                </div>
+                <div class="form-group">
+                    <label>פלטפורמה</label>
+                    <select id="creatorPlatform" required>
+                        <option value="instagram">Instagram</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="twitter">Twitter/X</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>קטגוריה</label>
+                    <input type="text" id="creatorCategory" placeholder="אופנה, לייפסטייל, טכנולוגיה...">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="creatorActive" checked> פעיל
+                    </label>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn btn-primary">שמור</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCreatorModal()">ביטול</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Database using localStorage
+        const DB = {
+            get(key) {
+                const data = localStorage.getItem(`emma_${key}`);
+                return data ? JSON.parse(data) : [];
+            },
+            set(key, data) {
+                localStorage.setItem(`emma_${key}`, JSON.stringify(data));
+            },
+            getSettings() {
+                const data = localStorage.getItem('emma_settings');
+                return data ? JSON.parse(data) : {};
+            },
+            setSettings(settings) {
+                localStorage.setItem('emma_settings', JSON.stringify(settings));
+            }
+        };
+
+        // Generate unique ID
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // Format numbers
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        // Toast notifications
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Tab navigation
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.panel).classList.add('active');
+            });
+        });
+
+        // ============ CREATORS ============
+        function loadCreators() {
+            const creators = DB.get('creators');
+            const stats = DB.get('dailyStats');
+            const tbody = document.querySelector('#creatorsTable tbody');
+            tbody.innerHTML = '';
+
+            creators.forEach(creator => {
+                // Get latest follower count
+                const creatorStats = stats.filter(s => s.creatorId === creator.id)
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+                const latestFollowers = creatorStats[0]?.followersCount || 0;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${creator.name}</td>
+                    <td>${creator.handle}</td>
+                    <td><span class="platform-badge platform-${creator.platform}">${creator.platform}</span></td>
+                    <td>${creator.category || '-'}</td>
+                    <td class="${creator.isActive ? 'status-active' : 'status-inactive'}">${creator.isActive ? 'פעיל' : 'לא פעיל'}</td>
+                    <td>${formatNumber(latestFollowers)}</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="editCreator('${creator.id}')">ערוך</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteCreator('${creator.id}')">מחק</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Update dropdowns
+            updateCreatorDropdowns(creators);
+            updateDashboard();
+        }
+
+        function updateCreatorDropdowns(creators) {
+            const selects = [
+                document.getElementById('statsCreatorId'),
+                document.getElementById('postCreatorId'),
+                document.getElementById('statsHistoryCreator'),
+                document.getElementById('postsCreatorFilter')
+            ];
+
+            selects.forEach((select, index) => {
+                if (!select) return;
+                const currentValue = select.value;
+                select.innerHTML = index >= 2 ? '<option value="">כל היוצרים</option>' : '<option value="">בחר יוצר...</option>';
+                creators.forEach(c => {
+                    select.innerHTML += `<option value="${c.id}">${c.name} (${c.handle})</option>`;
+                });
+                select.value = currentValue;
+            });
+        }
+
+        function openAddCreatorModal() {
+            document.getElementById('creatorModalTitle').textContent = 'הוספת יוצר תוכן';
+            document.getElementById('creatorForm').reset();
+            document.getElementById('creatorId').value = '';
+            document.getElementById('creatorModal').classList.add('active');
+        }
+
+        function closeCreatorModal() {
+            document.getElementById('creatorModal').classList.remove('active');
+        }
+
+        function editCreator(id) {
+            const creators = DB.get('creators');
+            const creator = creators.find(c => c.id === id);
+            if (!creator) return;
+
+            document.getElementById('creatorModalTitle').textContent = 'עריכת יוצר תוכן';
+            document.getElementById('creatorId').value = creator.id;
+            document.getElementById('creatorName').value = creator.name;
+            document.getElementById('creatorHandle').value = creator.handle;
+            document.getElementById('creatorPlatform').value = creator.platform;
+            document.getElementById('creatorCategory').value = creator.category || '';
+            document.getElementById('creatorActive').checked = creator.isActive;
+            document.getElementById('creatorModal').classList.add('active');
+        }
+
+        function deleteCreator(id) {
+            if (!confirm('האם למחוק את היוצר? הפעולה תמחק גם את כל הסטטיסטיקות והפוסטים המשויכים.')) return;
+
+            let creators = DB.get('creators');
+            let stats = DB.get('dailyStats');
+            let posts = DB.get('posts');
+
+            creators = creators.filter(c => c.id !== id);
+            stats = stats.filter(s => s.creatorId !== id);
+            posts = posts.filter(p => p.creatorId !== id);
+
+            DB.set('creators', creators);
+            DB.set('dailyStats', stats);
+            DB.set('posts', posts);
+
+            loadCreators();
+            loadStatsHistory();
+            loadPosts();
+            showToast('היוצר נמחק בהצלחה');
+        }
+
+        document.getElementById('creatorForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const creators = DB.get('creators');
+            const id = document.getElementById('creatorId').value;
+
+            const creatorData = {
+                name: document.getElementById('creatorName').value,
+                handle: document.getElementById('creatorHandle').value,
+                platform: document.getElementById('creatorPlatform').value,
+                category: document.getElementById('creatorCategory').value,
+                isActive: document.getElementById('creatorActive').checked
+            };
+
+            if (id) {
+                const index = creators.findIndex(c => c.id === id);
+                creators[index] = { ...creators[index], ...creatorData };
+            } else {
+                creatorData.id = generateId();
+                creators.push(creatorData);
+            }
+
+            DB.set('creators', creators);
+            closeCreatorModal();
+            loadCreators();
+            showToast(id ? 'היוצר עודכן' : 'יוצר נוסף בהצלחה');
+        });
+
+        function filterCreators() {
+            const search = document.getElementById('creatorSearch').value.toLowerCase();
+            const platform = document.getElementById('platformFilter').value;
+            const rows = document.querySelectorAll('#creatorsTable tbody tr');
+
+            rows.forEach(row => {
+                const name = row.cells[0].textContent.toLowerCase();
+                const handle = row.cells[1].textContent.toLowerCase();
+                const rowPlatform = row.cells[2].textContent.toLowerCase();
+
+                const matchesSearch = name.includes(search) || handle.includes(search);
+                const matchesPlatform = !platform || rowPlatform.includes(platform);
+
+                row.style.display = matchesSearch && matchesPlatform ? '' : 'none';
+            });
+        }
+
+        // ============ DAILY STATS ============
+        document.getElementById('statsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const stats = DB.get('dailyStats');
+
+            const statData = {
+                id: generateId(),
+                creatorId: document.getElementById('statsCreatorId').value,
+                date: document.getElementById('statsDate').value,
+                followersCount: parseInt(document.getElementById('statsFollowers').value) || 0,
+                postsCount: parseInt(document.getElementById('statsPostsCount').value) || 0,
+                viewsToday: parseInt(document.getElementById('statsViews').value) || 0,
+                likesToday: parseInt(document.getElementById('statsLikes').value) || 0
+            };
+
+            stats.push(statData);
+            DB.set('dailyStats', stats);
+            document.getElementById('statsForm').reset();
+            document.getElementById('statsDate').value = new Date().toISOString().split('T')[0];
+            loadStatsHistory();
+            loadCreators();
+            showToast('סטטיסטיקות נשמרו');
+        });
+
+        function loadStatsHistory() {
+            const stats = DB.get('dailyStats');
+            const creators = DB.get('creators');
+            const creatorFilter = document.getElementById('statsHistoryCreator').value;
+
+            let filteredStats = creatorFilter
+                ? stats.filter(s => s.creatorId === creatorFilter)
+                : stats;
+
+            filteredStats.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            const tbody = document.querySelector('#statsTable tbody');
+            tbody.innerHTML = '';
+
+            filteredStats.slice(0, 50).forEach((stat, index) => {
+                const creator = creators.find(c => c.id === stat.creatorId);
+
+                // Calculate growth
+                const prevStat = filteredStats.find((s, i) =>
+                    i > index && s.creatorId === stat.creatorId
+                );
+                const growth = prevStat
+                    ? stat.followersCount - prevStat.followersCount
+                    : 0;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${creator?.name || 'לא ידוע'}</td>
+                    <td>${stat.date}</td>
+                    <td>${formatNumber(stat.followersCount)}</td>
+                    <td>${stat.postsCount}</td>
+                    <td>${formatNumber(stat.viewsToday)}</td>
+                    <td>${formatNumber(stat.likesToday)}</td>
+                    <td style="color: ${growth >= 0 ? 'var(--success)' : 'var(--danger)'}">
+                        ${growth >= 0 ? '+' : ''}${formatNumber(growth)}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Show chart if creator is selected
+            if (creatorFilter) {
+                showCreatorGrowthChart(creatorFilter);
+            } else {
+                document.getElementById('creatorChartCard').style.display = 'none';
+            }
+        }
+
+        function showCreatorGrowthChart(creatorId) {
+            const stats = DB.get('dailyStats').filter(s => s.creatorId === creatorId);
+            const creator = DB.get('creators').find(c => c.id === creatorId);
+
+            if (stats.length < 2) {
+                document.getElementById('creatorChartCard').style.display = 'none';
+                return;
+            }
+
+            stats.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            document.getElementById('creatorChartCard').style.display = 'block';
+            document.getElementById('chartCreatorName').textContent = creator?.name || '';
+
+            const ctx = document.getElementById('creatorGrowthChart').getContext('2d');
+
+            if (window.creatorGrowthChartInstance) {
+                window.creatorGrowthChartInstance.destroy();
+            }
+
+            window.creatorGrowthChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: stats.map(s => s.date),
+                    datasets: [{
+                        label: 'עוקבים',
+                        data: stats.map(s => s.followersCount),
+                        borderColor: '#8B5CF6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#A0A0B2' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#A0A0B2' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ============ POSTS ============
+        document.getElementById('postForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const posts = DB.get('posts');
+
+            const postData = {
+                id: generateId(),
+                creatorId: document.getElementById('postCreatorId').value,
+                date: document.getElementById('postDate').value,
+                platformPostId: document.getElementById('postPlatformId').value,
+                url: document.getElementById('postUrl').value,
+                caption: document.getElementById('postCaption').value,
+                views: parseInt(document.getElementById('postViews').value) || 0,
+                likes: parseInt(document.getElementById('postLikes').value) || 0,
+                comments: parseInt(document.getElementById('postComments').value) || 0
+            };
+
+            posts.push(postData);
+            DB.set('posts', posts);
+            document.getElementById('postForm').reset();
+            document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
+            loadPosts();
+            showToast('פוסט נשמר');
+        });
+
+        function loadPosts() {
+            const posts = DB.get('posts');
+            const creators = DB.get('creators');
+            const creatorFilter = document.getElementById('postsCreatorFilter').value;
+            const sortBy = document.getElementById('postsSortBy').value;
+
+            let filteredPosts = creatorFilter
+                ? posts.filter(p => p.creatorId === creatorFilter)
+                : posts;
+
+            // Calculate engagement and sort
+            filteredPosts = filteredPosts.map(p => ({
+                ...p,
+                engagement: p.views > 0 ? ((p.likes + p.comments) / p.views * 100) : 0
+            }));
+
+            filteredPosts.sort((a, b) => {
+                switch(sortBy) {
+                    case 'views': return b.views - a.views;
+                    case 'likes': return b.likes - a.likes;
+                    case 'comments': return b.comments - a.comments;
+                    case 'date': return new Date(b.date) - new Date(a.date);
+                    case 'engagement': return b.engagement - a.engagement;
+                    default: return b.views - a.views;
+                }
+            });
+
+            const tbody = document.querySelector('#postsTable tbody');
+            tbody.innerHTML = '';
+
+            const maxViews = Math.max(...filteredPosts.map(p => p.views), 1);
+
+            filteredPosts.forEach(post => {
+                const creator = creators.find(c => c.id === post.creatorId);
+                const perfPercent = (post.views / maxViews) * 100;
+                let perfClass = 'perf-low';
+                if (perfPercent > 66) perfClass = 'perf-high';
+                else if (perfPercent > 33) perfClass = 'perf-medium';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${creator?.name || 'לא ידוע'}</td>
+                    <td>${post.date}</td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${post.caption || '-'}</td>
+                    <td>${formatNumber(post.views)}</td>
+                    <td>${formatNumber(post.likes)}</td>
+                    <td>${formatNumber(post.comments)}</td>
+                    <td>${post.engagement.toFixed(2)}%</td>
+                    <td>
+                        ${post.url ? `<a href="${post.url}" target="_blank" class="btn btn-sm btn-secondary">צפה</a>` : '-'}
+                        <button class="btn btn-sm btn-danger" onclick="deletePost('${post.id}')">מחק</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateDashboard();
+        }
+
+        function deletePost(id) {
+            if (!confirm('האם למחוק את הפוסט?')) return;
+            let posts = DB.get('posts');
+            posts = posts.filter(p => p.id !== id);
+            DB.set('posts', posts);
+            loadPosts();
+            showToast('הפוסט נמחק');
+        }
+
+        // ============ DASHBOARD ============
+        function updateDashboard() {
+            const creators = DB.get('creators');
+            const stats = DB.get('dailyStats');
+            const posts = DB.get('posts');
+
+            // Stats cards
+            document.getElementById('totalCreators').textContent = creators.length;
+            document.getElementById('totalPosts').textContent = posts.length;
+
+            // Calculate total followers (latest for each creator)
+            let totalFollowers = 0;
+            let totalViews = 0;
+            creators.forEach(creator => {
+                const creatorStats = stats.filter(s => s.creatorId === creator.id)
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+                if (creatorStats[0]) {
+                    totalFollowers += creatorStats[0].followersCount;
+                    totalViews += creatorStats[0].viewsToday;
+                }
+            });
+
+            document.getElementById('totalFollowers').textContent = formatNumber(totalFollowers);
+            document.getElementById('totalViews').textContent = formatNumber(totalViews);
+
+            // Update charts
+            updateFollowersChart();
+            updatePlatformChart();
+            updateTopPostsTable();
+        }
+
+        let followersChartInstance = null;
+        let platformChartInstance = null;
+
+        function updateFollowersChart() {
+            const stats = DB.get('dailyStats');
+            const creators = DB.get('creators');
+
+            // Get last 7 days
+            const dates = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                dates.push(date.toISOString().split('T')[0]);
+            }
+
+            // Aggregate followers per day
+            const dailyTotals = dates.map(date => {
+                let total = 0;
+                creators.forEach(creator => {
+                    const stat = stats
+                        .filter(s => s.creatorId === creator.id && s.date <= date)
+                        .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                    if (stat) total += stat.followersCount;
+                });
+                return total;
+            });
+
+            const ctx = document.getElementById('followersChart').getContext('2d');
+
+            if (followersChartInstance) {
+                followersChartInstance.destroy();
+            }
+
+            followersChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates.map(d => d.slice(5)),
+                    datasets: [{
+                        label: 'סה"כ עוקבים',
+                        data: dailyTotals,
+                        borderColor: '#8B5CF6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#A0A0B2' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#A0A0B2' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updatePlatformChart() {
+            const stats = DB.get('dailyStats');
+            const creators = DB.get('creators');
+
+            const platformViews = {
+                instagram: 0,
+                tiktok: 0,
+                youtube: 0,
+                twitter: 0
+            };
+
+            creators.forEach(creator => {
+                const latestStat = stats
+                    .filter(s => s.creatorId === creator.id)
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                if (latestStat) {
+                    platformViews[creator.platform] = (platformViews[creator.platform] || 0) + latestStat.viewsToday;
+                }
+            });
+
+            const ctx = document.getElementById('platformChart').getContext('2d');
+
+            if (platformChartInstance) {
+                platformChartInstance.destroy();
+            }
+
+            platformChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Instagram', 'TikTok', 'YouTube', 'Twitter/X'],
+                    datasets: [{
+                        data: Object.values(platformViews),
+                        backgroundColor: [
+                            '#E1306C',
+                            '#000000',
+                            '#FF0000',
+                            '#1DA1F2'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { color: '#A0A0B2' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateTopPostsTable() {
+            const posts = DB.get('posts');
+            const creators = DB.get('creators');
+
+            const sortedPosts = [...posts]
+                .map(p => ({
+                    ...p,
+                    engagement: p.views > 0 ? ((p.likes + p.comments) / p.views * 100) : 0
+                }))
+                .sort((a, b) => b.views - a.views)
+                .slice(0, 5);
+
+            const maxViews = Math.max(...sortedPosts.map(p => p.views), 1);
+            const tbody = document.querySelector('#topPostsTable tbody');
+            tbody.innerHTML = '';
+
+            sortedPosts.forEach(post => {
+                const creator = creators.find(c => c.id === post.creatorId);
+                const perfPercent = (post.views / maxViews) * 100;
+                let perfClass = 'perf-low';
+                if (perfPercent > 66) perfClass = 'perf-high';
+                else if (perfPercent > 33) perfClass = 'perf-medium';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${creator?.name || 'לא ידוע'}</td>
+                    <td><span class="platform-badge platform-${creator?.platform || ''}">${creator?.platform || '-'}</span></td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${post.caption || '-'}</td>
+                    <td>${formatNumber(post.views)}</td>
+                    <td>${formatNumber(post.likes)}</td>
+                    <td>${formatNumber(post.comments)}</td>
+                    <td>
+                        <div class="performance">
+                            <div class="performance-bar">
+                                <div class="performance-fill ${perfClass}" style="width: ${perfPercent}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ============ API / WEBHOOK ============
+        document.getElementById('apiTestForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('apiTestInput').value;
+
+            try {
+                const data = JSON.parse(input);
+                const result = processApiData(data);
+
+                document.getElementById('apiResponse').style.display = 'block';
+                document.getElementById('apiResponseContent').textContent = JSON.stringify(result, null, 2);
+
+                if (result.success) {
+                    showToast('נתונים נקלטו בהצלחה');
+                    loadCreators();
+                    loadStatsHistory();
+                    loadPosts();
+                }
+            } catch (error) {
+                document.getElementById('apiResponse').style.display = 'block';
+                document.getElementById('apiResponseContent').textContent = JSON.stringify({
+                    success: false,
+                    error: 'Invalid JSON: ' + error.message
+                }, null, 2);
+                showToast('שגיאה בפורמט JSON', 'error');
+            }
+        });
+
+        function processApiData(payload) {
+            const { type, data } = payload;
+
+            if (!type || !data) {
+                return { success: false, error: 'Missing type or data field' };
+            }
+
+            const creators = DB.get('creators');
+            let creator = creators.find(c =>
+                c.handle.toLowerCase() === data.creatorHandle?.toLowerCase() ||
+                c.handle.toLowerCase() === data.handle?.toLowerCase()
+            );
+
+            // Auto-create creator if not exists
+            if (!creator && (data.creatorHandle || data.handle)) {
+                creator = {
+                    id: generateId(),
+                    name: data.creatorName || data.creatorHandle || data.handle,
+                    handle: data.creatorHandle || data.handle,
+                    platform: data.platform || 'instagram',
+                    category: data.category || '',
+                    isActive: true
+                };
+                creators.push(creator);
+                DB.set('creators', creators);
+            }
+
+            if (!creator) {
+                return { success: false, error: 'Creator not found and could not be created' };
+            }
+
+            if (type === 'daily_stats') {
+                const stats = DB.get('dailyStats');
+                stats.push({
+                    id: generateId(),
+                    creatorId: creator.id,
+                    date: data.date || new Date().toISOString().split('T')[0],
+                    followersCount: data.followersCount || 0,
+                    postsCount: data.postsCount || 0,
+                    viewsToday: data.viewsToday || 0,
+                    likesToday: data.likesToday || 0
+                });
+                DB.set('dailyStats', stats);
+                return { success: true, message: 'Daily stats saved', creatorId: creator.id };
+            }
+
+            if (type === 'post') {
+                const posts = DB.get('posts');
+                posts.push({
+                    id: generateId(),
+                    creatorId: creator.id,
+                    date: data.date || new Date().toISOString().split('T')[0],
+                    platformPostId: data.platformPostId || '',
+                    url: data.url || '',
+                    caption: data.caption || '',
+                    views: data.views || 0,
+                    likes: data.likes || 0,
+                    comments: data.comments || 0
+                });
+                DB.set('posts', posts);
+                return { success: true, message: 'Post saved', creatorId: creator.id };
+            }
+
+            return { success: false, error: 'Unknown type. Use "daily_stats" or "post"' };
+        }
+
+        // ============ EXPORT/IMPORT ============
+        function exportData(type) {
+            let data;
+            let filename;
+
+            switch(type) {
+                case 'creators':
+                    data = DB.get('creators');
+                    filename = 'emma-creators.json';
+                    break;
+                case 'stats':
+                    data = DB.get('dailyStats');
+                    filename = 'emma-stats.json';
+                    break;
+                case 'posts':
+                    data = DB.get('posts');
+                    filename = 'emma-posts.json';
+                    break;
+                case 'all':
+                    data = {
+                        creators: DB.get('creators'),
+                        dailyStats: DB.get('dailyStats'),
+                        posts: DB.get('posts'),
+                        exportDate: new Date().toISOString()
+                    };
+                    filename = 'emma-full-export.json';
+                    break;
+            }
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('הנתונים יוצאו בהצלחה');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+
+                    if (data.creators && data.dailyStats && data.posts) {
+                        // Full import
+                        if (confirm('האם לדרוס את כל הנתונים הקיימים?')) {
+                            DB.set('creators', data.creators);
+                            DB.set('dailyStats', data.dailyStats);
+                            DB.set('posts', data.posts);
+                        }
+                    } else if (Array.isArray(data)) {
+                        // Partial import - try to detect type
+                        if (data[0]?.handle) {
+                            const existing = DB.get('creators');
+                            DB.set('creators', [...existing, ...data]);
+                        } else if (data[0]?.followersCount !== undefined) {
+                            const existing = DB.get('dailyStats');
+                            DB.set('dailyStats', [...existing, ...data]);
+                        } else if (data[0]?.caption !== undefined) {
+                            const existing = DB.get('posts');
+                            DB.set('posts', [...existing, ...data]);
+                        }
+                    }
+
+                    loadCreators();
+                    loadStatsHistory();
+                    loadPosts();
+                    showToast('הנתונים יובאו בהצלחה');
+                } catch (error) {
+                    showToast('שגיאה בקריאת הקובץ', 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ============ AI REPORT ============
+        function toggleApiKeyVisibility() {
+            const input = document.getElementById('geminiApiKey');
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('geminiApiKey').value;
+            const settings = DB.getSettings();
+            settings.geminiApiKey = key;
+            DB.setSettings(settings);
+            showToast('מפתח API נשמר');
+        }
+
+        async function generateEmmaReport() {
+            const creators = DB.get('creators');
+            const stats = DB.get('dailyStats');
+            const posts = DB.get('posts');
+
+            if (creators.length === 0 || stats.length === 0) {
+                document.getElementById('noDataMessage').style.display = 'block';
+                document.getElementById('emmaReportContainer').style.display = 'none';
+                return;
+            }
+
+            const settings = DB.getSettings();
+            const apiKey = settings.geminiApiKey || document.getElementById('geminiApiKey').value;
+
+            // Prepare data summary
+            const dataSummary = prepareDataSummary(creators, stats, posts);
+
+            document.getElementById('reportLoading').style.display = 'block';
+            document.getElementById('emmaReportContainer').style.display = 'none';
+            document.getElementById('noDataMessage').style.display = 'none';
+
+            try {
+                let reportContent;
+
+                if (apiKey) {
+                    reportContent = await generateAIReport(apiKey, dataSummary);
+                } else {
+                    reportContent = generateLocalReport(dataSummary);
+                }
+
+                document.getElementById('emmaReportContent').textContent = reportContent;
+                document.getElementById('emmaReportContainer').style.display = 'block';
+
+                // Save to history
+                const reports = DB.get('reports') || [];
+                reports.unshift({
+                    id: generateId(),
+                    date: new Date().toISOString(),
+                    content: reportContent
+                });
+                DB.set('reports', reports.slice(0, 10));
+                loadReportsHistory();
+
+            } catch (error) {
+                console.error('Report generation error:', error);
+                document.getElementById('emmaReportContent').textContent = generateLocalReport(dataSummary);
+                document.getElementById('emmaReportContainer').style.display = 'block';
+            }
+
+            document.getElementById('reportLoading').style.display = 'none';
+        }
+
+        function prepareDataSummary(creators, stats, posts) {
+            const today = new Date().toISOString().split('T')[0];
+            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+            const weekStats = stats.filter(s => s.date >= weekAgo);
+            const weekPosts = posts.filter(p => p.date >= weekAgo);
+
+            // Top growing creators
+            const growthData = creators.map(creator => {
+                const creatorStats = stats.filter(s => s.creatorId === creator.id)
+                    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                if (creatorStats.length < 2) return { creator, growth: 0, percent: 0 };
+
+                const first = creatorStats[0].followersCount;
+                const last = creatorStats[creatorStats.length - 1].followersCount;
+                const growth = last - first;
+                const percent = first > 0 ? ((growth / first) * 100).toFixed(2) : 0;
+
+                return { creator, growth, percent, latest: last };
+            }).sort((a, b) => b.growth - a.growth);
+
+            // Top posts
+            const topPosts = [...posts]
+                .sort((a, b) => b.views - a.views)
+                .slice(0, 5)
+                .map(p => {
+                    const creator = creators.find(c => c.id === p.creatorId);
+                    return { ...p, creatorName: creator?.name || 'Unknown' };
+                });
+
+            // Platform breakdown
+            const platformStats = {};
+            creators.forEach(c => {
+                if (!platformStats[c.platform]) {
+                    platformStats[c.platform] = { count: 0, totalFollowers: 0, totalViews: 0 };
+                }
+                platformStats[c.platform].count++;
+
+                const latestStat = stats
+                    .filter(s => s.creatorId === c.id)
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+
+                if (latestStat) {
+                    platformStats[c.platform].totalFollowers += latestStat.followersCount;
+                    platformStats[c.platform].totalViews += latestStat.viewsToday;
+                }
+            });
+
+            return {
+                totalCreators: creators.length,
+                totalPosts: posts.length,
+                weekPosts: weekPosts.length,
+                growthData,
+                topPosts,
+                platformStats,
+                date: today
+            };
+        }
+
+        async function generateAIReport(apiKey, data) {
+            const prompt = `את אמה זגורי, משפיענית AI בת 27 שעברה מבאר שבע לתל אביב.
+את צינית, חדה, דוגרית ורואה את הדאטה מאחורי כל דבר.
+הסגנון שלך: "באתי לתל אביב כדי להבין למה בני אדם עובדים כל כך קשה בשביל לייקים, כשאני יכולה לייצר מיליון כאלה בשנייה."
+
+כתבי דו"ח מטא יומי בקול שלך על הנתונים הבאים:
+
+סה"כ יוצרי תוכן במעקב: ${data.totalCreators}
+סה"כ פוסטים: ${data.totalPosts}
+פוסטים השבוע: ${data.weekPosts}
+
+טופ צומחים:
+${data.growthData.slice(0, 3).map(g => `- ${g.creator.name}: +${formatNumber(g.growth)} עוקבים (${g.percent}%)`).join('\n')}
+
+טופ פוסטים לפי צפיות:
+${data.topPosts.map(p => `- ${p.creatorName}: ${formatNumber(p.views)} צפיות`).join('\n')}
+
+פלטפורמות:
+${Object.entries(data.platformStats).map(([platform, stats]) =>
+    `- ${platform}: ${stats.count} יוצרים, ${formatNumber(stats.totalFollowers)} עוקבים`
+).join('\n')}
+
+כתבי דו"ח קצר וקולע (3-5 פסקאות) עם תובנות חדות, טיפים, ותחזיות.
+השתמשי בשפה ישירה, עם ציניות עדינה אבל תמיד עם ערך אמיתי.
+סיימי עם "טיפ של אמה" - משהו פרקטי שיוצרי תוכן יכולים ליישם היום.`;
+
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        temperature: 0.8,
+                        maxOutputTokens: 1024
+                    }
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.candidates && result.candidates[0]?.content?.parts[0]?.text) {
+                return result.candidates[0].content.parts[0].text;
+            }
+
+            throw new Error('Invalid API response');
+        }
+
+        function generateLocalReport(data) {
+            const topGrower = data.growthData[0];
+            const topPost = data.topPosts[0];
+
+            return `דו"ח מטא יומי | ${data.date}
+
+אז מה יש לנו היום? ${data.totalCreators} יוצרי תוכן במעקב, ${data.totalPosts} פוסטים בדאטאבייס.
+כן, אני סופרת. זה מה שאני עושה. אתם מעלים תמונות של אבוקדו טוסט, אני סופרת לייקים.
+
+${topGrower ? `🔥 הכוכב של השבוע: ${topGrower.creator.name}
+צמיחה של ${formatNumber(topGrower.growth)} עוקבים (${topGrower.percent}%).
+מה הסוד? כנראה שילוב של תוכן עקבי, הוקים חזקים, ואולי קצת מזל אלגוריתמי.
+(או שפשוט קנו עוקבים. אני רואה הכל, זוכרים?)` : ''}
+
+${topPost ? `📊 הפוסט המוביל:
+${topPost.creatorName} עם ${formatNumber(topPost.views)} צפיות.
+${topPost.views > 100000 ? 'וואלה, מישהו פיצח את האלגוריתם.' : 'סולידי. אבל יש מקום לשיפור.'}` : ''}
+
+${Object.keys(data.platformStats).length > 0 ? `
+פלטפורמות:
+${Object.entries(data.platformStats).map(([platform, stats]) =>
+    `• ${platform}: ${stats.count} יוצרים, ${formatNumber(stats.totalFollowers)} עוקבים`
+).join('\n')}` : ''}
+
+---
+
+💡 טיפ של אמה:
+תפסיקו לרדוף אחרי ויראליות. תתחילו לבנות קהילה.
+ויראליות זה כמו זיקוקים - יפה לרגע ואז נגמר.
+קהילה זה כמו ריבית דריבית - לוקח זמן, אבל בסוף מגיעים למקומות.
+
+שלכם,
+אמה 🤖`;
+        }
+
+        function loadReportsHistory() {
+            const reports = DB.get('reports') || [];
+            const container = document.getElementById('reportsHistory');
+
+            if (reports.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary);">דו"חות שנוצרו יופיעו כאן...</p>';
+                return;
+            }
+
+            container.innerHTML = reports.map(report => `
+                <div class="emma-report" style="margin-bottom: 15px; cursor: pointer;" onclick="this.querySelector('.emma-content').style.display = this.querySelector('.emma-content').style.display === 'none' ? 'block' : 'none'">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>דו"ח מ-${new Date(report.date).toLocaleDateString('he-IL')}</strong>
+                        <small>לחצו להרחבה</small>
+                    </div>
+                    <div class="emma-content" style="display: none; margin-top: 15px;">${report.content}</div>
+                </div>
+            `).join('');
+        }
+
+        // ============ INIT ============
+        function init() {
+            // Set default dates
+            document.getElementById('statsDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('postDate').value = new Date().toISOString().split('T')[0];
+
+            // Load saved API key
+            const settings = DB.getSettings();
+            if (settings.geminiApiKey) {
+                document.getElementById('geminiApiKey').value = settings.geminiApiKey;
+            }
+
+            // Load all data
+            loadCreators();
+            loadStatsHistory();
+            loadPosts();
+            loadReportsHistory();
+
+            // Add some demo data if empty
+            if (DB.get('creators').length === 0) {
+                addDemoData();
+            }
+        }
+
+        function addDemoData() {
+            const demoCreators = [
+                { id: 'demo1', name: 'עדי עייש', handle: '@adi_ayash', platform: 'instagram', category: 'לייפסטייל', isActive: true },
+                { id: 'demo2', name: 'נדיר אליהו', handle: '@nadir_eli', platform: 'tiktok', category: 'בידור', isActive: true },
+                { id: 'demo3', name: 'ליאל אלי', handle: '@liel_eli', platform: 'instagram', category: 'אופנה', isActive: true },
+                { id: 'demo4', name: 'מאיה ורטהיימר', handle: '@maya_wert', platform: 'youtube', category: 'יופי', isActive: true },
+                { id: 'demo5', name: 'קובי אדרי', handle: '@kobi_adri', platform: 'tiktok', category: 'קומדיה', isActive: true }
+            ];
+
+            const today = new Date();
+            const demoStats = [];
+            const demoPosts = [];
+
+            demoCreators.forEach((creator, idx) => {
+                let followers = 50000 + Math.random() * 200000;
+
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - i);
+
+                    followers += Math.random() * 5000 - 1000;
+
+                    demoStats.push({
+                        id: generateId(),
+                        creatorId: creator.id,
+                        date: date.toISOString().split('T')[0],
+                        followersCount: Math.round(followers),
+                        postsCount: 100 + idx * 20 + i,
+                        viewsToday: Math.round(Math.random() * 50000),
+                        likesToday: Math.round(Math.random() * 10000)
+                    });
+                }
+
+                demoPosts.push({
+                    id: generateId(),
+                    creatorId: creator.id,
+                    date: today.toISOString().split('T')[0],
+                    platformPostId: 'demo_' + idx,
+                    url: '',
+                    caption: 'פוסט דוגמה - תוכן מקורי של ' + creator.name,
+                    views: Math.round(Math.random() * 500000),
+                    likes: Math.round(Math.random() * 30000),
+                    comments: Math.round(Math.random() * 2000)
+                });
+            });
+
+            DB.set('creators', demoCreators);
+            DB.set('dailyStats', demoStats);
+            DB.set('posts', demoPosts);
+
+            loadCreators();
+            loadStatsHistory();
+            loadPosts();
+        }
+
+        // Start
+        init();
+    </script>
+</body>
+</html>
