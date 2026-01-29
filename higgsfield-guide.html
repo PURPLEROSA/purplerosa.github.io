@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinematic AI Video Masterclass | Higgsfield Guide</title>
+    <title>Cinematic AI Video Masterclass</title>
     <link rel="icon" type="image/jpeg" href="aigos.jpg">
     <style>
         * {
@@ -281,7 +281,7 @@
             margin-top: 1rem;
         }
 
-        /* Camera Movements Categories */
+        /* Category Section */
         .category-section {
             margin-bottom: 4rem;
         }
@@ -318,6 +318,90 @@
             background: rgba(99, 102, 241, 0.2);
             border-color: var(--primary);
             transform: translateY(-2px);
+        }
+
+        /* Prompt Structure */
+        .prompt-structure {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(15, 23, 42, 0.8));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .prompt-formula {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .formula-step {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .formula-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--success), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin: 0 auto 0.75rem;
+        }
+
+        .formula-title {
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-desc {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Keywords Grid */
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .keyword-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .keyword-category {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .keyword {
+            padding: 0.35rem 0.75rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--light);
         }
 
         /* Lens Section */
@@ -401,57 +485,91 @@
             color: var(--gray);
         }
 
-        /* Transitions Section */
-        .transition-grid {
+        /* Transitions Section - NEW DESIGN */
+        .transition-grid-new {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
         }
 
-        .transition-card {
+        .transition-card-new {
             background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(15, 23, 42, 0.8));
             border: 1px solid rgba(236, 72, 153, 0.2);
-            border-radius: 12px;
-            padding: 1.25rem;
-            text-align: center;
+            border-radius: 16px;
+            padding: 1.5rem;
             transition: all 0.3s ease;
         }
 
-        .transition-card:hover {
+        .transition-card-new:hover {
             transform: translateY(-4px);
             border-color: var(--secondary);
-            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.2);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.2);
         }
 
-        .transition-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+        .transition-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
         }
 
-        .transition-name {
-            font-size: 0.9rem;
+        .transition-name-new {
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--light);
         }
 
+        .transition-type {
+            padding: 0.25rem 0.75rem;
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--secondary);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .transition-prompt {
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.85rem;
+            color: var(--gray);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--secondary);
+            line-height: 1.6;
+        }
+
         /* Styles Section */
+        .styles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
         .style-card {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(15, 23, 42, 0.8));
             border: 1px solid rgba(245, 158, 11, 0.2);
             border-radius: 16px;
-            padding: 2rem;
+            padding: 1.5rem;
             transition: all 0.3s ease;
         }
 
         .style-card:hover {
             border-color: var(--warning);
+            transform: translateY(-3px);
         }
 
         .style-name {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: var(--warning);
             margin-bottom: 0.5rem;
+        }
+
+        .style-card p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.5;
         }
 
         /* Prompts Section */
@@ -486,7 +604,7 @@
             white-space: pre-wrap;
         }
 
-        /* AI Models Comparison */
+        /* AI Models */
         .model-card {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(15, 23, 42, 0.8));
             border: 1px solid rgba(99, 102, 241, 0.2);
@@ -558,6 +676,36 @@
             content: '>';
             color: var(--success);
             font-weight: 700;
+        }
+
+        .model-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .model-badge {
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-lipsync {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .badge-sfx {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--accent);
+        }
+
+        .badge-music {
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--secondary);
         }
 
         .model-best-for {
@@ -669,11 +817,12 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 2rem;
+            font-size: 0.85rem;
         }
 
         .comparison-table th,
         .comparison-table td {
-            padding: 1rem;
+            padding: 1rem 0.75rem;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -683,18 +832,30 @@
             color: var(--light);
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             letter-spacing: 0.1em;
         }
 
         .comparison-table td {
             color: var(--gray);
-            font-size: 0.9rem;
         }
 
         .comparison-table tr:hover td {
             background: rgba(99, 102, 241, 0.05);
             color: var(--light);
+        }
+
+        .table-check {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .table-partial {
+            color: var(--warning);
+        }
+
+        .table-no {
+            color: #ef4444;
         }
 
         /* Footer */
@@ -720,6 +881,43 @@
 
         .footer-link:hover {
             color: var(--secondary);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2rem 0;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box-content {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            margin: 4rem 0;
+        }
+
+        /* Code */
+        code {
+            background: rgba(99, 102, 241, 0.2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.85em;
+            color: var(--accent);
         }
 
         /* Responsive */
@@ -748,6 +946,19 @@
             .cards-grid {
                 grid-template-columns: 1fr;
             }
+
+            .transition-grid-new {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.75rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem 0.25rem;
+            }
         }
 
         /* Scroll animations */
@@ -761,43 +972,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-
-        /* Highlight code */
-        code {
-            background: rgba(99, 102, 241, 0.2);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-            font-size: 0.85em;
-            color: var(--accent);
-        }
-
-        /* Info boxes */
-        .info-box {
-            background: rgba(99, 102, 241, 0.1);
-            border-left: 4px solid var(--primary);
-            padding: 1.5rem;
-            border-radius: 0 12px 12px 0;
-            margin: 2rem 0;
-        }
-
-        .info-box-title {
-            font-weight: 600;
-            color: var(--light);
-            margin-bottom: 0.5rem;
-        }
-
-        .info-box-content {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Divider */
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            margin: 4rem 0;
-        }
     </style>
 </head>
 <body>
@@ -805,7 +979,7 @@
     <section class="hero">
         <div class="hero-content">
             <div class="hero-badge">
-                <span>Based on Higgsfield.ai</span>
+                <span>Professional AI Filmmaking Guide</span>
             </div>
             <h1>Cinematic AI Video Masterclass</h1>
             <p>Master the art of professional AI filmmaking with 50+ camera movements, cinematic lenses, stunning transitions, and pro-level prompting techniques.</p>
@@ -816,16 +990,16 @@
                     <div class="stat-label">Camera Movements</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-number">11</div>
-                    <div class="stat-label">Cinema Lenses</div>
+                    <div class="stat-number">26</div>
+                    <div class="stat-label">Visual Styles</div>
                 </div>
                 <div class="stat">
                     <div class="stat-number">6</div>
-                    <div class="stat-label">Camera Bodies</div>
+                    <div class="stat-label">AI Models</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-number">5</div>
-                    <div class="stat-label">AI Models</div>
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Transitions</div>
                 </div>
             </div>
         </div>
@@ -834,17 +1008,586 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
+            <a href="#prompts" class="nav-link">Prompt Engineering</a>
+            <a href="#models" class="nav-link">AI Models</a>
             <a href="#movements" class="nav-link">Camera Movements</a>
             <a href="#lenses" class="nav-link">Lenses & Optics</a>
-            <a href="#cameras" class="nav-link">Camera Bodies</a>
             <a href="#transitions" class="nav-link">Transitions</a>
             <a href="#styles" class="nav-link">Visual Styles</a>
-            <a href="#prompts" class="nav-link">Prompt Guide</a>
-            <a href="#models" class="nav-link">AI Models</a>
             <a href="#workflow" class="nav-link">Workflow</a>
             <a href="#tips" class="nav-link">Pro Tips</a>
         </div>
     </nav>
+
+    <!-- PROMPT ENGINEERING SECTION -->
+    <section id="prompts">
+        <div class="section-header">
+            <span class="section-tag">Prompt Engineering</span>
+            <h2 class="section-title">Cinematic Prompting Guide</h2>
+            <p class="section-desc">Master the professional structure for writing AI video prompts that deliver stunning, cinematic results every time.</p>
+        </div>
+
+        <!-- Professional Prompt Structure -->
+        <div class="prompt-structure fade-in">
+            <h3 style="color: var(--light); font-size: 1.25rem; margin-bottom: 1rem;">The Professional Prompt Formula</h3>
+            <div class="prompt-formula">
+                <div class="formula-step">
+                    <div class="formula-number">1</div>
+                    <div class="formula-title">Subject</div>
+                    <div class="formula-desc">Who/what is in frame. Age, clothing, mood, distinctive features.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">2</div>
+                    <div class="formula-title">Action</div>
+                    <div class="formula-desc">What the subject is doing. Use strong action verbs.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">3</div>
+                    <div class="formula-title">Environment</div>
+                    <div class="formula-desc">Location, setting, time of day, weather conditions.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">4</div>
+                    <div class="formula-title">Lighting</div>
+                    <div class="formula-desc">Light source, quality, direction, color temperature.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">5</div>
+                    <div class="formula-title">Camera</div>
+                    <div class="formula-desc">Movement type, lens, angle, distance from subject.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">6</div>
+                    <div class="formula-title">Style</div>
+                    <div class="formula-desc">Visual aesthetic, film stock, color grading, mood.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keywords by Style -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">Magic Keywords by Visual Style</h3>
+            <div class="keywords-grid">
+                <div class="keyword-card">
+                    <div class="keyword-category">Cinematic / Film Look</div>
+                    <div class="keyword-list">
+                        <span class="keyword">cinematic lighting</span>
+                        <span class="keyword">film grain</span>
+                        <span class="keyword">shallow depth of field</span>
+                        <span class="keyword">anamorphic</span>
+                        <span class="keyword">color graded</span>
+                        <span class="keyword">ARRI Alexa</span>
+                        <span class="keyword">35mm film</span>
+                        <span class="keyword">lens flare</span>
+                        <span class="keyword">bokeh</span>
+                        <span class="keyword">dramatic shadows</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Natural / Documentary</div>
+                    <div class="keyword-list">
+                        <span class="keyword">natural lighting</span>
+                        <span class="keyword">golden hour</span>
+                        <span class="keyword">handheld</span>
+                        <span class="keyword">candid moment</span>
+                        <span class="keyword">available light</span>
+                        <span class="keyword">authentic</span>
+                        <span class="keyword">unscripted feel</span>
+                        <span class="keyword">raw footage</span>
+                        <span class="keyword">observational</span>
+                        <span class="keyword">intimate</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Realistic / Photorealistic</div>
+                    <div class="keyword-list">
+                        <span class="keyword">photorealistic</span>
+                        <span class="keyword">hyperrealistic</span>
+                        <span class="keyword">8K resolution</span>
+                        <span class="keyword">RAW footage</span>
+                        <span class="keyword">true to life</span>
+                        <span class="keyword">physically accurate</span>
+                        <span class="keyword">real world</span>
+                        <span class="keyword">lifelike</span>
+                        <span class="keyword">high fidelity</span>
+                        <span class="keyword">unprocessed</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Animation / Stylized</div>
+                    <div class="keyword-list">
+                        <span class="keyword">3D animation</span>
+                        <span class="keyword">Pixar style</span>
+                        <span class="keyword">anime</span>
+                        <span class="keyword">cel-shaded</span>
+                        <span class="keyword">cartoon</span>
+                        <span class="keyword">stop motion</span>
+                        <span class="keyword">claymation</span>
+                        <span class="keyword">2D animated</span>
+                        <span class="keyword">hand-drawn</span>
+                        <span class="keyword">stylized rendering</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Dreamy / Ethereal</div>
+                    <div class="keyword-list">
+                        <span class="keyword">soft focus</span>
+                        <span class="keyword">hazy atmosphere</span>
+                        <span class="keyword">ethereal glow</span>
+                        <span class="keyword">pastel colors</span>
+                        <span class="keyword">dreamlike</span>
+                        <span class="keyword">surreal</span>
+                        <span class="keyword">magical realism</span>
+                        <span class="keyword">floating particles</span>
+                        <span class="keyword">light leaks</span>
+                        <span class="keyword">overexposed highlights</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Dark / Moody</div>
+                    <div class="keyword-list">
+                        <span class="keyword">noir lighting</span>
+                        <span class="keyword">high contrast</span>
+                        <span class="keyword">chiaroscuro</span>
+                        <span class="keyword">silhouette</span>
+                        <span class="keyword">low key</span>
+                        <span class="keyword">atmospheric fog</span>
+                        <span class="keyword">desaturated</span>
+                        <span class="keyword">teal and orange</span>
+                        <span class="keyword">cinematic shadows</span>
+                        <span class="keyword">mysterious</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Vintage / Retro</div>
+                    <div class="keyword-list">
+                        <span class="keyword">VHS aesthetic</span>
+                        <span class="keyword">Super 8mm</span>
+                        <span class="keyword">16mm film</span>
+                        <span class="keyword">70s color palette</span>
+                        <span class="keyword">analog artifacts</span>
+                        <span class="keyword">scan lines</span>
+                        <span class="keyword">faded colors</span>
+                        <span class="keyword">vintage grain</span>
+                        <span class="keyword">retro futurism</span>
+                        <span class="keyword">nostalgic</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Epic / Blockbuster</div>
+                    <div class="keyword-list">
+                        <span class="keyword">IMAX quality</span>
+                        <span class="keyword">sweeping crane shot</span>
+                        <span class="keyword">epic scale</span>
+                        <span class="keyword">Hollywood production</span>
+                        <span class="keyword">VFX quality</span>
+                        <span class="keyword">blockbuster</span>
+                        <span class="keyword">widescreen</span>
+                        <span class="keyword">massive scope</span>
+                        <span class="keyword">dramatic score feel</span>
+                        <span class="keyword">visual spectacle</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Camera Language -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">Camera Movement Keywords</h3>
+            <div class="keywords-grid">
+                <div class="keyword-card">
+                    <div class="keyword-category">Push / Pull Movements</div>
+                    <div class="keyword-list">
+                        <span class="keyword">dolly in</span>
+                        <span class="keyword">dolly out</span>
+                        <span class="keyword">push in slowly</span>
+                        <span class="keyword">pull back to reveal</span>
+                        <span class="keyword">tracking forward</span>
+                        <span class="keyword">reverse tracking</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Orbital Movements</div>
+                    <div class="keyword-list">
+                        <span class="keyword">orbit around</span>
+                        <span class="keyword">360 rotation</span>
+                        <span class="keyword">arc left</span>
+                        <span class="keyword">arc right</span>
+                        <span class="keyword">circling</span>
+                        <span class="keyword">revolving shot</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Vertical Movements</div>
+                    <div class="keyword-list">
+                        <span class="keyword">crane up</span>
+                        <span class="keyword">crane down</span>
+                        <span class="keyword">jib shot</span>
+                        <span class="keyword">rising shot</span>
+                        <span class="keyword">descending</span>
+                        <span class="keyword">aerial descent</span>
+                    </div>
+                </div>
+                <div class="keyword-card">
+                    <div class="keyword-category">Dynamic Movements</div>
+                    <div class="keyword-list">
+                        <span class="keyword">FPV drone</span>
+                        <span class="keyword">handheld shake</span>
+                        <span class="keyword">steadicam</span>
+                        <span class="keyword">whip pan</span>
+                        <span class="keyword">crash zoom</span>
+                        <span class="keyword">bullet time</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example Prompts -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">Professional Prompt Examples</h3>
+
+            <div class="prompt-card">
+                <span class="prompt-label">Cinematic Portrait</span>
+                <div class="prompt-text">A 30-year-old woman with flowing auburn hair, wearing a cream silk blouse, gazes thoughtfully out a rain-streaked window. Soft diffused daylight illuminates her face from the left, creating gentle shadows. The camera slowly dollies in from a medium shot to a close-up. Shot on ARRI Alexa with 85mm lens, shallow depth of field, subtle film grain, melancholic mood.</div>
+            </div>
+
+            <div class="prompt-card">
+                <span class="prompt-label">Action Sequence</span>
+                <div class="prompt-text">A masked parkour athlete in black tactical gear leaps across rooftops at sunset. Golden hour backlighting creates dramatic silhouette edges. FPV drone follows closely behind, banking and weaving through obstacles. High frame rate for slight slow motion, adrenaline-pumping energy, urban cityscape stretching to the horizon.</div>
+            </div>
+
+            <div class="prompt-card">
+                <span class="prompt-label">Product Showcase</span>
+                <div class="prompt-text">A luxury mechanical watch with gold accents rests on black velvet. Camera performs a slow 180-degree orbit, catching light reflections on the polished metal. Dramatic side lighting, macro lens detail on the watch face, shallow depth of field with creamy bokeh background, premium commercial aesthetic.</div>
+            </div>
+
+            <div class="prompt-card">
+                <span class="prompt-label">Natural Documentary</span>
+                <div class="prompt-text">A wild elephant walks slowly through African savanna at dawn. Warm golden light filters through acacia trees, dust particles floating in the air. Handheld telephoto lens creates intimate yet distant observation. Natural lighting, National Geographic quality, peaceful and majestic atmosphere.</div>
+            </div>
+
+            <div class="prompt-card">
+                <span class="prompt-label">Animated Style</span>
+                <div class="prompt-text">A cheerful robot character with big expressive eyes waves hello in a colorful futuristic city. Pixar-style 3D animation, vibrant color palette, bouncy cartoon physics, playful energy. Camera slowly pushes in as the robot smiles. Clean rendering, soft ambient occlusion, family-friendly aesthetic.</div>
+            </div>
+
+            <div class="prompt-card">
+                <span class="prompt-label">Horror / Suspense</span>
+                <div class="prompt-text">A single flickering candle illuminates an empty Victorian hallway. Camera creeps forward slowly, floorboards visible at the bottom of frame. Deep shadows conceal the far end, dust particles float in the candlelight. Handheld micro-movements add tension, desaturated color palette, dread-inducing atmosphere.</div>
+            </div>
+        </div>
+
+        <!-- Tips and Tricks -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">Tips & Tricks for Better Prompts</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>Be Specific, Not Vague</h3>
+                    <p>Instead of "cinematic," specify exactly what makes it cinematic: the lens, lighting, camera movement, color grade. "Cinematic" alone means nothing to the AI.</p>
+                    <span class="card-tag">Clarity</span>
+                </div>
+                <div class="card">
+                    <h3>Front-Load Important Details</h3>
+                    <p>Put your most important elements first. AI models weight the beginning of prompts more heavily. Subject and action should come before style descriptors.</p>
+                    <span class="card-tag">Priority</span>
+                </div>
+                <div class="card">
+                    <h3>Use Real Camera References</h3>
+                    <p>Reference real cameras (ARRI, RED, Sony Venice) and lenses (35mm, 50mm, 85mm) for authentic film looks. The AI understands these technical terms.</p>
+                    <span class="card-tag">Authenticity</span>
+                </div>
+                <div class="card">
+                    <h3>Describe the Light Source</h3>
+                    <p>Don't just say "good lighting." Specify: golden hour sunlight, neon signs, single candle, overcast sky, studio softbox. Light defines the mood.</p>
+                    <span class="card-tag">Lighting</span>
+                </div>
+                <div class="card">
+                    <h3>One Camera Move Per Shot</h3>
+                    <p>Stacking multiple complex movements creates chaos. Pick one clear movement and let it breathe. "Dolly in" is better than "dolly in while orbiting and tilting."</p>
+                    <span class="card-tag">Simplicity</span>
+                </div>
+                <div class="card">
+                    <h3>Include Emotional Keywords</h3>
+                    <p>Add words that describe the feeling: melancholic, triumphant, eerie, peaceful, chaotic, intimate. These guide the AI's interpretation of every element.</p>
+                    <span class="card-tag">Emotion</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">Common Mistakes to Avoid</h3>
+            <div class="cards-grid">
+                <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+                    <h3 style="color: #ef4444;">Too Many Subjects</h3>
+                    <p>Prompting for multiple characters doing different things confuses the model. Focus on one clear subject and action per generation.</p>
+                </div>
+                <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+                    <h3 style="color: #ef4444;">Contradictory Descriptors</h3>
+                    <p>"Dark moody lighting but also bright and cheerful" - pick one direction. Contradictions create incoherent results.</p>
+                </div>
+                <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+                    <h3 style="color: #ef4444;">Negative Prompts Overdone</h3>
+                    <p>Long lists of "no this, no that" are less effective than clearly stating what you DO want. Focus on positive descriptors.</p>
+                </div>
+                <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+                    <h3 style="color: #ef4444;">Ignoring Aspect Ratio</h3>
+                    <p>A vertical prompt in horizontal format loses composition. Match your prompt description to your output dimensions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- AI MODELS SECTION -->
+    <section id="models">
+        <div class="section-header">
+            <span class="section-tag">Multi-Model Platform</span>
+            <h2 class="section-title">AI Video Generation Models</h2>
+            <p class="section-desc">Compare the leading AI video models, each with unique strengths for different creative needs.</p>
+        </div>
+
+        <div class="cards-grid fade-in">
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-logo">S2</div>
+                    <div>
+                        <div class="model-name">Sora 2</div>
+                        <div class="model-company">OpenAI</div>
+                    </div>
+                </div>
+                <div class="model-strength">Realism King</div>
+                <ul class="model-features">
+                    <li>Industry-leading physics simulation with object permanence</li>
+                    <li>Most coherent motion and believable human movements</li>
+                    <li>Excellent at complex multi-subject interactions</li>
+                    <li>Superior understanding of real-world physics</li>
+                    <li>Best for photorealistic scenes requiring accuracy</li>
+                </ul>
+                <div class="model-badges">
+                    <span class="model-badge badge-lipsync">Lip-Sync: Native</span>
+                    <span class="model-badge badge-sfx">SFX: Auto-Generated</span>
+                    <span class="model-badge badge-music">Audio: Full Support</span>
+                </div>
+                <div class="model-best-for">
+                    <div class="model-best-for-label">Best For</div>
+                    <div class="model-best-for-text">Premium cinematic shots, realistic scenes, VFX-quality sequences, professional productions</div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-logo">V3</div>
+                    <div>
+                        <div class="model-name">Veo 3.1</div>
+                        <div class="model-company">Google DeepMind</div>
+                    </div>
+                </div>
+                <div class="model-strength">Visual Fidelity Master</div>
+                <ul class="model-features">
+                    <li>Exceptional detail rendering and texture quality</li>
+                    <li>Ingredients-to-Video for precise narrative control</li>
+                    <li>Best-in-class scale and lighting accuracy</li>
+                    <li>Native dialogue generation with lip movements</li>
+                    <li>Object-level editing for post-generation tweaks</li>
+                </ul>
+                <div class="model-badges">
+                    <span class="model-badge badge-lipsync">Lip-Sync: Excellent</span>
+                    <span class="model-badge badge-sfx">SFX: Dialogue + Ambient</span>
+                    <span class="model-badge badge-music">Audio: Full Suite</span>
+                </div>
+                <div class="model-best-for">
+                    <div class="model-best-for-label">Best For</div>
+                    <div class="model-best-for-text">Ad campaigns, b-roll footage, talking head content, commercial productions</div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-logo">W</div>
+                    <div>
+                        <div class="model-name">WAN 2.5</div>
+                        <div class="model-company">Alibaba</div>
+                    </div>
+                </div>
+                <div class="model-strength">Camera Control Expert</div>
+                <ul class="model-features">
+                    <li>50+ professional camera movement presets</li>
+                    <li>Best-in-class camera path definition and control</li>
+                    <li>Strong semantic compliance with prompts</li>
+                    <li>Native multimodal audio/video generation</li>
+                    <li>Accessible developer-friendly API workflows</li>
+                </ul>
+                <div class="model-badges">
+                    <span class="model-badge badge-lipsync">Lip-Sync: Good</span>
+                    <span class="model-badge badge-sfx">SFX: Synced Audio</span>
+                    <span class="model-badge badge-music">Audio: Integrated</span>
+                </div>
+                <div class="model-best-for">
+                    <div class="model-best-for-label">Best For</div>
+                    <div class="model-best-for-text">Complex camera movements, product demos, technical precision, cinematic B-roll</div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-logo">K</div>
+                    <div>
+                        <div class="model-name">Kling 2.6</div>
+                        <div class="model-company">Kuaishou</div>
+                    </div>
+                </div>
+                <div class="model-strength">Audio-Native Creator</div>
+                <ul class="model-features">
+                    <li>Video and sound generated simultaneously</li>
+                    <li>Can generate dialogue, ambient SFX, even singing</li>
+                    <li>Avatars 2.0 for human-like AI presenters</li>
+                    <li>Excellent humanized expression and emotion</li>
+                    <li>Complete audio-visual clips in single generation</li>
+                </ul>
+                <div class="model-badges">
+                    <span class="model-badge badge-lipsync">Lip-Sync: Excellent</span>
+                    <span class="model-badge badge-sfx">SFX: Full Generation</span>
+                    <span class="model-badge badge-music">Audio: Singing Support</span>
+                </div>
+                <div class="model-best-for">
+                    <div class="model-best-for-label">Best For</div>
+                    <div class="model-best-for-text">Social media ads, stylized mini-films, sound-ready shorts, AI presenters</div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-logo">M</div>
+                    <div>
+                        <div class="model-name">Minimax</div>
+                        <div class="model-company">MiniMax</div>
+                    </div>
+                </div>
+                <div class="model-strength">Speed Champion</div>
+                <ul class="model-features">
+                    <li>Fastest high-quality generation times</li>
+                    <li>Perfect mood and style continuity across clips</li>
+                    <li>Hailuo Agent for automated workflow pipelines</li>
+                    <li>Infinite canvas for combining multiple media</li>
+                    <li>Consistent character appearance across scenes</li>
+                </ul>
+                <div class="model-badges">
+                    <span class="model-badge badge-lipsync">Lip-Sync: Good</span>
+                    <span class="model-badge badge-sfx">SFX: Basic</span>
+                    <span class="model-badge badge-music">Audio: Integrated</span>
+                </div>
+                <div class="model-best-for">
+                    <div class="model-best-for-label">Best For</div>
+                    <div class="model-best-for-text">Rapid production, marketing teams, iterative workflows, quick turnarounds</div>
+                </div>
+            </div>
+
+            <div class="model-card">
+                <div class="model-header">
+                    <div class="model-logo" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">H</div>
+                    <div>
+                        <div class="model-name">Higgsfield Animation</div>
+                        <div class="model-company">Higgsfield AI</div>
+                    </div>
+                </div>
+                <div class="model-strength">Animation Specialist</div>
+                <ul class="model-features">
+                    <li>Specialized in stylized and animated content</li>
+                    <li>Unique character consistency technology</li>
+                    <li>Multi-model orchestration (Sora, Veo, WAN, Kling)</li>
+                    <li>Popcorn storyboarding for narrative sequences</li>
+                    <li>Recast for character face/style transfers</li>
+                </ul>
+                <div class="model-badges">
+                    <span class="model-badge badge-lipsync">Lip-Sync: Model-Dependent</span>
+                    <span class="model-badge badge-sfx">SFX: Via Integrations</span>
+                    <span class="model-badge badge-music">Audio: Multi-Source</span>
+                </div>
+                <div class="model-best-for">
+                    <div class="model-best-for-label">Best For</div>
+                    <div class="model-best-for-text">Animation projects, multi-scene stories, character-driven content, creative workflows</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <h3 class="category-title" style="margin-top: 3rem;">Quick Comparison</h3>
+        <div style="overflow-x: auto;">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Strength</th>
+                        <th>Lip-Sync</th>
+                        <th>Sound FX</th>
+                        <th>Music/Voice</th>
+                        <th>Speed</th>
+                        <th>Best Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sora 2</strong></td>
+                        <td>Physics & Realism</td>
+                        <td class="table-check">Excellent</td>
+                        <td class="table-check">Auto-Gen</td>
+                        <td class="table-check">Full</td>
+                        <td>~30s/12s</td>
+                        <td>Cinematic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Veo 3.1</strong></td>
+                        <td>Visual Fidelity</td>
+                        <td class="table-check">Excellent</td>
+                        <td class="table-check">Dialogue + SFX</td>
+                        <td class="table-check">Full Suite</td>
+                        <td>~45s</td>
+                        <td>Ads/Commercial</td>
+                    </tr>
+                    <tr>
+                        <td><strong>WAN 2.5</strong></td>
+                        <td>Camera Control</td>
+                        <td class="table-partial">Good</td>
+                        <td class="table-check">Synced</td>
+                        <td class="table-check">Integrated</td>
+                        <td>Fast</td>
+                        <td>Technical Shots</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kling 2.6</strong></td>
+                        <td>Audio Generation</td>
+                        <td class="table-check">Excellent</td>
+                        <td class="table-check">Full + Singing</td>
+                        <td class="table-check">Best-in-Class</td>
+                        <td>Moderate</td>
+                        <td>Social Content</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Minimax</strong></td>
+                        <td>Speed & Continuity</td>
+                        <td class="table-partial">Good</td>
+                        <td class="table-partial">Basic</td>
+                        <td class="table-check">Integrated</td>
+                        <td>Fastest</td>
+                        <td>Rapid Production</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Higgsfield</strong></td>
+                        <td>Animation + Multi-Model</td>
+                        <td class="table-partial">Varies</td>
+                        <td class="table-partial">Via Models</td>
+                        <td class="table-check">Multi-Source</td>
+                        <td>Varies</td>
+                        <td>Creative Projects</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="divider"></div>
 
     <!-- Camera Movements Section -->
     <section id="movements">
@@ -859,31 +1602,26 @@
             <h3 class="category-title">Dolly Movements</h3>
             <div class="cards-grid">
                 <div class="card">
-                    <div class="card-icon">></div>
                     <h3>Dolly In</h3>
                     <p>Camera pushes forward toward the subject for dramatic emphasis. Creates intimacy and draws viewer attention.</p>
                     <span class="card-tag">Centered Subject</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon"><</div>
                     <h3>Dolly Out</h3>
                     <p>Camera pulls away from subject to reveal more of the environment. Creates context and expansion.</p>
                     <span class="card-tag">Reveal Shot</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon"><<</div>
                     <h3>Super Dolly In/Out</h3>
                     <p>Exaggerated dolly movement with increased speed and distance for heightened dramatic effect.</p>
                     <span class="card-tag">High Impact</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">Z</div>
                     <h3>Dolly Zoom</h3>
                     <p>The "Vertigo effect" - dolly moves while zoom compensates, creating disorientation and unease.</p>
                     <span class="card-tag">Psychological</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">=</div>
                     <h3>Double Dolly</h3>
                     <p>Two coordinated dolly movements creating complex spatial relationships in scene.</p>
                     <span class="card-tag">Advanced</span>
@@ -896,25 +1634,21 @@
             <h3 class="category-title">Orbital & Arc Movements</h3>
             <div class="cards-grid">
                 <div class="card">
-                    <div class="card-icon">O</div>
                     <h3>360 Orbit</h3>
                     <p>Full circular movement around the subject. Creates dramatic reveal and emphasizes subject importance.</p>
                     <span class="card-tag">Centered Subject</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">(</div>
                     <h3>Arc Left</h3>
                     <p>Sweeping arc movement to the left, revealing new perspectives while maintaining subject focus.</p>
                     <span class="card-tag">Reveal</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">)</div>
                     <h3>Arc Right</h3>
                     <p>Sweeping arc movement to the right with smooth curved trajectory around the subject.</p>
                     <span class="card-tag">Reveal</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">@</div>
                     <h3>Lazy Susan</h3>
                     <p>Smooth, continuous rotation around subject like a turntable. Perfect for product showcases.</p>
                     <span class="card-tag">Product Shot</span>
@@ -927,31 +1661,26 @@
             <h3 class="category-title">Crane & Jib Movements</h3>
             <div class="cards-grid">
                 <div class="card">
-                    <div class="card-icon">^</div>
                     <h3>Crane Up</h3>
                     <p>Vertical lift revealing scene from above. Creates grandeur and establishes environment.</p>
                     <span class="card-tag">Establishing</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">v</div>
                     <h3>Crane Down</h3>
                     <p>Descending crane movement bringing focus down to subject level. Intimate reveal.</p>
                     <span class="card-tag">Reveal</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">~</div>
                     <h3>Crane Over The Head</h3>
                     <p>Sweeping overhead crane shot passing directly over the subject for dramatic effect.</p>
                     <span class="card-tag">Dramatic</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">J</div>
                     <h3>Jib Up/Down</h3>
                     <p>Smooth vertical jib arm movement with subtle arc. More controlled than full crane.</p>
                     <span class="card-tag">Controlled</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">P</div>
                     <h3>Aerial Pullback</h3>
                     <p>Combined upward and backward movement revealing vast environment from above.</p>
                     <span class="card-tag">Epic Scale</span>
@@ -964,25 +1693,21 @@
             <h3 class="category-title">Pan & Tilt Movements</h3>
             <div class="cards-grid">
                 <div class="card">
-                    <div class="card-icon"><-</div>
                     <h3>Pan Left/Right</h3>
                     <p>Horizontal rotation on fixed axis. Follows action or reveals horizontal space.</p>
                     <span class="card-tag">Follow Action</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">|</div>
                     <h3>Tilt Up/Down</h3>
                     <p>Vertical rotation on fixed axis. Reveals height or follows vertical movement.</p>
                     <span class="card-tag">Vertical Reveal</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">//</div>
                     <h3>Whip Pan</h3>
                     <p>Ultra-fast pan creating motion blur. Perfect for transitions or time jumps.</p>
                     <span class="card-tag">Transition</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">/</div>
                     <h3>Dutch Angle</h3>
                     <p>Tilted frame creating unease, tension, or stylized visual interest.</p>
                     <span class="card-tag">Stylized</span>
@@ -995,34 +1720,24 @@
             <h3 class="category-title">Zoom Movements</h3>
             <div class="cards-grid">
                 <div class="card">
-                    <div class="card-icon">+</div>
                     <h3>Zoom In/Out</h3>
                     <p>Standard focal length adjustment without camera movement. Draws attention.</p>
                     <span class="card-tag">Focus</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">!</div>
                     <h3>Crash Zoom In/Out</h3>
                     <p>Aggressive, fast zoom for dramatic emphasis. High-energy impact shot.</p>
                     <span class="card-tag">Impact</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">*</div>
                     <h3>Rapid Zoom</h3>
                     <p>Quick burst zoom in or out for sudden reveals or comedic timing.</p>
                     <span class="card-tag">Comedic</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">Y</div>
                     <h3>YoYo Zoom</h3>
                     <p>Alternating zoom in and out creating rhythmic, pulsing visual effect.</p>
                     <span class="card-tag">Stylized</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">E</div>
-                    <h3>Eating Zoom</h3>
-                    <p>Specialized zoom designed for food shots - slow, appetizing approach.</p>
-                    <span class="card-tag">Food Content</span>
                 </div>
             </div>
         </div>
@@ -1032,46 +1747,34 @@
             <h3 class="category-title">Specialized & POV Movements</h3>
             <div class="cards-grid">
                 <div class="card">
-                    <div class="card-icon">D</div>
                     <h3>FPV Drone</h3>
                     <p>First-person view drone flight with dynamic, swooping movements through space.</p>
                     <span class="card-tag">Wide/Scenic</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">B</div>
                     <h3>Bullet Time</h3>
                     <p>Frozen moment with camera spinning around subject. Iconic Matrix-style effect.</p>
                     <span class="card-tag">Action</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">S</div>
                     <h3>Snorricam</h3>
                     <p>Camera mounted to actor's body, keeping face centered while world moves behind.</p>
                     <span class="card-tag">Close-up Face</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">H</div>
                     <h3>Handheld</h3>
                     <p>Natural camera shake adding documentary feel and authentic tension.</p>
                     <span class="card-tag">Documentary</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">T</div>
                     <h3>Through Object In/Out</h3>
                     <p>Camera passes through keyholes, doorways, windows for surreal transitions.</p>
                     <span class="card-tag">Transition</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">I</div>
                     <h3>Eyes In</h3>
                     <p>Camera moves inside through the subject's eye for surreal, dreamlike POV.</p>
                     <span class="card-tag">Surreal</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">M</div>
-                    <h3>Mouth In</h3>
-                    <p>Camera enters through subject's mouth for dramatic or comedic interior reveal.</p>
-                    <span class="card-tag">Comedic/Horror</span>
                 </div>
             </div>
         </div>
@@ -1081,120 +1784,24 @@
             <h3 class="category-title">Vehicle & Motion Shots</h3>
             <div class="cards-grid">
                 <div class="card">
-                    <div class="card-icon">C</div>
                     <h3>Car Grip</h3>
                     <p>Mounted-car perspective for driving scenes with stable road-level tracking.</p>
                     <span class="card-tag">Driving</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">R</div>
                     <h3>Road Rush</h3>
                     <p>High-speed road-level shot with motion blur emphasizing velocity.</p>
                     <span class="card-tag">Speed</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">X</div>
                     <h3>Car Chasing</h3>
                     <p>Dynamic pursuit camera following vehicle action with dramatic angles.</p>
                     <span class="card-tag">Action</span>
                 </div>
                 <div class="card">
-                    <div class="card-icon">F</div>
                     <h3>Flying Cam Transition</h3>
                     <p>Aerial flying movement transitioning between scenes or locations.</p>
                     <span class="card-tag">Transition</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Time-Based Movements -->
-        <div class="category-section fade-in">
-            <h3 class="category-title">Time-Based Effects</h3>
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-icon">></div>
-                    <h3>Hyperlapse</h3>
-                    <p>Time-lapse with camera movement through space, compressing time while traveling.</p>
-                    <span class="card-tag">Time Effect</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">L</div>
-                    <h3>Timelapse Landscape</h3>
-                    <p>Static timelapse optimized for natural environments and weather changes.</p>
-                    <span class="card-tag">Nature</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">G</div>
-                    <h3>Timelapse Human</h3>
-                    <p>Timelapse designed for human activity and crowd movements.</p>
-                    <span class="card-tag">Urban</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">*</div>
-                    <h3>Timelapse Glam</h3>
-                    <p>Glamour timelapse with smooth lighting transitions for beauty content.</p>
-                    <span class="card-tag">Beauty</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">~</div>
-                    <h3>Low Shutter</h3>
-                    <p>Motion blur effect from slow shutter speed creating dreamy movement trails.</p>
-                    <span class="card-tag">Dreamy</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Additional Movements -->
-        <div class="category-section fade-in">
-            <h3 class="category-title">Additional Movements</h3>
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-icon">-</div>
-                    <h3>Static</h3>
-                    <p>Locked frame with no camera motion. Clean, focused composition.</p>
-                    <span class="card-tag">Classic</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">~</div>
-                    <h3>Wiggle</h3>
-                    <p>Subtle shake effect adding energy without full handheld chaos.</p>
-                    <span class="card-tag">Energy</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">*</div>
-                    <h3>Glam</h3>
-                    <p>Smooth beauty-focused movement with flattering angles for glamour shots.</p>
-                    <span class="card-tag">Beauty</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">^</div>
-                    <h3>Hero Cam</h3>
-                    <p>Low-angle heroic shot emphasizing power and dominance of subject.</p>
-                    <span class="card-tag">Power</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">@</div>
-                    <h3>Head Tracking</h3>
-                    <p>AI-powered tracking keeping head centered regardless of movement.</p>
-                    <span class="card-tag">Interview</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">O</div>
-                    <h3>Focus Change</h3>
-                    <p>Rack focus pulling attention between foreground and background elements.</p>
-                    <span class="card-tag">Depth</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">3</div>
-                    <h3>3D Rotation</h3>
-                    <p>Full three-dimensional rotation around subject with depth perspective.</p>
-                    <span class="card-tag">3D Effect</span>
-                </div>
-                <div class="card">
-                    <div class="card-icon">R</div>
-                    <h3>Robo Arm</h3>
-                    <p>Precision robotic arm movement with mechanical smoothness.</p>
-                    <span class="card-tag">Technical</span>
                 </div>
             </div>
         </div>
@@ -1208,13 +1815,11 @@
                 <span class="movement-tag">Aerial Pullback</span>
                 <span class="movement-tag">Arc Left</span>
                 <span class="movement-tag">Arc Right</span>
-                <span class="movement-tag">BTS</span>
-                <span class="movement-tag">Buckle Up</span>
                 <span class="movement-tag">Bullet Time</span>
                 <span class="movement-tag">Car Chasing</span>
                 <span class="movement-tag">Car Grip</span>
                 <span class="movement-tag">Crane Down</span>
-                <span class="movement-tag">Crane Over The Head</span>
+                <span class="movement-tag">Crane Over Head</span>
                 <span class="movement-tag">Crane Up</span>
                 <span class="movement-tag">Crash Zoom In</span>
                 <span class="movement-tag">Crash Zoom Out</span>
@@ -1222,14 +1827,12 @@
                 <span class="movement-tag">Dolly Left</span>
                 <span class="movement-tag">Dolly Out</span>
                 <span class="movement-tag">Dolly Right</span>
-                <span class="movement-tag">Dolly Zoom In</span>
-                <span class="movement-tag">Dolly Zoom Out</span>
+                <span class="movement-tag">Dolly Zoom</span>
                 <span class="movement-tag">Double Dolly</span>
                 <span class="movement-tag">Dutch Angle</span>
-                <span class="movement-tag">Eating Zoom</span>
                 <span class="movement-tag">Eyes In</span>
                 <span class="movement-tag">Fisheye</span>
-                <span class="movement-tag">Flying Cam Transition</span>
+                <span class="movement-tag">Flying Cam</span>
                 <span class="movement-tag">Focus Change</span>
                 <span class="movement-tag">FPV Drone</span>
                 <span class="movement-tag">Glam</span>
@@ -1237,31 +1840,23 @@
                 <span class="movement-tag">Head Tracking</span>
                 <span class="movement-tag">Hero Cam</span>
                 <span class="movement-tag">Hyperlapse</span>
-                <span class="movement-tag">Incline</span>
                 <span class="movement-tag">Jib Down</span>
                 <span class="movement-tag">Jib Up</span>
                 <span class="movement-tag">Lazy Susan</span>
                 <span class="movement-tag">Low Shutter</span>
                 <span class="movement-tag">Mouth In</span>
-                <span class="movement-tag">Object POV</span>
-                <span class="movement-tag">Overhead</span>
                 <span class="movement-tag">Pan Left</span>
                 <span class="movement-tag">Pan Right</span>
-                <span class="movement-tag">Rapid Zoom In</span>
-                <span class="movement-tag">Rapid Zoom Out</span>
+                <span class="movement-tag">Rapid Zoom</span>
                 <span class="movement-tag">Road Rush</span>
-                <span class="movement-tag">Robo Arm</span>
                 <span class="movement-tag">Snorricam</span>
                 <span class="movement-tag">Static</span>
                 <span class="movement-tag">Super Dolly In</span>
                 <span class="movement-tag">Super Dolly Out</span>
-                <span class="movement-tag">Through Object In</span>
-                <span class="movement-tag">Through Object Out</span>
+                <span class="movement-tag">Through Object</span>
                 <span class="movement-tag">Tilt Down</span>
                 <span class="movement-tag">Tilt Up</span>
-                <span class="movement-tag">Timelapse Glam</span>
-                <span class="movement-tag">Timelapse Human</span>
-                <span class="movement-tag">Timelapse Landscape</span>
+                <span class="movement-tag">Timelapse</span>
                 <span class="movement-tag">Whip Pan</span>
                 <span class="movement-tag">Wiggle</span>
                 <span class="movement-tag">YoYo Zoom</span>
@@ -1288,11 +1883,6 @@
                 <div class="lens-desc">Extreme perspective distortion. Epic landscapes and dramatic interiors.</div>
             </div>
             <div class="lens-card">
-                <div class="lens-value">18<span class="lens-unit">mm</span></div>
-                <div class="lens-name">Wide Angle</div>
-                <div class="lens-desc">Expansive scenes with manageable distortion. Great for establishing shots.</div>
-            </div>
-            <div class="lens-card">
                 <div class="lens-value">24<span class="lens-unit">mm</span></div>
                 <div class="lens-name">Wide Prime</div>
                 <div class="lens-desc">Cinematic storytelling standard. Environmental context with subject focus.</div>
@@ -1313,93 +1903,16 @@
                 <div class="lens-desc">Flattering compression. Product shots and beauty content excellence.</div>
             </div>
             <div class="lens-card">
-                <div class="lens-value">100<span class="lens-unit">mm</span></div>
-                <div class="lens-name">Telephoto</div>
-                <div class="lens-desc">Subject isolation with beautiful background compression.</div>
-            </div>
-            <div class="lens-card">
                 <div class="lens-value">135<span class="lens-unit">mm</span></div>
                 <div class="lens-name">Long Telephoto</div>
-                <div class="lens-desc">Maximum compression. Cinematic depth stacking.</div>
-            </div>
-        </div>
-
-        <div class="info-box">
-            <div class="info-box-title">Lens Glass Brands Available</div>
-            <div class="info-box-content">
-                Choose from premium cinema lens glass simulations: <code>Cooke</code> (warm, organic rendering), <code>Zeiss</code> (sharp, clinical precision), and <code>Panavision</code> (classic Hollywood character). Each brings unique bokeh, flare characteristics, and color science.
-            </div>
-        </div>
-
-        <!-- Lens Types -->
-        <div class="category-section fade-in" style="margin-top: 3rem;">
-            <h3 class="category-title">Lens Types</h3>
-            <div class="cards-grid">
-                <div class="card">
-                    <h3>Anamorphic</h3>
-                    <p>Wide dramatic aspect ratios with signature horizontal lens flares and oval bokeh. The Hollywood blockbuster look.</p>
-                    <span class="card-tag">21:9 Cinemascope</span>
-                </div>
-                <div class="card">
-                    <h3>Prime Lenses</h3>
-                    <p>Fixed focal length for maximum sharpness and light gathering. Each focal length optimized for specific storytelling.</p>
-                    <span class="card-tag">Maximum Quality</span>
-                </div>
-                <div class="card">
-                    <h3>Zoom Lenses</h3>
-                    <p>Variable focal length for dynamic shots and flexibility. Smooth zooms without cutting.</p>
-                    <span class="card-tag">Versatile</span>
-                </div>
-                <div class="card">
-                    <h3>Fisheye</h3>
-                    <p>Extreme barrel distortion for surreal, immersive perspectives. Skate videos and VR aesthetics.</p>
-                    <span class="card-tag">Stylized</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- Camera Bodies Section -->
-    <section id="cameras">
-        <div class="section-header">
-            <span class="section-tag">Virtual Production</span>
-            <h2 class="section-title">Professional Camera Bodies</h2>
-            <p class="section-desc">Replicate specific camera sensors and their unique characteristics. Build the camera that doesn't exist.</p>
-        </div>
-
-        <div class="camera-grid fade-in">
-            <div class="camera-card">
-                <div class="camera-brand">ARRI</div>
-                <div class="camera-model">Alexa 35</div>
-            </div>
-            <div class="camera-card">
-                <div class="camera-brand">RED</div>
-                <div class="camera-model">Komodo</div>
-            </div>
-            <div class="camera-card">
-                <div class="camera-brand">Sony</div>
-                <div class="camera-model">Venice</div>
-            </div>
-            <div class="camera-card">
-                <div class="camera-brand">Panavision</div>
-                <div class="camera-model">DXL2</div>
-            </div>
-            <div class="camera-card">
-                <div class="camera-brand">IMAX</div>
-                <div class="camera-model">Digital</div>
-            </div>
-            <div class="camera-card">
-                <div class="camera-brand">Blackmagic</div>
-                <div class="camera-model">URSA</div>
+                <div class="lens-desc">Maximum compression. Cinematic depth stacking and isolation.</div>
             </div>
         </div>
 
         <div class="info-box" style="margin-top: 2rem;">
-            <div class="info-box-title">Camera Sensor Controls</div>
+            <div class="info-box-title">Camera Bodies Available</div>
             <div class="info-box-content">
-                Configure your virtual camera with real optical physics: select camera body for color science, choose lens type for character, set focal length (12mm-135mm), and control aperture for depth of field. Cinema Studio defaults to native 21:9 CinemaScope aspect ratio.
+                Choose from premium cinema camera simulations: <code>ARRI Alexa 35</code> (Hollywood color science), <code>RED Komodo</code> (sharp, detailed), <code>Sony Venice</code> (versatile, clean), <code>Panavision</code> (classic film character), <code>IMAX</code> (epic scale), <code>Blackmagic</code> (accessible cinema look).
             </div>
         </div>
     </section>
@@ -1411,83 +1924,138 @@
         <div class="section-header">
             <span class="section-tag">VFX & Effects</span>
             <h2 class="section-title">Cinematic Transitions</h2>
-            <p class="section-desc">Studio-grade transitions to seamlessly blend photos and videos with stunning visual effects.</p>
+            <p class="section-desc">Studio-grade transitions with example prompts to seamlessly blend photos and videos with stunning visual effects.</p>
         </div>
 
-        <div class="transition-grid fade-in">
-            <div class="transition-card">
-                <div class="transition-icon">~</div>
-                <div class="transition-name">Seamless Transition</div>
+        <div class="transition-grid-new fade-in">
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Seamless Transition</span>
+                    <span class="transition-type">Smooth</span>
+                </div>
+                <div class="transition-prompt">Scene A transforms into Scene B through matching visual elements. Match camera movement direction, use similar colors or shapes at transition point for invisible blend.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">*</div>
-                <div class="transition-name">Smoke Transition</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Smoke Transition</span>
+                    <span class="transition-type">Elemental</span>
+                </div>
+                <div class="transition-prompt">Dense smoke billows across the frame from left to right, completely obscuring the scene. As smoke clears, new environment is revealed. Works best with moody, atmospheric content.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">^</div>
-                <div class="transition-name">Flame Transition</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Flame Transition</span>
+                    <span class="transition-type">Elemental</span>
+                </div>
+                <div class="transition-prompt">Fire erupts from center of frame, flames licking across entire screen. Intense orange and red consume the image before burning away to reveal next scene. High energy, dramatic.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">~</div>
-                <div class="transition-name">Water Bending</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Water Bending</span>
+                    <span class="transition-type">Elemental</span>
+                </div>
+                <div class="transition-prompt">Liquid water flows across frame in organic waves, distorting and morphing the image. Ripples create dreamlike distortion before settling into new scene. Fluid, graceful movement.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">@</div>
-                <div class="transition-name">Air Bending</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Air Bending</span>
+                    <span class="transition-type">Elemental</span>
+                </div>
+                <div class="transition-prompt">Invisible wind force sweeps across frame, particles and debris carried in swirling vortex. Scene dissolves into wind-blown fragments before reforming as new location.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">#</div>
-                <div class="transition-name">Earth Element</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Splash Transition</span>
+                    <span class="transition-type">Liquid</span>
+                </div>
+                <div class="transition-prompt">Colorful liquid splashes against invisible surface, splattering across frame in slow motion. Paint-like droplets create abstract moment before clearing to reveal next scene.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">!</div>
-                <div class="transition-name">Fire Element</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Melt Transition</span>
+                    <span class="transition-type">Morph</span>
+                </div>
+                <div class="transition-prompt">Image appears to melt like wax under heat, colors dripping downward. Surreal, viscous distortion transitions to new scene emerging from the melted remains.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">%</div>
-                <div class="transition-name">Splash Transition</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Plasma Explosion</span>
+                    <span class="transition-type">Energy</span>
+                </div>
+                <div class="transition-prompt">Bright plasma energy explodes from center, electric blue and white tendrils spreading outward. Sci-fi energy burst consumes frame before dissipating into next scene.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">&</div>
-                <div class="transition-name">Melt Transition</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Northern Lights</span>
+                    <span class="transition-type">Atmospheric</span>
+                </div>
+                <div class="transition-prompt">Aurora borealis ribbons dance across sky, greens and purples weaving through frame. Ethereal light curtains sweep scene away, revealing new environment beneath.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">+</div>
-                <div class="transition-name">Shadow Smoke</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Raven Transition</span>
+                    <span class="transition-type">Creature</span>
+                </div>
+                <div class="transition-prompt">A flock of ravens bursts across frame, black feathers filling the screen completely. Birds disperse to reveal transformed scene, dramatic and mysterious.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">=</div>
-                <div class="transition-name">Firelava</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Glitch Transition</span>
+                    <span class="transition-type">Digital</span>
+                </div>
+                <div class="transition-prompt">Digital corruption glitches across frame - RGB splits, scan lines, pixel sorting. Tech malfunction aesthetic before signal clears to new, clean scene.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">$</div>
-                <div class="transition-name">Plasma Explosion</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Ink Drop</span>
+                    <span class="transition-type">Organic</span>
+                </div>
+                <div class="transition-prompt">Black ink drops into water, spreading in organic tendrils. Slow-motion diffusion creates abstract patterns before ink consumes frame and clears to new scene.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">*</div>
-                <div class="transition-name">Northern Lights</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Light Leak</span>
+                    <span class="transition-type">Film</span>
+                </div>
+                <div class="transition-prompt">Warm light leaks bleed in from frame edge, overexposing image with golden and orange flares. Vintage film artifact washes out scene before fading to reveal next.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">?</div>
-                <div class="transition-name">Mystification</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Shatter Transition</span>
+                    <span class="transition-type">Impact</span>
+                </div>
+                <div class="transition-prompt">Image shatters like glass, fragments flying toward camera. Broken pieces fall away revealing new scene behind. Impactful, dramatic moment of destruction.</div>
             </div>
-            <div class="transition-card">
-                <div class="transition-icon">></div>
-                <div class="transition-name">Raven Transition</div>
+
+            <div class="transition-card-new">
+                <div class="transition-header">
+                    <span class="transition-name-new">Particle Dissolve</span>
+                    <span class="transition-type">Sci-Fi</span>
+                </div>
+                <div class="transition-prompt">Subject dissolves into thousands of glowing particles, floating and swirling before reforming as new scene. Thanos-snap style disintegration effect.</div>
             </div>
         </div>
 
         <div class="info-box" style="margin-top: 2rem;">
-            <div class="info-box-title">Transition Technical Specs</div>
+            <div class="info-box-title">Transition Technical Tips</div>
             <div class="info-box-content">
-                <ul style="list-style: none; margin-top: 0.5rem;">
-                    <li>- Max input clip length: 5 seconds each</li>
-                    <li>- Transition effect duration: 5 seconds</li>
-                    <li>- Maximum final output: 15 seconds</li>
-                    <li>- Optimal transition timing: 1-1.5 seconds</li>
-                    <li>- Stack up to 3 motion types in Mix mode</li>
-                    <li>- Works with photo-to-photo, video-to-video, or mixed</li>
-                </ul>
+                <strong>Timing:</strong> 1-1.5 seconds for action, 2-3 seconds for emotional moments<br>
+                <strong>Matching:</strong> End Scene A and start Scene B with similar colors/shapes for smoothest blends<br>
+                <strong>Direction:</strong> Match movement direction (left-to-right in A, continues in B)<br>
+                <strong>Max clips:</strong> 5 seconds input each, 15 seconds total output
             </div>
         </div>
     </section>
@@ -1499,326 +2067,114 @@
         <div class="section-header">
             <span class="section-tag">Film Looks</span>
             <h2 class="section-title">Visual Styles & Filters</h2>
-            <p class="section-desc">One-click filters to define the mood, tone, and era of your video with authentic film aesthetics.</p>
+            <p class="section-desc">26 unique visual styles to define the mood, tone, and era of your video with authentic aesthetics.</p>
         </div>
 
-        <div class="cards-grid fade-in">
-            <div class="style-card">
-                <div class="style-name">VHS</div>
-                <p style="color: var(--gray);">Vintage video tape look with authentic grain, scan lines, color bleeding, and tracking distortion. Perfect for nostalgic 80s/90s aesthetics.</p>
-                <span class="card-tag" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">Retro</span>
-            </div>
-            <div class="style-card">
-                <div class="style-name">Super 8mm</div>
-                <p style="color: var(--gray);">Grainy, warm-toned nostalgic aesthetic with film gate weave and organic texture. Home movie memories and indie film vibes.</p>
-                <span class="card-tag" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">Vintage</span>
-            </div>
+        <div class="styles-grid fade-in">
             <div class="style-card">
                 <div class="style-name">Cinematic</div>
-                <p style="color: var(--gray);">High-resolution polished visuals with balanced contrast, professional color grading, and modern film look. The default pro choice.</p>
-                <span class="card-tag" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">Professional</span>
+                <p>High-resolution polished visuals with balanced contrast, professional color grading, and modern film look. The default pro choice.</p>
             </div>
             <div class="style-card">
                 <div class="style-name">Anamorphic</div>
-                <p style="color: var(--gray);">Wide dramatic aspect ratios (21:9) with signature horizontal lens flares, oval bokeh, and epic cinema framing.</p>
-                <span class="card-tag" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">Blockbuster</span>
+                <p>Wide dramatic 21:9 aspect ratio with signature horizontal lens flares, oval bokeh, and epic cinema framing.</p>
+            </div>
+            <div class="style-card">
+                <div class="style-name">VHS Retro</div>
+                <p>Vintage video tape look with authentic grain, scan lines, color bleeding, and tracking distortion. 80s/90s nostalgia.</p>
+            </div>
+            <div class="style-card">
+                <div class="style-name">Super 8mm</div>
+                <p>Grainy, warm-toned nostalgic aesthetic with film gate weave and organic texture. Home movie memories.</p>
             </div>
             <div class="style-card">
                 <div class="style-name">16mm Film</div>
-                <p style="color: var(--gray);">Combine the grit of 16mm film grain with modern sharpness. Documentary and indie film hybrid look.</p>
-                <span class="card-tag" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">Indie</span>
+                <p>Indie film aesthetic combining grit of 16mm grain with modern sharpness. Documentary and art house vibes.</p>
             </div>
             <div class="style-card">
-                <div class="style-name">Abstract</div>
-                <p style="color: var(--gray);">Experimental visual processing for avant-garde, music videos, and artistic expression beyond realism.</p>
-                <span class="card-tag" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">Experimental</span>
+                <div class="style-name">35mm Film</div>
+                <p>Classic Hollywood film stock look with natural grain, rich colors, and timeless cinema quality.</p>
             </div>
-        </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- Prompts Guide Section -->
-    <section id="prompts">
-        <div class="section-header">
-            <span class="section-tag">Prompt Engineering</span>
-            <h2 class="section-title">Cinematic Prompting Guide</h2>
-            <p class="section-desc">Craft effective prompts combining clear descriptions with cinematic language for professional results.</p>
-        </div>
-
-        <!-- Prompt Structure -->
-        <div class="category-section fade-in">
-            <h3 class="category-title">Prompt Structure Formula</h3>
-            <div class="cards-grid">
-                <div class="card">
-                    <h3>1. Main Subject</h3>
-                    <p>Begin with a clear, vivid description. Include clothing, appearance, mood, or character traits. Be specific about who or what is in frame.</p>
-                </div>
-                <div class="card">
-                    <h3>2. Action or Movement</h3>
-                    <p>Describe what the subject is doing using strong action verbs. This defines the motion that happens during the camera move.</p>
-                </div>
-                <div class="card">
-                    <h3>3. Camera Language</h3>
-                    <p>Use specific terms: "dolly in," "orbit," "handheld," "FPV." Avoid vague words like "cinematic" or "dynamic."</p>
-                </div>
-                <div class="card">
-                    <h3>4. Environment Details</h3>
-                    <p>Describe the setting, lighting conditions, time of day, and atmosphere. This context helps the AI render the scene correctly.</p>
-                </div>
+            <div class="style-card">
+                <div class="style-name">Noir</div>
+                <p>High contrast black and white with dramatic shadows, silhouettes, and mysterious atmosphere. Detective drama.</p>
             </div>
-        </div>
-
-        <!-- Example Prompts -->
-        <div class="category-section fade-in">
-            <h3 class="category-title">Professional Prompt Examples</h3>
-
-            <div class="prompt-card">
-                <span class="prompt-label">Cinematic Car Chase</span>
-                <div class="prompt-text">A single continuous cinematic shot - bright midday sun overhead, harsh light casting sharp shadows on the asphalt. The camera is mounted on a tracking rig low to the ground, following a speeding sedan as it tears down an empty highway. The air shimmers with heat, mirage waves visible over the road.</div>
+            <div class="style-card">
+                <div class="style-name">Cyberpunk</div>
+                <p>Neon-drenched night scenes, magenta and cyan color palette, rain-slicked streets, holographic elements.</p>
             </div>
-
-            <div class="prompt-card">
-                <span class="prompt-label">Action Scene</span>
-                <div class="prompt-text">A masked figure leaps across a rooftop under the moonlit sky, the camera tilting upwards to follow his arc, city lights glowing below. Handheld movement adds tension as the figure lands and rolls into a sprint.</div>
+            <div class="style-card">
+                <div class="style-name">Vaporwave</div>
+                <p>Pastel pinks and blues, glitch art, Greek statues, palm trees, 80s nostalgia meets digital surrealism.</p>
             </div>
-
-            <div class="prompt-card">
-                <span class="prompt-label">Portrait with Movement</span>
-                <div class="prompt-text">The presenter smiles and waves as the camera arcs left, revealing a modern studio backdrop with soft key lighting. 50mm lens, shallow depth of field, subtle bokeh in background.</div>
+            <div class="style-card">
+                <div class="style-name">Golden Hour</div>
+                <p>Warm, amber-tinted sunlight of magic hour. Soft shadows, lens flares, romantic and dreamy atmosphere.</p>
             </div>
-
-            <div class="prompt-card">
-                <span class="prompt-label">Through Object Shot</span>
-                <div class="prompt-text">Camera pushes through a vintage keyhole, emerging into a candlelit Victorian parlor where a woman in period dress reads a letter by firelight. Through Object In movement, warm golden tones.</div>
+            <div class="style-card">
+                <div class="style-name">Blue Hour</div>
+                <p>Cool twilight tones before sunrise or after sunset. Deep blues with subtle warm accents, contemplative mood.</p>
             </div>
-
-            <div class="prompt-card">
-                <span class="prompt-label">FPV Drone Action</span>
-                <div class="prompt-text">FPV drone swoops through a neon-lit Tokyo alleyway at night, weaving between hanging lanterns and steam vents, rain droplets catching the colorful light as the camera banks and accelerates toward the main street.</div>
+            <div class="style-card">
+                <div class="style-name">Teal & Orange</div>
+                <p>Hollywood blockbuster color grade. Complementary teal shadows and orange highlights for maximum pop.</p>
             </div>
-
-            <div class="prompt-card">
-                <span class="prompt-label">Product Showcase</span>
-                <div class="prompt-text">Lazy Susan orbit around a luxury watch on black velvet, 85mm macro lens, dramatic side lighting creating golden reflections on the metal case. Slow, elegant rotation revealing every detail.</div>
+            <div class="style-card">
+                <div class="style-name">Bleach Bypass</div>
+                <p>Desaturated, high contrast look with metallic highlights. Gritty war film and action movie aesthetic.</p>
             </div>
-        </div>
-
-        <!-- Common Mistakes -->
-        <div class="category-section fade-in">
-            <h3 class="category-title">Common Mistakes to Avoid</h3>
-            <div class="cards-grid">
-                <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
-                    <h3 style="color: #ef4444;">Vague Motion Terms</h3>
-                    <p>Using "cinematic" or "dynamic" doesn't tell the model how to move. The AI guesses, creating inconsistent results.</p>
-                    <p style="margin-top: 0.5rem; color: var(--success);">Fix: Use specific verbs like "dolly in," "orbit," "handheld"</p>
-                </div>
-                <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
-                    <h3 style="color: #ef4444;">Missing Environment</h3>
-                    <p>Describing only the subject without context leaves the AI to invent surroundings that may not match your vision.</p>
-                    <p style="margin-top: 0.5rem; color: var(--success);">Fix: Add lighting, location, time of day, atmosphere</p>
-                </div>
-                <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
-                    <h3 style="color: #ef4444;">Stacking Too Many Moves</h3>
-                    <p>Combining multiple complex camera movements often creates chaotic, unprofessional results.</p>
-                    <p style="margin-top: 0.5rem; color: var(--success);">Fix: One clear camera move usually looks more cinematic</p>
-                </div>
-                <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
-                    <h3 style="color: #ef4444;">Wrong Input for Movement</h3>
-                    <p>Using close-ups for FPV drone or wide shots for Snorricam creates mismatched, awkward results.</p>
-                    <p style="margin-top: 0.5rem; color: var(--success);">Fix: Match input type to movement requirements</p>
-                </div>
+            <div class="style-card">
+                <div class="style-name">Kodachrome</div>
+                <p>Iconic warm film stock with rich reds, punchy saturation, and vintage photography character.</p>
             </div>
-        </div>
-
-        <!-- Camera Terms Reference -->
-        <div class="info-box">
-            <div class="info-box-title">Reliable Camera Terms for Prompts</div>
-            <div class="info-box-content">
-                <code>Dolly in / Dolly out</code> - Moves camera closer or farther<br>
-                <code>Orbit around subject</code> - Circles the character<br>
-                <code>Handheld shake</code> - Adds natural tension<br>
-                <code>FPV / Drone view</code> - Floating or fast directional motion<br>
-                <code>Crane up / Crane down</code> - Vertical elevation changes<br>
-                <code>Pan left / Pan right</code> - Horizontal rotation<br>
-                <code>Tilt up / Tilt down</code> - Vertical rotation
+            <div class="style-card">
+                <div class="style-name">Portra 400</div>
+                <p>Soft, creamy skin tones with pastel highlights. Fashion and portrait photography favorite.</p>
             </div>
-        </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- AI Models Section -->
-    <section id="models">
-        <div class="section-header">
-            <span class="section-tag">Multi-Model Platform</span>
-            <h2 class="section-title">AI Video Generation Models</h2>
-            <p class="section-desc">Access the top 5 AI video models of 2025-2026 in one platform, each with unique strengths for different creative needs.</p>
-        </div>
-
-        <div class="cards-grid fade-in">
-            <div class="model-card">
-                <div class="model-header">
-                    <div class="model-logo">S2</div>
-                    <div>
-                        <div class="model-name">Sora 2</div>
-                        <div class="model-company">OpenAI</div>
-                    </div>
-                </div>
-                <div class="model-strength">Realism King</div>
-                <ul class="model-features">
-                    <li>Physics simulation with object permanence</li>
-                    <li>Coherent motion and believable humans</li>
-                    <li>Native audio generation</li>
-                    <li>Higher fidelity output</li>
-                    <li>12-second video in ~30 seconds</li>
-                </ul>
-                <div class="model-best-for">
-                    <div class="model-best-for-label">Best For</div>
-                    <div class="model-best-for-text">Premium cinematic shots, realistic scenes, VFX-like sequences</div>
-                </div>
+            <div class="style-card">
+                <div class="style-name">Cross Process</div>
+                <p>Film developed in wrong chemicals creating surreal color shifts. Unexpected greens and magentas.</p>
             </div>
-
-            <div class="model-card">
-                <div class="model-header">
-                    <div class="model-logo">V3</div>
-                    <div>
-                        <div class="model-name">Veo 3.1</div>
-                        <div class="model-company">Google</div>
-                    </div>
-                </div>
-                <div class="model-strength">Visual Fidelity</div>
-                <ul class="model-features">
-                    <li>Ingredients to Video for narrative control</li>
-                    <li>Frames to Video for seamless transitions</li>
-                    <li>Native audio with dialogue and SFX</li>
-                    <li>Object-level editing capabilities</li>
-                    <li>Scale and lighting expertise</li>
-                </ul>
-                <div class="model-best-for">
-                    <div class="model-best-for-label">Best For</div>
-                    <div class="model-best-for-text">Ad cuts, b-roll, campaigns requiring consistent camera moves</div>
-                </div>
+            <div class="style-card">
+                <div class="style-name">Infrared</div>
+                <p>False color infrared photography. White foliage, dark skies, dreamlike otherworldly landscape.</p>
             </div>
-
-            <div class="model-card">
-                <div class="model-header">
-                    <div class="model-logo">W</div>
-                    <div>
-                        <div class="model-name">WAN 2.5</div>
-                        <div class="model-company">Alibaba</div>
-                    </div>
-                </div>
-                <div class="model-strength">Camera Mastery</div>
-                <ul class="model-features">
-                    <li>Native multimodal audio/video model</li>
-                    <li>Text/image-to-video with synced sound</li>
-                    <li>Strong semantic compliance</li>
-                    <li>Accessible developer workflows</li>
-                    <li>Professional camera control system</li>
-                </ul>
-                <div class="model-best-for">
-                    <div class="model-best-for-label">Best For</div>
-                    <div class="model-best-for-text">Audio-paired content, product demos, developer integrations</div>
-                </div>
+            <div class="style-card">
+                <div class="style-name">Technicolor</div>
+                <p>Saturated, vibrant colors of classic Hollywood. Bold reds, deep blues, theatrical presence.</p>
             </div>
-
-            <div class="model-card">
-                <div class="model-header">
-                    <div class="model-logo">K</div>
-                    <div>
-                        <div class="model-name">Kling 2.6</div>
-                        <div class="model-company">Kuaishou</div>
-                    </div>
-                </div>
-                <div class="model-strength">Audio-Native Creator</div>
-                <ul class="model-features">
-                    <li>Video and sound generated together</li>
-                    <li>Dialogue, ambient SFX, even singing</li>
-                    <li>Complete clips in one pass</li>
-                    <li>Avatars 2.0 for human-like AI presenters</li>
-                    <li>Humanized expression excellence</li>
-                </ul>
-                <div class="model-best-for">
-                    <div class="model-best-for-label">Best For</div>
-                    <div class="model-best-for-text">Social ads, stylized mini-films, sound-ready shorts</div>
-                </div>
+            <div class="style-card">
+                <div class="style-name">Wes Anderson</div>
+                <p>Symmetrical compositions, pastel palette, whimsical production design, storybook aesthetic.</p>
             </div>
-
-            <div class="model-card">
-                <div class="model-header">
-                    <div class="model-logo">M</div>
-                    <div>
-                        <div class="model-name">Minimax</div>
-                        <div class="model-company">MiniMax</div>
-                    </div>
-                </div>
-                <div class="model-strength">Speed & Continuity</div>
-                <ul class="model-features">
-                    <li>Fastest high-quality generation</li>
-                    <li>Perfect mood continuity</li>
-                    <li>Hailuo Agent for workflow automation</li>
-                    <li>Infinite canvas combining media types</li>
-                    <li>Immediate visual quality</li>
-                </ul>
-                <div class="model-best-for">
-                    <div class="model-best-for-label">Best For</div>
-                    <div class="model-best-for-text">Marketers, agencies, social storytellers, solo artists</div>
-                </div>
+            <div class="style-card">
+                <div class="style-name">Wong Kar-wai</div>
+                <p>Lush, saturated colors, step-printed slow motion, romantic urban nights, melancholic beauty.</p>
             </div>
-        </div>
-
-        <!-- Model Comparison Table -->
-        <h3 class="category-title" style="margin-top: 3rem;">Quick Comparison</h3>
-        <div style="overflow-x: auto;">
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Model</th>
-                        <th>Core Strength</th>
-                        <th>Audio</th>
-                        <th>Speed</th>
-                        <th>Best Use Case</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Sora 2</strong></td>
-                        <td>Physics & Realism</td>
-                        <td>Native</td>
-                        <td>~30s/12s</td>
-                        <td>Cinematic Shots</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Veo 3.1</strong></td>
-                        <td>Visual Fidelity</td>
-                        <td>Native + Dialogue</td>
-                        <td>~45s/clip</td>
-                        <td>Ad Campaigns</td>
-                    </tr>
-                    <tr>
-                        <td><strong>WAN 2.5</strong></td>
-                        <td>Camera Control</td>
-                        <td>Synced</td>
-                        <td>Fast</td>
-                        <td>Product Demos</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Kling 2.6</strong></td>
-                        <td>Audio Generation</td>
-                        <td>Complete A/V</td>
-                        <td>Moderate</td>
-                        <td>Social Content</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Minimax</strong></td>
-                        <td>Speed & Continuity</td>
-                        <td>Integrated</td>
-                        <td>Fastest</td>
-                        <td>Rapid Production</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="style-card">
+                <div class="style-name">Blade Runner</div>
+                <p>Dark, smoky atmosphere with neon penetrating fog. Industrial noir meets sci-fi dystopia.</p>
+            </div>
+            <div class="style-card">
+                <div class="style-name">Studio Ghibli</div>
+                <p>Hand-painted animation style with soft edges, watercolor skies, and magical naturalism.</p>
+            </div>
+            <div class="style-card">
+                <div class="style-name">Anime</div>
+                <p>Bold outlines, expressive eyes, speed lines, dynamic action poses, Japanese animation style.</p>
+            </div>
+            <div class="style-card">
+                <div class="style-name">Comic Book</div>
+                <p>Bold colors, halftone dots, ink outlines, Ben-Day dots, graphic novel aesthetic.</p>
+            </div>
+            <div class="style-card">
+                <div class="style-name">Oil Painting</div>
+                <p>Visible brush strokes, rich impasto texture, classical art impression, museum quality.</p>
+            </div>
+            <div class="style-card">
+                <div class="style-name">Watercolor</div>
+                <p>Soft, flowing pigments with paper texture. Delicate, ethereal, artistic impression.</p>
+            </div>
         </div>
     </section>
 
@@ -1836,50 +2192,50 @@
             <div class="workflow-step">
                 <div class="step-number">1</div>
                 <div class="step-content">
-                    <h4>Upload Your Hero Frame</h4>
-                    <p>Start with a high-quality reference image. This locks your visual style - lighting, color, character appearance. The model will maintain consistency from this frame.</p>
+                    <h4>Write Your Prompt First</h4>
+                    <p>Use the 6-part formula: Subject + Action + Environment + Lighting + Camera + Style. Get specific before generating.</p>
                 </div>
             </div>
             <div class="workflow-step">
                 <div class="step-number">2</div>
                 <div class="step-content">
-                    <h4>Select Camera Body & Lens</h4>
-                    <p>Choose your virtual camera (ARRI, RED, Sony) and lens configuration. Set focal length based on your shot type - wide for environment, 50mm for portraits, 85mm for glamour.</p>
+                    <h4>Choose Your AI Model</h4>
+                    <p>Match the model to your need: Sora for realism, Kling for audio, WAN for camera control, Minimax for speed.</p>
                 </div>
             </div>
             <div class="workflow-step">
                 <div class="step-number">3</div>
                 <div class="step-content">
-                    <h4>Choose Camera Movement</h4>
-                    <p>Select 1-3 cinematic presets. Start simple - one clear move is more cinematic than stacked complexity. Match movement to input type (FPV needs wide shots, Snorricam needs close-ups).</p>
+                    <h4>Upload Reference (Optional)</h4>
+                    <p>Start with a high-quality reference image to lock visual style, lighting, and character appearance for consistency.</p>
                 </div>
             </div>
             <div class="workflow-step">
                 <div class="step-number">4</div>
                 <div class="step-content">
-                    <h4>Write Your Prompt</h4>
-                    <p>Describe the action that happens during the camera move. Camera Control locks your subject positioning while the prompt defines what happens. Use specific verbs and environment details.</p>
+                    <h4>Select Camera Movement</h4>
+                    <p>Pick 1-2 movements maximum. Match input type to movement (wide shots for FPV, close-ups for Snorricam).</p>
                 </div>
             </div>
             <div class="workflow-step">
                 <div class="step-number">5</div>
                 <div class="step-content">
                     <h4>Apply Visual Style</h4>
-                    <p>Choose your film look - VHS for retro, Cinematic for modern, Anamorphic for blockbuster. This sets color grading, grain, and aspect ratio.</p>
+                    <p>Choose film look that matches your story's mood. Consider era, genre, and emotional tone.</p>
                 </div>
             </div>
             <div class="workflow-step">
                 <div class="step-number">6</div>
                 <div class="step-content">
-                    <h4>Adjust Timing & Generate</h4>
-                    <p>Set video duration (up to 10 seconds), toggle Slow Motion for dreamy high-frame-rate look, add Start/End frames for clean cuts. Hit Generate.</p>
+                    <h4>Generate & Iterate</h4>
+                    <p>Generate, review, refine prompt, regenerate. Each iteration teaches you what works. Save successful prompts.</p>
                 </div>
             </div>
             <div class="workflow-step">
                 <div class="step-number">7</div>
                 <div class="step-content">
-                    <h4>Add Transitions & VFX</h4>
-                    <p>Upload clips to Transitions tool, select effects (Smoke, Flame, Seamless), and blend scenes. Stack multiple clips for longer sequences.</p>
+                    <h4>Add Transitions</h4>
+                    <p>Connect scenes with appropriate transitions. Match energy levels and use visual continuity for seamless flow.</p>
                 </div>
             </div>
         </div>
@@ -1915,72 +2271,52 @@
                     <div class="tip-title">Keep Motion Simple</div>
                 </div>
                 <div class="tip-content">
-                    One clear camera move usually looks more cinematic than stacked moves. The physics engine creates realistic inertia and speed curves - let it breathe. If combining movements, limit to 2-3 and ensure they complement each other (e.g., Dolly In + Dutch Angle, or Crane Up + 360 Orbit).
+                    One clear camera move usually looks more cinematic than stacked moves. The physics engine creates realistic inertia and speed curves - let it breathe. If combining movements, limit to 2-3 and ensure they complement each other.
                 </div>
             </div>
 
             <div class="tip-box">
                 <div class="tip-header">
                     <div class="tip-icon">3</div>
-                    <div class="tip-title">Use Start/End Frames</div>
+                    <div class="tip-title">Use Reference Images</div>
                 </div>
                 <div class="tip-content">
                     <strong>Start Frame</strong> locks the opening look for consistent style.<br>
-                    <strong>End Frame</strong> locks a clean finish for cuts, thumbnails, or CTAs.<br>
-                    This gives you control over exactly how scenes begin and end for professional editing.
+                    <strong>End Frame</strong> locks a clean finish for cuts and thumbnails.<br>
+                    Reference images give you control over exactly how scenes begin and end.
                 </div>
             </div>
 
             <div class="tip-box">
                 <div class="tip-header">
                     <div class="tip-icon">4</div>
-                    <div class="tip-title">Leverage Presets</div>
+                    <div class="tip-title">Aspect Ratio Strategy</div>
                 </div>
                 <div class="tip-content">
-                    Presets are ready-made camera moves, styles, and templates that help generate cinematic clips without building from scratch. Benefits: faster generations, more consistent output, less prompt tweaking. Use them as starting points, then customize.
+                    <strong>21:9 CinemaScope</strong> - Maximum cinematic impact, film-like framing<br>
+                    <strong>16:9 Horizontal</strong> - YouTube, presentations, traditional video<br>
+                    <strong>9:16 Vertical</strong> - TikTok, Instagram Reels, Stories<br>
+                    <strong>1:1 Square</strong> - Instagram feed, consistent crop
                 </div>
             </div>
 
             <div class="tip-box">
                 <div class="tip-header">
                     <div class="tip-icon">5</div>
-                    <div class="tip-title">Transition Timing</div>
+                    <div class="tip-title">Build a Prompt Library</div>
                 </div>
                 <div class="tip-content">
-                    Transitions work best at 1-1.5 seconds duration. Longer transitions can feel sluggish, shorter ones may feel jarring. For action sequences, go shorter. For emotional moments, let transitions breathe longer.
+                    Save prompts that work. Build templates for different shot types: establishing, dialogue, action, product. Iterate on winners rather than starting from scratch each time.
                 </div>
             </div>
 
             <div class="tip-box">
                 <div class="tip-header">
                     <div class="tip-icon">6</div>
-                    <div class="tip-title">Layer Movements for Transitions</div>
+                    <div class="tip-title">Test Multiple Models</div>
                 </div>
                 <div class="tip-content">
-                    Use camera movements as transitions: combine FPV Drone + Super Dolly In to move between scenes smoothly. Stack effects like Glitch, Roll, or Thunder Sparks to completely transform how you move from one scene to the next.
-                </div>
-            </div>
-
-            <div class="tip-box">
-                <div class="tip-header">
-                    <div class="tip-icon">7</div>
-                    <div class="tip-title">Aspect Ratio Strategy</div>
-                </div>
-                <div class="tip-content">
-                    <strong>21:9 CinemaScope</strong> - Maximum cinematic impact, film-like framing<br>
-                    <strong>16:9 Horizontal</strong> - YouTube, presentations, traditional video<br>
-                    <strong>9:16 Vertical</strong> - TikTok, Instagram Reels, Stories, shorts<br>
-                    <strong>3:4 Portrait</strong> - Instagram feed, product showcases
-                </div>
-            </div>
-
-            <div class="tip-box">
-                <div class="tip-header">
-                    <div class="tip-icon">8</div>
-                    <div class="tip-title">Build Impossible Cameras</div>
-                </div>
-                <div class="tip-content">
-                    Combine effects that don't exist in reality: the grit of 16mm film with the sharpness of modern Anamorphic glass. Mix ARRI color science with Panavision lens characteristics. Create the virtual camera that serves your creative vision.
+                    The same prompt can produce wildly different results across models. When a shot isn't working, try a different model before rewriting the prompt. Each model has unique strengths.
                 </div>
             </div>
         </div>
@@ -1989,21 +2325,13 @@
     <!-- Footer -->
     <footer>
         <p class="footer-text">
-            This educational guide is based on features and documentation from <a href="https://higgsfield.ai" target="_blank" class="footer-link">Higgsfield.ai</a>.
-            Created as a learning resource for cinematic AI video production.
-        </p>
-        <p style="color: var(--gray); font-size: 0.75rem; margin-top: 1rem;">
-            Reference sources:
-            <a href="https://higgsfield.ai/camera-controls" class="footer-link">Camera Controls</a> |
-            <a href="https://higgsfield.ai/cinematic-video-generator" class="footer-link">Cinema Studio</a> |
-            <a href="https://higgsfield.ai/blog/Prompt-Guide-to-Cinematic-AI-Videos" class="footer-link">Prompt Guide</a> |
-            <a href="https://higgsfield.ai/effects" class="footer-link">Effects</a>
+            Professional AI Video Production Guide<br>
+            Created as a comprehensive learning resource for cinematic AI filmmaking.
         </p>
     </footer>
 
     <!-- Scroll Animation Script -->
     <script>
-        // Intersection Observer for fade-in animations
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -2022,7 +2350,6 @@
             observer.observe(el);
         });
 
-        // Smooth scroll for navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
