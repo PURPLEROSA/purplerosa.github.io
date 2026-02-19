@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cannes Lions 2025 - Grand Prix Winners</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1a0030 0%, #0d001a 50%, #1a0505 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 2px solid #gold;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+        }
+        .hero h1 {
+            font-size: 3em;
+            color: #d4af37;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .hero .subtitle {
+            font-size: 1.2em;
+            color: #888;
+            position: relative;
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 30px 20px;
+            background: #111;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #d4af37;
+        }
+        .stat .label {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 4px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .section-title {
+            font-size: 1.8em;
+            color: #d4af37;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        /* Trends */
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+        .trend-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.3s;
+        }
+        .trend-card:hover {
+            border-color: #d4af37;
+        }
+        .trend-card h3 {
+            color: #d4af37;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+        .trend-card p {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+        .trend-examples {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .trend-tag {
+            background: #2a2a2a;
+            color: #d4af37;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+        }
+
+        /* Filter */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: #1a1a1a;
+            color: #888;
+            border: 1px solid #333;
+            padding: 8px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: #d4af37;
+            color: #000;
+            border-color: #d4af37;
+        }
+
+        /* Campaign Cards */
+        .campaigns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        .campaign-card {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .campaign-card:hover {
+            transform: translateY(-4px);
+            border-color: #d4af37;
+        }
+        .campaign-header {
+            background: linear-gradient(135deg, #1a0030, #0d001a);
+            padding: 20px;
+            position: relative;
+        }
+        .gp-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #d4af37;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.7em;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .campaign-header h3 {
+            color: #fff;
+            font-size: 1.2em;
+            margin-bottom: 4px;
+        }
+        .campaign-brand {
+            color: #d4af37;
+            font-size: 0.95em;
+        }
+        .campaign-agency {
+            color: #888;
+            font-size: 0.8em;
+            margin-top: 2px;
+        }
+        .campaign-body {
+            padding: 20px;
+        }
+        .campaign-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        .category-badge {
+            background: #2a1a00;
+            color: #d4af37;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            border: 1px solid #3a2a00;
+        }
+        .campaign-description {
+            color: #bbb;
+            font-size: 0.88em;
+            margin-bottom: 14px;
+        }
+        .campaign-section {
+            margin-bottom: 14px;
+        }
+        .campaign-section-title {
+            color: #d4af37;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .campaign-section-text {
+            color: #999;
+            font-size: 0.85em;
+        }
+        .campaign-quote {
+            background: #1a1a1a;
+            border-right: 3px solid #d4af37;
+            padding: 12px 16px;
+            margin-top: 14px;
+            border-radius: 4px;
+        }
+        .campaign-quote p {
+            color: #ccc;
+            font-style: italic;
+            font-size: 0.82em;
+        }
+        .campaign-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 14px;
+        }
+        .tag {
+            background: #1a1a2e;
+            color: #7878aa;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7em;
+        }
+        .results-highlight {
+            background: #0a1a0a;
+            border: 1px solid #1a3a1a;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .results-highlight p {
+            color: #6d6;
+            font-size: 0.82em;
+        }
+
+        /* Agency leaderboard */
+        .leaderboard {
+            margin-bottom: 60px;
+        }
+        .leaderboard-row {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            gap: 20px;
+        }
+        .leaderboard-rank {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d4af37;
+            min-width: 40px;
+            text-align: center;
+        }
+        .leaderboard-name {
+            flex: 1;
+            color: #fff;
+            font-size: 1em;
+        }
+        .leaderboard-count {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #d4af37;
+        }
+        .leaderboard-campaigns {
+            color: #888;
+            font-size: 0.8em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #555;
+            font-size: 0.8em;
+            border-top: 1px solid #222;
+        }
+        footer a { color: #d4af37; text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .stats-bar { gap: 20px; }
+            .stat .number { font-size: 1.8em; }
+            .campaigns-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>Cannes Lions 2025</h1>
+    <div class="subtitle">Grand Prix Winners - The 72nd International Festival of Creativity</div>
+</div>
+
+<div class="stats-bar">
+    <div class="stat">
+        <div class="number">34</div>
+        <div class="label">Grand Prix</div>
+    </div>
+    <div class="stat">
+        <div class="number">32</div>
+        <div class="label">Categories</div>
+    </div>
+    <div class="stat">
+        <div class="number">26,753</div>
+        <div class="label">Submissions</div>
+    </div>
+    <div class="stat">
+        <div class="number">25</div>
+        <div class="label">Campaigns</div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- TRENDS -->
+    <h2 class="section-title">Key Trends - What Worked in 2025</h2>
+    <div class="trends-grid">
+        <div class="trend-card">
+            <h3>Human Touch Over AI Hype</h3>
+            <p>The most celebrated work showed technology amplifying, not replacing, human insight. In a world saturated with AI content, the human touch became the differentiator.</p>
+            <div class="trend-examples">
+                <span class="trend-tag">Shot on iPhone</span>
+                <span class="trend-tag">Real Beauty</span>
+                <span class="trend-tag">Caption with Intention</span>
+            </div>
+        </div>
+        <div class="trend-card">
+            <h3>Compound Consistent Creativity</h3>
+            <p>Brands that stick with creative platforms over years achieve 4x more ROI. Consistency beats novelty. The biggest winners ran platforms for 10, 20, and 65 years.</p>
+            <div class="trend-examples">
+                <span class="trend-tag">Shot on iPhone (10yr)</span>
+                <span class="trend-tag">Real Beauty (20yr)</span>
+                <span class="trend-tag">Have a Break (65yr)</span>
+            </div>
+        </div>
+        <div class="trend-card">
+            <h3>Humor as Performance Driver</h3>
+            <p>72% of people would choose a brand that uses humor over a competitor. Amusing ads trigger brain reward systems, making messages more memorable and distinctive.</p>
+            <div class="trend-examples">
+                <span class="trend-tag">Herpes Foundation</span>
+                <span class="trend-tag">One Second Ads</span>
+                <span class="trend-tag">Haaland Payback</span>
+            </div>
+        </div>
+        <div class="trend-card">
+            <h3>Creator & Fan-Led Creativity</h3>
+            <p>Creator-led campaigns dominated. Brands that gave creators freedom to connect with their own audiences saw the strongest results across social and digital.</p>
+            <div class="trend-examples">
+                <span class="trend-tag">Vaseline Verified</span>
+                <span class="trend-tag">Call of Discounts</span>
+                <span class="trend-tag">Shot on iPhone</span>
+            </div>
+        </div>
+        <div class="trend-card">
+            <h3>Accessibility & Social Impact</h3>
+            <p>The best work solved real problems for marginalized communities. Accessibility and social impact were creative catalysts, not CSR add-ons.</p>
+            <div class="trend-examples">
+                <span class="trend-tag">Caption with Intention</span>
+                <span class="trend-tag">Three Words</span>
+                <span class="trend-tag">Nigrum Corpus</span>
+            </div>
+        </div>
+        <div class="trend-card">
+            <h3>Solving Real-World Problems</h3>
+            <p>Winning campaigns solved real-world problems with creativity. Purpose must be functional, not decorative. The strongest ideas changed systems, not just perceptions.</p>
+            <div class="trend-examples">
+                <span class="trend-tag">Three Words</span>
+                <span class="trend-tag">Lucky Yatra</span>
+                <span class="trend-tag">Sounds Right</span>
+            </div>
+        </div>
+        <div class="trend-card">
+            <h3>Brand + Performance Integration</h3>
+            <p>The most effective brands no longer choose between brand and performance. 84% of purchase decisions are made before active decision-making. Full-funnel wins.</p>
+            <div class="trend-examples">
+                <span class="trend-tag">Preserved Promos</span>
+                <span class="trend-tag">Shot on iPhone</span>
+                <span class="trend-tag">Price Packs</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- AGENCY LEADERBOARD -->
+    <h2 class="section-title">Top Agencies by Grand Prix</h2>
+    <div class="leaderboard">
+        <div class="leaderboard-row">
+            <div class="leaderboard-rank">1</div>
+            <div class="leaderboard-name">Publicis Conseil, Paris<br><span class="leaderboard-campaigns">AXA Three Words</span></div>
+            <div class="leaderboard-count">3 GP</div>
+        </div>
+        <div class="leaderboard-row">
+            <div class="leaderboard-rank">1</div>
+            <div class="leaderboard-name">FCB Chicago<br><span class="leaderboard-campaigns">Caption with Intention</span></div>
+            <div class="leaderboard-count">3 GP</div>
+        </div>
+        <div class="leaderboard-row">
+            <div class="leaderboard-rank">3</div>
+            <div class="leaderboard-name">Ogilvy UK, London<br><span class="leaderboard-campaigns">Dove Real Beauty</span></div>
+            <div class="leaderboard-count">2 GP</div>
+        </div>
+        <div class="leaderboard-row">
+            <div class="leaderboard-rank">3</div>
+            <div class="leaderboard-name">Ogilvy, Singapore<br><span class="leaderboard-campaigns">Vaseline Verified</span></div>
+            <div class="leaderboard-count">2 GP</div>
+        </div>
+        <div class="leaderboard-row">
+            <div class="leaderboard-rank">3</div>
+            <div class="leaderboard-name">VML (Prague + New York)<br><span class="leaderboard-campaigns">KitKat Phone Break, Preserved Promos</span></div>
+            <div class="leaderboard-count">2 GP</div>
+        </div>
+        <div class="leaderboard-row">
+            <div class="leaderboard-rank">3</div>
+            <div class="leaderboard-name">Africa Creative DDB, Sao Paulo<br><span class="leaderboard-campaigns">One Second Ads, Amazon Greenventory</span></div>
+            <div class="leaderboard-count">2 GP</div>
+        </div>
+    </div>
+
+    <!-- FILTER -->
+    <h2 class="section-title">All Grand Prix Campaigns</h2>
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="social_impact">Social Impact</button>
+        <button class="filter-btn" data-filter="film">Film</button>
+        <button class="filter-btn" data-filter="entertainment">Entertainment</button>
+        <button class="filter-btn" data-filter="innovation">Innovation</button>
+        <button class="filter-btn" data-filter="commerce">Commerce</button>
+        <button class="filter-btn" data-filter="craft">Craft</button>
+        <button class="filter-btn" data-filter="health">Health</button>
+    </div>
+
+    <!-- CAMPAIGNS -->
+    <div class="campaigns-grid" id="campaignsGrid">
+    </div>
+</div>
+
+<footer>
+    <p>Data compiled from multiple sources | February 2026</p>
+    <p>Sources: <a href="https://www.canneslions.com/news" target="_blank">Cannes Lions</a> | <a href="https://campaignbrief.com/check-out-all-the-2025-cannes-lions-grand-prix-winners/" target="_blank">Campaign Brief</a> | <a href="https://www.adweek.com/creativity/watch-all-the-cannes-lions-2025-grand-prix-winners/" target="_blank">Adweek</a> | <a href="https://lbbonline.com" target="_blank">LBBOnline</a></p>
+</footer>
+
+<script>
+const campaigns = [
+    {
+        name: "Three Words",
+        brand: "AXA",
+        agency: "Publicis Conseil, Paris",
+        country: "France",
+        gp_count: 3,
+        categories: ["Titanium", "Direct", "Creative Business Transformation"],
+        description: "By adding three words - 'and domestic violence' - to its home insurance policies, AXA redefined the role of insurance. When a victim calls the emergency number, she is immediately relocated and supported.",
+        what_worked: "Turned a commoditised product into a driver of brand preference. The simplicity of just three words in a contract created a lifeline for women escaping domestic violence. The jury's decision was 'instant and unanimous'.",
+        insight: "Insurance can protect more than property - it can protect lives.",
+        results: "Named Creative Brand of the Year. 13 awards total. Provides emergency relocation + free psychological, legal and financial support.",
+        quote: "'Three Words' can change the world. This year's Titanium Grand Prix helped women literally escape domestic violence. \u2014 Judy John, Titanium Jury President",
+        tags: ["social_impact", "insurance", "simplicity"]
+    },
+    {
+        name: "Shot on iPhone",
+        brand: "Apple",
+        agency: "TBWA\\Media Arts Lab, Los Angeles",
+        country: "USA",
+        gp_count: 1,
+        categories: ["Creative Effectiveness"],
+        description: "A decade-long campaign that democratized creativity by showcasing real user-generated photography and film across 50+ campaigns.",
+        what_worked: "Emotion over specs. While competitors obsessed over megapixels, Apple focused on what users could create. UGC provided authentic social proof. Consistently evolved with culture over 10 years.",
+        insight: "Long-term creative commitment delivers exponential returns.",
+        results: "~$1.5B total spend, $40B+ incremental iPhone sales in 2024. 16M+ #ShotoniPhone UGC posts. 6.5B media impressions. iPhone = best-selling smartphone globally.",
+        quote: "It was a unanimous decision. Shot on iPhone balanced creativity, longevity and commercial success. \u2014 Andrea Diquez, Jury President",
+        tags: ["longevity", "innovation", "commerce"]
+    },
+    {
+        name: "Real Beauty",
+        brand: "Dove",
+        agency: "Ogilvy UK / Mindshare NY",
+        country: "UK / USA",
+        gp_count: 3,
+        categories: ["Glass: Lion for Change", "Creative Strategy", "Media"],
+        description: "20-year campaign fighting toxic beauty standards. The 2025 iteration tackled AI-generated beauty content, ensuring the message stays relevant in the AI era.",
+        what_worked: "Two decades of consistent commitment to fighting toxic beauty standards. Evolution to address AI showed ability to stay culturally relevant across eras.",
+        insight: "A brand platform that evolves with culture while staying true to its core purpose builds unmatched equity.",
+        results: "53% increase in Glass Lion entries. Global cultural movement spanning 20 years.",
+        quote: "A powerful example of how brands can drive change by committing to a vision for decades.",
+        tags: ["social_impact", "longevity"]
+    },
+    {
+        name: "Caption with Intention",
+        brand: "Chicago Hearing Society",
+        agency: "FCB Chicago",
+        country: "USA",
+        gp_count: 3,
+        categories: ["Brand Experience", "Design", "Digital Craft"],
+        description: "Revolutionary captioning system using animated typography, color cues, and timing to convey tone and emotion for deaf and hard-of-hearing viewers.",
+        what_worked: "Solved a real accessibility problem with creative craft. Partnership with the Academy of Motion Picture Arts and Sciences gave industry-wide credibility.",
+        insight: "Accessibility is not a limitation but a creative opportunity. Design for the margins, improve for everyone.",
+        results: "3 Grand Prix + Gold in Innovation. Partnership with the Academy signals potential industry-wide adoption.",
+        quote: "Redefining how stories can be felt, not just heard.",
+        tags: ["craft", "innovation", "social_impact"]
+    },
+    {
+        name: "Paris Paralympics 2024: Considering What?",
+        brand: "Channel 4",
+        agency: "4Creative / Biscuit Filmworks",
+        country: "UK",
+        gp_count: 1,
+        categories: ["Film"],
+        description: "Film that personifies gravity, friction, and time as characters who hinder Paralympians - rejecting the 'overcoming disability' narrative.",
+        what_worked: "Challenged audience assumptions head-on. 60% watched to see athletes 'overcoming disabilities' - the film directly confronted this patronizing view.",
+        insight: "Sport doesn't care about disability. By reframing the challenge as universal forces, the conversation shifted entirely.",
+        results: "UK's most-watched Paralympics since 2012. 79% of viewers said Paralympics as exciting as Olympics.",
+        quote: "When we use film to its best, it doesn't live on a click, it lives in your mind. \u2014 Kate Stanners, Film Jury President",
+        tags: ["film", "social_impact"]
+    },
+    {
+        name: "The Final Copy of Ilon Specht",
+        brand: "L'Oreal Paris",
+        agency: "McCann, Paris",
+        country: "France",
+        gp_count: 1,
+        categories: ["Film"],
+        description: "18-minute film following the legacy of Ilon Specht, creator of 'Because I'm Worth It' - how a young copywriter's three words became a global feminist statement.",
+        what_worked: "Long-form storytelling that honored brand heritage while making it culturally relevant. The 18-minute format was a bold creative choice.",
+        insight: "Brand heritage, told with authentic human storytelling, becomes a powerful cultural asset.",
+        results: "Film Grand Prix winner. Demonstrated the power of long-form branded content.",
+        quote: "A film that lives in your mind.",
+        tags: ["film", "craft"]
+    },
+    {
+        name: "Better on a Better Network",
+        brand: "Telstra",
+        agency: "Bear Meets Eagle on Fire, Sydney",
+        country: "Australia",
+        gp_count: 1,
+        categories: ["Film Craft"],
+        description: "26 stop-motion ads showcasing Australian wildlife, directed by Jeff Low.",
+        what_worked: "Exceptional stop-motion craft. 26 individual films showed creative ambition and a strong visual platform.",
+        insight: "When craft is elevated to art, it transforms a functional product message into something culturally celebrated.",
+        results: "Film Craft Grand Prix. Differentiated a telecom brand through craft excellence.",
+        quote: "Craft elevated a simple product message into art.",
+        tags: ["craft", "film"]
+    },
+    {
+        name: "Night Fishing",
+        brand: "Hyundai",
+        agency: "Innocean, Seoul",
+        country: "South Korea",
+        gp_count: 1,
+        categories: ["Entertainment"],
+        description: "Short film targeting ad-skeptical MZ generation, filmed entirely using seven car cameras.",
+        what_worked: "Used the product's own cameras as the filmmaking tool. Created genuine entertainment rather than advertising.",
+        insight: "When the product IS the creative tool, advertising becomes entertainment.",
+        results: "South Korea's first-ever Entertainment Lion - and it was a Grand Prix.",
+        quote: "An innovative approach to branded entertainment.",
+        tags: ["entertainment", "innovation"]
+    },
+    {
+        name: "Call of Discounts",
+        brand: "Mercado Livre",
+        agency: "GUT, Sao Paulo",
+        country: "Brazil",
+        gp_count: 1,
+        categories: ["Entertainment for Gaming"],
+        description: "Transformed a globally streamed gaming session into a real-time marketplace featuring Neymar Jr.",
+        what_worked: "Merged gaming culture with e-commerce in real-time, using Neymar's credibility in both worlds.",
+        insight: "Gaming is a live marketplace. Bridging gaming and commerce in real-time creates a new form of shopping.",
+        results: "Gaming Grand Prix. New model for live commerce through gaming.",
+        quote: "A groundbreaking fusion of gaming culture and commerce.",
+        tags: ["entertainment", "commerce"]
+    },
+    {
+        name: "Tracking Bad Bunny",
+        brand: "Rimas Music",
+        agency: "DDB Latina Puerto Rico",
+        country: "Puerto Rico",
+        gp_count: 1,
+        categories: ["Entertainment for Music"],
+        description: "Puerto Rico's first-ever Music Lions Grand Prix winner.",
+        what_worked: "Leveraged music culture and fan engagement innovatively.",
+        insight: "Music-driven campaigns tapping genuine fan culture resonate at the highest creative level.",
+        results: "Puerto Rico's milestone first Grand Prix in Music Lions.",
+        quote: "A celebration of music culture.",
+        tags: ["entertainment"]
+    },
+    {
+        name: "Haaland Payback Time",
+        brand: "Clash of Clans",
+        agency: "DAVID, New York",
+        country: "USA",
+        gp_count: 1,
+        categories: ["Entertainment for Sport"],
+        description: "Erling Haaland became the game's first playable character, letting fans destroy the village he'd spent a decade building.",
+        what_worked: "Turned celebrity partnership into genuine interactive entertainment with real stakes.",
+        insight: "When celebrities offer genuine skin in the game, fans engage at a deeper level than traditional endorsements.",
+        results: "Sport Entertainment Grand Prix. Brought Haaland's fanbase into Clash of Clans.",
+        quote: "A masterclass in sports-entertainment crossover.",
+        tags: ["entertainment"]
+    },
+    {
+        name: "Vaseline Verified",
+        brand: "Vaseline (Unilever)",
+        agency: "Ogilvy, Singapore",
+        country: "Singapore",
+        gp_count: 2,
+        categories: ["Health & Wellness", "Social & Creator"],
+        description: "Scientifically tested viral product 'hacks' and officially verified the ones that work.",
+        what_worked: "Instead of fighting misinformation, embraced it by scientifically testing viral hacks and verifying the real ones.",
+        insight: "Brands can lead by verifying rather than denying. Being the trusted authority builds credibility.",
+        results: "63.3M social interactions, 87% positive sentiment, 7.1M organic reach.",
+        quote: "An innovative approach to combating misinformation with joyful science.",
+        tags: ["health", "social_impact"]
+    },
+    {
+        name: "Make Love Last - Bedroom",
+        brand: "Viatris",
+        agency: "Ogilvy, Shanghai",
+        country: "China",
+        gp_count: 1,
+        categories: ["Pharma"],
+        description: "Unbranded film and photography about couples with intimacy challenges, opening a public conversation about sexual health.",
+        what_worked: "Tackled a taboo topic with sensitivity through unbranded content, centering real couples' stories.",
+        insight: "In pharma, unbranded storytelling about taboo topics can be more powerful than product messaging.",
+        results: "Pharma Grand Prix. Opened public conversation about sexual health and intimacy.",
+        quote: "A long-overdue conversation opened with sensitivity and authenticity.",
+        tags: ["health", "film"]
+    },
+    {
+        name: "Nigrum Corpus",
+        brand: "Idomed",
+        agency: "Artplan, Sao Paulo",
+        country: "Brazil",
+        gp_count: 1,
+        categories: ["Industry Craft"],
+        description: "Medical book highlighting racism in medicine - black patients in Brazil are 6x more likely to suffer medical errors.",
+        what_worked: "Used publishing craft to address systemic healthcare inequality.",
+        insight: "Craft excellence applied to social justice creates tools that change systems.",
+        results: "Industry Craft Grand Prix. Highlighted 6x disparity in medical errors for black patients.",
+        quote: "When craft serves justice, it creates lasting impact.",
+        tags: ["craft", "social_impact", "health"]
+    },
+    {
+        name: "Sounds Right",
+        brand: "Museum for the UN / Spotify",
+        agency: "AKQA, Copenhagen",
+        country: "Denmark",
+        gp_count: 1,
+        categories: ["Innovation"],
+        description: "Launched 'NATURE' as an official artist on Spotify, turning music streams into conservation funding.",
+        what_worked: "Created an entirely new funding mechanism by making NATURE an 'artist' - simple, shareable, self-sustaining.",
+        insight: "Innovation is about reframing existing systems to solve different problems.",
+        results: "Innovation Grand Prix. Self-sustaining conservation funding through music royalties.",
+        quote: "A truly innovative use of existing platforms to fund conservation.",
+        tags: ["innovation", "social_impact"]
+    },
+    {
+        name: "The Partnership That Changed Everything",
+        brand: "LVMH",
+        agency: "Havas Play, Paris",
+        country: "France",
+        gp_count: 1,
+        categories: ["Luxury"],
+        description: "LVMH became co-creator (not sponsor) of the 2024 Olympics. Each Maison contributed artistry to the Olympic experience.",
+        what_worked: "Redefined sponsorship by co-creating rather than just placing logos.",
+        insight: "Luxury brands succeed when they contribute to culture rather than simply appearing alongside it.",
+        results: "France's first-ever Luxury Lions Grand Prix. EUR 350M earned media.",
+        quote: "LVMH redefined Olympic sport sponsorship.",
+        tags: ["craft", "entertainment"]
+    },
+    {
+        name: "The Best Place in the World to Have Herpes",
+        brand: "NZ Herpes Foundation",
+        agency: "Motion Sickness / Finch",
+        country: "NZ / Australia",
+        gp_count: 2,
+        categories: ["Grand Prix for Good", "Lions Health UN GP for Good"],
+        description: "Global ranking system + 'Herpes Destigmatisation Course' using irreverent humor to reduce herpes stigma.",
+        what_worked: "Used humor and gamification to tackle deep health stigma. Countries competing against each other created engagement.",
+        insight: "Humor and data gamification destigmatize health conditions more effectively than earnest education.",
+        results: "Won both Grand Prix for Good awards.",
+        quote: "An innovative and irreverent approach to reducing health stigma.",
+        tags: ["health", "social_impact"]
+    },
+    {
+        name: "Lucky Yatra",
+        brand: "Indian Railways",
+        agency: "FCB India, Mumbai",
+        country: "India",
+        gp_count: 1,
+        categories: ["PR"],
+        description: "Combated ticket fare evasion by turning train tickets into lottery tickets.",
+        what_worked: "Turned compliance into opportunity. Instead of punishing evaders, rewarded honest passengers.",
+        insight: "Behavioral change works better through positive incentives than punishment.",
+        results: "PR Grand Prix. India's significant entry into Cannes top tier.",
+        quote: "A creative solution that turned a systemic problem on its head.",
+        tags: ["social_impact", "innovation"]
+    },
+    {
+        name: "Act Like You Know",
+        brand: "GoDaddy Airo",
+        agency: "Quality Meats, Chicago",
+        country: "USA",
+        gp_count: 1,
+        categories: ["Creative B2B"],
+        description: "Walton Goggins launched a real eyewear business to demonstrate GoDaddy's AI-powered business tools.",
+        what_worked: "Created a real business as a live product demonstration - actor 'acting like' a business owner who actually builds one.",
+        insight: "The best B2B demos don't explain products - they prove them in action.",
+        results: "First Grand Prix wins for both GoDaddy and Quality Meats.",
+        quote: "A brilliant demonstration of product capability through entertainment.",
+        tags: ["commerce", "innovation"]
+    },
+    {
+        name: "Preserved Promos",
+        brand: "Ziploc",
+        agency: "VML, New York",
+        country: "USA",
+        gp_count: 1,
+        categories: ["Creative Commerce"],
+        description: "System to 'preserve' expired promo codes by buying Ziploc - a perfect product metaphor.",
+        what_worked: "Perfect brand metaphor (Ziploc preserves things) applied to a real consumer pain point (expired promo codes).",
+        insight: "The strongest commerce ideas find a perfect metaphor between product function and consumer need.",
+        results: "49% redemption rate, 5% sales lift, 14% increase in new buyers.",
+        quote: "A perfect marriage of brand truth and consumer utility.",
+        tags: ["commerce"]
+    },
+    {
+        name: "One Second Ads",
+        brand: "Budweiser",
+        agency: "Africa Creative DDB, Sao Paulo",
+        country: "Brazil",
+        gp_count: 1,
+        categories: ["Audio & Radio"],
+        description: "One-second song clips for fans to identify, rewarding correct guesses with discount codes.",
+        what_worked: "Extreme constraint (1 second) became the hook. Gamification turned passive listeners into active participants.",
+        insight: "Creative constraints breed innovation. One second was enough with audience participation.",
+        results: "Audio & Radio Grand Prix.",
+        quote: "Proof that less is more when creativity is at its best.",
+        tags: ["entertainment", "commerce"]
+    },
+    {
+        name: "Olympic Games Opening Ceremony Paris 2024",
+        brand: "Paris 2024",
+        agency: "Paname 24 / Auditoire / Havas",
+        country: "France",
+        gp_count: 1,
+        categories: ["Outdoor"],
+        description: "Moved the Olympic Opening Ceremony out of a stadium and onto the Seine river.",
+        what_worked: "Broke every convention by turning an entire city into a creative canvas.",
+        insight: "The biggest outdoor idea is the city itself.",
+        results: "Outdoor Grand Prix. Watched by billions globally.",
+        quote: "Proved outdoor creativity has no boundaries.",
+        tags: ["entertainment", "craft"]
+    },
+    {
+        name: "KitKat Phone Break",
+        brand: "KitKat",
+        agency: "VML, Prague",
+        country: "Czech Republic",
+        gp_count: 1,
+        categories: ["Outdoor"],
+        description: "KitKat bars replacing smartphones in OOH ads, refreshing the 65-year-old 'Have a break' slogan.",
+        what_worked: "Refreshed a 65-year-old platform for the smartphone era with visual simplicity.",
+        insight: "Legacy brand platforms can be revitalized by connecting them to contemporary cultural tensions.",
+        results: "Czechia's first-ever Grand Prix at Cannes Lions.",
+        quote: "A refreshing update to one of advertising's most iconic platforms.",
+        tags: ["craft"]
+    },
+    {
+        name: "Price Packs",
+        brand: "PENNY",
+        agency: "Serviceplan, Munich",
+        country: "Germany",
+        gp_count: 1,
+        categories: ["Print & Publishing"],
+        description: "Packaging redesign making the price the hero during inflation crisis.",
+        what_worked: "Made price the creative during economic anxiety. Radical simplicity became a bold brand statement.",
+        insight: "In times of economic anxiety, the boldest creative move is radical simplicity.",
+        results: "Best-selling month in 4 weeks. 1.4M+ products sold.",
+        quote: "Price Packs is print, is publishing, is packaging and is a point of view! \u2014 Icaro Doria, Jury President",
+        tags: ["craft", "commerce"]
+    },
+    {
+        name: "The Amazon Greenventory",
+        brand: "Natura",
+        agency: "Africa Creative DDB, Sao Paulo",
+        country: "Brazil",
+        gp_count: 1,
+        categories: ["Sustainable Development Goals"],
+        description: "AI + drones conducted the largest tree inventory in Amazon history - 400km\u00b2 in six months.",
+        what_worked: "Connected business value (cosmetic ingredients) with conservation value (mapping the Amazon).",
+        insight: "Sustainability wins when business incentives align with environmental outcomes.",
+        results: "400km\u00b2 mapped. 30,000 trees with cosmetic potential identified. Goal: preserve 3M hectares by 2030.",
+        quote: "Technology in service of the planet.",
+        tags: ["innovation", "social_impact"]
+    }
+];
+
+const filterMap = {
+    all: () => true,
+    social_impact: c => c.tags.includes('social_impact'),
+    film: c => c.tags.includes('film'),
+    entertainment: c => c.tags.includes('entertainment'),
+    innovation: c => c.tags.includes('innovation'),
+    commerce: c => c.tags.includes('commerce'),
+    craft: c => c.tags.includes('craft'),
+    health: c => c.tags.includes('health')
+};
+
+function renderCampaigns(filter = 'all') {
+    const grid = document.getElementById('campaignsGrid');
+    const filtered = campaigns.filter(filterMap[filter] || filterMap.all);
+
+    grid.innerHTML = filtered.map(c => `
+        <div class="campaign-card">
+            <div class="campaign-header">
+                <div class="gp-badge">${c.gp_count} Grand Prix</div>
+                <h3>${c.name}</h3>
+                <div class="campaign-brand">${c.brand}</div>
+                <div class="campaign-agency">${c.agency} | ${c.country}</div>
+            </div>
+            <div class="campaign-body">
+                <div class="campaign-categories">
+                    ${c.categories.map(cat => `<span class="category-badge">${cat}</span>`).join('')}
+                </div>
+                <div class="campaign-description">${c.description}</div>
+                <div class="campaign-section">
+                    <div class="campaign-section-title">What Worked</div>
+                    <div class="campaign-section-text">${c.what_worked}</div>
+                </div>
+                <div class="campaign-section">
+                    <div class="campaign-section-title">Key Insight</div>
+                    <div class="campaign-section-text">${c.insight}</div>
+                </div>
+                <div class="results-highlight">
+                    <p>${c.results}</p>
+                </div>
+                <div class="campaign-quote">
+                    <p>${c.quote}</p>
+                </div>
+                <div class="campaign-tags">
+                    ${c.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderCampaigns(btn.dataset.filter);
+    });
+});
+
+// Initial render
+renderCampaigns();
+</script>
+</body>
+</html>

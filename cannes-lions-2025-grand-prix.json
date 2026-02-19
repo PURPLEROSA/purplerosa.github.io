@@ -1,0 +1,553 @@
+{
+  "meta": {
+    "title": "Cannes Lions 2025 - Grand Prix Winners",
+    "festival": "72nd Cannes Lions International Festival of Creativity",
+    "dates": "16-20 June 2025",
+    "location": "Cannes, France",
+    "total_submissions": 26753,
+    "total_grand_prix": 34,
+    "total_categories": 32,
+    "creative_country_of_the_year": "Brazil",
+    "creative_brand_of_the_year": "AXA",
+    "sources": [
+      "https://www.canneslions.com/news",
+      "https://campaignbrief.com/check-out-all-the-2025-cannes-lions-grand-prix-winners/",
+      "https://www.adweek.com/creativity/watch-all-the-cannes-lions-2025-grand-prix-winners/",
+      "https://lbbonline.com/news/Cannes-Lions-2025-Grand-Prix-Winners-in-The-Lion-for-Change-Sustainable-Development-Goals-Film-Dan-Wieden-Titanium-Lions-and-Grand-Prix-for-Good",
+      "https://www.contagious.com/en/article/news-and-views/cannes-lions-2025-the-grand-prix-winning-campaigns"
+    ],
+    "case_study_playlist_reference": "https://www.adobomagazine.com/advertising-awards/2025-cannes-lions-grand-prix-case-films-now-in-one-youtube-playlist-by-mullenlowe-treynas-roman-olivarez/"
+  },
+  "campaigns": [
+    {
+      "id": 1,
+      "campaign_name": "Three Words",
+      "brand": "AXA",
+      "agency": "Publicis Conseil, Paris",
+      "country": "France",
+      "categories_won": [
+        "Dan Wieden Titanium Lions Grand Prix",
+        "Direct Lions Grand Prix",
+        "Creative Business Transformation Grand Prix"
+      ],
+      "total_grand_prix": 3,
+      "description": "By adding three words - 'and domestic violence' - to its home insurance policies, AXA redefined the role of insurance. When a victim calls the emergency number, she is immediately relocated and supported with legal, psychological, and financial assistance.",
+      "what_worked": "Turned a centuries-old commoditised product into a driver of brand preference and growth. The simplicity of the idea - just three words in a contract - created a lifeline for women escaping domestic violence. The jury's decision was 'instant and unanimous'.",
+      "key_insight": "Insurance can protect more than property - it can protect lives. By reframing domestic violence as an insurable risk, AXA created a systematic commercial solution for a systemic problem.",
+      "results": "AXA named Creative Brand of the Year at Cannes 2025. Won 13 awards total across two campaigns. The initiative provides emergency relocation, free psychological, legal and financial support to domestic violence victims.",
+      "jury_quote": "'Three Words' can change the world. This year's Titanium Grand Prix didn't just change insurance policies, it helped women literally escape domestic violence. — Judy John, Titanium Jury President",
+      "video_type": "TV commercial + national billboard campaign + 2-minute educational video",
+      "tags": ["social_impact", "insurance", "domestic_violence", "policy_change", "simplicity"]
+    },
+    {
+      "id": 2,
+      "campaign_name": "Shot on iPhone",
+      "brand": "Apple",
+      "agency": "TBWA\\Media Arts Lab, Los Angeles",
+      "country": "USA",
+      "categories_won": [
+        "Creative Effectiveness Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "A decade-long campaign that democratized creativity by showcasing real user-generated photography and film. A mix of eight different films and case studies demonstrated the platform's evolution over 10 years, from demonstrating the iPhone 14's LiDAR Scanner to the strength of the camera on later models.",
+      "what_worked": "Emotion over specs - while competitors obsessed over megapixels, Apple focused on what users could create. User-generated content provided authentic social proof. The campaign consistently evolved with culture, platforms, and audiences over a decade while maintaining brand consistency.",
+      "key_insight": "Long-term creative commitment delivers exponential returns. The campaign rejected creative micro-termism in favor of sustained investment in a single platform.",
+      "results": "iPhone became the best-selling smartphone in the world (Counterpoint 2025). ~$1.5B total spend across 50+ campaigns contributed to at least $40B in incremental iPhone sales in 2024 alone. Over 16 million #ShotoniPhone UGC posts on Instagram. 6.5 billion media impressions.",
+      "jury_quote": "It was a unanimous decision. Shot on iPhone stood out as a campaign that balanced creativity, longevity and commercial success — it's breakthrough, it's relevant globally and locally… it's just magic and it works. — Andrea Diquez, Jury President",
+      "video_type": "Multiple films, user-generated content, billboards, digital",
+      "tags": ["longevity", "UGC", "effectiveness", "technology", "global", "10_year_platform"]
+    },
+    {
+      "id": 3,
+      "campaign_name": "Real Beauty: How a Soap Brand Created a Global Self-Esteem Movement",
+      "brand": "Dove",
+      "agency": "Ogilvy UK, London / Mindshare, New York",
+      "country": "UK / USA",
+      "categories_won": [
+        "Glass: The Lion for Change Grand Prix",
+        "Creative Strategy Grand Prix",
+        "Media Grand Prix (Dove Real Beauty Redefined for the AI Era)"
+      ],
+      "total_grand_prix": 3,
+      "description": "The 20-year long 'Real Beauty' initiative fights against toxic beauty standards. The 2025 iteration specifically tackled the rise of generative AI and its impact on beauty standards, ensuring Dove's message stays relevant in the AI era.",
+      "what_worked": "Two decades of consistent commitment to a single creative platform fighting toxic beauty standards. The evolution to address AI-generated beauty content showed the brand's ability to stay culturally relevant across eras.",
+      "key_insight": "A brand platform that evolves with culture while staying true to its core purpose builds unmatched equity over 20 years.",
+      "results": "53% increase in entries for the Glass Lion for Change in 2025. The campaign has become a global cultural movement spanning 20 years.",
+      "jury_quote": "A powerful example of how brands can drive change by committing to a vision for decades.",
+      "video_type": "Multi-format campaign across TV, digital, social, print",
+      "tags": ["longevity", "social_impact", "beauty_standards", "AI", "cultural_movement", "20_year_platform"]
+    },
+    {
+      "id": 4,
+      "campaign_name": "Caption with Intention",
+      "brand": "Chicago Hearing Society",
+      "agency": "FCB Chicago / Rakish Entertainment",
+      "country": "USA",
+      "categories_won": [
+        "Brand Experience & Activation Grand Prix",
+        "Design Grand Prix",
+        "Digital Craft Grand Prix"
+      ],
+      "total_grand_prix": 3,
+      "description": "A revolutionary captioning system that transforms basic closed captions into a dynamic visual experience for deaf and hard-of-hearing viewers. Uses animated typography, color cues, and timing to convey tone, identity, pacing, and emotion in partnership with the Academy of Motion Picture Arts and Sciences.",
+      "what_worked": "Solved a real accessibility problem with creative craft. Transformed captions from a functional tool into an emotionally rich storytelling device. The partnership with the Academy gave it industry-wide credibility and potential for systemic change.",
+      "key_insight": "Accessibility is not a limitation but a creative opportunity. When you design for the margins, you improve the experience for everyone.",
+      "results": "Won 3 Grand Prix plus additional Gold Lions including in Innovation. Partnership with the Academy of Motion Picture Arts and Sciences signals potential industry-wide adoption.",
+      "jury_quote": "Redefining how stories can be felt, not just heard.",
+      "video_type": "Technology demonstration + film/TV integration",
+      "tags": ["accessibility", "design", "technology", "craft", "innovation", "inclusion"]
+    },
+    {
+      "id": 5,
+      "campaign_name": "Paris Paralympics 2024: Considering What?",
+      "brand": "Channel 4",
+      "agency": "4Creative / Biscuit Filmworks, London",
+      "country": "UK",
+      "categories_won": [
+        "Film Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "The film rejects the patronising narrative that para-athletes are defined by 'overcoming' disability. Instead, it personifies the real forces every elite athlete faces - gravity, friction, and time - as chaotic animated characters who heckle and hinder seven featured Paralympians. Narrated by disabled actor Nabil Shaban.",
+      "what_worked": "Challenged audience assumptions head-on. Research revealed 60% of viewers watched the Paralympics to see athletes 'overcoming disabilities', and the film directly confronted this patronizing narrative. The blend of live action and animation created an unforgettable visual language.",
+      "key_insight": "Sport doesn't care about disability. By reframing the challenge as universal forces (gravity, friction, time) rather than disability, the campaign shifted the conversation entirely.",
+      "results": "UK's most-watched Paralympics since 2012. By the end of the Games, 79% of viewers said they found the Paralympics as exciting as the Olympics.",
+      "jury_quote": "When we use film to its best, it doesn't live on a click, it lives in your mind. — Kate Stanners, Film Jury President",
+      "video_type": "Film (broadcast + online)",
+      "tags": ["film", "disability_inclusion", "sports", "animation", "perception_shift"]
+    },
+    {
+      "id": 6,
+      "campaign_name": "The Final Copy of Ilon Specht",
+      "brand": "L'Oreal Paris",
+      "agency": "McCann, Paris",
+      "country": "France",
+      "categories_won": [
+        "Film Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "An 18-minute film following the legacy of Ilon Specht, the woman who created L'Oreal's iconic tagline 'Because I'm Worth It'. The film explored how a young copywriter's three words became a global feminist statement.",
+      "what_worked": "Long-form storytelling that honored the brand's heritage while making it culturally relevant again. The 18-minute format was a bold creative choice that paid off by giving the story room to breathe and build emotional impact.",
+      "key_insight": "Brand heritage, when told with authentic human storytelling, becomes a powerful cultural asset rather than nostalgia.",
+      "results": "Film Grand Prix winner. Demonstrated the power of long-form branded content.",
+      "jury_quote": "A film that lives in your mind.",
+      "video_type": "18-minute branded film",
+      "tags": ["film", "long_form", "brand_heritage", "feminism", "storytelling"]
+    },
+    {
+      "id": 7,
+      "campaign_name": "Better on a Better Network",
+      "brand": "Telstra",
+      "agency": "Bear Meets Eagle on Fire / +61, Sydney",
+      "country": "Australia",
+      "categories_won": [
+        "Film Craft Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "A series of 26 ads directed by Jeff Low through Revolver for Biscuit Filmworks, showcasing Australian wildlife brought to life via stop-motion animation.",
+      "what_worked": "Exceptional craft in stop-motion animation. The commitment to producing 26 individual films showed both creative ambition and the power of a strong visual platform that could be extended endlessly.",
+      "key_insight": "When craft is elevated to an art form, it transforms a functional product message (network quality) into something culturally celebrated.",
+      "results": "Film Craft Grand Prix winner. The series demonstrated how craft excellence can differentiate a telecom brand.",
+      "jury_quote": "The craft of the stop-motion animation elevated a simple product message into art.",
+      "video_type": "26 stop-motion animated TV ads",
+      "tags": ["film_craft", "stop_motion", "animation", "telecom", "series"]
+    },
+    {
+      "id": 8,
+      "campaign_name": "Night Fishing",
+      "brand": "Hyundai Motor Company",
+      "agency": "Innocean, Seoul",
+      "country": "South Korea",
+      "categories_won": [
+        "Entertainment Lions Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "A short film targeting the ad-skeptical MZ generation, filmed entirely using seven car cameras. South Korea's first-ever Entertainment Lion.",
+      "what_worked": "Used the product's own cameras as the filmmaking tool, creating an authentic and innovative approach to branded entertainment. Targeted a notoriously hard-to-reach demographic (MZ generation) by creating genuine entertainment rather than advertising.",
+      "key_insight": "When the product IS the creative tool, the line between advertising and entertainment disappears.",
+      "results": "South Korea's first-ever Entertainment Lion, and it was a Grand Prix.",
+      "jury_quote": "An innovative approach to branded entertainment.",
+      "video_type": "Short film (filmed with car cameras)",
+      "tags": ["entertainment", "automotive", "innovation", "short_film", "product_integration"]
+    },
+    {
+      "id": 9,
+      "campaign_name": "Call of Discounts",
+      "brand": "Mercado Livre",
+      "agency": "GUT, Sao Paulo",
+      "country": "Brazil",
+      "categories_won": [
+        "Entertainment Lions for Gaming Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "Latin America's largest e-commerce platform transformed a globally streamed gaming session into a real-time marketplace, featuring football legend Neymar Jr.",
+      "what_worked": "Merged gaming culture with e-commerce in real-time, using a celebrity (Neymar Jr.) who has genuine credibility in both worlds. The live, interactive format created urgency and engagement that traditional advertising cannot match.",
+      "key_insight": "Gaming is not just a media channel but a live marketplace. Bridging gaming and commerce in real-time creates a new form of shopping entertainment.",
+      "results": "Gaming Grand Prix winner. Demonstrated a new model for live commerce through gaming.",
+      "jury_quote": "A groundbreaking fusion of gaming culture and commerce.",
+      "video_type": "Live gaming stream / interactive commercial",
+      "tags": ["gaming", "ecommerce", "live", "sports_celebrity", "interactive"]
+    },
+    {
+      "id": 10,
+      "campaign_name": "Tracking Bad Bunny",
+      "brand": "Rimas Music",
+      "agency": "DDB Latina Puerto Rico",
+      "country": "Puerto Rico",
+      "categories_won": [
+        "Entertainment Lions for Music Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "A campaign that marked Puerto Rico's first-ever Music Lions Grand Prix.",
+      "what_worked": "Leveraged music culture and fan engagement in an innovative way that earned the highest honor in the music entertainment category.",
+      "key_insight": "Music-driven campaigns that tap into genuine fan culture resonate at the highest creative level.",
+      "results": "Puerto Rico's milestone first Grand Prix win in Music Lions.",
+      "jury_quote": "A celebration of music culture.",
+      "video_type": "Music-driven campaign",
+      "tags": ["music", "entertainment", "fan_culture", "latin_america"]
+    },
+    {
+      "id": 11,
+      "campaign_name": "Haaland Payback Time",
+      "brand": "Clash of Clans",
+      "agency": "DAVID, New York",
+      "country": "USA",
+      "categories_won": [
+        "Entertainment Lions for Sport Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "Football legend Erling Haaland was cast as the mobile game's first-ever playable character, bringing his fans to the game and offering his haters the chance to destroy the village he'd spent a decade building.",
+      "what_worked": "Turned a celebrity partnership into genuine interactive entertainment. By making Haaland a playable character AND letting fans destroy his decade-old village, the campaign created both engagement and a compelling narrative of risk.",
+      "key_insight": "When celebrity partnerships offer genuine skin in the game (literally), fans engage at a deeper level than traditional endorsements.",
+      "results": "Sport Entertainment Grand Prix winner. Brought Haaland's fanbase directly into the Clash of Clans ecosystem.",
+      "jury_quote": "A masterclass in sports-entertainment crossover.",
+      "video_type": "Interactive game content + campaign film",
+      "tags": ["gaming", "sports_celebrity", "interactive", "fan_engagement"]
+    },
+    {
+      "id": 12,
+      "campaign_name": "Vaseline Verified",
+      "brand": "Vaseline (Unilever)",
+      "agency": "Ogilvy, Singapore",
+      "country": "Singapore",
+      "categories_won": [
+        "Health & Wellness Grand Prix",
+        "Social & Creator Grand Prix"
+      ],
+      "total_grand_prix": 2,
+      "description": "The campaign embraced social media product 'hacks', scientifically testing and officially verifying the ones that actually work, turning misinformation into trusted content.",
+      "what_worked": "Instead of fighting internet misinformation, the brand embraced it by scientifically testing viral product hacks and putting its name behind the ones that worked. This turned the chaos of social media into a brand authority play.",
+      "key_insight": "Brands can lead by verifying rather than denying. In an age of misinformation, being the trusted authority that validates user claims builds unmatched credibility.",
+      "results": "63.3 million social interactions, 87% positive sentiment, 7.1 million organic reach and views.",
+      "jury_quote": "An innovative approach to combating misinformation with joyful science.",
+      "video_type": "Social media content series + creator collaborations",
+      "tags": ["social_media", "misinformation", "health", "creator_economy", "verification"]
+    },
+    {
+      "id": 13,
+      "campaign_name": "Make Love Last - Bedroom",
+      "brand": "Viatris",
+      "agency": "Ogilvy, Shanghai",
+      "country": "China",
+      "categories_won": [
+        "Pharma Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "An unbranded film and photography project centred around couples who've had challenges with intimacy, opening up a long-overdue public conversation about sexual health.",
+      "what_worked": "Tackled a taboo topic with sensitivity and authenticity through unbranded content. By centering real couples' stories rather than product messaging, the campaign opened a public conversation that pharma advertising typically avoids.",
+      "key_insight": "In pharma, unbranded storytelling about taboo topics can be more powerful than product-focused messaging.",
+      "results": "Pharma Grand Prix winner. Opened public conversation about sexual health and intimacy.",
+      "jury_quote": "A long-overdue conversation opened with sensitivity and authenticity.",
+      "video_type": "Unbranded film + photography project",
+      "tags": ["pharma", "health", "taboo_topics", "storytelling", "unbranded"]
+    },
+    {
+      "id": 14,
+      "campaign_name": "Nigrum Corpus",
+      "brand": "Idomed",
+      "agency": "Artplan, Sao Paulo",
+      "country": "Brazil",
+      "categories_won": [
+        "Industry Craft Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "A medical book highlighting racism in medicine, based on research that found black patients in Brazil are 'six times more likely to suffer medical errors'.",
+      "what_worked": "Used the craft of publishing to address a systemic healthcare inequality. The meticulous research and presentation elevated a medical reference book into a tool for systemic change.",
+      "key_insight": "Craft excellence applied to social justice can create tools that change systems, not just perceptions.",
+      "results": "Industry Craft Grand Prix winner. Highlighted that black patients in Brazil are 6x more likely to suffer medical errors.",
+      "jury_quote": "When craft serves justice, it creates lasting impact.",
+      "video_type": "Medical reference book / print",
+      "tags": ["craft", "racial_justice", "healthcare", "publishing", "brazil"]
+    },
+    {
+      "id": 15,
+      "campaign_name": "Sounds Right",
+      "brand": "Museum for the United Nations - UN Live / Spotify",
+      "agency": "AKQA, Copenhagen",
+      "country": "Denmark",
+      "categories_won": [
+        "Innovation Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "Launched 'NATURE' as an official artist on Spotify, transforming music streams into conservation funding. Well-known artists released tracks featuring and crediting NATURE.",
+      "what_worked": "Created an entirely new funding mechanism for conservation by turning nature sounds into music royalties. The elegant simplicity of making NATURE an 'artist' made it shareable, scalable, and self-sustaining.",
+      "key_insight": "Innovation is not always about new technology - sometimes it's about reframing existing systems (music streaming) to solve entirely different problems (conservation funding).",
+      "results": "Innovation Grand Prix winner. Created a self-sustaining funding mechanism for environmental conservation through music streaming royalties.",
+      "jury_quote": "A truly innovative use of existing platforms to fund conservation.",
+      "video_type": "Digital platform / music streaming integration",
+      "tags": ["innovation", "sustainability", "music", "conservation", "streaming"]
+    },
+    {
+      "id": 16,
+      "campaign_name": "The Partnership That Changed Everything",
+      "brand": "LVMH",
+      "agency": "Havas Play, Paris",
+      "country": "France",
+      "categories_won": [
+        "Luxury Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "Rather than acting as a sponsor of the 2024 Olympic Games, LVMH became a co-creator of the Games. Each Maison contributed its artistry to the Olympic experience, turning luxury into a cultural contribution.",
+      "what_worked": "Redefined sponsorship by becoming a co-creator rather than a logo placement. Each LVMH Maison contributed its artistry to the Olympic experience, creating genuine cultural value rather than just visibility.",
+      "key_insight": "Luxury brands succeed when they contribute to culture rather than simply appearing alongside it. Co-creation beats sponsorship.",
+      "results": "France's first-ever Luxury Lions Grand Prix. Generated EUR 350 million in earned media.",
+      "jury_quote": "LVMH redefined Olympic sport sponsorship.",
+      "video_type": "Multi-touchpoint experiential campaign",
+      "tags": ["luxury", "olympics", "co_creation", "sponsorship", "cultural_contribution"]
+    },
+    {
+      "id": 17,
+      "campaign_name": "The Best Place in the World to Have Herpes",
+      "brand": "New Zealand Herpes Foundation",
+      "agency": "Finch, Sydney / Motion Sickness, Auckland",
+      "country": "New Zealand / Australia",
+      "categories_won": [
+        "Grand Prix for Good",
+        "Lions Health and United Nations Grand Prix for Good"
+      ],
+      "total_grand_prix": 2,
+      "description": "A campaign featuring a first-of-its-kind 'Herpes Destigmatisation Course', a global ranking system underpinned by live data, and plenty of irreverent humour to reduce herpes stigma.",
+      "what_worked": "Used irreverent humor to tackle a deeply stigmatized health topic. The global ranking system created competitive engagement between countries, and the 'Destigmatisation Course' gave the campaign practical utility beyond awareness.",
+      "key_insight": "Humor and data gamification can destigmatize health conditions more effectively than earnest educational campaigns.",
+      "results": "Won both the Grand Prix for Good and Lions Health UN Grand Prix for Good.",
+      "jury_quote": "An innovative and irreverent approach to reducing health stigma.",
+      "video_type": "Campaign film + interactive digital platform",
+      "tags": ["health", "destigmatization", "humor", "social_good", "interactive"]
+    },
+    {
+      "id": 18,
+      "campaign_name": "Lucky Yatra",
+      "brand": "Indian Railways",
+      "agency": "FCB India, Mumbai",
+      "country": "India",
+      "categories_won": [
+        "PR Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "Combated ticket fare evasion by turning train tickets into lottery tickets. By transforming each valid train ticket into a lottery entry, Indian Railways flipped the script - ticket evasion became a missed opportunity.",
+      "what_worked": "Turned a compliance problem into an opportunity by adding positive incentive. Instead of punishing fare evaders (which wasn't working), the campaign rewarded honest passengers, making buying a ticket emotionally and financially attractive.",
+      "key_insight": "Behavioral change works better through positive incentives than punishment. Gamification of compliance can transform entire systems.",
+      "results": "PR Grand Prix winner. India's significant entry into the top tier of Cannes Lions.",
+      "jury_quote": "A creative solution that turned a systemic problem on its head.",
+      "video_type": "PR campaign + lottery mechanism",
+      "tags": ["behavioral_change", "gamification", "transportation", "india", "PR"]
+    },
+    {
+      "id": 19,
+      "campaign_name": "Act Like You Know",
+      "brand": "GoDaddy Airo",
+      "agency": "GoDaddy, Tempe / Quality Meats, Chicago",
+      "country": "USA",
+      "categories_won": [
+        "Creative B2B Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "GoDaddy partnered with actor Walton Goggins to launch a believable eyewear business to demonstrate how small businesses can establish and grow their online presence with its AI-powered tool.",
+      "what_worked": "Used a celebrity to create a real, functioning business as a live demonstration of the product. The meta-narrative - an actor 'acting like' a business owner who actually builds a real business - made for compelling content.",
+      "key_insight": "The best B2B demonstrations don't explain products - they prove them in action through compelling stories.",
+      "results": "First Grand Prix wins for both GoDaddy and Quality Meats agency.",
+      "jury_quote": "A brilliant demonstration of product capability through entertainment.",
+      "video_type": "Branded content series + live business demonstration",
+      "tags": ["B2B", "AI", "celebrity", "product_demo", "small_business"]
+    },
+    {
+      "id": 20,
+      "campaign_name": "Preserved Promos",
+      "brand": "Ziploc",
+      "agency": "VML, New York",
+      "country": "USA",
+      "categories_won": [
+        "Creative Commerce Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "Created a system allowing users to upload expired promo code images, extending their duration if the user was also buying Ziploc - literally 'preserving' promotions like the product preserves food.",
+      "what_worked": "A perfect brand metaphor (Ziploc preserves things) applied to a real consumer pain point (expired promo codes). The mechanic was simple, the insight was universal, and the results were exceptional.",
+      "key_insight": "The strongest commerce ideas find a perfect metaphor between what the product does and what the consumer needs.",
+      "results": "49% redemption rate, 5% sales lift, 14% increase in new buyers. VML ended the festival at the top of the U.S. leaderboard with 24 Lions.",
+      "jury_quote": "A perfect marriage of brand truth and consumer utility.",
+      "video_type": "Digital commerce platform + campaign",
+      "tags": ["commerce", "promotion", "brand_metaphor", "digital", "consumer_utility"]
+    },
+    {
+      "id": 21,
+      "campaign_name": "One Second Ads",
+      "brand": "Budweiser",
+      "agency": "Africa Creative DDB, Sao Paulo",
+      "country": "Brazil",
+      "categories_won": [
+        "Audio & Radio Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "Featured one-second clips of popular songs and asked fans to identify them on social media, rewarding correct guesses with discount codes.",
+      "what_worked": "Extreme constraint (one second) became the creative hook. The gamification element turned passive listeners into active participants, and the social media mechanic made it inherently shareable.",
+      "key_insight": "Creative constraints breed innovation. One second was enough when combined with audience participation and gamification.",
+      "results": "Audio & Radio Grand Prix winner.",
+      "jury_quote": "Proof that less is more when creativity is at its best.",
+      "video_type": "1-second audio clips + social media activation",
+      "tags": ["audio", "gamification", "social_media", "beer", "constraint_creativity"]
+    },
+    {
+      "id": 22,
+      "campaign_name": "Olympic Games Opening Ceremony Paris 2024",
+      "brand": "Paris 2024",
+      "agency": "Paname 24 / Auditoire / Double 2 / OBO / Havas Paris / Havas Events, Paris",
+      "country": "France",
+      "categories_won": [
+        "Outdoor Grand Prix",
+        "Dan Wieden Titanium Lions (additional recognition)"
+      ],
+      "total_grand_prix": 1,
+      "description": "The revolutionary Paris 2024 Olympic Opening Ceremony that moved the event out of a stadium and onto the Seine river, transforming the entire city into a stage.",
+      "what_worked": "Broke every convention of Olympic ceremonies by moving it outdoors along the Seine. This turned an entire city into a creative canvas, making it the most ambitious outdoor experience in history.",
+      "key_insight": "The biggest outdoor idea is the city itself. Breaking format conventions at the highest level of global spectacle creates indelible cultural moments.",
+      "results": "Outdoor Grand Prix winner. Watched by billions globally.",
+      "jury_quote": "An unexpected win that proved outdoor creativity has no boundaries.",
+      "video_type": "Live event / broadcast spectacle",
+      "tags": ["outdoor", "event", "olympics", "paris", "spectacle", "convention_breaking"]
+    },
+    {
+      "id": 23,
+      "campaign_name": "KitKat Phone Break",
+      "brand": "KitKat",
+      "agency": "VML, Prague",
+      "country": "Czech Republic",
+      "categories_won": [
+        "Outdoor Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "OOH and print ads featured KitKat bars replacing smartphones to show how screens dominate our downtime, refreshing the 65-year-old slogan 'Have a break' for the modern world.",
+      "what_worked": "Refreshed a 65-year-old brand platform for the smartphone era. The visual simplicity of replacing phones with KitKat bars was instantly understandable and shareable.",
+      "key_insight": "Legacy brand platforms (like 'Have a break') can be revitalized by connecting them to contemporary cultural tensions (screen addiction).",
+      "results": "Czechia's first-ever Grand Prix award at Cannes Lions.",
+      "jury_quote": "A refreshing update to one of advertising's most iconic platforms.",
+      "video_type": "OOH / Print ads",
+      "tags": ["outdoor", "print", "brand_refresh", "screen_addiction", "visual_simplicity"]
+    },
+    {
+      "id": 24,
+      "campaign_name": "Price Packs",
+      "brand": "PENNY",
+      "agency": "Serviceplan, Munich",
+      "country": "Germany",
+      "categories_won": [
+        "Print & Publishing Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "German discounter PENNY repackaged five household products to highlight their stable prices amidst high inflation, turning packaging entirely into a price statement.",
+      "what_worked": "Turned packaging into a bold brand statement during an inflation crisis. By making the price the hero of the design, PENNY leaned into its competitive advantage (affordability) at exactly the right cultural moment.",
+      "key_insight": "In times of economic anxiety, the boldest creative move is radical simplicity - making the price itself the creative.",
+      "results": "Best-selling month within first four weeks. Over 1.4 million products sold.",
+      "jury_quote": "Price Packs is print, is publishing, is packaging and is a point of view! A massive brand statement and commitment to their customers. — Icaro Doria, Print & Publishing Jury President",
+      "video_type": "Product packaging / Print",
+      "tags": ["print", "packaging", "pricing", "inflation", "retail", "simplicity"]
+    },
+    {
+      "id": 25,
+      "campaign_name": "The Amazon Greenventory",
+      "brand": "Natura",
+      "agency": "Africa Creative DDB, Sao Paulo",
+      "country": "Brazil",
+      "categories_won": [
+        "Sustainable Development Goals Grand Prix"
+      ],
+      "total_grand_prix": 1,
+      "description": "Using AI and drone technology, Natura conducted the largest tree inventory in Amazon history - 400 km2 mapped in just six months, identifying 30,000 trees with cosmetic potential.",
+      "what_worked": "Applied cutting-edge technology (AI + drones) to create tangible environmental impact. The campaign connected business value (cosmetic ingredients) with conservation value (mapping and preserving the Amazon).",
+      "key_insight": "Sustainability wins when business incentives align with environmental outcomes. Technology can bridge the gap between profit and planet.",
+      "results": "400 km2 mapped in six months. 30,000 trees identified with cosmetic potential. Natura aims to preserve 3 million hectares of forest by 2030.",
+      "jury_quote": "Technology in service of the planet.",
+      "video_type": "Technology demonstration + documentary content",
+      "tags": ["sustainability", "AI", "drones", "amazon", "conservation", "brazil"]
+    },
+    {
+      "id": 26,
+      "campaign_name": "Efficient Way to Pay",
+      "brand": "Consul Appliances",
+      "agency": "DM9, Sao Paulo",
+      "country": "Brazil",
+      "categories_won": [
+        "Creative Data Grand Prix (WITHDRAWN)"
+      ],
+      "total_grand_prix": 0,
+      "description": "Originally won the Creative Data Grand Prix but was subsequently withdrawn after consultation with the entrant company DM9.",
+      "what_worked": "N/A - Award was withdrawn.",
+      "key_insight": "N/A - Award was withdrawn.",
+      "results": "Grand Prix withdrawn.",
+      "jury_quote": "N/A",
+      "video_type": "N/A",
+      "tags": ["withdrawn", "data"]
+    }
+  ],
+  "key_trends_2025": {
+    "1_human_touch_over_AI_hype": {
+      "description": "If 2024 was about harnessing AI, 2025 was about finding the human touch. The most celebrated work showed technology amplifying, not replacing, human insight.",
+      "example_campaigns": ["Shot on iPhone", "Real Beauty Redefined for the AI Era", "Caption with Intention"]
+    },
+    "2_compound_consistent_creativity": {
+      "description": "Brands that stick with creative platforms over years achieve 4x more ROI. Consistency beats novelty.",
+      "example_campaigns": ["Shot on iPhone (10 years)", "Real Beauty (20 years)", "KitKat Have a Break (65 years)"]
+    },
+    "3_humor_as_performance_driver": {
+      "description": "72% of people would choose a brand that uses humor over a competitor. Amusing ads trigger brain reward systems, making messages more memorable.",
+      "example_campaigns": ["The Best Place in the World to Have Herpes", "One Second Ads", "Haaland Payback Time"]
+    },
+    "4_creator_and_fan_led": {
+      "description": "Creator-led campaigns dominated. Brands that gave creators freedom to connect with their own audiences saw the strongest results.",
+      "example_campaigns": ["Vaseline Verified", "Call of Discounts", "Shot on iPhone"]
+    },
+    "5_accessibility_social_impact": {
+      "description": "Accessibility and social impact as creative catalysts, not CSR add-ons. The best work solved real problems for marginalized communities.",
+      "example_campaigns": ["Caption with Intention", "Three Words", "Nigrum Corpus", "Lucky Yatra"]
+    },
+    "6_brand_performance_integration": {
+      "description": "The most effective brands no longer choose between brand and performance - they build systems where both thrive. 84% of purchase decisions are made before active decision-making.",
+      "example_campaigns": ["Preserved Promos", "Shot on iPhone", "Price Packs"]
+    },
+    "7_solving_real_problems": {
+      "description": "Winning campaigns solved real-world problems with creativity rather than creating entertaining fluff. Purpose must be functional, not decorative.",
+      "example_campaigns": ["Three Words", "Caption with Intention", "Lucky Yatra", "Sounds Right", "Amazon Greenventory"]
+    }
+  },
+  "top_agencies_by_grand_prix": [
+    {"agency": "Publicis Conseil, Paris", "grand_prix_count": 3, "campaigns": ["AXA Three Words"]},
+    {"agency": "FCB Chicago", "grand_prix_count": 3, "campaigns": ["Caption with Intention"]},
+    {"agency": "Ogilvy UK, London", "grand_prix_count": 2, "campaigns": ["Dove Real Beauty"]},
+    {"agency": "Ogilvy, Singapore", "grand_prix_count": 2, "campaigns": ["Vaseline Verified"]},
+    {"agency": "VML (Prague + New York)", "grand_prix_count": 2, "campaigns": ["KitKat Phone Break", "Preserved Promos"]},
+    {"agency": "Africa Creative DDB, Sao Paulo", "grand_prix_count": 2, "campaigns": ["One Second Ads", "Amazon Greenventory"]}
+  ],
+  "top_countries_by_grand_prix": [
+    {"country": "France", "grand_prix_count": 7},
+    {"country": "USA", "grand_prix_count": 9},
+    {"country": "Brazil", "grand_prix_count": 4},
+    {"country": "UK", "grand_prix_count": 4},
+    {"country": "Singapore", "grand_prix_count": 2},
+    {"country": "Australia / New Zealand", "grand_prix_count": 3},
+    {"country": "South Korea", "grand_prix_count": 1},
+    {"country": "Germany", "grand_prix_count": 1},
+    {"country": "Czech Republic", "grand_prix_count": 1},
+    {"country": "India", "grand_prix_count": 1},
+    {"country": "Denmark", "grand_prix_count": 1},
+    {"country": "China", "grand_prix_count": 1},
+    {"country": "Puerto Rico", "grand_prix_count": 1}
+  ]
+}
