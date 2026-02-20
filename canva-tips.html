@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canva Tips & Tricks - AI.GOS</title>
+    <link rel="icon" type="image/jpeg" href="aigos.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --secondary: #06b6d4;
+            --accent: #ec4899;
+            --canva-blue: #00c4cc;
+            --canva-purple: #7d2ae8;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            background: linear-gradient(135deg, var(--darker) 0%, #1e1045 50%, var(--darker) 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 196, 204, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--canva-blue);
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, var(--canva-purple) 50%, var(--canva-blue) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            max-width: 650px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--canva-purple), var(--canva-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.875rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--light);
+            background: rgba(124, 58, 237, 0.2);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(124, 58, 237, 0.2);
+            color: var(--canva-purple);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--light), var(--gray));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-desc {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(30, 16, 69, 0.5), rgba(15, 23, 42, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--canva-purple), var(--canva-blue), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon.purple { background: linear-gradient(135deg, var(--canva-purple), var(--accent)); }
+        .card-icon.blue { background: linear-gradient(135deg, var(--canva-blue), var(--canva-purple)); }
+        .card-icon.green { background: linear-gradient(135deg, var(--success), var(--canva-blue)); }
+        .card-icon.orange { background: linear-gradient(135deg, var(--warning), var(--accent)); }
+        .card-icon.pink { background: linear-gradient(135deg, var(--accent), var(--canva-purple)); }
+
+        .card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .card p {
+            font-size: 0.875rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .card-tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: rgba(124, 58, 237, 0.2);
+            color: var(--canva-purple);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+
+        .card-tag.pro {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .card-tag.free {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .card-tag.ai {
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--accent);
+        }
+
+        /* Category Section */
+        .category-section {
+            margin-bottom: 4rem;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-right: 1rem;
+            border-right: 3px solid var(--canva-purple);
+            color: var(--light);
+        }
+
+        /* Shortcut Grid */
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .shortcut-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .shortcut-card:hover {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--canva-purple);
+            transform: translateX(-4px);
+        }
+
+        .shortcut-keys {
+            display: flex;
+            gap: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        .key {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 0.5rem;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(124, 58, 237, 0.1));
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .key-plus {
+            display: flex;
+            align-items: center;
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+
+        .shortcut-desc {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* Tip Box */
+        .tip-box {
+            background: linear-gradient(135deg, rgba(0, 196, 204, 0.1), rgba(15, 23, 42, 0.8));
+            border: 1px solid rgba(0, 196, 204, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tip-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tip-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--canva-blue), var(--canva-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .tip-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .tip-content {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .tip-content strong {
+            color: var(--light);
+        }
+
+        /* Workflow Steps */
+        .workflow-steps {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .workflow-step {
+            display: flex;
+            gap: 1.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step:hover {
+            border-color: var(--canva-purple);
+            background: rgba(124, 58, 237, 0.05);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--canva-purple), var(--canva-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* Feature Tags */
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .feature-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--light);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .feature-tag:hover {
+            background: rgba(124, 58, 237, 0.2);
+            border-color: var(--canva-purple);
+            transform: translateY(-2px);
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem 0.75rem;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table th {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--light);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+        }
+
+        .comparison-table td {
+            color: var(--gray);
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(124, 58, 237, 0.05);
+            color: var(--light);
+        }
+
+        .table-check { color: var(--success); font-weight: 700; }
+        .table-partial { color: var(--warning); }
+        .table-no { color: #ef4444; }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(124, 58, 237, 0.1);
+            border-right: 4px solid var(--canva-purple);
+            padding: 1.5rem;
+            border-radius: 12px 0 0 12px;
+            margin: 2rem 0;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box-content {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Prompt Structure */
+        .prompt-structure {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(15, 23, 42, 0.8));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .prompt-formula {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .formula-step {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .formula-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--canva-purple), var(--canva-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin: 0 auto 0.75rem;
+        }
+
+        .formula-title {
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-desc {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            margin: 4rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: var(--gray);
+            font-size: 0.875rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-link {
+            color: var(--canva-purple);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--canva-blue);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-stats {
+                gap: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                gap: 0.25rem;
+            }
+
+            .nav-link {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            section {
+                padding: 4rem 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .shortcut-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table {
+                font-size: 0.75rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem 0.25rem;
+            }
+
+            .category-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                Canva Pro + AI - המדריך המלא
+            </div>
+            <h1>Canva Tips & Tricks</h1>
+            <p>כל הטיפים, הקיצורים והסודות שישדרגו את העיצוב שלך ב-Canva - כולל כלי AI מתקדמים, קיצורי מקלדת ותהליכי עבודה מקצועיים.</p>
+
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">40+</div>
+                    <div class="stat-label">Tips & Tricks</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">AI Features</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Shortcuts</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Workflows</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#ai-tools" class="nav-link">AI Tools</a>
+            <a href="#design-tips" class="nav-link">Design Tips</a>
+            <a href="#shortcuts" class="nav-link">Shortcuts</a>
+            <a href="#brand-kit" class="nav-link">Brand Kit</a>
+            <a href="#templates" class="nav-link">Templates</a>
+            <a href="#export" class="nav-link">Export</a>
+            <a href="#workflow" class="nav-link">Workflow</a>
+            <a href="#pro-secrets" class="nav-link">Pro Secrets</a>
+        </div>
+    </nav>
+
+    <!-- AI TOOLS SECTION -->
+    <section id="ai-tools">
+        <div class="section-header">
+            <span class="section-tag">Artificial Intelligence</span>
+            <h2 class="section-title">AI Tools in Canva</h2>
+            <p class="section-desc">Canva integrates powerful AI tools that can save hours of work. Here's how to maximize each one.</p>
+        </div>
+
+        <!-- Magic Studio Overview -->
+        <div class="prompt-structure fade-in">
+            <h3 style="color: var(--light); font-size: 1.25rem; margin-bottom: 1rem;">Magic Studio - The AI Suite</h3>
+            <div class="prompt-formula">
+                <div class="formula-step">
+                    <div class="formula-number">1</div>
+                    <div class="formula-title">Magic Write</div>
+                    <div class="formula-desc">AI text generation for headlines, copy, captions and more.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">2</div>
+                    <div class="formula-title">Magic Design</div>
+                    <div class="formula-desc">Auto-generate full designs from a text prompt or image.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">3</div>
+                    <div class="formula-title">Magic Edit</div>
+                    <div class="formula-desc">Brush over an area and describe what to add or change.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">4</div>
+                    <div class="formula-title">Magic Eraser</div>
+                    <div class="formula-desc">Remove unwanted objects from photos with one brush stroke.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">5</div>
+                    <div class="formula-title">Magic Expand</div>
+                    <div class="formula-desc">Extend images beyond their borders using AI fill.</div>
+                </div>
+                <div class="formula-step">
+                    <div class="formula-number">6</div>
+                    <div class="formula-title">Magic Grab</div>
+                    <div class="formula-desc">Separate subjects from backgrounds for independent editing.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Tools Cards -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">AI Tools Deep Dive</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon purple">MW</div>
+                    <h3>Magic Write - Pro Tips</h3>
+                    <p>Use Magic Write not just for text - ask it to create content calendars, brainstorm hashtags, write alt-text for accessibility, or generate multiple headline variations for A/B testing.</p>
+                    <span class="card-tag ai">AI Powered</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon blue">MD</div>
+                    <h3>Magic Design - From Prompt to Design</h3>
+                    <p>Upload an image and describe your desired style. Magic Design generates multiple layout options. Tip: Be specific about mood and color palette in your prompt for better results.</p>
+                    <span class="card-tag ai">AI Powered</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon green">BG</div>
+                    <h3>Background Remover</h3>
+                    <p>One-click background removal for any photo. Works best with high-contrast subjects. Pro tip: After removing, use "Magic Expand" to create a new, wider background.</p>
+                    <span class="card-tag pro">Pro Feature</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon orange">ME</div>
+                    <h3>Magic Eraser Tips</h3>
+                    <p>Zoom in before erasing for precision. Use smaller brush sizes for fine details. For complex areas, erase in multiple passes rather than one large stroke.</p>
+                    <span class="card-tag pro">Pro Feature</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon pink">TI</div>
+                    <h3>Text to Image</h3>
+                    <p>Generate custom images right inside Canva. Use specific prompts: "watercolor painting of sunset over ocean, warm tones, dreamy atmosphere" works better than "nice sunset".</p>
+                    <span class="card-tag ai">AI Powered</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon purple">TR</div>
+                    <h3>Magic Translate</h3>
+                    <p>Translate your entire design to 100+ languages instantly. The AI adapts text length and layout automatically. Perfect for international campaigns and multilingual content.</p>
+                    <span class="card-tag ai">AI Powered</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Prompting Tips -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">AI Prompting in Canva</h3>
+            <div class="tip-box">
+                <div class="tip-header">
+                    <div class="tip-icon">P</div>
+                    <div class="tip-title">The Perfect Canva AI Prompt Formula</div>
+                </div>
+                <div class="tip-content">
+                    <strong>Structure your prompts like this:</strong><br><br>
+                    [Style] + [Subject] + [Setting] + [Mood] + [Colors]<br><br>
+                    <strong>Example:</strong> "A minimalist flat illustration of a woman working on laptop in a cozy coffee shop, warm autumn vibes, earth tones with pops of orange"<br><br>
+                    <strong>Tips for better results:</strong><br>
+                    - Mention art style first (watercolor, flat illustration, 3D render, photography)<br>
+                    - Include lighting direction (soft light, dramatic shadows, backlit)<br>
+                    - Specify what you DON'T want with negatives<br>
+                    - Reference specific aesthetics (Scandinavian, bohemian, corporate, playful)
+                </div>
+            </div>
+            <div class="tip-box">
+                <div class="tip-header">
+                    <div class="tip-icon">A</div>
+                    <div class="tip-title">Magic Write - Advanced Prompts</div>
+                </div>
+                <div class="tip-content">
+                    <strong>Instead of generic prompts, try these power patterns:</strong><br><br>
+                    - "Write 5 Instagram captions for [product] targeting [audience] with [tone]"<br>
+                    - "Create a weekly content calendar for [niche] with post ideas and hashtags"<br>
+                    - "Rewrite this text to be more [professional/casual/playful]: [paste text]"<br>
+                    - "Generate 10 headline variations for A/B testing: [topic]"<br>
+                    - "Write SEO-friendly alt text for an image showing [description]"
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- DESIGN TIPS SECTION -->
+    <section id="design-tips">
+        <div class="section-header">
+            <span class="section-tag">Design Mastery</span>
+            <h2 class="section-title">Design Tips That Make a Difference</h2>
+            <p class="section-desc">Professional design principles applied directly in Canva for stunning results.</p>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Typography Secrets</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>The 3-Font Rule</h3>
+                    <p>Never use more than 3 fonts in one design. Use one for headings, one for body text, and optionally one for accents. Canva's suggested font pairings are a great starting point.</p>
+                    <span class="card-tag">Typography</span>
+                </div>
+                <div class="card">
+                    <h3>Font Size Hierarchy</h3>
+                    <p>Create clear hierarchy: Heading = 3x body size, Subheading = 1.5x body size. This ratio ensures readability and visual flow across all design formats.</p>
+                    <span class="card-tag">Hierarchy</span>
+                </div>
+                <div class="card">
+                    <h3>Letter Spacing for Headers</h3>
+                    <p>Increase letter spacing (tracking) on uppercase headings by 50-150 for a premium feel. Decrease it slightly on lowercase body text for improved readability.</p>
+                    <span class="card-tag">Typography</span>
+                </div>
+                <div class="card">
+                    <h3>Canva Font Combos</h3>
+                    <p>Winning combinations: Playfair Display + Lato, Montserrat + Open Sans, Abril Fatface + Poppins, Oswald + Roboto. Mix serif headlines with sans-serif body text.</p>
+                    <span class="card-tag">Font Pairing</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Color & Composition</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>60-30-10 Color Rule</h3>
+                    <p>60% dominant color (background), 30% secondary color (sections), 10% accent color (CTAs, icons). This creates a balanced and professional look every time.</p>
+                    <span class="card-tag">Color Theory</span>
+                </div>
+                <div class="card">
+                    <h3>Color Picker from Photo</h3>
+                    <p>Upload a photo and use Canva's color picker to extract its palette. Click any element's color, then use the eyedropper tool on the photo to match colors perfectly.</p>
+                    <span class="card-tag free">Free Tip</span>
+                </div>
+                <div class="card">
+                    <h3>White Space is Power</h3>
+                    <p>Don't fill every pixel. Leaving at least 20% of your design as white space makes it look more professional and luxurious. Premium brands use 40%+ white space.</p>
+                    <span class="card-tag">Composition</span>
+                </div>
+                <div class="card">
+                    <h3>Alignment Guides</h3>
+                    <p>Enable snap-to-grid and alignment guides (they're on by default). Hold Shift while resizing to maintain proportions. Use Canva's auto-alignment for perfect centering.</p>
+                    <span class="card-tag">Layout</span>
+                </div>
+                <div class="card">
+                    <h3>Contrast for Readability</h3>
+                    <p>Text over images? Add a semi-transparent rectangle behind text (black at 50-70% opacity). Or use Canva's "Duotone" effect on photos to reduce visual noise.</p>
+                    <span class="card-tag">Accessibility</span>
+                </div>
+                <div class="card">
+                    <h3>Consistent Padding</h3>
+                    <p>Use the same spacing around all edges. A quick trick: create a small square, place it in corners as a spacing guide, then delete it. Or use grids for automatic spacing.</p>
+                    <span class="card-tag">Layout</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- SHORTCUTS SECTION -->
+    <section id="shortcuts">
+        <div class="section-header">
+            <span class="section-tag">Productivity</span>
+            <h2 class="section-title">Keyboard Shortcuts</h2>
+            <p class="section-desc">Master these shortcuts to design 3x faster. These are the ones professionals use daily.</p>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Essential Shortcuts</h3>
+            <div class="shortcut-grid">
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">T</span>
+                    </div>
+                    <div class="shortcut-desc">Add a text box instantly</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">R</span>
+                    </div>
+                    <div class="shortcut-desc">Add a rectangle shape</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">C</span>
+                    </div>
+                    <div class="shortcut-desc">Add a circle shape</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">L</span>
+                    </div>
+                    <div class="shortcut-desc">Add a line</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">/</span>
+                    </div>
+                    <div class="shortcut-desc">Open Magic Write (AI assistant)</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">D</span>
+                    </div>
+                    <div class="shortcut-desc">Duplicate selected element</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">G</span>
+                    </div>
+                    <div class="shortcut-desc">Group selected elements</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">G</span>
+                    </div>
+                    <div class="shortcut-desc">Ungroup elements</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Advanced Shortcuts</h3>
+            <div class="shortcut-grid">
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Alt</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">Drag</span>
+                    </div>
+                    <div class="shortcut-desc">Duplicate and move element simultaneously</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">]</span>
+                    </div>
+                    <div class="shortcut-desc">Bring element forward one layer</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">[</span>
+                    </div>
+                    <div class="shortcut-desc">Send element backward one layer</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">A</span>
+                    </div>
+                    <div class="shortcut-desc">Select all elements on page</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">Enter</span>
+                    </div>
+                    <div class="shortcut-desc">Add a new blank page</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">K</span>
+                    </div>
+                    <div class="shortcut-desc">Toggle uppercase text</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">C</span>
+                    </div>
+                    <div class="shortcut-desc">Copy style of element</div>
+                </div>
+                <div class="shortcut-card">
+                    <div class="shortcut-keys">
+                        <span class="key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="key">V</span>
+                    </div>
+                    <div class="shortcut-desc">Paste style to element</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box fade-in">
+            <div class="info-box-title">Bonus: Hidden Shortcut</div>
+            <div class="info-box-content">Press <strong>/</strong> anywhere in Canva to open the Magic Write AI assistant. Type your prompt and get AI-generated text instantly. You can also type <strong>"/"</strong> inside any text box to activate it directly.</div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- BRAND KIT SECTION -->
+    <section id="brand-kit">
+        <div class="section-header">
+            <span class="section-tag">Branding</span>
+            <h2 class="section-title">Brand Kit Mastery</h2>
+            <p class="section-desc">Build a consistent brand identity using Canva's Brand Kit for professional results across all designs.</p>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Setting Up Your Brand Kit</h3>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Upload Your Logo Variations</h4>
+                        <p>Upload primary logo, secondary logo, icon-only version, and white/dark versions. Having all variations ready saves time when designing for different backgrounds.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Define Brand Colors</h4>
+                        <p>Add your primary, secondary, and accent colors with exact hex codes. Include neutrals too (your specific black, white, gray). Canva lets you add up to 100 colors per brand kit.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Set Brand Fonts</h4>
+                        <p>Upload custom fonts or choose from Canva's library. Define heading font, subheading font, and body font. Set default sizes for consistency.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Create Brand Templates</h4>
+                        <p>Design master templates for your recurring content types: social posts, stories, presentations, emails. Share them with your team so everyone stays on-brand.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Brand Voice with Magic Write</h4>
+                        <p>Configure Magic Write to match your brand tone. Set guidelines like "professional but friendly" or "bold and playful" so AI-generated text stays consistent.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-box fade-in">
+            <div class="tip-header">
+                <div class="tip-icon">B</div>
+                <div class="tip-title">Pro Brand Kit Tips</div>
+            </div>
+            <div class="tip-content">
+                <strong>Quick brand application:</strong> Click "Styles" in the sidebar, then "Brand" to instantly apply your brand colors and fonts to any template.<br><br>
+                <strong>Multiple brands:</strong> Canva Pro supports multiple brand kits - perfect for agencies or freelancers managing several clients.<br><br>
+                <strong>Brand photos:</strong> Upload a library of approved brand photos so your team always uses consistent imagery.
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- TEMPLATES SECTION -->
+    <section id="templates">
+        <div class="section-header">
+            <span class="section-tag">Templates</span>
+            <h2 class="section-title">Template Tricks</h2>
+            <p class="section-desc">Work smarter with templates - the fastest path to professional designs.</p>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Template Power Moves</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon blue">S</div>
+                    <h3>Search with Filters</h3>
+                    <p>Don't just search by keyword. Use filters: color, style (minimalist, bold, elegant), industry, and format. Combine keywords: "real estate modern minimalist" gives better results than just "real estate".</p>
+                    <span class="card-tag free">Free Tip</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon purple">M</div>
+                    <h3>Mix and Match Pages</h3>
+                    <p>You can combine pages from different templates in one design. Open multiple templates in different tabs, then copy-paste pages between them for a unique mashup.</p>
+                    <span class="card-tag free">Free Tip</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon green">B</div>
+                    <h3>Bulk Create from Data</h3>
+                    <p>Connect a spreadsheet (CSV) to auto-generate hundreds of personalized designs. Perfect for certificates, name badges, social posts, or product catalogs with variable data.</p>
+                    <span class="card-tag pro">Pro Feature</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon orange">R</div>
+                    <h3>Resize Magic</h3>
+                    <p>Design once, resize to any format. Created an Instagram post? Instantly resize to Story, Facebook banner, Pinterest pin, LinkedIn post - with intelligent layout adjustments.</p>
+                    <span class="card-tag pro">Pro Feature</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon pink">T</div>
+                    <h3>Save as Template</h3>
+                    <p>Save your best designs as templates for your team. Click "Share" > "Template link" or save to Brand Templates. This ensures consistency across all team members' work.</p>
+                    <span class="card-tag pro">Pro Feature</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon blue">L</div>
+                    <h3>Lock Template Elements</h3>
+                    <p>When creating templates for teams, lock elements that shouldn't be changed (logos, brand elements). Right-click > "Lock position" keeps designs on-brand.</p>
+                    <span class="card-tag free">Free Tip</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Size Guide -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">Social Media Size Guide</h3>
+            <div style="overflow-x: auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Post</th>
+                            <th>Story / Reels</th>
+                            <th>Cover / Banner</th>
+                            <th>Profile</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Instagram</strong></td>
+                            <td>1080 x 1080</td>
+                            <td>1080 x 1920</td>
+                            <td>1080 x 566</td>
+                            <td>320 x 320</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Facebook</strong></td>
+                            <td>1200 x 630</td>
+                            <td>1080 x 1920</td>
+                            <td>820 x 312</td>
+                            <td>170 x 170</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LinkedIn</strong></td>
+                            <td>1200 x 627</td>
+                            <td>1080 x 1920</td>
+                            <td>1584 x 396</td>
+                            <td>400 x 400</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TikTok</strong></td>
+                            <td>1080 x 1920</td>
+                            <td>1080 x 1920</td>
+                            <td>-</td>
+                            <td>200 x 200</td>
+                        </tr>
+                        <tr>
+                            <td><strong>YouTube</strong></td>
+                            <td>1280 x 720</td>
+                            <td>1080 x 1920</td>
+                            <td>2560 x 1440</td>
+                            <td>800 x 800</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pinterest</strong></td>
+                            <td>1000 x 1500</td>
+                            <td>1080 x 1920</td>
+                            <td>800 x 450</td>
+                            <td>165 x 165</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- EXPORT SECTION -->
+    <section id="export">
+        <div class="section-header">
+            <span class="section-tag">Export & Share</span>
+            <h2 class="section-title">Export Like a Pro</h2>
+            <p class="section-desc">Know which format to use and how to get the best quality from every export.</p>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Choosing the Right Format</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon green">PNG</div>
+                    <h3>PNG - Best for Web & Social</h3>
+                    <p>Lossless quality, supports transparency. Use for social media posts, logos on transparent backgrounds, graphics with text. File size is larger but quality is crisp.</p>
+                    <span class="card-tag free">Recommended</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon blue">JPG</div>
+                    <h3>JPG - Best for Photos</h3>
+                    <p>Smaller file size, great for photograph-heavy designs. No transparency support. Use for blog images, email headers, and photo-based social posts where file size matters.</p>
+                    <span class="card-tag free">Photos</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon purple">PDF</div>
+                    <h3>PDF - Best for Print</h3>
+                    <p>Choose "PDF Print" for high-quality prints with crop marks and bleed. Choose "PDF Standard" for digital sharing. Always flatten PDFs for professional printing.</p>
+                    <span class="card-tag">Print</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon orange">SVG</div>
+                    <h3>SVG - Best for Scalable Graphics</h3>
+                    <p>Vector format that scales to any size without losing quality. Perfect for logos, icons, and simple graphics. Only available in Canva Pro.</p>
+                    <span class="card-tag pro">Pro Feature</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon pink">MP4</div>
+                    <h3>MP4 - Video & Animation</h3>
+                    <p>Export animations and video designs as MP4. Choose quality level based on purpose: standard for social, high for presentations. GIF option available for short loops.</p>
+                    <span class="card-tag free">Video</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon green">GIF</div>
+                    <h3>GIF - Animated Graphics</h3>
+                    <p>For short animated loops (under 10 seconds). Great for social media engagement. Keep it under 5 frames for small file size. Use for stickers, reactions, and animated logos.</p>
+                    <span class="card-tag free">Animation</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-box fade-in">
+            <div class="tip-header">
+                <div class="tip-icon">Q</div>
+                <div class="tip-title">Export Quality Tips</div>
+            </div>
+            <div class="tip-content">
+                <strong>Compress for web:</strong> After exporting PNG, run through TinyPNG for up to 70% size reduction without visible quality loss.<br><br>
+                <strong>Transparent backgrounds:</strong> When exporting PNG, check "Transparent background" to remove the white background. Works great for logos and overlays.<br><br>
+                <strong>Print-ready:</strong> For professional printing, always export as PDF Print, enable crop marks and bleed (add 3mm bleed in your design), and use CMYK color profile when possible.<br><br>
+                <strong>Batch download:</strong> Select multiple designs and download them all at once. Canva will create a ZIP file with all your exports organized.
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- WORKFLOW SECTION -->
+    <section id="workflow">
+        <div class="section-header">
+            <span class="section-tag">Productivity</span>
+            <h2 class="section-title">Professional Workflows</h2>
+            <p class="section-desc">Optimized workflows that save hours of work every week.</p>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Content Creation Workflow</h3>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Plan with Magic Write</h4>
+                        <p>Start by using Magic Write to brainstorm content ideas and create a weekly content calendar. Ask it to generate post ideas for your niche with optimal posting times.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Choose Template + Apply Brand</h4>
+                        <p>Search for a template that matches your content type. Apply your Brand Kit with one click to instantly customize colors and fonts. This saves 80% of design time.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Create Variations</h4>
+                        <p>Duplicate the page and create variations for different platforms using Magic Resize. Create Instagram square, Story, and Facebook versions from one design.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Collaborate & Review</h4>
+                        <p>Share a link with team members for review. Use comments to give feedback directly on the design. Set view-only or edit permissions as needed.</p>
+                    </div>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Schedule & Publish</h4>
+                        <p>Use Canva's built-in Content Planner to schedule posts directly to Instagram, Facebook, LinkedIn, Pinterest, and Twitter. No need for a separate scheduling tool.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Batch Design Workflow</h3>
+            <div class="tip-box">
+                <div class="tip-header">
+                    <div class="tip-icon">B</div>
+                    <div class="tip-title">Create 30 Posts in 30 Minutes</div>
+                </div>
+                <div class="tip-content">
+                    <strong>Step 1:</strong> Create a master template with your brand kit applied<br>
+                    <strong>Step 2:</strong> Duplicate the page 30 times (Ctrl+D is your friend)<br>
+                    <strong>Step 3:</strong> Prepare a CSV file with your content (titles, subtitles, CTAs)<br>
+                    <strong>Step 4:</strong> Use "Bulk Create" to connect your spreadsheet<br>
+                    <strong>Step 5:</strong> Map data fields to design elements<br>
+                    <strong>Step 6:</strong> Generate all 30 designs at once<br>
+                    <strong>Step 7:</strong> Review, tweak individual posts if needed<br>
+                    <strong>Step 8:</strong> Batch download as PNG or schedule directly
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- PRO SECRETS SECTION -->
+    <section id="pro-secrets">
+        <div class="section-header">
+            <span class="section-tag">Expert Level</span>
+            <h2 class="section-title">Pro Secrets</h2>
+            <p class="section-desc">Advanced techniques that separate amateur designs from professional-grade content.</p>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Hidden Features</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon purple">F</div>
+                    <h3>Frames for Image Masking</h3>
+                    <p>Drag images into frames to create custom shapes. Use phone mockups, laptop screens, and geometric frames. Pro tip: Search "frames" in Elements for hundreds of options.</p>
+                    <span class="card-tag free">Free Tip</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon blue">G</div>
+                    <h3>Grids for Layouts</h3>
+                    <p>Use grids instead of manually placing images. They auto-size and maintain perfect spacing. Combine with frames for magazine-style layouts that look effortlessly professional.</p>
+                    <span class="card-tag free">Free Tip</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon green">A</div>
+                    <h3>Animate Everything</h3>
+                    <p>Click any element and add animations. "Pan" for photos, "Pop" for text, "Fade" for transitions. Mix animation types within one design for dynamic social posts.</p>
+                    <span class="card-tag free">Free Tip</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon orange">S</div>
+                    <h3>Smart Mockups</h3>
+                    <p>Place your design on real-world products: t-shirts, mugs, phones, billboards. Search "Smartmockups" in Apps. Perfect for showcasing designs to clients or for e-commerce.</p>
+                    <span class="card-tag pro">Pro Feature</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon pink">Q</div>
+                    <h3>QR Code Generator</h3>
+                    <p>Built-in QR code generator in Apps. Create styled QR codes that match your brand. Add them to business cards, flyers, and packaging designs directly in Canva.</p>
+                    <span class="card-tag free">Free Tip</span>
+                </div>
+                <div class="card">
+                    <div class="card-icon purple">D</div>
+                    <h3>Draw & Sketch Tool</h3>
+                    <p>Canva has a built-in drawing tool. Use it to add hand-drawn elements, annotations, or signatures. Works great with a stylus/tablet for that personal touch.</p>
+                    <span class="card-tag free">Free Tip</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section fade-in">
+            <h3 class="category-title">Advanced Design Techniques</h3>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>The Shadow Trick</h3>
+                    <p>Duplicate any element, make it black, reduce opacity to 20%, add blur, and offset it slightly behind the original. This creates a custom shadow effect more realistic than Canva's built-in shadows.</p>
+                    <span class="card-tag">Advanced</span>
+                </div>
+                <div class="card">
+                    <h3>Gradient Text Effect</h3>
+                    <p>Create a rectangle with gradient fill, place your text on top, select both, then "Flatten" (Ctrl+Shift+F). Copy the flattened image - you now have gradient text that's impossible to make natively.</p>
+                    <span class="card-tag">Advanced</span>
+                </div>
+                <div class="card">
+                    <h3>Layered Depth Effect</h3>
+                    <p>Place subject image on top, add a shape behind it, then put the full image behind everything. Adjust the shape color to create a "coming out of the frame" effect that adds visual depth.</p>
+                    <span class="card-tag">Advanced</span>
+                </div>
+                <div class="card">
+                    <h3>Custom Color Overlays</h3>
+                    <p>Add a rectangle over your photo, set it to your brand color, reduce opacity to 30-50%. This creates a branded color overlay that makes any stock photo feel on-brand.</p>
+                    <span class="card-tag">Branding</span>
+                </div>
+                <div class="card">
+                    <h3>The Outline Text Trick</h3>
+                    <p>Duplicate text, change the back copy to a different color and increase font size by 2-4px. This creates an outline/stroke effect around your text for better readability on complex backgrounds.</p>
+                    <span class="card-tag">Typography</span>
+                </div>
+                <div class="card">
+                    <h3>Seamless Patterns</h3>
+                    <p>Create a small design tile, export it, re-import as an image, and tile it using Canva's pattern fill. Or search "patterns" in Elements for ready-made seamless backgrounds.</p>
+                    <span class="card-tag">Backgrounds</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canva vs Alternatives -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">Canva Pro vs Free</h3>
+            <div style="overflow-x: auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Canva Free</th>
+                            <th>Canva Pro</th>
+                            <th>Canva Teams</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Templates</strong></td>
+                            <td>250K+</td>
+                            <td class="table-check">610K+</td>
+                            <td class="table-check">610K+</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AI Tools (Magic Studio)</strong></td>
+                            <td class="table-partial">Limited</td>
+                            <td class="table-check">Full Access</td>
+                            <td class="table-check">Full Access</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Brand Kit</strong></td>
+                            <td class="table-no">-</td>
+                            <td class="table-check">1 Kit</td>
+                            <td class="table-check">Multiple Kits</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Background Remover</strong></td>
+                            <td class="table-no">-</td>
+                            <td class="table-check">Unlimited</td>
+                            <td class="table-check">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Magic Resize</strong></td>
+                            <td class="table-no">-</td>
+                            <td class="table-check">Unlimited</td>
+                            <td class="table-check">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cloud Storage</strong></td>
+                            <td>5GB</td>
+                            <td class="table-check">1TB</td>
+                            <td class="table-check">1TB/person</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Content Planner</strong></td>
+                            <td class="table-no">-</td>
+                            <td class="table-check">Full</td>
+                            <td class="table-check">Full + Team</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SVG Export</strong></td>
+                            <td class="table-no">-</td>
+                            <td class="table-check">Yes</td>
+                            <td class="table-check">Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Premium Stock</strong></td>
+                            <td class="table-partial">Limited</td>
+                            <td class="table-check">100M+ assets</td>
+                            <td class="table-check">100M+ assets</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Team Collaboration</strong></td>
+                            <td class="table-partial">Basic</td>
+                            <td class="table-partial">Share & Comment</td>
+                            <td class="table-check">Full Team Tools</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Final Tips -->
+        <div class="category-section fade-in">
+            <h3 class="category-title">Quick Wins You Can Use Today</h3>
+            <div class="feature-tags">
+                <span class="feature-tag">Duplicate page = Ctrl+D</span>
+                <span class="feature-tag">Use "/" for Magic Write</span>
+                <span class="feature-tag">Apply brand with one click</span>
+                <span class="feature-tag">Bulk create from CSV</span>
+                <span class="feature-tag">Lock elements in templates</span>
+                <span class="feature-tag">Copy-paste styles</span>
+                <span class="feature-tag">Use frames for masking</span>
+                <span class="feature-tag">Smart Mockups for products</span>
+                <span class="feature-tag">Export PNG with transparency</span>
+                <span class="feature-tag">Schedule from Content Planner</span>
+                <span class="feature-tag">Add QR codes</span>
+                <span class="feature-tag">Custom shadow technique</span>
+                <span class="feature-tag">Color pick from photos</span>
+                <span class="feature-tag">60-30-10 color rule</span>
+                <span class="feature-tag">3-font maximum</span>
+                <span class="feature-tag">Alt+Drag to duplicate</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-text">
+            Created by <a href="index.html" class="footer-link">AI.GOS - Shelly Or Gisser</a><br>
+            Canva Tips & Tricks Guide - Your shortcut to professional design.
+        </div>
+    </footer>
+
+    <!-- Scroll Animation Script -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
