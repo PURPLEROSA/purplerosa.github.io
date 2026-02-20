@@ -1,0 +1,5 @@
+.env
+drafts/
+post_image_*.png
+__pycache__/
+*.pyc
