@@ -4,18 +4,25 @@ Reads Google Alerts emails, extracts article titles, summaries, and source URLs.
 """
 
 import base64
+import logging
 import re
 from typing import Optional
 from bs4 import BeautifulSoup
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 
 import config
 
+logger = logging.getLogger(__name__)
+
 SCOPES = ["https://www.googleapis.com/auth/gmail.readonly",
            "https://www.googleapis.com/auth/gmail.modify"]
+
+
+class GmailConnectionError(Exception):
+    """Raised when Gmail connection fails."""
+    pass
 
 
 def get_gmail_service():
@@ -24,18 +31,61 @@ def get_gmail_service():
     token_path = config.BASE_DIR / config.GMAIL_TOKEN_FILE
     creds_path = config.BASE_DIR / config.GMAIL_CREDENTIALS_FILE
 
+    # Check that credentials file exists
+    if not creds_path.exists():
+        raise GmailConnectionError(
+            f"קובץ ההרשאות '{config.GMAIL_CREDENTIALS_FILE}' לא נמצא בתיקייה {config.BASE_DIR}.\n"
+            "יש להוריד את הקובץ מ-Google Cloud Console ולשמור אותו בתיקיית הפרויקט."
+        )
+
+    # Try loading existing token
     if token_path.exists():
-        creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
+        try:
+            creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
+        except Exception as e:
+            logger.warning(f"Failed to load existing token: {e}")
+            creds = None
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
+            try:
+                creds.refresh(Request())
+            except Exception as e:
+                logger.error(f"Token refresh failed: {e}")
+                # Delete stale token so user knows to re-authenticate
+                token_path.unlink(missing_ok=True)
+                raise GmailConnectionError(
+                    "לא הצלחתי לרענן את ההרשאה ל-Gmail. הטוקן פג תוקף.\n"
+                    "יש להריץ את הבוט באופן מקומי פעם אחת כדי לאמת מחדש:\n"
+                    "  python gmail_reader.py"
+                )
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(str(creds_path), SCOPES)
-            creds = flow.run_local_server(port=0)
-        token_path.write_text(creds.to_json())
+            # Need interactive auth - try local server, explain if it fails
+            try:
+                from google_auth_oauthlib.flow import InstalledAppFlow
+                flow = InstalledAppFlow.from_client_secrets_file(str(creds_path), SCOPES)
+                creds = flow.run_local_server(port=0)
+            except Exception as e:
+                raise GmailConnectionError(
+                    "לא הצלחתי להתחבר ל-Gmail - נדרש אימות ראשוני.\n"
+                    "יש להריץ פעם אחת במחשב עם דפדפן:\n"
+                    "  python gmail_reader.py\n\n"
+                    "לאחר האימות, העתיקו את קובץ token.json לשרת."
+                )
 
-    return build("gmail", "v1", credentials=creds)
+        # Save the token for future use
+        try:
+            token_path.write_text(creds.to_json())
+        except Exception as e:
+            logger.warning(f"Could not save token: {e}")
+
+    try:
+        return build("gmail", "v1", credentials=creds)
+    except Exception as e:
+        raise GmailConnectionError(
+            f"התחברות ל-Gmail API נכשלה: {e}\n"
+            "בדקו את חיבור האינטרנט וש-Gmail API מופעל ב-Google Cloud Console."
+        )
 
 
 def extract_source_urls(html_body: str) -> list[dict]:

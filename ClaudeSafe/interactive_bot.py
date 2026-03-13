@@ -87,7 +87,7 @@ async def cmd_alerts(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("🔍 שולף מאמרים מ-Google Alerts...")
 
     try:
-        from gmail_reader import get_alert_emails
+        from gmail_reader import get_alert_emails, GmailConnectionError
         alerts = get_alert_emails(max_results=3)
 
         if not alerts:
@@ -121,6 +121,10 @@ async def cmd_alerts(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     'שלח/י "שלח" לפרסום, "לא" לביטול, או "נסה שוב" לגרסה חדשה.'
                 ),
             )
+
+    except GmailConnectionError as e:
+        logger.error(f"Gmail connection error in /alerts: {e}")
+        await update.message.reply_text(f"⚠️ בעיית התחברות ל-Gmail:\n\n{e}")
 
     except Exception as e:
         logger.error(f"Error in /alerts: {e}")
