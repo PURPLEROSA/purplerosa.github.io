@@ -1,0 +1,11 @@
+# Sensitive credentials - NEVER commit these
+credentials.json
+token.json
+.env
+
+# Output files
+output/
+
+# Python
+__pycache__/
+*.pyc
