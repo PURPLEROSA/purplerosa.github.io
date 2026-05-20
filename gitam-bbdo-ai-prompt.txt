@@ -1,0 +1,55 @@
+GITAM BBDO AI
+
+[Render this exact composition as a single high-resolution image, 1:1 square. Reproduce every line of Hebrew text below verbatim, fully readable, no truncation, no paraphrasing, correct right-to-left layout. Use the Heebo typeface for all Hebrew. All English wordmark text in ultra-bold condensed sans-serif.]
+
+== CANVAS ==
+Jet-black background (#000000). Premium advertising-agency poster, cinematic, crisp, vector-clean, 4K.
+
+== TOP-RIGHT CORNER ==
+Sharp red triangular wedge in vibrant crimson (#E10A17), pointing inward, with a thin diagonal red light streak crossing through it.
+
+== BOTTOM-LEFT CORNER ==
+Triangular wedge of silver-white (#F2F2F2 to #CFCFCF gradient). Overlay a faint circuit-board pattern of fine grey lines (#7A7A7A) and small glowing red node dots (#E10A17). Tech / AI motif.
+
+== BOTTOM CENTER ==
+A soft red dotted wave gradient — millions of tiny red particles (#E10A17) forming a curved horizon glow, fading from bright red at the center to pure black at the edges.
+
+== HEADER WORDMARK (center-top) ==
+Two stacked rows, perfectly centered:
+Row 1: GITAM   — pure white (#FFFFFF), ultra-bold, condensed, very large.
+Row 2: BBDO AI — "BBDO" in vibrant red (#E10A17) with soft red glow; followed immediately by "AI" in pure white. The dot of the "i" in AI is replaced by a glowing red orb (#FF2A36) emitting a soft red halo. A subtle vertical white-to-red light streak runs through the seam between BBDO and AI.
+
+Directly under the wordmark, a thin all-caps tagline in spaced letters, white:
+CREATIVE MINDS . INTELLIGENT FUTURES .
+
+== BODY TEXT BLOCK (Hebrew, RTL, Heebo font, white on black, fully legible) ==
+Render the following Hebrew text exactly, line by line, inside a centered translucent panel below the wordmark. Do NOT translate. Do NOT skip lines.
+
+שלום לכולם,
+
+שמחים לעדכן כי שלי אור גיסר מתקדמת לתפקיד חדש במשרד – Head of AI.
+
+במסגרת תפקידה, שלי תוביל את תחום ה-AI בארגון ותהיה אחראית על:
+• הכשרות AI לכלל מחלקות המשרד
+• פיתוח ובניית כלי AI שיסייעו לכולנו להיות טובים, חכמים ומדויקים יותר בעבודה שלנו
+• הובלה מקצועית ובטוחה של המשרד לעידן החדש של AI בעולם הפרסום
+• לימוד ובחינה של מודלים חדשים והטמעתם בתהליכי העבודה שלנו
+
+(בקטן יותר) כחלק מהמהלך, שלי הצטרפה לצוות האסטרטגיה תחת ניהולו של ניר.
+
+זהו צעד משמעותי בהתפתחות שלנו כמשרד שממשיך להוביל, להתחדש ולשלב טכנולוגיה מתקדמת בעשייה היומיומית.
+
+שלי – בהצלחה גדולה בתפקיד החדש! אנחנו בטוחים שתובילי את התחום קדימה ותשפיעי משמעותית על כולנו.
+
+בהצלחה!
+
+== STYLE NOTES ==
+• Words "Head of AI" inside the Hebrew text must appear in red (#E10A17), bold.
+• Name "שלי אור גיסר" must appear in bold white, slightly larger.
+• Bullets in soft white.
+• Final word "בהצלחה!" centered, larger, glowing red (#FF5A64).
+• Maintain generous spacing, premium typographic hierarchy.
+• Absolutely no spelling changes or invented characters. Every Hebrew letter must be correct.
+
+== OUTPUT ==
+One single 1:1 square image, photorealistic poster quality, all text sharp and readable.
