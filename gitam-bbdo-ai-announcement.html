@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GITAM BBDO AI — Head of AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        html, body {
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem 4rem;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            max-width: 980px;
+            background: #000;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(220, 20, 30, 0.18);
+            isolation: isolate;
+        }
+
+        .corner-red {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 180px;
+            height: 180px;
+            background: #e10a17;
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+            z-index: 1;
+        }
+
+        .corner-red::after {
+            content: "";
+            position: absolute;
+            top: 30px;
+            right: -10px;
+            width: 240px;
+            height: 2px;
+            background: rgba(225, 10, 23, 0.55);
+            transform: rotate(135deg);
+            transform-origin: right center;
+        }
+
+        .corner-white {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 220px;
+            height: 220px;
+            background: linear-gradient(135deg, #f3f3f3 0%, #cfcfcf 100%);
+            clip-path: polygon(0 100%, 100% 100%, 0 0);
+            z-index: 1;
+            opacity: 0.95;
+        }
+
+        .circuit {
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            width: 180px;
+            height: 180px;
+            opacity: 0.85;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .dotted-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 240px;
+            background:
+                radial-gradient(circle at 50% 100%, rgba(225, 10, 23, 0.55) 0%, rgba(225, 10, 23, 0) 60%),
+                repeating-radial-gradient(circle at 50% 120%, rgba(225, 10, 23, 0.55) 0 1.5px, transparent 2px 14px);
+            mask-image: radial-gradient(ellipse at 50% 100%, #000 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at 50% 100%, #000 30%, transparent 70%);
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 3;
+            padding: 4rem 3rem 3.5rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .header-stack {
+            display: inline-block;
+            position: relative;
+            line-height: 0.95;
+        }
+
+        .gitam {
+            font-weight: 900;
+            color: #ffffff;
+            font-size: clamp(3.2rem, 9vw, 6.4rem);
+            letter-spacing: 0.02em;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+            font-family: 'Heebo', sans-serif;
+        }
+
+        .bbdo-line {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.05em;
+            font-weight: 900;
+            font-size: clamp(3.2rem, 9vw, 6.4rem);
+            letter-spacing: 0.02em;
+            margin-top: 0.05em;
+            position: relative;
+        }
+
+        .bbdo {
+            color: #e10a17;
+            text-shadow: 0 0 24px rgba(225, 10, 23, 0.55);
+        }
+
+        .ai {
+            color: #ffffff;
+            position: relative;
+            padding-right: 0.18em;
+            margin-right: 0.18em;
+        }
+
+        .ai .dot {
+            display: inline-block;
+            width: 0.16em;
+            height: 0.16em;
+            border-radius: 50%;
+            background: #ff2a36;
+            box-shadow: 0 0 18px #ff2a36, 0 0 36px rgba(255, 42, 54, 0.6);
+            transform: translateY(-0.55em);
+            margin: 0 0.04em;
+        }
+
+        .divider-glow {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 2px;
+            height: 110%;
+            background: linear-gradient(180deg, transparent, #ffffff 30%, #ff2a36 70%, transparent);
+            transform: translate(-50%, -50%) rotate(2deg);
+            filter: blur(1px);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .tagline {
+            margin-top: 1.4rem;
+            color: #f1f1f1;
+            font-weight: 400;
+            letter-spacing: 0.35em;
+            font-size: clamp(0.8rem, 1.4vw, 1.05rem);
+            text-transform: uppercase;
+            direction: ltr;
+        }
+
+        .tagline .sep {
+            color: #e10a17;
+            margin: 0 0.5em;
+        }
+
+        .announcement {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 2rem 1.75rem;
+            backdrop-filter: blur(6px);
+            margin-top: 1.5rem;
+        }
+
+        .announcement h2 {
+            color: #fff;
+            font-weight: 800;
+            font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .announcement p {
+            color: #ececec;
+            font-size: 1.05rem;
+            line-height: 1.85;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .announcement .highlight {
+            color: #ff5a64;
+            font-weight: 700;
+        }
+
+        .announcement ul {
+            margin: 0.5rem 0 1rem 0;
+            padding-right: 1.5rem;
+            color: #ececec;
+            line-height: 1.85;
+            font-size: 1.02rem;
+        }
+
+        .announcement ul li {
+            margin-bottom: 0.4rem;
+        }
+
+        .announcement .small {
+            font-size: 0.92rem;
+            color: #bdbdbd;
+            font-style: italic;
+            margin-top: -0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .announcement .signoff {
+            color: #ff7a82;
+            font-weight: 700;
+            font-size: 1.08rem;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .footer-bar {
+            margin-top: 1.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-bar .pill {
+            padding: 0.45rem 1.1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(225, 10, 23, 0.55);
+            color: #ffd6d9;
+            font-size: 0.82rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            background: rgba(225, 10, 23, 0.08);
+            direction: ltr;
+        }
+
+        @media (max-width: 640px) {
+            .content { padding: 3rem 1.25rem 2.5rem; }
+            .corner-red { width: 110px; height: 110px; }
+            .corner-white { width: 140px; height: 140px; }
+            .circuit { width: 110px; height: 110px; bottom: 10px; left: 10px; }
+            .tagline { letter-spacing: 0.25em; }
+        }
+    </style>
+</head>
+<body>
+    <main class="card" aria-label="GITAM BBDO AI announcement">
+        <div class="corner-red" aria-hidden="true"></div>
+        <div class="corner-white" aria-hidden="true"></div>
+        <div class="dotted-wave" aria-hidden="true"></div>
+
+        <svg class="circuit" viewBox="0 0 200 200" aria-hidden="true">
+            <g fill="none" stroke="#7a7a7a" stroke-width="1.2">
+                <path d="M10,120 L60,120 L60,90 L110,90 L110,150 L180,150"/>
+                <path d="M10,160 L40,160 L40,180 L120,180"/>
+                <path d="M150,40 L150,80 L100,80 L100,40 L60,40"/>
+                <path d="M180,100 L140,100 L140,60"/>
+            </g>
+            <g fill="#e10a17">
+                <circle cx="60" cy="120" r="2.5"/>
+                <circle cx="110" cy="90" r="2.5"/>
+                <circle cx="110" cy="150" r="2.5"/>
+                <circle cx="40" cy="160" r="2.5"/>
+                <circle cx="120" cy="180" r="2.5"/>
+                <circle cx="150" cy="40" r="2.5"/>
+                <circle cx="100" cy="80" r="2.5"/>
+                <circle cx="140" cy="60" r="2.5"/>
+                <circle cx="180" cy="150" r="2.5"/>
+            </g>
+        </svg>
+
+        <div class="content">
+            <header class="header">
+                <div class="header-stack">
+                    <div class="divider-glow" aria-hidden="true"></div>
+                    <div class="gitam">GITAM</div>
+                    <div class="bbdo-line">
+                        <span class="bbdo">BBDO</span>
+                        <span class="ai">A<span class="dot"></span>I</span>
+                    </div>
+                </div>
+                <div class="tagline">CREATIVE MINDS<span class="sep">.</span>INTELLIGENT FUTURES<span class="sep">.</span></div>
+            </header>
+
+            <section class="announcement" dir="rtl">
+                <h2>שלום לכולם,</h2>
+                <p>
+                    שמחים לעדכן כי <span class="highlight">שלי אור גיסר</span> מתקדמת לתפקיד חדש במשרד –
+                    <span class="highlight">Head of AI</span>.
+                </p>
+                <p>במסגרת תפקידה, שלי תוביל את תחום ה-AI בארגון ותהיה אחראית על:</p>
+                <ul>
+                    <li>הכשרות AI לכלל מחלקות המשרד</li>
+                    <li>פיתוח ובניית כלי AI שיסייעו לכולנו להיות טובים, חכמים ומדויקים יותר בעבודה שלנו</li>
+                    <li>הובלה מקצועית ובטוחה של המשרד לעידן החדש של AI בעולם הפרסום</li>
+                    <li>לימוד ובחינה של מודלים חדשים והטמעתם בתהליכי העבודה שלנו</li>
+                </ul>
+                <p class="small">כחלק מהמהלך, שלי הצטרפה לצוות האסטרטגיה תחת ניהולו של ניר.</p>
+                <p>
+                    זהו צעד משמעותי בהתפתחות שלנו כמשרד שממשיך להוביל, להתחדש ולשלב טכנולוגיה מתקדמת בעשייה היומיומית.
+                </p>
+                <p>
+                    שלי – בהצלחה גדולה בתפקיד החדש! אנחנו בטוחים שתובילי את התחום קדימה ותשפיעי משמעותית על כולנו.
+                </p>
+                <p class="signoff">בהצלחה!</p>
+            </section>
+
+            <div class="footer-bar">
+                <div class="pill">GITAM &middot; BBDO &middot; AI</div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
