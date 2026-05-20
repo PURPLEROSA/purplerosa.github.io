@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>GITAM BBDO AI — Stego Decoder</title>
+<style>
+  body { font-family: -apple-system, system-ui, Arial, sans-serif; background:#0a0a0a; color:#eee; padding:2rem; max-width:900px; margin:0 auto; }
+  h1 { color:#fff; font-weight:900; }
+  h1 span.red { color:#ED1C24; }
+  textarea { width:100%; min-height:160px; background:#111; color:#eee; border:1px solid #333; border-radius:8px; padding:1rem; font-family:monospace; direction:ltr; }
+  button { background:#ED1C24; color:#fff; border:0; padding:0.8rem 1.6rem; border-radius:8px; font-weight:700; cursor:pointer; margin-top:0.8rem; }
+  pre { background:#111; color:#dcdcdc; padding:1rem; border-radius:8px; white-space:pre-wrap; word-wrap:break-word; direction:ltr; text-align:left; }
+</style>
+</head>
+<body>
+<h1>GITAM <span class="red">BBDO</span> AI — Stego Decoder</h1>
+<p>הדבק כאן את התוכן של <code>gitam-bbdo-ai-stego.txt</code> (יראה כאילו זה רק "GITAM BBDO AI"). לחץ "פענח" כדי לראות את הפרומפט הסמוי.</p>
+<textarea id="input" placeholder="הדבק כאן..."></textarea>
+<button onclick="decode()">פענח</button>
+<h3>הפרומפט המקודד:</h3>
+<pre id="output">—</pre>
+<script>
+const MAP = { '​':0, '‌':1, '‍':2, '﻿':3 };
+function decode() {
+  const txt = document.getElementById('input').value;
+  const chunks = [];
+  for (const ch of txt) if (MAP.hasOwnProperty(ch)) chunks.push(MAP[ch]);
+  const bytes = [];
+  for (let i = 0; i + 4 <= chunks.length; i += 4) {
+    bytes.push((chunks[i] << 6) | (chunks[i+1] << 4) | (chunks[i+2] << 2) | chunks[i+3]);
+  }
+  const decoded = new TextDecoder('utf-8').decode(new Uint8Array(bytes));
+  document.getElementById('output').textContent = decoded || '(שום דבר סמוי לא נמצא)';
+}
+</script>
+</body>
+</html>
