@@ -1,39 +1,163 @@
+# SHELLY OG — מרכז שליטה אישי לתוכן ו-AI
 
-2. Set up your API keys:
-   - Obtain API keys from:
-     - Google Cloud (Gemini Pro Vision)
-     - Cohere
-   - Enter your API keys in the designated fields
+> מנהלת סושיאל אישית, ראש צוות קריאייטיב, אנליסטית טרנדים ואסטרטגית פרסום — בתוך אפליקציה אחת.
 
-3. Open `index.html` in a modern web browser
+**SHELLY OG** היא אפליקציית Full-Stack שנבנתה עבור Shelly Or Gisser — יוצרת AI, מרצה, Head of AI ואסטרטגית קריאייטיב. המוצר לא רק מארגן מידע — הוא **אומר מה חשוב עכשיו ומה הצעד הבא**.
 
-## Usage
-
-1. **Select Mode**
-   - Choose between Image Analysis or Chat mode
-
-2. **Image Analysis**
-   - Upload an image by dragging and dropping or clicking
-   - Click "Analyze Image" to start processing
-   - View comprehensive analysis and generated prompts
-
-3. **Chat Mode**
-   - Engage in conversation for creative ideation
-   - Use the Magic Formula toggle for enhanced results
-   - Refine and iterate on generated prompts
-
-## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Connect
-Follow [@ai.gos](https://www.instagram.com/ai.gos) on Instagram for updates and inspiration.
-
-## Author
-Shelly Or Gisser
+> ⚠️ זהו מוצר נפרד ועצמאי. הוא **אינו** AI.GOS Creator OS, אינו קשור אליו ואין למזג ביניהם. SHELLY OG הוא כיוון מוצר שני, לצורך השוואה.
 
 ---
 
-Made with ❤️ by AI.GOS
+## ✨ מה האפליקציה עושה
+
+- יודעת **מה ליצור עכשיו** ומפחיתה עומס החלטות.
+- מגיבה מהר ל**טרנדים** בעולם ה-AI וטכנולוגיית היוצרים.
+- מארגנת רעיונות, פרומפטים, לינקים, קבצים, מיילים ואירועי יומן.
+- מייצרת **תוכן עברי חזק** לכל פלטפורמה.
+- מכינה **מה להגיד מול מצלמה**.
+- מזהה **מה שווה לפרסם** — ומסמנת **רעש** בבירור.
+
+---
+
+## 🧭 מסכי האפליקציה
+
+| # | מסך | תיאור |
+|---|------|--------|
+| 1 | **הבית** | מרכז השליטה — הפעולה הכי חשובה עכשיו, הזדמנויות, טרנדים דחופים, מה לפרסם, מה רעש. |
+| 2 | **מה לעשות עכשיו** | פעולה ראשית אחת ברורה + בורר מצב עבודה ("היום אני במצב..."). |
+| 3 | **רדאר טרנדים** | סריקת מקורות, ניתוח טרנדים והחלטה: לפרסם / ליצור / לשמור / להתעלם. |
+| 4 | **רעיונות** | תיבת רעיונות עם סיווג אוטומטי וציון עדיפות. |
+| 5 | **סטודיו תוכן** | המרת רעיון לפוסט/קרוסלה/רילס + קואצ'ר מצלמה + מנוע זוויות חזקות. |
+| 6 | **פרויקטים** | ניהול פרויקטים, חוסרים, צעד הבא והזדמנויות תוכן. |
+| 7 | **ספרייה** | מאגר נכסים מתויג וניתן לחיפוש. |
+| 8 | **יומן פרסום** | תכנון פרסום עם המלצות חכמות ותצוגות מרובות. |
+| 9 | **דוח שבועי** | סיכום, תובנות והמלצת SHELLY OG לשבוע הבא. |
+| 10 | **הגדרות** | חיבורי Google, מצב נתונים וכללי בטיחות. |
+
+---
+
+## 🛠️ סטאק טכנולוגי
+
+- **Next.js 14** (App Router) + **React 18**
+- **TypeScript** (strict)
+- **Tailwind CSS** — מערכת עיצוב Dark Mode, RTL, גרדיאנטים
+- רכיבי UI נקיים וניתנים לשימוש חוזר (`src/components/ui`)
+- **API Routes** בצד שרת לכל קריאות ה-AI והסריקה
+- משתני סביבה למפתחות — **אין סודות בקוד**
+
+---
+
+## 🚀 הרצה מקומית
+
+האפליקציה יושבת בשורש המאגר (בענף הזה). מהתיקייה הראשית:
+
+```bash
+npm install
+npm run dev
+```
+
+האפליקציה תעלה בכתובת **http://localhost:3000**.
+
+> כברירת מחדל האפליקציה רצה ב**מצב הדגמה (Mock)** מלא — עם נתוני דמו ומנוע AI מדומה. לא נדרשים מפתחות כדי לסקור את כל המוצר.
+
+### בנייה לפרודקשן
+
+```bash
+npm run build
+npm run start
+```
+
+## ☁️ פריסה (Deployment)
+
+האפליקציה פרוסה אוטומטית ל-**Vercel**: כל דחיפה (push) לענף מפעילה build ויוצרת Preview Deployment. הקובץ `vercel.json` בשורש מגדיר את ה-framework כ-Next.js.
+
+> **הערה:** האתר הסטטי הישן של `purplerosa.github.io` נשמר בתיקייה `legacy-static-site/` כדי לא לאבד אותו, ואינו מפריע ל-build של SHELLY OG.
+
+---
+
+## 🔌 חיבור Google אמיתי (Gmail / Drive / Docs / Sheets / Calendar)
+
+האפליקציה בנויה עם **שכבת מתאמים (adapters)** נקייה. כל עוד אין מפתחות — היא משתמשת ב-Mock connectors מלאים (`src/lib/google/index.ts`).
+
+כדי לחבר חשבון אמיתי:
+
+1. צרי פרויקט ב-[Google Cloud Console](https://console.cloud.google.com/).
+2. הפעילי את ה-APIs: **Gmail API, Google Drive API, Google Docs API, Google Sheets API, Google Calendar API**.
+3. צרי **OAuth 2.0 Client ID** (סוג Web application).
+4. העתיקי את `.env.example` ל-`.env.local` ומלאי:
+   - `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`
+   - `GOOGLE_REFRESH_TOKEN` (מתקבל לאחר הסכמת המשתמשת ב-OAuth)
+5. הגדירי `SHELLY_DATA_MODE=live`.
+6. ב-`src/lib/google/index.ts`, בפונקציה `getConnectors()`, ממשי את ה-Live connectors (יש שם הערות `חיבור אמיתי:` שמסמנות בדיוק היכן). מומלץ להשתמש בחבילת `googleapis`.
+
+**היקפי הרשאה מומלצים (read-only / draft-only בלבד):**
+`gmail.readonly`, `gmail.compose` (לטיוטות בלבד), `drive.readonly`, `documents.readonly`, `spreadsheets`, `calendar.readonly`.
+
+---
+
+## 🤖 חיבור AI אמיתי
+
+ברירת המחדל היא **מנוע AI מדומה** (`src/lib/ai/mock-ai.ts`) שמייצר תוכן עברי איכותי בקול של Shelly — כדי שכל הלוגיקה תהיה ניתנת לבדיקה מיד.
+
+לחיבור ספק חי:
+
+1. הוסיפי `ANTHROPIC_API_KEY` (או `OPENAI_API_KEY`) ל-`.env.local`.
+2. שכבת ה-AI (`src/lib/ai/index.ts`) תזהה את המפתח אוטומטית ותעדיף את הספק החי, עם נפילה בטוחה חזרה ל-Mock במקרה של שגיאה.
+
+---
+
+## 🛡️ כללי בטיחות פרסום
+
+SHELLY OG **לעולם אינה**:
+
+- ❌ מפרסמת תוכן אוטומטית
+- ❌ שולחת מיילים אוטומטית
+- ❌ מזיזה / מוחקת / משנה שמות קבצים אוטומטית
+- ❌ משנה אירועי יומן אוטומטית
+
+היא **רק** מנסחת, ממליצה, מארגנת ומכינה. **כל פעולה אמיתית דורשת אישור מפורש.**
+
+---
+
+## 📁 מבנה התיקיות
+
+```
+shelly-og/
+├── src/
+│   ├── app/                 # מסכים (App Router)
+│   │   ├── page.tsx          # הבית — מרכז השליטה
+│   │   ├── now/              # מה לעשות עכשיו
+│   │   ├── trends/           # רדאר טרנדים
+│   │   ├── ideas/            # תיבת רעיונות
+│   │   ├── studio/           # סטודיו תוכן
+│   │   ├── projects/         # פרויקטים
+│   │   ├── library/          # ספרייה
+│   │   ├── calendar/         # יומן פרסום
+│   │   ├── weekly/           # דוח שבועי
+│   │   ├── settings/         # הגדרות
+│   │   └── api/              # API Routes — /api/ai, /api/scan
+│   ├── components/
+│   │   ├── ui/               # ערכת רכיבי UI לשימוש חוזר
+│   │   ├── layout/           # Sidebar, TopBar, AppShell
+│   │   └── shared/           # useAi, AiResultView, CopyButton
+│   └── lib/
+│       ├── types.ts          # 7 מודלי הנתונים
+│       ├── mock-data.ts      # נתוני דמו
+│       ├── scoring.ts        # מנוע ניקוד עדיפות (12 ממדים)
+│       ├── constants.ts      # תוויות עברית וניווט
+│       ├── utils.ts          # עזרי תאריך ו-cn
+│       ├── ai/               # שכבת AI (Mock + ספק חי)
+│       └── google/           # מתאמי Google Workspace
+├── .env.example
+└── README.md
+```
+
+---
+
+## 🧱 מודל הנתונים
+
+7 ישויות מרכזיות (`src/lib/types.ts`): **Ideas, Trends, Projects, ContentLibrary, WeeklyReviews, PublishedContent, Opportunities**. המבנה נקי ומוכן להתחבר ל-Google Sheets או לבסיס נתונים אמיתי.
+
+---
+
+נבנה כ-Prototype להדגמת מוצר · SHELLY OG
