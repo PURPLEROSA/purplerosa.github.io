@@ -1,0 +1,282 @@
+[
+  {
+    "id": "o-001",
+    "createdAt": "2026-04-22T10:05:00.000Z",
+    "updatedAt": "2026-05-08T11:00:00.000Z",
+    "source": "Gmail",
+    "gmailThreadId": "thread-dana-001",
+    "gmailMessageId": "msg-dana-001",
+    "contactId": "c-001",
+    "contactName": "דנה לוי",
+    "email": "dana.levi@muvne-digital.co.il",
+    "company": "מובנה דיגיטל",
+    "type": "Past Client Reactivation",
+    "status": "Follow-up Needed",
+    "priority": "High",
+    "relationshipStage": "Past Client",
+    "lastContactDate": "2026-04-22",
+    "nextFollowUpDate": "2026-05-22",
+    "reminderText": "דנה ביקשה לחזור אליה החודש עם חידושים בוידאו AI.",
+    "serviceOffered": "AI Workshop",
+    "topicOfInterest": "וידאו AI לצוותי שיווק",
+    "summary": "דנה, לקוחת עבר שעשתה סדנה לפני שנה, ביקשה שתחזרי אליה החודש כשיהיו חידושים בתחום וידאו AI.",
+    "facts": [
+      "דנה כתבה: 'דברי איתי עוד חודש כשיהיה משהו חדש בוידאו'.",
+      "המייל האחרון נשלח ב-22.4.",
+      "בעבר שילמה 1,500 ש\"ח על סדנה."
+    ],
+    "aiAssumptions": [
+      "כנראה מתעניינת בעדכון/סדנה חוזרת ולא רק בשיחת חברים.",
+      "סביר שיש לה תקציב דומה או גבוה יותר מהפעם הקודמת."
+    ],
+    "suggestedNextStep": "לשלוח עדכון קצר עם 3 יכולות וידאו AI חדשות ולהציע סשן עדכון של 90 דקות.",
+    "suggestedEmailDraft": {
+      "subject": "חשבתי שזה יכול לעניין אותך",
+      "body": "היי דנה,\nנזכרתי שאמרת שנדבר שוב כשיהיו חידושים מעניינים סביב וידאו AI.\nיש עכשיו כמה כיוונים שיכולים להיות רלוונטיים ממש עבורכם — במיוחד סביב יצירת וידאו שיווקי מהיר וגרסאות לבדיקות.\nאפשר לקבוע פגישת עדכון קצרה, או לבנות לצוות סשן ממוקד.\nרוצה שאשלח כמה אופציות?\n\nשלי"
+    },
+    "estimatedValue": 2000,
+    "confidenceScore": 88,
+    "needsUserApproval": false,
+    "notes": "הזדמנות חמה שכבר מחכה. לא להשאיר את זה לארכיאולוגיה."
+  },
+  {
+    "id": "o-002",
+    "createdAt": "2026-05-16T12:10:00.000Z",
+    "updatedAt": "2026-05-16T12:10:00.000Z",
+    "source": "Gmail",
+    "gmailThreadId": "thread-avi-001",
+    "gmailMessageId": "msg-avi-001",
+    "contactId": "c-005",
+    "contactName": "אבי שמש",
+    "email": "avi@startup-north.io",
+    "company": "סטארטאפ נורת'",
+    "type": "Quote Request",
+    "status": "Proposal Needed",
+    "priority": "Critical",
+    "relationshipStage": "Warm Lead",
+    "lastContactDate": "2026-05-16",
+    "nextFollowUpDate": "2026-05-22",
+    "reminderText": "אבי ביקש הצעת מחיר לליווי אישי — לא נשלחה עדיין.",
+    "serviceOffered": "Personal Consulting",
+    "topicOfInterest": "ליווי מייסד באסטרטגיית AI",
+    "summary": "אבי, מייסד סטארטאפ, ביקש הצעת מחיר לליווי אישי. ענה מהיר ושאל שאלות ממוקדות — כוונת קנייה גבוהה.",
+    "facts": [
+      "אבי כתב: 'אשמח להצעת מחיר לליווי אישי'.",
+      "ענה לשני מיילים תוך פחות משעה.",
+      "המייל הראשון התקבל לפני 6 ימים."
+    ],
+    "aiAssumptions": [
+      "כנראה משווה גם מול אנשי מקצוע אחרים.",
+      "סביר שמחפש ליווי מתמשך ולא פגישה חד-פעמית."
+    ],
+    "suggestedNextStep": "לשלוח היום הצעת מחיר לליווי אישי — חבילה של 3 פגישות, בטווח 4,500-6,000 ש\"ח.",
+    "suggestedEmailDraft": {
+      "subject": "הצעה לליווי אישי — מוכן להתחיל",
+      "body": "היי אבי,\nתודה על הסבלנות. ריכזתי הצעה לליווי אישי שמתאים לשלב שאתם בו.\nאני מציעה חבילה של 3 פגישות עומק, בין אחת לבין השנייה גם זמינות בוואטסאפ לשאלות.\nאשמח לשלוח את הפירוט המלא ולתאם שיחת התנעה השבוע. איזה יום נוח לך?\n\nשלי"
+    },
+    "estimatedValue": 6000,
+    "confidenceScore": 92,
+    "needsUserApproval": false,
+    "notes": "ליד חם שכבר 6 ימים מחכה. זה לא מיסטיקה, זה כסף על השולחן."
+  },
+  {
+    "id": "o-003",
+    "createdAt": "2026-05-17T09:30:00.000Z",
+    "updatedAt": "2026-05-17T09:30:00.000Z",
+    "source": "Gmail",
+    "gmailThreadId": "thread-ronen-001",
+    "gmailMessageId": "msg-ronen-001",
+    "contactId": "c-003",
+    "contactName": "רונן כץ",
+    "email": "ronen@kenasey-hasi.co.il",
+    "company": "כנסי השיא",
+    "type": "Speaking Request",
+    "status": "Waiting for Me",
+    "priority": "High",
+    "relationshipStage": "Partner",
+    "lastContactDate": "2026-05-17",
+    "nextFollowUpDate": "2026-05-25",
+    "reminderText": "רונן הזמין הרצאת מפתח לכנס ומחכה לתשובה על תאריך ומחיר.",
+    "serviceOffered": "Keynote Lecture",
+    "topicOfInterest": "טרנדים ב-AI לקהל רחב",
+    "summary": "רונן מזמין הרצאת מפתח לכנס הטכנולוגיה שלו ומבקש לדעת זמינות בתאריכים ומחיר.",
+    "facts": [
+      "רונן כתב: 'נשמח להזמין אותך לכנס, מה הזמינות שלך?'.",
+      "הכנס מתוכנן לרבעון הבא.",
+      "בעבר שולמו 6,000 ש\"ח על הרצאה דומה."
+    ],
+    "aiAssumptions": [
+      "כנראה יש מספר מועדים אפשריים לכנס.",
+      "סביר שהתקציב דומה לפעם הקודמת או מעט גבוה יותר."
+    ],
+    "suggestedNextStep": "להשיב עם 2-3 חלונות זמן אפשריים ולציין טווח מחיר של 6,000-7,500 ש\"ח.",
+    "suggestedEmailDraft": {
+      "subject": "כיף לחזור לכנס שלך",
+      "body": "היי רונן,\nשמחה שחשבת עליי שוב.\nאשמח לקחת חלק. כדי להתקדם — נשמח לדעת את התאריך המדויק של הכנס וכמה זמן ההרצאה.\nאני יכולה להחזיק לך שניים-שלושה חלונות זמן ברבעון הבא. נסגור מהר לפני שהיומן מתמלא?\n\nשלי"
+    },
+    "estimatedValue": 7000,
+    "confidenceScore": 85,
+    "needsUserApproval": false,
+    "notes": "מפיק עם ערוץ הפצה. שווה לזוז מהר."
+  },
+  {
+    "id": "o-004",
+    "createdAt": "2026-05-12T14:00:00.000Z",
+    "updatedAt": "2026-05-15T14:00:00.000Z",
+    "source": "Gmail",
+    "gmailThreadId": "thread-yael-001",
+    "gmailMessageId": "msg-yael-001",
+    "contactId": "c-002",
+    "contactName": "יעל בר",
+    "email": "yael.bar@teknova.com",
+    "company": "טקנובה",
+    "type": "Workshop Request",
+    "status": "Proposal Sent",
+    "priority": "Medium",
+    "relationshipStage": "Active Client",
+    "lastContactDate": "2026-05-15",
+    "nextFollowUpDate": "2026-05-26",
+    "reminderText": "נשלחה הצעה לתוכנית הכשרת צוות — ממתינים לאישור.",
+    "serviceOffered": "Team Training",
+    "topicOfInterest": "הכשרת צוות בנושא AI",
+    "summary": "יעל ביקשה תוכנית הכשרה בנושא AI לצוות גדול. נשלחה הצעת מחיר ב-15.5, ממתינים לאישור.",
+    "facts": [
+      "נשלחה הצעת מחיר ב-15.5 על סך 9,000 ש\"ח.",
+      "יעל אישרה קבלת ההצעה אך עוד לא אישרה סופית.",
+      "הצוות מונה כ-25 משתתפים."
+    ],
+    "aiAssumptions": [
+      "כנראה ההצעה עוברת אישור תקציבי פנימי.",
+      "ייתכן שתבקש להוסיף מפגש המשך."
+    ],
+    "suggestedNextStep": "לשלוח פולואפ ידידותי ב-26.5 לבדוק אם יש שאלות פתוחות על ההצעה.",
+    "suggestedEmailDraft": {
+      "subject": "בודקת שהכל ברור לגבי ההצעה",
+      "body": "היי יעל,\nרק מוודאת שההצעה לתוכנית ההכשרה הגיעה וברורה.\nאם יש שאלה פתוחה או משהו שצריך להתאים לאישור התקציבי — אני כאן.\nאשמח לתפוס לכם תאריך לפני שהיומן של הרבעון מתמלא.\n\nשלי"
+    },
+    "estimatedValue": 9000,
+    "confidenceScore": 80,
+    "needsUserApproval": false,
+    "notes": "לקוחה ארגונית. ההצעה בשולחן — לא לשכוח לעקוב."
+  },
+  {
+    "id": "o-005",
+    "createdAt": "2026-05-19T07:45:00.000Z",
+    "updatedAt": "2026-05-19T07:45:00.000Z",
+    "source": "Gmail",
+    "gmailThreadId": "thread-maya-001",
+    "gmailMessageId": "msg-maya-001",
+    "contactId": "c-004",
+    "contactName": "מאיה כהן",
+    "email": "maya.cohen@calcalist-media.co.il",
+    "company": "כלכליסט",
+    "type": "Media Request",
+    "status": "Open",
+    "priority": "Medium",
+    "relationshipStage": "Media",
+    "lastContactDate": "2026-05-19",
+    "nextFollowUpDate": "2026-05-23",
+    "reminderText": "מאיה מבקשת ראיון לכתבה על נשים ב-AI.",
+    "serviceOffered": "Other",
+    "topicOfInterest": "נשים בתחום ה-AI",
+    "summary": "מאיה, כתבת טכנולוגיה, מכינה כתבה על נשים בתחום ה-AI ומבקשת ראיון קצר.",
+    "facts": [
+      "מאיה כתבה: 'רוצה לראיין אותך לכתבה'.",
+      "הכתבה מתוכננת לעלות בחודש הקרוב.",
+      "הראיון יכול להיות טלפוני או בזום."
+    ],
+    "aiAssumptions": [
+      "כנראה דדליין קרוב יחסית.",
+      "חשיפה טובה לקהל יעד רלוונטי, גם אם אין תשלום ישיר."
+    ],
+    "suggestedNextStep": "להשיב חיובי, להציע 2 חלונות זמן לראיון קצר ולבקש קישור לכתבה כשתתפרסם.",
+    "suggestedEmailDraft": {
+      "subject": "אשמח להשתתף בכתבה",
+      "body": "היי מאיה,\nתודה על הפנייה — נושא שמאוד קרוב לליבי.\nאשמח להתראיין. נוחים לך יום ראשון בבוקר או יום שלישי אחר הצהריים?\nאם אפשר, אשמח לקבל קישור לכתבה כשתעלה.\n\nשלי"
+    },
+    "estimatedValue": 0,
+    "confidenceScore": 78,
+    "needsUserApproval": false,
+    "notes": "אין כסף ישיר אבל יש חשיפה. לא להזניח."
+  },
+  {
+    "id": "o-006",
+    "createdAt": "2026-05-10T10:00:00.000Z",
+    "updatedAt": "2026-05-10T10:00:00.000Z",
+    "source": "Gmail",
+    "gmailThreadId": "thread-noa-001",
+    "gmailMessageId": "msg-noa-001",
+    "contactId": "c-006",
+    "contactName": "נועה פרידמן",
+    "email": "noa@womenintech.org.il",
+    "company": "Women in Tech IL",
+    "type": "Collaboration",
+    "status": "Open",
+    "priority": "Medium",
+    "relationshipStage": "Community",
+    "lastContactDate": "2026-05-10",
+    "nextFollowUpDate": "2026-05-27",
+    "reminderText": "נועה הציעה שיתוף פעולה תוכני — וובינר משותף.",
+    "serviceOffered": "AI Content Strategy",
+    "topicOfInterest": "וובינר משותף לקהילה",
+    "summary": "נועה מציעה שיתוף פעולה — וובינר משותף או סדרת תוכן לקהילת Women in Tech.",
+    "facts": [
+      "נועה כתבה: 'נשמח לשיתוף פעולה — אולי וובינר משותף?'.",
+      "הקהילה מונה אלפי חברות.",
+      "אין עדיין תאריך או פורמט סגור."
+    ],
+    "aiAssumptions": [
+      "כנראה שת\"פ ללא תשלום ישיר אבל עם חשיפה גבוהה.",
+      "ייתכן שאפשר להפוך את זה לליד לסדנאות בתשלום."
+    ],
+    "suggestedNextStep": "להשיב בחיוב, להציע פורמט קונקרטי (וובינר 45 דקות) ולקבוע שיחת תיאום קצרה.",
+    "suggestedEmailDraft": {
+      "subject": "בואי נהפוך את זה למשהו אמיתי",
+      "body": "היי נועה,\nרעיון מצוין, אני בעניין.\nמה דעתך על וובינר של 45 דקות בנושא 'AI יישומי לקריירה' — חצי תוכן, חצי שאלות מהקהל?\nנקבע שיחת תיאום קצרה השבוע ונסגור תאריך?\n\nשלי"
+    },
+    "estimatedValue": 2000,
+    "confidenceScore": 72,
+    "needsUserApproval": true,
+    "notes": "שת\"פ פתוח. או שמקדמים, או שסוגרים — לא משאירים במגירת 'אחר כך'."
+  },
+  {
+    "id": "o-007",
+    "createdAt": "2026-05-20T08:05:00.000Z",
+    "updatedAt": "2026-05-20T08:05:00.000Z",
+    "source": "Gmail",
+    "gmailThreadId": "thread-shira-001",
+    "gmailMessageId": "msg-shira-001",
+    "contactId": "c-008",
+    "contactName": "שירה מזרחי",
+    "email": "shira.mizrahi@bank-ofek.co.il",
+    "company": "בנק אופק",
+    "type": "Consulting Request",
+    "status": "New",
+    "priority": "High",
+    "relationshipStage": "New Contact",
+    "lastContactDate": "2026-05-20",
+    "nextFollowUpDate": "2026-05-24",
+    "reminderText": "שירה מבנק אופק מבקשת פגישת מומחית על הטמעת AI בהדרכה.",
+    "serviceOffered": "Personal Consulting",
+    "topicOfInterest": "הטמעת AI בהדרכה ארגונית",
+    "summary": "שירה, מנהלת הדרכה בבנק אופק, מבקשת פגישת מומחית להבנת אפשרויות הטמעת AI במערך ההדרכה.",
+    "facts": [
+      "שירה כתבה: 'אפשר לקבוע שיחה להבין מה אפשרי?'.",
+      "מדובר בארגון פיננסי גדול.",
+      "זו פנייה ראשונה — אין היסטוריה קודמת."
+    ],
+    "aiAssumptions": [
+      "כנראה תהליך החלטה ארוך עם כמה בעלי עניין.",
+      "סביר שיש דרישות רגולציה וסודיות."
+    ],
+    "suggestedNextStep": "להשיב, להציע פגישת מומחית בתשלום (שעה) ולתאם תאריך השבוע הבא.",
+    "suggestedEmailDraft": {
+      "subject": "נשמח להתחיל בפגישת מיקוד",
+      "body": "היי שירה,\nתודה על הפנייה — נושא חשוב ובדיוק בזמן הנכון.\nאני מציעה להתחיל בפגישת מומחית של שעה: נמפה יחד מה רלוונטי למערך ההדרכה שלכם, כולל שיקולי רגולציה.\nמתוך זה נבנה המשך מסודר. נוח לכם בשבוע הבא?\n\nשלי"
+    },
+    "estimatedValue": 2500,
+    "confidenceScore": 76,
+    "needsUserApproval": true,
+    "notes": "לקוח קורפורייט. לתמחר ברצינות, לא כמו טובה."
+  }
+]
