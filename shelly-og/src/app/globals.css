@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================
+ * SHELLY OG — מערכת העיצוב
+ * Dark mode · RTL · גרדיאנטים סגול-ורוד-כתום-חשמלי
+ * ============================================================= */
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: rgba(255, 255, 255, 0.07);
+  }
+
+  html,
+  body {
+    background-color: #08080d;
+    color: #f4f3ff;
+  }
+
+  body {
+    background-image:
+      radial-gradient(900px circle at 85% -5%, rgba(168, 85, 247, 0.16), transparent 55%),
+      radial-gradient(700px circle at 5% 10%, rgba(236, 72, 153, 0.12), transparent 50%),
+      radial-gradient(800px circle at 50% 110%, rgba(251, 146, 60, 0.08), transparent 55%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgba(168, 85, 247, 0.4);
+    color: #fff;
+  }
+
+  /* פס גלילה עדין */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.28);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 85, 247, 0.5);
+    background-clip: padding-box;
+  }
+}
+
+@layer components {
+  /* כרטיס בסיס — מואר ומעוגל */
+  .so-card {
+    @apply rounded-2xl border border-line bg-surface/80 backdrop-blur-sm;
+  }
+
+  /* טקסט בגרדיאנט המותג */
+  .so-gradient-text {
+    @apply bg-brand-gradient bg-clip-text text-transparent;
+  }
+
+  /* כפתור ראשי בגרדיאנט */
+  .so-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-gradient
+      px-4 py-2.5 text-sm font-semibold text-white transition-all
+      hover:brightness-110 hover:shadow-glow active:scale-[0.98]
+      disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* כפתור משני */
+  .so-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line-strong
+      bg-surface-2 px-4 py-2.5 text-sm font-medium text-ink-soft transition-all
+      hover:border-purple/50 hover:text-ink hover:bg-surface-3
+      disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* טבעת זוהר עדינה סביב אלמנט חשוב */
+  .so-glow-border {
+    @apply border border-purple/40 shadow-glow;
+  }
+
+  /* כותרת סקשן */
+  .so-section-title {
+    @apply font-display text-lg font-bold text-ink;
+  }
+}
+
+@layer utilities {
+  .animate-delay-1 {
+    animation-delay: 0.06s;
+  }
+  .animate-delay-2 {
+    animation-delay: 0.12s;
+  }
+  .animate-delay-3 {
+    animation-delay: 0.18s;
+  }
+  .animate-delay-4 {
+    animation-delay: 0.24s;
+  }
+
+  /* טקסט מקוצר לשורות */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* רקע נקודות עדין */
+  .so-dot-grid {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+}
