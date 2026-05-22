@@ -144,6 +144,27 @@ export default function SettingsPage() {
           ))}
         </div>
 
+        {/* כפתור חיבור Google אמיתי */}
+        <div className="mt-4 flex flex-col items-start gap-2.5 rounded-xl border border-purple/25 bg-purple/5 p-3.5">
+          <a
+            href="/api/google/auth"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-white shadow-glow transition-all hover:opacity-90"
+          >
+            <Icon name="Plug" className="size-4" />
+            התחברי ל-Google
+          </a>
+          <p className="text-xs leading-relaxed text-ink-soft">
+            הכפתור פותח את מסך ההסכמה של Google. בסיום תקבלי{" "}
+            <span className="font-semibold text-ink">refresh token</span> —
+            הוסיפי אותו ב-Vercel כמשתנה הסביבה{" "}
+            <span className="rounded bg-white/5 px-1 font-mono text-[11px] text-ink">
+              GOOGLE_REFRESH_TOKEN
+            </span>{" "}
+            ועשי Redeploy. החיבור עובד רק אחרי שמשתני הסביבה של Google מוגדרים
+            ב-Vercel.
+          </p>
+        </div>
+
         <div className="mt-4 flex items-start gap-2.5 rounded-xl border border-electric/25 bg-electric/5 p-3">
           <Icon
             name="Info"
@@ -154,11 +175,11 @@ export default function SettingsPage() {
             <span className="font-semibold text-ink">
               GOOGLE_CLIENT_ID / SECRET / REFRESH_TOKEN
             </span>
-            ) בקובץ{" "}
+            ) כמשתני סביבה (ב-Vercel או בקובץ{" "}
             <span className="rounded bg-white/5 px-1 font-mono text-[11px] text-ink">
               .env.local
-            </span>{" "}
-            — ראי את ה-README. עד שתחברי, האפליקציה רצה על נתוני הדגמה בטוחים
+            </span>
+            ) — ראי את ה-README. עד שתחברי, האפליקציה רצה על נתוני הדגמה בטוחים
             ומלאים, כך שאפשר לסקור את כל המוצר כבר עכשיו.
           </p>
         </div>

@@ -257,14 +257,19 @@ const mockConnectors: GoogleConnectors = {
 export function getConnectors(): GoogleConnectors {
   if (dataMode() === "live") {
     // ----------------------------------------------------------
-    // חיבור אמיתי: כאן יוחזרו ה-Live connectors שמשתמשים ב-googleapis.
-    // לדוגמה:
-    //   const auth = new google.auth.OAuth2(CLIENT_ID, SECRET, REDIRECT);
-    //   auth.setCredentials({ refresh_token: REFRESH_TOKEN });
-    //   return buildLiveConnectors(auth);
-    // עד למימוש המלא — חוזרים ל-Mock כדי לא לשבור את האפליקציה.
+    // חיבור אמיתי: מחזירים את ה-Live connectors שמשתמשים ב-googleapis.
+    // כל שגיאה בבנייה גורמת לנפילה בטוחה חזרה ל-Mock.
     // ----------------------------------------------------------
-    console.warn("[SHELLY OG] מצב live התבקש אך ה-Live connectors טרם מומשו — Mock.");
+    try {
+      // ייבוא דינמי — googleapis הוא server-only ולא נכנס ל-client bundle.
+      const { buildLiveConnectors } = require("./live") as typeof import("./live");
+      return buildLiveConnectors();
+    } catch (err) {
+      console.error(
+        "[SHELLY OG] בניית ה-Live connectors נכשלה — חוזרים ל-Mock.",
+        err
+      );
+    }
   }
   return mockConnectors;
 }
