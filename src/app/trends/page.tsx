@@ -67,6 +67,7 @@ interface ScannedItem {
   title: string;
   snippet: string;
   capturedAt: string;
+  sourceUrl: string;
 }
 interface ScanResult {
   count: number;
@@ -300,6 +301,17 @@ export default function TrendsPage() {
                           · {relativeTimeHe(item.capturedAt)}
                         </p>
                       </div>
+                      {item.sourceUrl && (
+                        <a
+                          href={item.sourceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-line-strong bg-surface-2 px-2.5 py-1.5 text-[11px] font-semibold text-ink-soft transition-all hover:border-purple/50 hover:text-ink"
+                        >
+                          <Icon name="ExternalLink" className="size-3.5" />
+                          פתחי מקור
+                        </a>
+                      )}
                     </div>
                   ))}
                 </div>

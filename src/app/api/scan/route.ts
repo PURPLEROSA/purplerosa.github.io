@@ -28,6 +28,7 @@ export async function POST(req: Request) {
           title: e.subject,
           snippet: e.snippet,
           capturedAt: e.receivedAt,
+          sourceUrl: e.url ?? "https://mail.google.com/mail/u/0/",
         })
       );
     }
@@ -41,6 +42,7 @@ export async function POST(req: Request) {
           title: f.name,
           snippet: `קובץ ${f.mimeType} · תיקייה: ${f.folder}`,
           capturedAt: f.modifiedAt,
+          sourceUrl: f.url ?? "https://drive.google.com/drive/recent",
         })
       );
     }
@@ -54,6 +56,7 @@ export async function POST(req: Request) {
           title: d.title,
           snippet: d.excerpt,
           capturedAt: new Date().toISOString(),
+          sourceUrl: d.url ?? "https://docs.google.com/document/u/0/",
         })
       );
     }
@@ -67,6 +70,7 @@ export async function POST(req: Request) {
           title: r.values[0] ?? "שורה",
           snippet: `פלטפורמה: ${r.values[1] ?? "—"} · סטטוס: ${r.values[2] ?? "—"}`,
           capturedAt: new Date().toISOString(),
+          sourceUrl: "https://docs.google.com/spreadsheets/u/0/",
         })
       );
     }
@@ -80,6 +84,7 @@ export async function POST(req: Request) {
           title: e.title,
           snippet: `אירוע יומן · ${e.date}`,
           capturedAt: e.date,
+          sourceUrl: e.url ?? "https://calendar.google.com/calendar/u/0/r",
         })
       );
     }
@@ -91,6 +96,7 @@ export async function POST(req: Request) {
         title: "לינק שמור — מאמר על עקביות דמות ב-AI",
         snippet: "פיצ'ר שמשמר דמות אחידה לאורך סדרת תמונות.",
         capturedAt: new Date().toISOString(),
+        sourceUrl: "https://www.google.com/search?q=AI+character+consistency",
       });
     }
 

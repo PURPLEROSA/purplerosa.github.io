@@ -39,6 +39,8 @@ export interface RawEmail {
   snippet: string;
   receivedAt: string;
   isNewsletter: boolean;
+  /** קישור ישיר להודעה ב-Gmail. */
+  url?: string;
 }
 
 export interface RawFile {
@@ -48,12 +50,16 @@ export interface RawFile {
   folder: string;
   modifiedAt: string;
   sizeKb: number;
+  /** קישור ישיר לקובץ ב-Drive. */
+  url?: string;
 }
 
 export interface RawDoc {
   id: string;
   title: string;
   excerpt: string;
+  /** קישור ישיר למסמך ב-Google Docs. */
+  url?: string;
 }
 
 export interface RawSheetRow {
@@ -68,6 +74,8 @@ export interface ScannedItem {
   title: string;
   snippet: string;
   capturedAt: string;
+  /** קישור ישיר למקור — המייל / הקובץ / המסמך / האירוע עצמו. */
+  sourceUrl: string;
 }
 
 /* =============================================================

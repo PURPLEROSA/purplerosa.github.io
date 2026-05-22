@@ -265,6 +265,7 @@ function buildGmailConnector(auth: OAuth2Client): GmailConnector {
               snippet: full.data.snippet ?? "",
               receivedAt,
               isNewsletter: looksLikeNewsletter(from, subject, hasUnsubscribe),
+              url: `https://mail.google.com/mail/u/0/#all/${msg.id}`,
             });
           } catch (innerErr) {
             console.error("[google/live] gmail.get נכשל להודעה:", innerErr);
@@ -380,7 +381,7 @@ function buildDriveConnector(auth: OAuth2Client): DriveConnector {
     const res = await drive.files.list({
       pageSize: 25,
       fields:
-        "files(id,name,mimeType,modifiedTime,size,parents)",
+        "files(id,name,mimeType,modifiedTime,size,parents,webViewLink)",
       orderBy: "modifiedTime desc",
     });
     const files = res.data.files ?? [];
@@ -391,6 +392,9 @@ function buildDriveConnector(auth: OAuth2Client): DriveConnector {
       folder: f.parents && f.parents.length > 0 ? f.parents[0] : "—",
       modifiedAt: f.modifiedTime ?? new Date().toISOString(),
       sizeKb: f.size ? Math.round(Number(f.size) / 1024) : 0,
+      url:
+        f.webViewLink ??
+        `https://drive.google.com/file/d/${f.id ?? ""}/view`,
     }));
   }
 
@@ -465,7 +469,7 @@ function buildDocsConnector(auth: OAuth2Client): DocsConnector {
         const res = await drive.files.list({
           q: "mimeType='application/vnd.google-apps.document'",
           pageSize: 25,
-          fields: "files(id,name)",
+          fields: "files(id,name,webViewLink)",
           orderBy: "modifiedTime desc",
         });
         const files = res.data.files ?? [];
@@ -473,6 +477,9 @@ function buildDocsConnector(auth: OAuth2Client): DocsConnector {
           id: f.id ?? "",
           title: f.name ?? "(ללא כותרת)",
           excerpt: "",
+          url:
+            f.webViewLink ??
+            `https://docs.google.com/document/d/${f.id ?? ""}/edit`,
         }));
       } catch (err) {
         console.error("[google/live] listDocs נכשל:", err);
@@ -576,6 +583,7 @@ function buildCalendarConnector(auth: OAuth2Client): CalendarConnector {
             date,
             type: guessEventType(summary),
             relatedProjectId: null,
+            url: e.htmlLink ?? undefined,
           };
         });
       } catch (err) {

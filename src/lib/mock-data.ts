@@ -1238,6 +1238,8 @@ export interface CalendarEvent {
   date: string; // ISO date
   type: "lecture" | "shoot" | "meeting" | "deadline" | "publish";
   relatedProjectId: string | null;
+  /** קישור ישיר לאירוע ב-Google Calendar. */
+  url?: string;
 }
 
 export const mockCalendarEvents: CalendarEvent[] = [
