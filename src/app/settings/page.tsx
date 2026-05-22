@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   PageHeader,
   Card,
@@ -11,7 +11,8 @@ import {
   Pill,
 } from "@/components/ui";
 import { SOURCE_ICON } from "@/lib/constants";
-import type { ItemSource } from "@/lib/types";
+import type { ItemSource, ToneProfile } from "@/lib/types";
+import { useToneProfile } from "@/components/shared/use-tone";
 
 /* =============================================================
  * SHELLY OG — הגדרות
@@ -98,6 +99,9 @@ export default function SettingsPage() {
         title="הגדרות"
         subtitle="חיבורים, מצב נתונים וכללי הבטיחות של SHELLY OG."
       />
+
+      {/* ===== הטון שלי ===== */}
+      <ToneSection />
 
       {/* ===== חיבורי Google ===== */}
       <Card className="animate-fade-up">
@@ -468,6 +472,215 @@ export default function SettingsPage() {
         מכינה את הכל — ההחלטה תמיד שלך.
       </div>
     </div>
+  );
+}
+
+/* ============================================================= */
+/* ---------- הטון שלי ---------- */
+
+/** ממיר מערך לטקסט רב-שורתי (פריט לכל שורה). */
+function linesFromArray(items: string[]): string {
+  return items.join("\n");
+}
+
+/** ממיר טקסט רב-שורתי למערך, מסנן שורות ריקות. */
+function arrayFromLines(value: string): string[] {
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+}
+
+function ToneSection() {
+  const { tone, save, reset } = useToneProfile();
+
+  const [draft, setDraft] = useState<ToneProfile>(tone);
+  const [saved, setSaved] = useState(false);
+
+  /* סנכרון הטיוטה כשהטון נטען מה-localStorage */
+  useEffect(() => {
+    setDraft(tone);
+  }, [tone]);
+
+  function setField<K extends keyof ToneProfile>(
+    key: K,
+    value: ToneProfile[K]
+  ) {
+    setDraft((prev) => ({ ...prev, [key]: value }));
+    setSaved(false);
+  }
+
+  function handleSave() {
+    save({
+      ...draft,
+      traits: arrayFromLines(linesFromArray(draft.traits)),
+      dos: arrayFromLines(linesFromArray(draft.dos)),
+      donts: arrayFromLines(linesFromArray(draft.donts)),
+      signaturePhrases: arrayFromLines(linesFromArray(draft.signaturePhrases)),
+    });
+    setSaved(true);
+  }
+
+  function handleReset() {
+    reset();
+    setSaved(false);
+  }
+
+  return (
+    <Card
+      glow
+      className="relative animate-fade-up overflow-hidden border-purple/25"
+    >
+      <div className="pointer-events-none absolute -right-20 -top-20 size-56 rounded-full bg-purple/10 blur-3xl" />
+      <div className="relative">
+        <div className="mb-1 flex items-center gap-2">
+          <Icon name="AudioLines" className="size-[18px] text-purple-soft" />
+          <CardTitle>הטון שלי</CardTitle>
+        </div>
+        <p className="mb-4 text-sm text-ink-soft">
+          זה הקול ש-SHELLY OG משתמשת בו בכל פוסט, תסריט ושכתוב שהיא כותבת לך.
+          ככל שתדייקי אותו יותר — כך התוצרים יישמעו יותר כמוך, ופחות כמו AI
+          גנרי. שווה להשקיע בזה כמה דקות.
+        </p>
+
+        {/* שדות שורה אחת */}
+        <div className="grid gap-3 sm:grid-cols-2">
+          <ToneInput
+            label="משפט הקול"
+            hint="משפט אחד שמתאר איך את נשמעת."
+            value={draft.summary}
+            onChange={(v) => setField("summary", v)}
+          />
+          <ToneInput
+            label="קהל היעד"
+            hint="למי את מדברת."
+            value={draft.audience}
+            onChange={(v) => setField("audience", v)}
+          />
+          <ToneInput
+            label="מדיניות אימוג'ים"
+            hint="מתי וכמה להשתמש."
+            value={draft.emoji}
+            onChange={(v) => setField("emoji", v)}
+          />
+          <ToneInput
+            label="חתימה אופיינית"
+            hint="איך את סוגרת פוסט."
+            value={draft.signoff}
+            onChange={(v) => setField("signoff", v)}
+          />
+        </div>
+
+        {/* שדות רב-שורתיים — פריט לכל שורה */}
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <ToneList
+            label="תכונות הקול"
+            hint="תכונה אחת בכל שורה."
+            value={draft.traits}
+            onChange={(v) => setField("traits", v)}
+          />
+          <ToneList
+            label="ביטויים אופייניים"
+            hint="ביטוי אחד בכל שורה."
+            value={draft.signaturePhrases}
+            onChange={(v) => setField("signaturePhrases", v)}
+          />
+          <ToneList
+            label="כן לעשות"
+            hint="הנחיה אחת בכל שורה."
+            value={draft.dos}
+            onChange={(v) => setField("dos", v)}
+          />
+          <ToneList
+            label="לא לעשות"
+            hint="הנחיה אחת בכל שורה."
+            value={draft.donts}
+            onChange={(v) => setField("donts", v)}
+          />
+        </div>
+
+        {/* פעולות */}
+        <div className="mt-4 flex flex-wrap items-center gap-2.5">
+          <Button variant="primary" icon="Check" onClick={handleSave}>
+            שמרי את הטון
+          </Button>
+          <Button variant="ghost" icon="RotateCcw" onClick={handleReset}>
+            אפסי לברירת מחדל
+          </Button>
+          {saved && (
+            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-lime">
+              <Icon name="CheckCircle2" className="size-4" />
+              הטון נשמר ✓
+            </span>
+          )}
+        </div>
+
+        <div className="mt-4 flex items-start gap-2.5 rounded-xl border border-purple/25 bg-purple/5 p-3">
+          <Icon
+            name="Info"
+            className="mt-0.5 size-4 shrink-0 text-purple-soft"
+          />
+          <p className="text-xs leading-relaxed text-ink-soft">
+            הטון נשמר אצלך בדפדפן (localStorage) ומוזן אוטומטית בכל המוצר —
+            הסטודיו, חדשות הבוקר וכלי השכתוב — כך שכל תוצר חדש נכתב בקול שלך.
+          </p>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function ToneInput({
+  label,
+  hint,
+  value,
+  onChange,
+}: {
+  label: string;
+  hint: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1 flex items-baseline gap-1.5">
+        <span className="text-xs font-bold text-ink">{label}</span>
+        <span className="text-[11px] text-ink-mute">{hint}</span>
+      </span>
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full rounded-xl border border-line bg-surface-2 px-3 py-2 text-sm text-ink outline-none transition-colors placeholder:text-ink-mute focus:border-purple/50"
+      />
+    </label>
+  );
+}
+
+function ToneList({
+  label,
+  hint,
+  value,
+  onChange,
+}: {
+  label: string;
+  hint: string;
+  value: string[];
+  onChange: (value: string[]) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1 flex items-baseline gap-1.5">
+        <span className="text-xs font-bold text-ink">{label}</span>
+        <span className="text-[11px] text-ink-mute">{hint}</span>
+      </span>
+      <textarea
+        rows={5}
+        value={linesFromArray(value)}
+        onChange={(e) => onChange(e.target.value.split("\n"))}
+        className="w-full resize-y rounded-xl border border-line bg-surface-2 px-3 py-2 text-sm leading-relaxed text-ink outline-none transition-colors placeholder:text-ink-mute focus:border-purple/50"
+      />
+    </label>
   );
 }
 

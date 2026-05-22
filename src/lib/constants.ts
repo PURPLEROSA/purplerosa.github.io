@@ -16,6 +16,8 @@ import type {
   OpportunityType,
   ItemSource,
   LibraryAssetType,
+  NewsCategory,
+  DailyPostKind,
 } from "./types";
 
 /* ---------- ניווט ראשי ---------- */
@@ -26,18 +28,49 @@ export interface NavItem {
   description: string;
 }
 
-export const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "הבית", icon: "LayoutDashboard", description: "מרכז השליטה" },
-  { href: "/now", label: "מה לעשות עכשיו", icon: "Target", description: "הפעולה הבאה" },
-  { href: "/trends", label: "רדאר טרנדים", icon: "Radar", description: "מה חם עכשיו" },
-  { href: "/ideas", label: "רעיונות", icon: "Lightbulb", description: "תיבת רעיונות" },
-  { href: "/studio", label: "סטודיו תוכן", icon: "Sparkles", description: "מרעיון לפוסט" },
-  { href: "/projects", label: "פרויקטים", icon: "FolderKanban", description: "ניהול פרויקטים" },
-  { href: "/library", label: "ספרייה", icon: "Library", description: "כל הנכסים" },
-  { href: "/calendar", label: "יומן פרסום", icon: "CalendarDays", description: "תכנון פרסום" },
-  { href: "/weekly", label: "דוח שבועי", icon: "BarChart3", description: "סיכום והמלצות" },
-  { href: "/settings", label: "הגדרות", icon: "Settings", description: "חיבורים ומצב" },
+export interface NavGroup {
+  title: string;
+  items: NavItem[];
+}
+
+/** הניווט מאורגן בקבוצות ברורות — כדי שלא יהיה עומס. */
+export const NAV_GROUPS: NavGroup[] = [
+  {
+    title: "הבוקר שלי",
+    items: [
+      { href: "/", label: "הבית", icon: "LayoutDashboard", description: "מרכז השליטה" },
+      { href: "/ask", label: "שאלי אותי", icon: "MessagesSquare", description: "תשובות מכל המידע" },
+      { href: "/news", label: "חדשות הבוקר", icon: "Newspaper", description: "6 כותרות להיום" },
+      { href: "/now", label: "מה לעשות עכשיו", icon: "Target", description: "הפעולה הבאה" },
+    ],
+  },
+  {
+    title: "יצירה",
+    items: [
+      { href: "/trends", label: "רדאר טרנדים", icon: "Radar", description: "מה חם עכשיו" },
+      { href: "/ideas", label: "רעיונות", icon: "Lightbulb", description: "תיבת רעיונות" },
+      { href: "/studio", label: "סטודיו תוכן", icon: "Sparkles", description: "מרעיון לפוסט" },
+    ],
+  },
+  {
+    title: "ניהול",
+    items: [
+      { href: "/projects", label: "פרויקטים", icon: "FolderKanban", description: "ניהול פרויקטים" },
+      { href: "/library", label: "ספרייה", icon: "Library", description: "כל הנכסים" },
+      { href: "/calendar", label: "יומן פרסום", icon: "CalendarDays", description: "תכנון פרסום" },
+      { href: "/weekly", label: "דוח שבועי", icon: "BarChart3", description: "סיכום והמלצות" },
+    ],
+  },
+  {
+    title: "מערכת",
+    items: [
+      { href: "/settings", label: "הגדרות", icon: "Settings", description: "טון, חיבורים ומצב" },
+    ],
+  },
 ];
+
+/** רשימה שטוחה של כל פריטי הניווט. */
+export const NAV_ITEMS: NavItem[] = NAV_GROUPS.flatMap((g) => g.items);
 
 /* ---------- תוויות פלטפורמה ---------- */
 export const PLATFORM_LABELS: Record<Platform, string> = {
@@ -267,4 +300,26 @@ export const SHELLY_BRAND = {
   voice:
     "חכמה, ישירה, בטוחה, אנושית, מקצועית, לא רובוטית, לא גנרית, עם קריצה קטנה, בלי להגזים",
   audience: "יוצרי תוכן, מותגים, אנשי שיווק ומקצוענים שרוצים להבין AI באמת",
+};
+
+/* ---------- חדשות הבוקר ---------- */
+export const NEWS_CATEGORY_LABELS: Record<NewsCategory, string> = {
+  "ai-model": "מודל AI",
+  "ai-tool": "כלי AI",
+  "creator-economy": "כלכלת יוצרים",
+  platform: "פלטפורמה",
+  industry: "תעשייה",
+  research: "מחקר",
+};
+
+/* ---------- 5 פוסטים להכין היום ---------- */
+export const DAILY_POST_META: Record<
+  DailyPostKind,
+  { label: string; icon: string; tone: "pink" | "orange" | "purple" | "electric" | "lime" }
+> = {
+  "hot-social": { label: "מה חם ברשתות", icon: "Flame", tone: "pink" },
+  news: { label: "חדשות", icon: "Newspaper", tone: "orange" },
+  "camera-video": { label: "סרטון מול המצלמה", icon: "Video", tone: "purple" },
+  "linkedin-facebook": { label: "לינקדאין / פייסבוק", icon: "Linkedin", tone: "electric" },
+  community: { label: "קהילת הבננות 🍌", icon: "Users", tone: "lime" },
 };

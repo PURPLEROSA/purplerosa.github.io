@@ -14,6 +14,8 @@ import type {
   PublishedContentItem,
   Opportunity,
   NextAction,
+  NewsHeadline,
+  DailyPost,
 } from "./types";
 
 /* ---------- פרויקטים ---------- */
@@ -1294,5 +1296,177 @@ export const mockCalendarEvents: CalendarEvent[] = [
     date: "2026-05-23",
     type: "publish",
     relatedProjectId: null,
+  },
+];
+
+/* ---------- חדשות הבוקר — 6 כותרות להיום ---------- */
+export const mockNews: NewsHeadline[] = [
+  {
+    id: "news_video_models",
+    rank: 1,
+    title: "דור חדש של מודלי וידאו מייצר קליפים באורך מלא ממשפט בודד",
+    summary:
+      "כמה ספקיות הציגו מודלים שמפיקים סצנות וידאו ארוכות ועקביות, עם שליטה בתנועת מצלמה — מטקסט בלבד.",
+    source: "The Rundown AI",
+    category: "ai-model",
+    whyItMatters:
+      "הגבול בין 'גימיק' ל'הפקה אמיתית' זז. עלות הפקת וידאו צונחת — וזה משנה איך מתכננים תוכן.",
+    suggestedAngle:
+      "אל תחגגי את הכלי. שאלי איך לא לאבד טעם כשהכל נהיה זול — זה הבידול שלך.",
+    hotness: 93,
+    worthPosting: true,
+    recommendedPlatform: "instagram",
+    createdAt: "2026-05-22T05:40:00Z",
+  },
+  {
+    id: "news_creator_pay",
+    rank: 2,
+    title: "רשתות חברתיות משיקות תשלום ישיר ליוצרות תוכן AI",
+    summary:
+      "מספר פלטפורמות פתחו מסלולי הכנסה ייעודיים לתוכן שנוצר עם AI, בתנאי תיוג שקיפות.",
+    source: "Creator Economy Report",
+    category: "creator-economy",
+    whyItMatters:
+      "תוכן AI יוצא מהאזור האפור והופך למקור הכנסה לגיטימי ומתוגמל.",
+    suggestedAngle:
+      "'אמרתי לכם שזה מגיע' — שקיפות = אמון = כסף. עכשיו יש לזה הוכחה.",
+    hotness: 85,
+    worthPosting: true,
+    recommendedPlatform: "linkedin",
+    createdAt: "2026-05-22T05:55:00Z",
+  },
+  {
+    id: "news_agents",
+    rank: 3,
+    title: "סוכני AI הופכים לברירת מחדל בכלי העבודה הגדולים",
+    summary:
+      "פלטפורמות עבודה מרכזיות שילבו סוכנים אוטונומיים שמבצעים משימות רב-שלביות בשם המשתמש.",
+    source: "Ben's Bites",
+    category: "ai-tool",
+    whyItMatters:
+      "המיומנות עוברת מ'איך לכתוב פרומפט' ל'איך לנהל סוכן'. שינוי מהותי.",
+    suggestedAngle:
+      "'מפרומפטר למנהל' — הסבירי שזו מיומנות חדשה לגמרי. מצוין להרצאה.",
+    hotness: 79,
+    worthPosting: true,
+    recommendedPlatform: "linkedin",
+    createdAt: "2026-05-22T06:05:00Z",
+  },
+  {
+    id: "news_video_algo",
+    rank: 4,
+    title: "עדכון אלגוריתם: וידאו קצר ואותנטי מקבל דחיפת חשיפה",
+    summary:
+      "רשת חברתית גדולה עדכנה את האלגוריתם כך שמעדיף וידאו קצר, אנושי ולא מלוטש מדי.",
+    source: "Social Media Today",
+    category: "platform",
+    whyItMatters:
+      "חלון הזדמנות לרילס — דווקא עכשיו, ודווקא בלי הפקה כבדה.",
+    suggestedAngle:
+      "תני לקהל היתר: וידאו 'מספיק טוב' מנצח וידאו מושלם שלא יצא.",
+    hotness: 76,
+    worthPosting: true,
+    recommendedPlatform: "instagram",
+    createdAt: "2026-05-22T06:10:00Z",
+  },
+  {
+    id: "news_character",
+    rank: 5,
+    title: "כלי חדש שומר על דמות ויזואלית עקבית לאורך קמפיין שלם",
+    summary:
+      "פיצ'ר שמשמר דמות אחידה לאורך סדרת תמונות — פותר את אחד מכאבי הראש הגדולים של יוצרות ויזואל.",
+    source: "בלוג מוצר",
+    category: "ai-tool",
+    whyItMatters:
+      "אפשר סוף סוף לבנות פרזנטורית מותג עקבית — שפה ויזואלית, לא תמונות בודדות.",
+    suggestedAngle:
+      "'הפסיקי לייצר תמונות, תתחילי לייצר דמות' — מצוין לדמו חי בהרצאה.",
+    hotness: 70,
+    worthPosting: true,
+    recommendedPlatform: "instagram",
+    createdAt: "2026-05-22T06:18:00Z",
+  },
+  {
+    id: "news_trust_research",
+    rank: 6,
+    title: "מחקר חדש: שקיפות על שימוש ב-AI מעלה אמון ומכירות",
+    summary:
+      "סקר רחב מצא ששיתוף גלוי של שימוש ב-AI בתוכן מעלה את אמון הקהל ואת שיעורי ההמרה.",
+    source: "מחקר שוק",
+    category: "research",
+    whyItMatters:
+      "נתונים שתומכים בדיוק במסר שלך — שקיפות היא לא סיכון, היא נכס.",
+    suggestedAngle:
+      "פוסט סמכות מבוסס מספרים: למה הסתרה עולה לך כסף.",
+    hotness: 64,
+    worthPosting: true,
+    recommendedPlatform: "linkedin",
+    createdAt: "2026-05-22T06:25:00Z",
+  },
+];
+
+/* ---------- 5 פוסטים להכין היום ---------- */
+export const mockDailyPosts: DailyPost[] = [
+  {
+    id: "daily_hot",
+    kind: "hot-social",
+    title: "תגובה מהירה לטרנד מודלי הווידאו",
+    whyNow:
+      "זה הנושא הכי חם בפיד הבוקר. חלון התגובה הוא 24-48 שעות — אחרי זה זה כבר 'ישן'.",
+    platform: "instagram",
+    angle: "פרשנות, לא דיווח: 'תקציב הפקה כבר לא תירוץ — אז מה כן?'",
+    effort: "30min",
+    seedTask: "reels-script",
+    seedInput:
+      "דור חדש של מודלי וידאו מייצר קליפים שלמים מטקסט — איך לא לאבד טעם כשהכל נהיה זול",
+  },
+  {
+    id: "daily_news",
+    kind: "news",
+    title: "פוסט מהכותרת: תשלום ישיר ליוצרות תוכן AI",
+    whyNow:
+      "כותרת מספר 2 הבוקר, וזה בדיוק המסר שאת מובילה כבר שנה. רגע מנצח.",
+    platform: "linkedin",
+    angle: "'אמרתי שזה מגיע' — שקיפות הפכה מ-nice to have לכסף.",
+    effort: "15min",
+    seedTask: "news-to-post",
+    seedInput: "רשתות חברתיות משיקות תשלום ישיר ליוצרות תוכן AI",
+  },
+  {
+    id: "daily_camera",
+    kind: "camera-video",
+    title: "סרטון מול מצלמה: 'מפרומפטר למנהל'",
+    whyNow:
+      "סוכני AI הם הנושא של הרבעון. סרטון דיבור קצר ימצב אותך מוקדם.",
+    platform: "linkedin",
+    angle: "המיומנות החדשה היא ניהול, לא כתיבה. הסבירי בגובה העיניים.",
+    effort: "30min",
+    seedTask: "camera-coach",
+    seedInput: "מפרומפטר למנהל — המיומנות החדשה של 2026 בעבודה עם AI",
+  },
+  {
+    id: "daily_linkedin",
+    kind: "linkedin-facebook",
+    title: "פוסט סמכות: 3 טעויות של מותגים עם AI",
+    whyNow:
+      "הפוסט כמעט מוכן בתיבת הרעיונות. 15 דקות ליטוש — והוא יוצא.",
+    platform: "linkedin",
+    angle: "ביקורת מדויקת ובונה — ממצב אותך כמומחית, לא עוד קול.",
+    effort: "15min",
+    seedTask: "linkedin-post",
+    seedInput: "3 הטעויות שמותגים עושים עם AI ב-2026 — וכל אחת ניתנת לתיקון",
+  },
+  {
+    id: "daily_community",
+    kind: "community",
+    title: "פוסט לקהילת הבננות: כלי Google חדש ששווה להכיר",
+    whyNow:
+      "הקהילה אוהבת טיפים פרקטיים על כלי Google. פוסט קצר שמייצר שיחה.",
+    platform: "community",
+    angle: "טיפ אחד מעשי + שאלה לקהילה — בלי הרצאה, בגובה העיניים.",
+    effort: "15min",
+    seedTask: "community-post",
+    seedInput:
+      "כלי AI חדש בתוך Google Workspace ששווה לכל יוצרת תוכן להכיר השבוע",
   },
 ];

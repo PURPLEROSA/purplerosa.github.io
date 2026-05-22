@@ -362,3 +362,66 @@ export interface ScoreBreakdown {
   repurposingPotential: number;
   strategicAuthority: number;
 }
+
+/* ---------- חדשות הבוקר (Daily News) ---------- */
+
+export type NewsCategory =
+  | "ai-model"
+  | "ai-tool"
+  | "creator-economy"
+  | "platform"
+  | "industry"
+  | "research";
+
+/** כותרת חדשות יומית — מוצגת ב"חדשות הבוקר" ובבית. */
+export interface NewsHeadline {
+  id: string;
+  rank: number; // 1-6 — סדר חשיבות
+  title: string;
+  summary: string;
+  source: string;
+  category: NewsCategory;
+  whyItMatters: string;
+  suggestedAngle: string; // הזווית המומלצת ל-Shelly
+  hotness: number; // 0-100 — כמה זה "בוער" עכשיו
+  worthPosting: boolean;
+  recommendedPlatform: Platform;
+  createdAt: string;
+}
+
+/* ---------- 5 פוסטים להכין היום (Daily Posts) ---------- */
+
+export type DailyPostKind =
+  | "hot-social" // מה חם ברשתות
+  | "news" // חדשות
+  | "camera-video" // סרטון מול המצלמה
+  | "linkedin-facebook" // לינקדאין / פייסבוק
+  | "community"; // קהילת הבננות
+
+/** משבצת "פוסט להכין היום" — מוצגת בכניסה לבית. */
+export interface DailyPost {
+  id: string;
+  kind: DailyPostKind;
+  title: string;
+  whyNow: string;
+  platform: Platform;
+  angle: string;
+  effort: EffortLevel;
+  /** משימת ה-AI שמזינה את כתיבת הפוסט. */
+  seedTask: string;
+  seedInput: string;
+}
+
+/* ---------- פרופיל הטון של Shelly (Tone Profile) ---------- */
+
+/** הטון האישי של Shelly — נלמד ע"י האפליקציה ומזין כל יצירת תוכן. */
+export interface ToneProfile {
+  summary: string; // משפט אחד שמתאר את הקול
+  traits: string[]; // תכונות הקול
+  dos: string[]; // מה כן לעשות
+  donts: string[]; // מה לא לעשות
+  signaturePhrases: string[]; // ביטויים אופייניים
+  audience: string; // למי היא מדברת
+  emoji: string; // מדיניות אימוג'ים
+  signoff: string; // חתימה / סגירה אופיינית
+}

@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_ITEMS } from "@/lib/constants";
+import { NAV_GROUPS } from "@/lib/constants";
 import { Icon } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
-/** סרגל הניווט הראשי — בצד ימין (RTL). */
+/** סרגל הניווט הראשי — בצד ימין (RTL), מאורגן בקבוצות. */
 export function Sidebar({
   mobileOpen,
   onClose,
@@ -15,6 +15,9 @@ export function Sidebar({
   onClose: () => void;
 }) {
   const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <>
@@ -29,12 +32,16 @@ export function Sidebar({
 
       <aside
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex w-[268px] flex-col border-l border-line bg-surface/95 backdrop-blur-xl transition-transform duration-300 lg:static lg:translate-x-0",
+          "fixed inset-y-0 right-0 z-50 flex w-[272px] flex-col border-l border-line bg-surface/95 backdrop-blur-xl transition-transform duration-300 lg:static lg:translate-x-0",
           mobileOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
         )}
       >
-        {/* לוגו */}
-        <div className="flex items-center gap-3 border-b border-line px-5 py-5">
+        {/* לוגו — לחיץ, חוזר לבית */}
+        <Link
+          href="/"
+          onClick={onClose}
+          className="flex items-center gap-3 border-b border-line px-5 py-5 transition-colors hover:bg-surface-2"
+        >
           <div className="flex size-11 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-glow">
             <Icon name="Sparkles" className="size-6" />
           </div>
@@ -44,54 +51,57 @@ export function Sidebar({
             </div>
             <div className="mt-1 text-[11px] text-ink-mute">מרכז השליטה</div>
           </div>
-        </div>
+        </Link>
 
-        {/* ניווט */}
-        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-          {NAV_ITEMS.map((item, i) => {
-            const active =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={onClose}
-                className={cn(
-                  "group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all",
-                  active
-                    ? "bg-brand-gradient text-white shadow-glow"
-                    : "text-ink-soft hover:bg-surface-2 hover:text-ink"
-                )}
-              >
-                <span
-                  className={cn(
-                    "flex size-5 items-center justify-center",
-                    !active && "text-ink-mute group-hover:text-purple-soft"
-                  )}
-                >
-                  <Icon name={item.icon} className="size-[18px]" />
-                </span>
-                <span className="flex-1">
-                  <span className="block text-sm font-semibold leading-tight">
-                    {item.label}
-                  </span>
-                  <span
-                    className={cn(
-                      "block text-[11px] leading-tight",
-                      active ? "text-white/70" : "text-ink-mute"
-                    )}
-                  >
-                    {item.description}
-                  </span>
-                </span>
-                <span className="text-[10px] font-bold text-white/40">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </Link>
-            );
-          })}
+        {/* ניווט מקובץ */}
+        <nav className="flex-1 space-y-4 overflow-y-auto px-3 py-4">
+          {NAV_GROUPS.map((group) => (
+            <div key={group.title}>
+              <div className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-ink-mute">
+                {group.title}
+              </div>
+              <div className="space-y-0.5">
+                {group.items.map((item) => {
+                  const active = isActive(item.href);
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={onClose}
+                      className={cn(
+                        "group flex items-center gap-3 rounded-xl px-3 py-2 transition-all",
+                        active
+                          ? "bg-brand-gradient text-white shadow-glow"
+                          : "text-ink-soft hover:bg-surface-2 hover:text-ink"
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "flex size-5 items-center justify-center",
+                          !active && "text-ink-mute group-hover:text-purple-soft"
+                        )}
+                      >
+                        <Icon name={item.icon} className="size-[18px]" />
+                      </span>
+                      <span className="flex-1">
+                        <span className="block text-sm font-semibold leading-tight">
+                          {item.label}
+                        </span>
+                        <span
+                          className={cn(
+                            "block text-[11px] leading-tight",
+                            active ? "text-white/70" : "text-ink-mute"
+                          )}
+                        >
+                          {item.description}
+                        </span>
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         {/* פוטר — מצב נתונים */}

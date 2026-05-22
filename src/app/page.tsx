@@ -1,145 +1,58 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Card, Badge, Icon } from "@/components/ui";
+import { RefineChat } from "@/components/shared/RefineChat";
+import { useToneProfile } from "@/components/shared/use-tone";
 import {
-  Card,
-  Badge,
-  Icon,
-  ScoreRing,
-  UrgencyDot,
-  Pill,
-} from "@/components/ui";
-import {
-  mockNextActions,
-  mockOpportunities,
+  mockDailyPosts,
+  mockNews,
   mockTrends,
+  mockOpportunities,
+  mockCalendarEvents,
   mockIdeas,
   mockProjects,
-  mockWeeklyReviews,
-  mockCalendarEvents,
+  mockNextActions,
 } from "@/lib/mock-data";
 import {
+  DAILY_POST_META,
+  NEWS_CATEGORY_LABELS,
   PLATFORM_LABELS,
-  TREND_DECISION_LABELS,
-  IDEA_STATUS_LABELS,
   OPPORTUNITY_TYPE_LABELS,
 } from "@/lib/constants";
-import {
-  URGENCY_LABELS,
-  EFFORT_LABELS,
-  CLASSIFICATION_LABELS,
-  CLASSIFICATION_TONE,
-} from "@/lib/scoring";
+import { EFFORT_LABELS } from "@/lib/scoring";
 import { formatDateHe, relativeTimeHe, dayNameHe } from "@/lib/utils";
+import type { BadgeTone } from "@/components/ui";
 
-export const metadata = { title: "SHELLY OG — מרכז השליטה" };
+const TODAY = "2026-05-22";
 
-/* ---------- עזרי עיצוב ---------- */
-
-function greeting(): string {
-  const h = new Date().getHours();
-  if (h < 12) return "בוקר טוב, Shelly";
-  if (h < 17) return "צהריים טובים, Shelly";
-  if (h < 21) return "ערב טוב, Shelly";
-  return "לילה טוב, Shelly";
-}
-
-function Section({
-  icon,
-  title,
-  count,
-  href,
-  accent = "purple",
-  children,
-}: {
-  icon: string;
-  title: string;
-  count?: number;
-  href?: string;
-  accent?: "purple" | "pink" | "orange" | "electric";
-  children: React.ReactNode;
-}) {
-  const accentText = {
-    purple: "text-purple-soft",
-    pink: "text-pink",
-    orange: "text-orange",
-    electric: "text-electric",
-  }[accent];
-  return (
-    <Card className="flex flex-col">
-      <div className="mb-3.5 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <Icon name={icon} className={`size-[18px] ${accentText}`} />
-          <h2 className="font-display text-sm font-bold text-ink">{title}</h2>
-          {count !== undefined && (
-            <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[11px] font-bold text-ink-mute">
-              {count}
-            </span>
-          )}
-        </div>
-        {href && (
-          <Link
-            href={href}
-            className="flex items-center gap-0.5 text-[11px] font-semibold text-ink-mute transition-colors hover:text-purple-soft"
-          >
-            הכל
-            <Icon name="ChevronLeft" className="size-3.5" />
-          </Link>
-        )}
-      </div>
-      <div className="flex-1">{children}</div>
-    </Card>
-  );
-}
-
-/* ---------- חישוב נתוני הדשבורד ---------- */
-
-const today = "2026-05-22";
-
-const topAction = mockNextActions[0];
+/* ---------- נתוני "לידיעתך" ---------- */
+const urgentTrends = mockTrends
+  .filter((t) => t.urgencyScore >= 68 && t.finalDecision !== "ignore")
+  .sort((a, b) => b.urgencyScore - a.urgencyScore)
+  .slice(0, 3);
 
 const topOpportunities = [...mockOpportunities]
   .sort((a, b) => rankUrgency(b.importance) - rankUrgency(a.importance))
   .slice(0, 3);
 
-const urgentTrends = mockTrends
-  .filter((t) => t.urgencyScore >= 68 && t.finalDecision !== "ignore")
-  .sort((a, b) => b.urgencyScore - a.urgencyScore);
-
-const almostReadyIdeas = mockIdeas
-  .filter((i) => i.status === "ready" || i.status === "almost-ready")
-  .sort((a, b) => b.readiness - a.readiness);
-
-const stuckIdeas = mockIdeas.filter(
-  (i) => i.status === "in-progress" && i.readiness < 55
-);
-const stuckProjects = mockProjects.filter((p) => p.status === "stuck");
-
-const waitingForHook = mockIdeas.filter((i) =>
-  i.missingItems.some((m) => m.includes("הוק"))
-);
-
 const upcomingEvents = [...mockCalendarEvents]
-  .filter((e) => e.date >= today)
+  .filter((e) => e.date >= TODAY)
   .sort((a, b) => a.date.localeCompare(b.date))
-  .slice(0, 4);
-
-const importantEmails = mockOpportunities
-  .filter((o) => o.source === "gmail" && rankUrgency(o.importance) >= 2)
   .slice(0, 3);
 
-const publishToday = mockIdeas.filter(
-  (i) => i.classificationLabel === "publish-now" || i.publishDate === today
-);
-
-const notWorthTime = [
+const stuckItems = [
+  ...mockProjects
+    .filter((p) => p.status === "stuck")
+    .map((p) => ({ title: p.name, note: p.nextStep })),
   ...mockIdeas
-    .filter((i) => i.classificationLabel === "not-worth-time")
-    .map((i) => ({ title: i.title, reason: i.recommendedAction })),
-  ...mockTrends
-    .filter((t) => t.finalDecision === "ignore")
-    .map((t) => ({ title: t.title, reason: t.shellyPOV })),
+    .filter((i) => i.status === "in-progress" && i.readiness < 55)
+    .map((i) => ({ title: i.title, note: `מוכנות ${i.readiness}%` })),
 ];
 
-const latestWeekly = mockWeeklyReviews[0];
+const topAction = mockNextActions[0];
 
 function rankUrgency(u: string): number {
   return { low: 1, medium: 2, high: 3, critical: 4 }[u] ?? 0;
@@ -156,414 +69,402 @@ const EVENT_ICON: Record<string, string> = {
 /* ============================================================= */
 
 export default function HomePage() {
+  const router = useRouter();
+  const { context: toneContext } = useToneProfile();
+  const [greet, setGreet] = useState("ברוכה הבאה, Shelly");
+  const [question, setQuestion] = useState("");
+  const [openPost, setOpenPost] = useState<string | null>(null);
+
+  useEffect(() => {
+    const h = new Date().getHours();
+    setGreet(
+      h < 12
+        ? "בוקר טוב, Shelly"
+        : h < 17
+          ? "צהריים טובים, Shelly"
+          : h < 21
+            ? "ערב טוב, Shelly"
+            : "לילה טוב, Shelly"
+    );
+  }, []);
+
+  function ask() {
+    const q = question.trim();
+    router.push(q ? `/ask?q=${encodeURIComponent(q)}` : "/ask");
+  }
+
   return (
-    <div className="space-y-6">
-      {/* כותרת */}
+    <div className="space-y-7">
+      {/* ===== כותרת ===== */}
       <div className="animate-fade-up">
         <div className="flex items-center gap-2 text-sm text-ink-mute">
           <Icon name="Sparkles" className="size-4 text-purple-soft" />
           SHELLY OG — מרכז השליטה
         </div>
         <h1 className="mt-1 font-display text-3xl font-extrabold text-ink">
-          {greeting()}.
+          {greet}.
         </h1>
         <p className="mt-1 text-ink-soft">
-          {formatDateHe(today)} · יום {dayNameHe(today)}. הנה מה שחשוב — ומה לא.
+          {formatDateHe(TODAY)} · יום {dayNameHe(TODAY)}. הכנתי לך את הבוקר — מה
+          לכתוב, מה קורה, ומה כדאי לדעת.
         </p>
       </div>
 
-      {/* ===== הפעולה הכי חשובה עכשיו ===== */}
+      {/* ===== שאלי את SHELLY OG ===== */}
       <Card glow className="relative animate-fade-up overflow-hidden">
-        <div className="pointer-events-none absolute -left-20 -top-20 size-56 rounded-full bg-purple/20 blur-3xl" />
+        <div className="pointer-events-none absolute -left-20 -top-20 size-52 rounded-full bg-purple/20 blur-3xl" />
         <div className="relative">
-          <div className="mb-3 flex flex-wrap items-center gap-2">
-            <Badge tone="pink" icon="Zap">
-              הפעולה הכי חשובה עכשיו
-            </Badge>
-            <Badge tone="orange" icon="Clock">
-              דחיפות {URGENCY_LABELS[topAction.urgency]}
-            </Badge>
-            <Badge tone="purple" icon="Gauge">
-              מאמץ: {EFFORT_LABELS[topAction.effort]}
-            </Badge>
-            <Badge tone="electric" icon="Send">
-              {PLATFORM_LABELS[topAction.platform]}
-            </Badge>
+          <div className="mb-1 flex items-center gap-2">
+            <span className="flex size-8 items-center justify-center rounded-xl bg-brand-gradient text-white">
+              <Icon name="MessagesSquare" className="size-4" />
+            </span>
+            <h2 className="font-display text-base font-bold text-ink">
+              שאלי את SHELLY OG כל דבר
+            </h2>
           </div>
-
-          <h2 className="font-display text-xl font-bold text-ink sm:text-2xl">
-            {topAction.title}
-          </h2>
-
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-xl border border-line bg-surface-2 p-3">
-              <div className="mb-1 flex items-center gap-1.5 text-xs font-bold text-pink">
-                <Icon name="Flame" className="size-3.5" />
-                למה זה חשוב עכשיו
-              </div>
-              <p className="text-sm leading-relaxed text-ink-soft">
-                {topAction.whyNow}
-              </p>
-            </div>
-            <div className="rounded-xl border border-line bg-surface-2 p-3">
-              <div className="mb-1 flex items-center gap-1.5 text-xs font-bold text-purple-soft">
-                <Icon name="Compass" className="size-3.5" />
-                סיבה אסטרטגית
-              </div>
-              <p className="text-sm leading-relaxed text-ink-soft">
-                {topAction.strategicReason}
-              </p>
-            </div>
+          <p className="mb-3 text-sm text-ink-soft">
+            שאלה חופשית — ואני עונה לך מתוך כל המידע שבמערכת: רעיונות, טרנדים,
+            פרויקטים, חדשות והזדמנויות.
+          </p>
+          <div className="flex items-center gap-2">
+            <input
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && ask()}
+              placeholder="למשל: מה הכי דחוף שאעשה היום?"
+              className="flex-1 rounded-xl border border-line-strong bg-surface-2 px-3.5 py-2.5 text-sm text-ink outline-none transition-colors placeholder:text-ink-mute hover:border-purple/50 focus:border-purple"
+            />
+            <button onClick={ask} className="so-btn-primary shrink-0">
+              <Icon name="ArrowLeft" className="size-4" />
+              שאלי
+            </button>
           </div>
-
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <Icon name="ArrowLeftCircle" className="size-4 text-orange" />
-            <span className="text-sm font-semibold text-ink">הצעד הבא:</span>
-            <span className="text-sm text-ink-soft">{topAction.nextStep}</span>
+          <div className="mt-2.5 flex flex-wrap gap-1.5">
+            {["מה מוכן לפרסום?", "מה חם בטרנדים?", "על מה להתמקד השבוע?"].map(
+              (q) => (
+                <Link
+                  key={q}
+                  href={`/ask?q=${encodeURIComponent(q)}`}
+                  className="rounded-lg border border-line bg-surface-2 px-2.5 py-1 text-[11px] text-ink-mute transition-colors hover:border-purple/40 hover:text-ink"
+                >
+                  {q}
+                </Link>
+              )
+            )}
           </div>
-
-          <Link
-            href="/now"
-            className="so-btn-primary mt-5 w-full sm:w-auto"
-          >
-            <Icon name="Target" className="size-4" />
-            פתחי את מסך "מה לעשות עכשיו"
-          </Link>
         </div>
       </Card>
 
-      {/* ===== שורת סטטיסטיקה ===== */}
-      <div className="grid animate-fade-up grid-cols-2 gap-3 lg:grid-cols-4">
-        {[
-          { label: "מוכן לפרסום", value: publishToday.length, icon: "Send", tone: "pink" },
-          { label: "טרנדים דחופים", value: urgentTrends.length, icon: "Radar", tone: "orange" },
-          { label: "כמעט מוכן", value: almostReadyIdeas.length, icon: "Lightbulb", tone: "purple" },
-          { label: "הזדמנויות פתוחות", value: mockOpportunities.length, icon: "Mail", tone: "electric" },
-        ].map((s) => (
-          <Card key={s.label} className="flex items-center gap-3 !p-4">
-            <div
-              className={`flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/5 ${
-                { pink: "text-pink", orange: "text-orange", purple: "text-purple-soft", electric: "text-electric" }[
-                  s.tone
-                ]
-              }`}
-            >
-              <Icon name={s.icon} className="size-5" />
-            </div>
-            <div>
-              <div className="font-display text-2xl font-bold text-ink">
-                {s.value}
-              </div>
-              <div className="text-xs text-ink-mute">{s.label}</div>
-            </div>
-          </Card>
-        ))}
-      </div>
-
-      {/* ===== גריד ראשי ===== */}
-      <div className="grid animate-fade-up gap-5 lg:grid-cols-3">
-        {/* 3 הזדמנויות חזקות */}
-        <Section
-          icon="TrendingUp"
-          title="שלוש ההזדמנויות הכי חזקות היום"
-          accent="pink"
-          href="/now"
-        >
-          <div className="space-y-2.5">
-            {topOpportunities.map((o) => (
-              <div
-                key={o.id}
-                className="rounded-xl border border-line bg-surface-2 p-3"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-semibold text-ink line-clamp-2">
-                    {o.title}
-                  </span>
-                  <UrgencyDot urgency={o.importance} />
-                </div>
-                <div className="mt-1.5 flex items-center gap-1.5">
-                  <Badge tone="electric">{OPPORTUNITY_TYPE_LABELS[o.type]}</Badge>
-                  <span className="text-[11px] text-ink-mute">{o.from}</span>
-                </div>
-              </div>
-            ))}
+      {/* ===== הכי דחוף — שורה דקה ===== */}
+      <Link
+        href="/now"
+        className="flex animate-fade-up items-center gap-3 rounded-2xl border border-pink/30 bg-pink/5 p-3.5 transition-all hover:bg-pink/10"
+      >
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-pink/15 text-pink">
+          <Icon name="Zap" className="size-5" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="text-[11px] font-bold uppercase tracking-wide text-pink">
+            הכי דחוף עכשיו
           </div>
-        </Section>
-
-        {/* טרנדים דחופים */}
-        <Section
-          icon="Radar"
-          title="טרנדים שחייבים תגובה מהירה"
-          count={urgentTrends.length}
-          accent="orange"
-          href="/trends"
-        >
-          <div className="space-y-2.5">
-            {urgentTrends.map((t) => (
-              <div
-                key={t.id}
-                className="flex items-center gap-3 rounded-xl border border-line bg-surface-2 p-3"
-              >
-                <ScoreRing score={t.urgencyScore} size={44} />
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-ink line-clamp-2">
-                    {t.title}
-                  </p>
-                  <div className="mt-1">
-                    <Badge tone="orange" icon="Zap">
-                      {TREND_DECISION_LABELS[t.finalDecision]}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="truncate text-sm font-semibold text-ink">
+            {topAction.title}
           </div>
-        </Section>
+        </div>
+        <span className="flex shrink-0 items-center gap-1 text-xs font-semibold text-pink">
+          פתחי
+          <Icon name="ChevronLeft" className="size-4" />
+        </span>
+      </Link>
 
-        {/* כמעט מוכן */}
-        <Section
-          icon="Lightbulb"
-          title="רעיונות כמעט מוכנים לפרסום"
-          count={almostReadyIdeas.length}
-          accent="purple"
-          href="/ideas"
-        >
-          <div className="space-y-2.5">
-            {almostReadyIdeas.map((i) => (
-              <div
-                key={i.id}
-                className="rounded-xl border border-line bg-surface-2 p-3"
-              >
-                <p className="text-sm font-semibold text-ink line-clamp-2">
-                  {i.title}
-                </p>
-                <div className="mt-2 flex items-center justify-between gap-2">
-                  <Badge tone={CLASSIFICATION_TONE[i.classificationLabel]}>
-                    {CLASSIFICATION_LABELS[i.classificationLabel]}
-                  </Badge>
-                  <span className="text-[11px] font-bold text-purple-soft">
-                    מוכנות {i.readiness}%
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
+      {/* ===== מחיצה: מה להכין היום (פעולות) ===== */}
+      <SectionDivider
+        icon="PenLine"
+        title="מה להכין היום"
+        hint="פעולות — לחצי 'כתבי' ואני כותבת לך את הפוסט"
+        tone="action"
+      />
 
-        {/* פוסטים שמחכים רק להוק */}
-        <Section
-          icon="Anchor"
-          title="פוסטים שמחכים רק להוק"
-          count={waitingForHook.length}
-          accent="electric"
-          href="/studio"
-        >
-          {waitingForHook.length ? (
-            <div className="space-y-2.5">
-              {waitingForHook.map((i) => (
-                <div
-                  key={i.id}
-                  className="rounded-xl border border-line bg-surface-2 p-3"
-                >
-                  <p className="text-sm font-semibold text-ink line-clamp-2">
-                    {i.title}
-                  </p>
-                  <div className="mt-1.5 flex flex-wrap gap-1">
-                    {i.missingItems.map((m) => (
-                      <Pill key={m}>חסר: {m}</Pill>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-ink-mute">אין פריטים שתקועים על הוק.</p>
-          )}
-        </Section>
+      {/* 5 פוסטים להכין היום */}
+      <div className="grid animate-fade-up gap-3 lg:grid-cols-2">
+        {mockDailyPosts.map((dp, i) => {
+          const meta = DAILY_POST_META[dp.kind];
+          const open = openPost === dp.id;
+          return (
+            <Card key={dp.id} className="flex flex-col">
+              <div className="mb-2 flex flex-wrap items-center gap-1.5">
+                <span className="flex size-6 items-center justify-center rounded-lg bg-white/5 text-[11px] font-bold text-ink-mute">
+                  {i + 1}
+                </span>
+                <Badge tone={meta.tone as BadgeTone} icon={meta.icon}>
+                  {meta.label}
+                </Badge>
+                <Badge tone="purple">{EFFORT_LABELS[dp.effort]}</Badge>
+                <Badge tone="electric">{PLATFORM_LABELS[dp.platform]}</Badge>
+              </div>
 
-        {/* תכנים תקועים */}
-        <Section
-          icon="AlertTriangle"
-          title="תכנים תקועים"
-          count={stuckIdeas.length + stuckProjects.length}
-          accent="orange"
-        >
-          <div className="space-y-2.5">
-            {stuckProjects.map((p) => (
-              <div
-                key={p.id}
-                className="rounded-xl border border-orange/25 bg-orange/5 p-3"
-              >
-                <p className="text-sm font-semibold text-ink line-clamp-1">
-                  {p.name}
-                </p>
-                <p className="mt-0.5 text-[11px] text-orange">
-                  פרויקט תקוע · {p.nextStep}
-                </p>
-              </div>
-            ))}
-            {stuckIdeas.map((i) => (
-              <div
-                key={i.id}
-                className="rounded-xl border border-line bg-surface-2 p-3"
-              >
-                <p className="text-sm font-semibold text-ink line-clamp-1">
-                  {i.title}
-                </p>
-                <p className="mt-0.5 text-[11px] text-ink-mute">
-                  {IDEA_STATUS_LABELS[i.status]} · מוכנות {i.readiness}%
-                </p>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* אירועים קרובים */}
-        <Section
-          icon="CalendarDays"
-          title="אירועים קרובים מהיומן"
-          accent="purple"
-          href="/calendar"
-        >
-          <div className="space-y-2">
-            {upcomingEvents.map((e) => (
-              <div
-                key={e.id}
-                className="flex items-center gap-3 rounded-xl border border-line bg-surface-2 p-2.5"
-              >
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-white/5 text-purple-soft">
-                  <Icon name={EVENT_ICON[e.type] ?? "Calendar"} className="size-4" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-ink line-clamp-1">
-                    {e.title}
-                  </p>
-                  <p className="text-[11px] text-ink-mute">
-                    {relativeTimeHe(e.date)} · {formatDateHe(e.date)}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-      </div>
-
-      {/* ===== שורה תחתונה: מייל / השבוע / לפרסם / רעש ===== */}
-      <div className="grid animate-fade-up gap-5 lg:grid-cols-2">
-        {/* פניות חשובות מהמייל */}
-        <Section
-          icon="Mail"
-          title="פניות חשובות מהמייל"
-          count={importantEmails.length}
-          accent="electric"
-          href="/settings"
-        >
-          <div className="space-y-2.5">
-            {importantEmails.map((o) => (
-              <div
-                key={o.id}
-                className="rounded-xl border border-line bg-surface-2 p-3"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-semibold text-ink line-clamp-1">
-                    {o.title}
-                  </span>
-                  <Badge tone="electric">{OPPORTUNITY_TYPE_LABELS[o.type]}</Badge>
-                </div>
-                <p className="mt-1 text-xs text-ink-soft line-clamp-2">
-                  {o.recommendedAction}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* מה עבדתי עליו השבוע */}
-        <Section
-          icon="History"
-          title="מה עבדתי עליו השבוע"
-          accent="purple"
-          href="/weekly"
-        >
-          <div className="space-y-2">
-            {latestWeekly.activeProjects.map((p) => (
-              <div
-                key={p}
-                className="flex items-center gap-2 rounded-lg bg-surface-2 px-3 py-2"
-              >
-                <Icon name="FolderKanban" className="size-4 text-purple-soft" />
-                <span className="text-sm text-ink-soft">{p}</span>
-              </div>
-            ))}
-            <div className="mt-2 rounded-xl border border-purple/25 bg-purple/5 p-3">
-              <div className="mb-1 flex items-center gap-1.5 text-xs font-bold text-purple-soft">
-                <Icon name="Sparkles" className="size-3.5" />
-                התובנה האסטרטגית של השבוע
-              </div>
-              <p className="text-xs leading-relaxed text-ink-soft line-clamp-3">
-                {latestWeekly.strategicInsight}
+              <h3 className="font-display text-base font-bold text-ink">
+                {dp.title}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-ink-soft">
+                {dp.whyNow}
               </p>
-            </div>
-          </div>
-        </Section>
+              <div className="mt-2 flex items-start gap-1.5 text-xs text-ink-mute">
+                <Icon
+                  name="Compass"
+                  className="mt-0.5 size-3.5 shrink-0 text-purple-soft"
+                />
+                <span>
+                  <span className="font-semibold text-ink-soft">זווית:</span>{" "}
+                  {dp.angle}
+                </span>
+              </div>
 
-        {/* מה כדאי לפרסם היום */}
-        <Section
-          icon="Send"
-          title="מה כדאי לפרסם היום"
-          count={publishToday.length}
-          accent="pink"
-          href="/calendar"
-        >
-          <div className="space-y-2.5">
-            {publishToday.map((i) => (
-              <div
-                key={i.id}
-                className="rounded-xl border border-pink/25 bg-pink/5 p-3"
+              <button
+                onClick={() => setOpenPost(open ? null : dp.id)}
+                className={
+                  open
+                    ? "so-btn-ghost mt-3.5 w-full"
+                    : "so-btn-primary mt-3.5 w-full"
+                }
               >
-                <p className="text-sm font-semibold text-ink line-clamp-1">
-                  {i.title}
-                </p>
-                <p className="mt-1 text-xs text-ink-soft line-clamp-2">
-                  {i.recommendedAction}
-                </p>
-                <div className="mt-2">
-                  <Badge tone="pink" icon="Check">
-                    מוכן {i.readiness}% · {PLATFORM_LABELS[i.platform]}
-                  </Badge>
+                <Icon name={open ? "ChevronUp" : "PenLine"} className="size-4" />
+                {open ? "סגרי" : "כתבי את הפוסט"}
+              </button>
+
+              {open && (
+                <div className="mt-3">
+                  <RefineChat
+                    seedTask={dp.seedTask}
+                    seedInput={dp.seedInput}
+                    tone={toneContext}
+                    generateLabel="כתבי לי את הפוסט בקול שלי"
+                  />
                 </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* מה לא שווה את הזמן שלי */}
-        <Section
-          icon="Ban"
-          title="מה לא שווה את הזמן שלי"
-          count={notWorthTime.length}
-          accent="orange"
-        >
-          <div className="space-y-2">
-            {notWorthTime.map((n) => (
-              <div
-                key={n.title}
-                className="rounded-xl border border-line bg-surface-2/60 p-3"
-              >
-                <p className="text-sm font-medium text-ink-mute line-clamp-1 line-through decoration-ink-mute/40">
-                  {n.title}
-                </p>
-                <p className="mt-0.5 text-xs text-ink-mute line-clamp-2">
-                  {n.reason}
-                </p>
-              </div>
-            ))}
-            <p className="pt-1 text-[11px] text-ink-mute">
-              להתעלם זו החלטה. מי שמסננת רעש — מתפנה לדברים שבאמת חשובים.
-            </p>
-          </div>
-        </Section>
+              )}
+            </Card>
+          );
+        })}
       </div>
+
+      {/* ===== 6 כותרות הבוקר ===== */}
+      <Card className="animate-fade-up">
+        <div className="mb-3.5 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Icon name="Newspaper" className="size-[18px] text-orange" />
+            <h2 className="font-display text-base font-bold text-ink">
+              6 כותרות הבוקר
+            </h2>
+            <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[11px] font-bold text-ink-mute">
+              מתעדכן כל בוקר
+            </span>
+          </div>
+          <Link
+            href="/news"
+            className="flex items-center gap-0.5 text-xs font-semibold text-orange transition-colors hover:text-pink"
+          >
+            הפכי לפוסטים
+            <Icon name="ChevronLeft" className="size-4" />
+          </Link>
+        </div>
+        <div className="space-y-2">
+          {[...mockNews]
+            .sort((a, b) => a.rank - b.rank)
+            .map((n) => (
+              <Link
+                key={n.id}
+                href="/news"
+                className="flex items-center gap-3 rounded-xl border border-line bg-surface-2 p-2.5 transition-all hover:border-orange/40 hover:bg-surface-3"
+              >
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-orange/15 font-display text-sm font-bold text-orange">
+                  {n.rank}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold text-ink">
+                    {n.title}
+                  </p>
+                  <div className="mt-0.5 flex items-center gap-1.5">
+                    <span className="text-[11px] text-ink-mute">
+                      {NEWS_CATEGORY_LABELS[n.category]} · {n.source}
+                    </span>
+                    {n.worthPosting && (
+                      <span className="text-[11px] font-semibold text-lime">
+                        · שווה פוסט
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="flex shrink-0 items-center gap-1 text-[11px] font-bold text-orange">
+                  <Icon name="Flame" className="size-3.5" />
+                  {n.hotness}
+                </div>
+              </Link>
+            ))}
+        </div>
+      </Card>
+
+      {/* ===== מחיצה: לידיעתך (מידע) ===== */}
+      <SectionDivider
+        icon="Info"
+        title="לידיעתך"
+        hint="מידע — לא דורש פעולה עכשיו, רק שתהיי מעודכנת"
+        tone="info"
+      />
+
+      {/* גריד מידע */}
+      <div className="grid animate-fade-up gap-4 lg:grid-cols-2">
+        <InfoCard icon="Radar" title="טרנדים דחופים" href="/trends" hrefLabel="לרדאר">
+          {urgentTrends.map((t) => (
+            <InfoRow key={t.id} title={t.title}>
+              <span className="flex items-center gap-1 text-[11px] font-bold text-orange">
+                <Icon name="Flame" className="size-3" />
+                {t.urgencyScore}
+              </span>
+            </InfoRow>
+          ))}
+        </InfoCard>
+
+        <InfoCard icon="Mail" title="הזדמנויות מהמייל" href="/now" hrefLabel="לפעולות">
+          {topOpportunities.map((o) => (
+            <InfoRow key={o.id} title={o.title}>
+              <span className="text-[11px] text-ink-mute">
+                {OPPORTUNITY_TYPE_LABELS[o.type]}
+              </span>
+            </InfoRow>
+          ))}
+        </InfoCard>
+
+        <InfoCard
+          icon="CalendarDays"
+          title="אירועים קרובים"
+          href="/calendar"
+          hrefLabel="ליומן"
+        >
+          {upcomingEvents.map((e) => (
+            <InfoRow key={e.id} title={e.title} icon={EVENT_ICON[e.type]}>
+              <span className="text-[11px] text-ink-mute">
+                {relativeTimeHe(e.date)}
+              </span>
+            </InfoRow>
+          ))}
+        </InfoCard>
+
+        <InfoCard
+          icon="AlertTriangle"
+          title="תוכן תקוע"
+          href="/projects"
+          hrefLabel="לפרויקטים"
+        >
+          {stuckItems.length ? (
+            stuckItems.map((s) => (
+              <InfoRow key={s.title} title={s.title}>
+                <span className="hidden text-[11px] text-ink-mute sm:block">
+                  {s.note}
+                </span>
+              </InfoRow>
+            ))
+          ) : (
+            <p className="px-1 py-2 text-sm text-ink-mute">
+              שום דבר לא תקוע — נקי.
+            </p>
+          )}
+        </InfoCard>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- קומפוננטות עזר ---------- */
+
+function SectionDivider({
+  icon,
+  title,
+  hint,
+  tone,
+}: {
+  icon: string;
+  title: string;
+  hint: string;
+  tone: "action" | "info";
+}) {
+  const isAction = tone === "action";
+  return (
+    <div className="flex animate-fade-up items-center gap-3">
+      <span
+        className={
+          isAction
+            ? "flex size-9 shrink-0 items-center justify-center rounded-xl bg-brand-gradient text-white shadow-glow"
+            : "flex size-9 shrink-0 items-center justify-center rounded-xl bg-surface-3 text-ink-mute"
+        }
+      >
+        <Icon name={icon} className="size-[18px]" />
+      </span>
+      <div className="min-w-0">
+        <h2
+          className={
+            isAction
+              ? "font-display text-lg font-bold text-ink"
+              : "font-display text-lg font-bold text-ink-soft"
+          }
+        >
+          {title}
+        </h2>
+        <p className="text-xs text-ink-mute">{hint}</p>
+      </div>
+      <div className="h-px flex-1 bg-line" />
+    </div>
+  );
+}
+
+function InfoCard({
+  icon,
+  title,
+  href,
+  hrefLabel,
+  children,
+}: {
+  icon: string;
+  title: string;
+  href: string;
+  hrefLabel: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-2xl border border-line bg-surface-2/50 p-4">
+      <div className="mb-2.5 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <Icon name={icon} className="size-4 text-ink-mute" />
+          <h3 className="text-sm font-bold text-ink-soft">{title}</h3>
+        </div>
+        <Link
+          href={href}
+          className="flex items-center gap-0.5 text-[11px] text-ink-mute transition-colors hover:text-purple-soft"
+        >
+          {hrefLabel}
+          <Icon name="ChevronLeft" className="size-3.5" />
+        </Link>
+      </div>
+      <div className="space-y-1">{children}</div>
+    </div>
+  );
+}
+
+function InfoRow({
+  title,
+  icon,
+  children,
+}: {
+  title: string;
+  icon?: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-2 rounded-lg px-1 py-1.5">
+      <Icon name={icon ?? "Dot"} className="size-3.5 shrink-0 text-ink-mute" />
+      <span className="min-w-0 flex-1 truncate text-sm text-ink-soft">
+        {title}
+      </span>
+      {children}
     </div>
   );
 }
