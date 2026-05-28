@@ -14,8 +14,15 @@ import {
 } from "@/components/ui";
 import { RefineChat } from "@/components/shared/RefineChat";
 import { useToneProfile } from "@/components/shared/use-tone";
+import {
+  useLiveScan,
+  itemsBySource,
+  type LiveScanItem,
+} from "@/components/shared/use-live-scan";
 import { mockNews } from "@/lib/mock-data";
 import { NEWS_CATEGORY_LABELS, PLATFORM_LABELS } from "@/lib/constants";
+import { relativeTimeHe } from "@/lib/utils";
+import { CopyButton } from "@/components/shared/CopyButton";
 import type { NewsHeadline, NewsCategory } from "@/lib/types";
 
 /* ---------- מיפוי צבע לקטגוריות ---------- */
@@ -39,6 +46,9 @@ const CATEGORY_ICON: Record<NewsCategory, string> = {
 
 export default function NewsPage() {
   const { context } = useToneProfile();
+  const scan = useLiveScan(["gmail"]);
+  const liveItems = itemsBySource(scan.items, "gmail").slice(0, 6);
+  const showLive = scan.mode === "live" && liveItems.length > 0;
 
   /* כרטיסים שנפתחה בהם כתיבת פוסט */
   const [openWriter, setOpenWriter] = useState<Record<string, boolean>>({});
@@ -135,11 +145,37 @@ export default function NewsPage() {
           <Icon name="ListOrdered" className="size-5 text-purple-soft" />
           הכותרות של היום
           <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-xs font-bold text-ink-mute">
-            {sortedNews.length}
+            {showLive ? liveItems.length : sortedNews.length}
           </span>
+          {showLive && (
+            <span className="inline-flex items-center gap-1 rounded-md bg-lime/15 px-1.5 py-0.5 text-[11px] font-bold text-lime">
+              <span className="size-1.5 animate-pulse-dot rounded-full bg-lime" />
+              חי מ-Gmail
+            </span>
+          )}
         </h2>
 
-        {sortedNews.length === 0 ? (
+        {scan.loading ? (
+          <div className="space-y-4">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-40 animate-pulse rounded-2xl border border-line bg-surface-2"
+              />
+            ))}
+          </div>
+        ) : showLive ? (
+          liveItems.map((item, i) => (
+            <LiveNewsCard
+              key={item.id}
+              item={item}
+              rank={i + 1}
+              writerOpen={!!openWriter[item.id]}
+              onToggleWriter={() => toggleWriter(item.id)}
+              tone={context}
+            />
+          ))
+        ) : sortedNews.length === 0 ? (
           <EmptyState
             icon="Newspaper"
             title="אין כותרות הבוקר"
@@ -337,5 +373,87 @@ function Field({
       </div>
       <p className="text-sm leading-relaxed text-ink-soft">{text}</p>
     </div>
+  );
+}
+
+/* ---------- כרטיס כותרת חי (מ-Gmail) ---------- */
+function LiveNewsCard({
+  item,
+  rank,
+  writerOpen,
+  onToggleWriter,
+  tone,
+}: {
+  item: LiveScanItem;
+  rank: number;
+  writerOpen: boolean;
+  onToggleWriter: () => void;
+  tone: string;
+}) {
+  return (
+    <Card className="relative overflow-hidden">
+      <div className="flex items-start gap-4">
+        <div className="flex flex-col items-center gap-1">
+          <div className="flex size-12 items-center justify-center rounded-2xl bg-brand-gradient font-display text-2xl font-bold text-white shadow-glow">
+            {rank}
+          </div>
+          <span className="text-[10px] font-semibold text-ink-mute">בבריף</span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="mb-2 flex flex-wrap items-center gap-1.5">
+            <Badge tone="lime" icon="Mail">
+              חי מ-Gmail
+            </Badge>
+            <Pill>
+              <Icon name="Clock3" className="size-3 text-ink-mute" />
+              {relativeTimeHe(item.capturedAt)}
+            </Pill>
+          </div>
+          <h3 className="font-display text-lg font-bold leading-snug text-ink">
+            {item.title}
+          </h3>
+        </div>
+      </div>
+
+      {item.snippet && (
+        <Field
+          icon="FileText"
+          tone="text-electric"
+          label="תוכן ההודעה"
+          text={item.snippet}
+          className="mt-4"
+        />
+      )}
+
+      <div className="mt-3.5 flex flex-wrap items-center gap-2">
+        <a
+          href={item.sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-xl border border-line-strong bg-surface-2 px-3 py-2 text-xs font-semibold text-ink-soft transition-all hover:border-purple/50 hover:text-ink"
+        >
+          <Icon name="ExternalLink" className="size-3.5" />
+          פתחי ב-Gmail
+        </a>
+        <Button
+          icon={writerOpen ? "X" : "PenLine"}
+          variant={writerOpen ? "ghost" : "primary"}
+          onClick={onToggleWriter}
+        >
+          {writerOpen ? "סגרי את הכתיבה" : "הפכי לפוסט ✍️"}
+        </Button>
+      </div>
+
+      {writerOpen && (
+        <div className="mt-3.5 animate-fade-up">
+          <RefineChat
+            seedTask="news-to-post"
+            seedInput={`${item.title}. ${item.snippet}`}
+            tone={tone}
+            generateLabel="כתבי לי פוסט מהמייל הזה"
+          />
+        </div>
+      )}
+    </Card>
   );
 }

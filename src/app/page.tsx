@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Card, Badge, Icon } from "@/components/ui";
 import { RefineChat } from "@/components/shared/RefineChat";
 import { useToneProfile } from "@/components/shared/use-tone";
+import { useLiveScan, itemsBySource } from "@/components/shared/use-live-scan";
 import {
   mockDailyPosts,
   mockNews,
@@ -71,6 +72,10 @@ const EVENT_ICON: Record<string, string> = {
 export default function HomePage() {
   const router = useRouter();
   const { context: toneContext } = useToneProfile();
+  const scan = useLiveScan(["gmail", "calendar"]);
+  const liveGmail = itemsBySource(scan.items, "gmail").slice(0, 6);
+  const liveCalendar = itemsBySource(scan.items, "calendar").slice(0, 3);
+  const showLive = scan.mode === "live";
   const [greet, setGreet] = useState("ברוכה הבאה, Shelly");
   const [question, setQuestion] = useState("");
   const [openPost, setOpenPost] = useState<string | null>(null);
@@ -255,9 +260,16 @@ export default function HomePage() {
             <h2 className="font-display text-base font-bold text-ink">
               6 כותרות הבוקר
             </h2>
-            <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[11px] font-bold text-ink-mute">
-              מתעדכן כל בוקר
-            </span>
+            {showLive ? (
+              <span className="inline-flex items-center gap-1 rounded-md bg-lime/15 px-1.5 py-0.5 text-[11px] font-bold text-lime">
+                <span className="size-1.5 animate-pulse-dot rounded-full bg-lime" />
+                חי מ-Gmail
+              </span>
+            ) : (
+              <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-[11px] font-bold text-ink-mute">
+                מתעדכן בכל כניסה
+              </span>
+            )}
           </div>
           <Link
             href="/news"
@@ -267,40 +279,80 @@ export default function HomePage() {
             <Icon name="ChevronLeft" className="size-4" />
           </Link>
         </div>
-        <div className="space-y-2">
-          {[...mockNews]
-            .sort((a, b) => a.rank - b.rank)
-            .map((n) => (
-              <Link
-                key={n.id}
-                href="/news"
+
+        {scan.loading ? (
+          <div className="space-y-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-12 animate-pulse rounded-xl border border-line bg-surface-2"
+              />
+            ))}
+          </div>
+        ) : showLive && liveGmail.length > 0 ? (
+          <div className="space-y-2">
+            {liveGmail.map((item, i) => (
+              <a
+                key={item.id}
+                href={item.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-3 rounded-xl border border-line bg-surface-2 p-2.5 transition-all hover:border-orange/40 hover:bg-surface-3"
               >
                 <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-orange/15 font-display text-sm font-bold text-orange">
-                  {n.rank}
+                  {i + 1}
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-semibold text-ink">
-                    {n.title}
+                    {item.title}
                   </p>
-                  <div className="mt-0.5 flex items-center gap-1.5">
-                    <span className="text-[11px] text-ink-mute">
-                      {NEWS_CATEGORY_LABELS[n.category]} · {n.source}
-                    </span>
-                    {n.worthPosting && (
-                      <span className="text-[11px] font-semibold text-lime">
-                        · שווה פוסט
-                      </span>
-                    )}
-                  </div>
+                  <p className="mt-0.5 truncate text-[11px] text-ink-mute">
+                    Gmail · {relativeTimeHe(item.capturedAt)}
+                  </p>
                 </div>
-                <div className="flex shrink-0 items-center gap-1 text-[11px] font-bold text-orange">
-                  <Icon name="Flame" className="size-3.5" />
-                  {n.hotness}
-                </div>
-              </Link>
+                <Icon
+                  name="ExternalLink"
+                  className="size-3.5 shrink-0 text-ink-mute"
+                />
+              </a>
             ))}
-        </div>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {[...mockNews]
+              .sort((a, b) => a.rank - b.rank)
+              .map((n) => (
+                <Link
+                  key={n.id}
+                  href="/news"
+                  className="flex items-center gap-3 rounded-xl border border-line bg-surface-2 p-2.5 transition-all hover:border-orange/40 hover:bg-surface-3"
+                >
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-orange/15 font-display text-sm font-bold text-orange">
+                    {n.rank}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold text-ink">
+                      {n.title}
+                    </p>
+                    <div className="mt-0.5 flex items-center gap-1.5">
+                      <span className="text-[11px] text-ink-mute">
+                        {NEWS_CATEGORY_LABELS[n.category]} · {n.source}
+                      </span>
+                      {n.worthPosting && (
+                        <span className="text-[11px] font-semibold text-lime">
+                          · שווה פוסט
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-1 text-[11px] font-bold text-orange">
+                    <Icon name="Flame" className="size-3.5" />
+                    {n.hotness}
+                  </div>
+                </Link>
+              ))}
+          </div>
+        )}
       </Card>
 
       {/* ===== מחיצה: לידיעתך (מידע) ===== */}
@@ -340,13 +392,43 @@ export default function HomePage() {
           href="/calendar"
           hrefLabel="ליומן"
         >
-          {upcomingEvents.map((e) => (
-            <InfoRow key={e.id} title={e.title} icon={EVENT_ICON[e.type]}>
-              <span className="text-[11px] text-ink-mute">
-                {relativeTimeHe(e.date)}
-              </span>
-            </InfoRow>
-          ))}
+          {scan.loading ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-7 animate-pulse rounded-lg bg-surface-3 my-1"
+              />
+            ))
+          ) : showLive && liveCalendar.length > 0 ? (
+            liveCalendar.map((e) => (
+              <a
+                key={e.id}
+                href={e.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-lg px-1 py-1.5 transition-colors hover:bg-surface-3"
+              >
+                <Icon
+                  name="CalendarDays"
+                  className="size-3.5 shrink-0 text-ink-mute"
+                />
+                <span className="min-w-0 flex-1 truncate text-sm text-ink-soft">
+                  {e.title}
+                </span>
+                <span className="text-[11px] text-ink-mute">
+                  {relativeTimeHe(e.capturedAt)}
+                </span>
+              </a>
+            ))
+          ) : (
+            upcomingEvents.map((e) => (
+              <InfoRow key={e.id} title={e.title} icon={EVENT_ICON[e.type]}>
+                <span className="text-[11px] text-ink-mute">
+                  {relativeTimeHe(e.date)}
+                </span>
+              </InfoRow>
+            ))
+          )}
         </InfoCard>
 
         <InfoCard
