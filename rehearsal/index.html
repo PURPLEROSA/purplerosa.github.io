@@ -140,6 +140,24 @@
   .toast{position:fixed; inset-block-end:96px; inset-inline:0; display:flex; justify-content:center; z-index:60; pointer-events:none}
   .toast span{background:rgba(20,10,13,.95); border:1px solid var(--line); padding:9px 16px; border-radius:999px; font-size:14px; opacity:0; transition:.25s; transform:translateY(8px)}
   .toast.show span{opacity:1; transform:none}
+
+  /* edit mode */
+  .iconbtn.on{border-color:var(--gold); color:var(--gold)}
+  .edbar{display:none; gap:8px; flex-wrap:wrap; margin-bottom:12px; padding:10px 11px; border-radius:11px;
+    background:rgba(255,217,168,.08); border:1px dashed rgba(255,217,168,.45)}
+  body.editing .edbar{display:flex}
+  .edbar .note{flex:1 1 100%; font-size:12px; color:var(--gold); line-height:1.5}
+  .edfield{display:none; margin-bottom:10px}
+  body.editing .edfield{display:block}
+  .edfield label{display:block; font-size:11px; color:var(--muted); margin-bottom:4px}
+  textarea.ed{width:100%; background:rgba(255,255,255,.04); color:#fff; border:1px solid var(--line);
+    border-radius:9px; padding:9px 11px; font:inherit; font-size:16px; line-height:1.6; resize:none; overflow:hidden; min-height:40px}
+  textarea.ed:focus{outline:none; border-color:var(--gold)}
+  .edrow{display:flex; gap:6px; align-items:flex-start; margin-bottom:8px}
+  .edrow .del{flex:0 0 auto; width:34px; height:34px; border:1px solid var(--line); background:transparent;
+    color:var(--rose); border-radius:8px; cursor:pointer; font-size:13px}
+  .edrow .del:hover{background:rgba(255,77,106,.12)}
+  body.editing .levels, body.editing .panel-actions, body.editing .rate, body.editing #turn{display:none}
 </style>
 </head>
 <body>
@@ -147,6 +165,7 @@
   <div class="brand">חדר חזרות · <b>Ai-Z</b></div>
   <div class="spacer"></div>
   <div class="timer" id="timer" title="הקש להפעלה/עצירה · הקשה ארוכה לאיפוס">00:00 <small>/ 10:00</small></div>
+  <button class="iconbtn" id="editBtn" title="עריכת טקסטים">✏️</button>
   <button class="iconbtn" id="quizBtn" title="מבחן ידע">📝 מבחן</button>
   <button class="iconbtn" id="mapBtn" title="מפת השקפים">▦</button>
   <button class="iconbtn" id="helpBtn" title="עזרה">?</button>
@@ -167,6 +186,14 @@
 
     <div class="panel">
       <div class="turn" id="turn" style="display:none"></div>
+      <div class="edbar" id="edbar">
+        <div class="note">✏️ מצב עריכה — שני כל שורה כרצונך. השינויים נשמרים אוטומטית במכשיר הזה. אפשר לייצא גיבוי בכל רגע.</div>
+        <button class="btn" id="edAddLine">➕ שורה</button>
+        <button class="btn" id="edReset">↺ שחזר שקף זה</button>
+        <button class="btn" id="edExport">⬇️ ייצוא טקסט</button>
+      </div>
+      <div class="edfield" id="edCueField"><label>כותרת-עוגן (לניווט):</label><textarea class="ed" id="edCue" rows="1"></textarea></div>
+      <div class="edfield" id="edTurnField"><label>רצועת מעבר 🔗 (אופציונלי — רוקני כדי להסיר):</label><textarea class="ed" id="edTurn" rows="1"></textarea></div>
       <div class="levels" id="levels">
         <button class="lvl" data-l="1">מלא<small>קריאה</small></button>
         <button class="lvl" data-l="2">התחלות<small>רמז קל</small></button>
@@ -238,6 +265,25 @@
   const revealed=new Set();
   const ratings=JSON.parse(localStorage.getItem('aiz_ratings')||'{}');
 
+  // ---------- editing (open text editor) ----------
+  const ORIGINAL=(typeof structuredClone==='function')?structuredClone(SLIDES):JSON.parse(JSON.stringify(SLIDES));
+  const edits=JSON.parse(localStorage.getItem('aiz_edits')||'{}');
+  slides.forEach(s=>{ const e=edits[s.n]; if(e){ if(e.beats)s.beats=e.beats.slice(); if('cue'in e)s.cue=e.cue; if('turn'in e)s.turn=e.turn; }});
+  let editing=false;
+  function saveEdit(s){ edits[s.n]={beats:s.beats.slice(),cue:s.cue,turn:s.turn||''}; localStorage.setItem('aiz_edits',JSON.stringify(edits)); }
+  function autoGrow(ta){ ta.style.height='auto'; ta.style.height=(ta.scrollHeight+2)+'px'; }
+  function renderEditBeats(s){
+    const box=$('#beats'); box.innerHTML='';
+    s.beats.forEach((text,bi)=>{
+      const row=document.createElement('div'); row.className='edrow';
+      const ta=document.createElement('textarea'); ta.className='ed'; ta.rows=1; ta.value=text;
+      ta.oninput=()=>{ s.beats[bi]=ta.value; autoGrow(ta); saveEdit(s); };
+      const del=document.createElement('button'); del.className='del'; del.textContent='✕'; del.title='מחק שורה';
+      del.onclick=()=>{ s.beats.splice(bi,1); saveEdit(s); render(); };
+      row.append(ta,del); box.appendChild(row); autoGrow(ta);
+    });
+  }
+
   function firstLetter(w){ const m=w.match(/[A-Za-z֐-׿]/); return m?m[0]:(w[0]||''); }
   function toast(msg){ const t=$('#toast'); t.firstElementChild.textContent=msg; t.classList.add('show');
     clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1700); }
@@ -268,8 +314,8 @@
     const tn=$('#turn');
     if(s.turn){ tn.style.display='flex'; tn.innerHTML='<b>🔗</b><span>'+s.turn+'</span>'; }
     else tn.style.display='none';
-    revealed.clear(); if(level===1) s.beats.forEach((_,i)=>revealed.add(i));
-    renderBeats(s);
+    if(editing){ $('#edCue').value=s.cue||''; autoGrow($('#edCue')); $('#edTurn').value=s.turn||''; autoGrow($('#edTurn')); renderEditBeats(s); }
+    else { revealed.clear(); if(level===1) s.beats.forEach((_,i)=>revealed.add(i)); renderBeats(s); }
     document.querySelectorAll('.lvl').forEach(b=>b.classList.toggle('active',+b.dataset.l===level));
     document.querySelectorAll('#rateRow button').forEach(b=>b.classList.toggle('sel',ratings[s.n]===b.dataset.r));
     $('#prevBtn').disabled=idx===0; $('#nextBtn').disabled=idx===order.length-1;
@@ -306,6 +352,7 @@
   function openQuizPrompt(){ toast('סיימת את כל השקפים! מוכנה למבחן? 📝'); }
 
   document.addEventListener('keydown',e=>{
+    if(/^(textarea|input)$/i.test(e.target.tagName)) return;
     if($('#overlay').classList.contains('show')){ if(e.key==='Escape')closeMap(); return; }
     if($('#quiz').classList.contains('show')){ if(e.key==='Escape')closeQuiz(); return; }
     if(e.key==='ArrowLeft')next();
@@ -428,6 +475,23 @@
 "• 📝 מבחן ידע = שאלות שבודקות שאת שולטת בתוכן, לא רק בניסוח.\n"+
 "• טיימר: לחיצה=הפעלה/עצירה, לחיצה ארוכה=איפוס. יעד 10:00.\n\n"+
 "מקלדת: ← הבא · → הקודם · רווח=חשיפת השורה הבאה · 1–4=רמת רמז.");
+
+  // ---------- edit controls ----------
+  $('#editBtn').onclick=()=>{ editing=!editing; document.body.classList.toggle('editing',editing);
+    $('#editBtn').classList.toggle('on',editing); render(); if(editing)toast('מצב עריכה — השינויים נשמרים אוטומטית'); };
+  $('#edCue').oninput=()=>{ const s=slides[order[idx]]; s.cue=$('#edCue').value; saveEdit(s); $('#cueline').textContent='⟡ '+s.cue; };
+  $('#edTurn').oninput=()=>{ const s=slides[order[idx]]; s.turn=$('#edTurn').value.trim(); saveEdit(s); };
+  $('#edAddLine').onclick=()=>{ const s=slides[order[idx]]; s.beats.push(''); saveEdit(s); render();
+    const tas=document.querySelectorAll('#beats textarea'); if(tas.length)tas[tas.length-1].focus(); };
+  $('#edReset').onclick=()=>{ const s=slides[order[idx]]; const o=ORIGINAL.find(x=>x.n===s.n);
+    s.beats=o.beats.slice(); s.cue=o.cue; s.turn=o.turn; delete edits[s.n];
+    localStorage.setItem('aiz_edits',JSON.stringify(edits)); render(); toast('השקף שוחזר לנוסח המקורי'); };
+  $('#edExport').onclick=()=>{ let out='חדר חזרות · Ai-Z — טקסטים\n\n';
+    slides.forEach(s=>{ out+='### שקף '+s.n+' — '+s.cue+'\n'; if(s.turn)out+='[מעבר] '+s.turn+'\n';
+      s.beats.forEach(b=>{ out+=b+'\n'; }); out+='\n'; });
+    const blob=new Blob([out],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download='Ai-Z-texts.txt'; document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(a.href); toast('הקובץ ירד 📄'); };
 
   idx=order.findIndex(i=>slides[i].spoken); if(idx<0)idx=0;
   setLevel(1); render();
