@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENIRO.AI — Video Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050505;--text:#F0F0F0;--dim:#A0A0A0;--subtle:#808080;--muted:#606060;--faint:#505050;--ghost:#404040;--dark:#383838;
+  --purple:#c3a6ff;--pink:#ffb7b7;--blue:#96e6ff;--green:#b4ffda;--orange:#ffd8be;--e1:#e1b7ff;
+  --grad:linear-gradient(135deg,#ffb7b7 0%,#e1b7ff 25%,#96e6ff 50%,#b4ffda 75%,#ffd8be 100%);
+  --grad-cta:linear-gradient(135deg,#c3a6ff 0%,#96e6ff 50%,#b4ffda 100%);
+  --card:rgba(255,255,255,0.04);--card-s:rgba(255,255,255,0.03);--card-h:rgba(255,255,255,0.055);
+  --b:rgba(255,255,255,0.08);--b-s:rgba(255,255,255,0.06);--b-h:rgba(255,255,255,0.16);
+  --pb:rgba(195,166,255,0.04);--pb-m:rgba(195,166,255,0.08);--pbd:rgba(195,166,255,0.15);--pbd-m:rgba(195,166,255,0.25);--pbd-s:rgba(195,166,255,0.4);
+  --display:'Urbanist',sans-serif;--magic:'Playfair Display',serif;--sans:'DM Sans','Heebo',sans-serif;--he:'Heebo','DM Sans',sans-serif;
+  --curve:cubic-bezier(0.16,1,0.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+::selection{background:var(--purple);color:#000}
+.gt{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ---------- Atmosphere ---------- */
+.atm{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.atm-glow{position:absolute;border-radius:50%;filter:blur(140px)}
+.atm-glow.g1{width:700px;height:700px;background:var(--purple);top:-200px;left:-250px;opacity:.12}
+.atm-glow.g2{width:600px;height:600px;background:var(--blue);top:20%;right:-300px;opacity:.08}
+.atm-glow.g3{width:500px;height:500px;background:var(--purple);bottom:-150px;left:30%;opacity:.07}
+.atm-glow.g4{width:550px;height:550px;background:var(--pink);bottom:10%;right:-200px;opacity:.06}
+.noise{position:fixed;inset:0;z-index:0;opacity:.025;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px}
+
+/* ---------- Layout ---------- */
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
+@media(max-width:700px){.wrap{padding:0 22px}}
+
+/* ---------- Topbar ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(5,5,5,.82);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid var(--b-s)}
+.topbar-in{max-width:1100px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+@media(max-width:700px){.topbar-in{padding:12px 22px}}
+.logo{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:-.02em;direction:ltr}
+.logo .ai{color:#808080;font-weight:400}
+.logo-tag{font-family:var(--sans);font-weight:500;font-size:.56rem;text-transform:uppercase;letter-spacing:.14em;color:var(--purple);border:1px solid var(--pbd);border-radius:100px;padding:3px 10px;margin-inline-start:10px;vertical-align:2px}
+.top-right{display:flex;align-items:center;gap:10px}
+.student-chip{font-family:var(--he);font-size:.74rem;color:var(--dim);background:var(--card-s);border:1px solid var(--b-s);border-radius:100px;padding:6px 14px;display:none}
+.student-chip b{color:var(--text);font-weight:500}
+
+/* ---------- Buttons ---------- */
+.btn{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;cursor:pointer;border-radius:6px;min-height:44px;padding:0 22px;transition:all .3s var(--curve);display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary{background:var(--grad);color:#0a0a0a;font-weight:600;font-size:.8rem;border:none}
+.btn-primary:hover{transform:scale(1.03);box-shadow:0 0 32px rgba(195,166,255,.35)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-outline{background:transparent;color:var(--text);font-weight:600;font-size:.78rem;border:1px solid rgba(255,255,255,.15)}
+.btn-outline:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
+.btn-ghost{background:transparent;color:var(--subtle);font-weight:500;font-size:.72rem;border:1px solid rgba(255,255,255,.08);border-radius:8px;min-height:36px;padding:0 14px}
+.btn-ghost:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.04);color:var(--text)}
+.btn-wide{width:100%}
+
+/* ---------- Forms ---------- */
+label.fl{display:block;font-family:var(--sans);font-weight:500;font-size:.56rem;text-transform:uppercase;letter-spacing:.14em;color:var(--purple);margin-bottom:8px}
+.hint{font-family:var(--he);font-size:.66rem;color:var(--muted);line-height:1.6;margin-top:6px}
+input[type=text],input[type=password],input[type=number],textarea,select{
+  width:100%;background:var(--card-s);border:1px solid var(--b);border-radius:10px;color:var(--text);
+  font-family:var(--he);font-weight:300;font-size:.85rem;padding:12px 14px;outline:none;transition:all .4s var(--curve);
+}
+input::placeholder,textarea::placeholder{color:var(--faint)}
+input:focus,textarea:focus,select:focus{border-color:var(--pbd-s);box-shadow:0 0 0 3px rgba(195,166,255,.08)}
+textarea{resize:vertical;min-height:110px;line-height:1.7}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23808080' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center;padding-inline-start:36px}
+select option{background:#111;color:var(--text)}
+.field{margin-bottom:18px}
+
+/* ---------- Cards & screens ---------- */
+.screen{display:none;animation:fadeUp .7s var(--curve)}
+.screen.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:28px}
+.card-purple{background:var(--pb);border:1px solid var(--pbd);border-radius:14px;padding:28px}
+.center-col{max-width:480px;margin:0 auto;padding:72px 0 90px}
+.eyebrow{font-family:var(--sans);font-weight:500;font-size:.56rem;text-transform:uppercase;letter-spacing:.14em;color:var(--purple);margin-bottom:10px}
+h1.hero{font-family:var(--display);font-weight:800;font-size:clamp(2rem,6vw,3.2rem);letter-spacing:-.03em;text-transform:uppercase;line-height:1.05;direction:ltr;text-align:center}
+.magic{font-family:var(--magic);font-style:italic;font-weight:400;font-size:1.15rem;text-align:center;margin-top:14px}
+.sub{font-family:var(--he);font-weight:300;font-size:.88rem;color:var(--dim);line-height:1.75;text-align:center;margin-top:14px}
+
+/* ---------- Studio grid ---------- */
+.studio-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;margin-top:26px}
+@media(max-width:860px){.studio-grid{grid-template-columns:1fr}}
+.panel-title{font-family:var(--display);font-weight:600;font-size:1.05rem;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.panel-title svg{flex-shrink:0}
+
+/* ---------- Segmented options ---------- */
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{flex:1;min-width:70px;background:var(--card-s);border:1px solid var(--b);border-radius:8px;color:var(--subtle);font-family:var(--display);font-weight:500;font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;padding:10px 8px;cursor:pointer;transition:all .3s var(--curve)}
+.seg button.on{background:var(--pb-m);border-color:var(--pbd-s);color:var(--text)}
+.seg button:hover:not(.on){border-color:var(--b-h)}
+
+/* ---------- Status / progress ---------- */
+.status-box{border:1px solid var(--pbd);border-radius:14px;background:var(--pb);padding:28px;text-align:center;display:none}
+.status-box.on{display:block;animation:fadeUp .5s var(--curve)}
+.status-box.generating{animation:glowPulse 2s infinite}
+@keyframes glowPulse{0%,100%{border-color:rgba(195,166,255,.15)}50%{border-color:rgba(195,166,255,.4)}}
+.spinner{width:38px;height:38px;border-radius:50%;border:2px solid rgba(195,166,255,.15);border-top-color:var(--purple);margin:0 auto 16px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.status-label{font-family:var(--display);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--purple)}
+.status-text{font-family:var(--he);font-weight:300;font-size:.8rem;color:var(--dim);margin-top:8px;line-height:1.7}
+.status-timer{font-family:var(--display);font-weight:300;font-size:1.6rem;color:var(--text);margin-top:12px;direction:ltr}
+.error-box{border:1px solid rgba(255,183,183,.3);background:rgba(255,183,183,.05);border-radius:14px;padding:20px;display:none;margin-top:14px}
+.error-box.on{display:block;animation:fadeUp .5s var(--curve)}
+.error-box .et{font-family:var(--display);font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--pink)}
+.error-box .em{font-family:var(--he);font-weight:300;font-size:.78rem;color:var(--dim);margin-top:8px;line-height:1.7;word-break:break-word}
+
+/* ---------- Result ---------- */
+.result-box{display:none;margin-top:14px}
+.result-box.on{display:block;animation:fadeUp .6s var(--curve)}
+.result-box video{width:100%;border-radius:14px;border:1px solid var(--b);background:#000;display:block}
+.result-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+
+/* ---------- Gallery ---------- */
+.gallery{margin:70px 0 90px}
+.gallery h2{font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-.02em;margin-bottom:6px}
+.gallery-sub{font-family:var(--he);font-weight:300;font-size:.78rem;color:var(--muted);margin-bottom:22px}
+.g-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:860px){.g-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.g-grid{grid-template-columns:1fr}}
+.g-card{background:var(--card-s);border:1px solid var(--b-s);border-radius:14px;padding:18px;transition:all .4s var(--curve);animation:cardIn .5s var(--curve)}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.g-card:hover{transform:translateY(-4px);border-color:var(--b-h);background:var(--card-h)}
+.g-card video{width:100%;border-radius:8px;background:#000;margin-bottom:12px}
+.g-name{font-family:var(--display);font-weight:600;font-size:.78rem;color:var(--text)}
+.g-prompt{font-family:var(--he);font-weight:300;font-size:.72rem;color:var(--subtle);line-height:1.6;margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.g-meta{font-family:var(--sans);font-weight:300;font-size:.6rem;color:var(--muted);margin-top:10px;text-transform:uppercase;letter-spacing:.08em}
+.g-empty{font-family:var(--he);font-weight:300;font-size:.78rem;color:var(--faint);border:1px dashed var(--b);border-radius:14px;padding:34px;text-align:center;grid-column:1/-1}
+
+/* ---------- Modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(5,5,5,.75);backdrop-filter:blur(8px);z-index:100;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:60px 22px}
+.modal-bg.on{display:flex;animation:fadeUp .4s var(--curve)}
+.modal{background:#0a0a0a;border:1px solid var(--b-h);border-radius:16px;padding:32px;max-width:520px;width:100%;position:relative}
+.modal h3{font-family:var(--display);font-weight:700;font-size:1.2rem;letter-spacing:-.02em;margin-bottom:4px}
+.modal .m-sub{font-family:var(--he);font-weight:300;font-size:.74rem;color:var(--muted);margin-bottom:24px;line-height:1.7}
+.modal-close{position:absolute;top:18px;left:18px;background:none;border:1px solid var(--b);border-radius:8px;width:34px;height:34px;color:var(--subtle);cursor:pointer;font-size:1rem;transition:all .3s var(--curve)}
+.modal-close:hover{border-color:var(--b-h);color:var(--text)}
+.divider{height:1px;background:rgba(255,255,255,.1);margin:24px 0}
+.warn{border:1px solid rgba(255,216,190,.25);background:rgba(255,216,190,.04);border-radius:10px;padding:14px;font-family:var(--he);font-weight:300;font-size:.7rem;color:var(--dim);line-height:1.7;margin-top:14px}
+.warn b{color:var(--orange);font-weight:500}
+
+/* ---------- Image attach ---------- */
+.img-attach{border:1px dashed var(--b);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .3s var(--curve);font-family:var(--he);font-weight:300;font-size:.74rem;color:var(--faint)}
+.img-attach:hover{border-color:var(--pbd-m);color:var(--subtle)}
+.img-attach img{max-width:100%;max-height:140px;border-radius:8px;display:block;margin:0 auto 8px}
+.counter-line{font-family:var(--he);font-weight:300;font-size:.66rem;color:var(--muted);text-align:center;margin-top:12px}
+.counter-line b{color:var(--green);font-weight:500}
+footer{border-top:1px solid var(--b-s);padding:26px 0;margin-top:20px}
+footer .f-in{max-width:1100px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+footer .f-txt{font-family:var(--sans);font-weight:300;font-size:.62rem;color:var(--muted);letter-spacing:.04em;direction:ltr}
+</style>
+</head>
+<body>
+
+<div class="atm">
+  <div class="atm-glow g1"></div>
+  <div class="atm-glow g2"></div>
+  <div class="atm-glow g3"></div>
+  <div class="atm-glow g4"></div>
+</div>
+<div class="noise"></div>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <span class="logo"><span class="gt">GENIRO</span><span class="ai">.AI</span><span class="logo-tag">Video Studio</span></span>
+    <div class="top-right">
+      <span class="student-chip" id="studentChip"></span>
+      <button class="btn btn-ghost" id="teacherBtn" type="button">Teacher</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ SETUP (first run — teacher) ============ -->
+  <section class="screen" id="setupScreen">
+    <div class="center-col">
+      <div class="eyebrow" style="text-align:center">First-time setup</div>
+      <h1 class="hero">Video <span class="gt">Studio</span></h1>
+      <p class="magic gt">Where imagination becomes motion.</p>
+      <p class="sub">ברוכה הבאה. כדי שהתלמידים יוכלו ליצור וידאו עם Gemini Veo, צריך להגדיר את הסטודיו פעם אחת — המפתח נשמר רק בדפדפן הזה.</p>
+      <div class="card-purple" style="margin-top:34px">
+        <div class="field">
+          <label class="fl">Gemini API Key</label>
+          <input type="password" id="setupKey" placeholder="AIza..." autocomplete="off">
+          <div class="hint">מקבלים מפתח בחינם ב-Google AI Studio (aistudio.google.com). שימי לב: יצירת וידאו עם Veo דורשת חשבון עם Billing פעיל.</div>
+        </div>
+        <div class="field">
+          <label class="fl">Class Code · קוד כיתה (רשות)</label>
+          <input type="text" id="setupCode" placeholder="למשל: כיתה-ו-2026" autocomplete="off">
+          <div class="hint">אם מגדירים קוד — תלמידים יתבקשו להזין אותו לפני כניסה לסטודיו.</div>
+        </div>
+        <div class="field">
+          <label class="fl">Teacher PIN · קוד מורה</label>
+          <input type="password" id="setupPin" placeholder="4 ספרות ומעלה" autocomplete="off">
+          <div class="hint">הקוד שיאפשר רק לך לפתוח את ההגדרות בהמשך.</div>
+        </div>
+        <div class="field">
+          <label class="fl">Daily limit per student · מגבלת סרטונים ליום</label>
+          <input type="number" id="setupLimit" value="3" min="0" max="50">
+          <div class="hint">כמה סרטונים כל תלמיד יכול ליצור ביום מהמחשב הזה. 0 = ללא הגבלה.</div>
+        </div>
+        <button class="btn btn-primary btn-wide" id="setupSaveBtn" type="button">Start the studio</button>
+        <div class="warn"><b>חשוב לדעת:</b> זהו אתר סטטי — המפתח נשמר מקומית בדפדפן ונשלח ישירות ל-Google. מומלץ להגביל את המפתח ב-Google Cloud ל-HTTP referrer של purplerosa.github.io ולהגדיר תקציב (Budget alert), כי כל יצירת וידאו עולה כסף.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOCK (student login) ============ -->
+  <section class="screen" id="lockScreen">
+    <div class="center-col">
+      <div class="eyebrow" style="text-align:center">Student access</div>
+      <h1 class="hero">Create <span class="gt">Video</span></h1>
+      <p class="magic gt">Direct your first film today.</p>
+      <p class="sub">היי! כאן יוצרים סרטוני AI אמיתיים. כתבו מה אתם מדמיינים — והבינה המלאכותית תהפוך את זה לווידאו.</p>
+      <div class="card" style="margin-top:34px">
+        <div class="field">
+          <label class="fl">Your name · השם שלכם</label>
+          <input type="text" id="loginName" placeholder="שם פרטי" autocomplete="off" maxlength="30">
+        </div>
+        <div class="field" id="loginCodeField">
+          <label class="fl">Class code · קוד כיתה</label>
+          <input type="text" id="loginCode" placeholder="הקוד שקיבלתם מהמורה" autocomplete="off">
+        </div>
+        <button class="btn btn-primary btn-wide" id="loginBtn" type="button">Enter studio</button>
+        <div class="error-box" id="loginError"><div class="et">Access denied</div><div class="em" id="loginErrorMsg"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STUDIO ============ -->
+  <section class="screen" id="appScreen">
+    <div style="padding-top:56px">
+      <div class="eyebrow" style="text-align:center">AI Video Creation</div>
+      <h1 class="hero">Video <span class="gt">Studio</span></h1>
+      <p class="sub">כתבו תיאור של הסרטון שאתם מדמיינים — כמה שיותר מפורט, יותר טוב: מי? איפה? מה קורה? איזו תאורה? איזו זווית צילום?</p>
+    </div>
+
+    <div class="studio-grid">
+      <!-- Create panel -->
+      <div class="card">
+        <div class="panel-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3a6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          יצירת סרטון
+        </div>
+        <div class="field">
+          <label class="fl">Prompt · תיאור הסרטון</label>
+          <textarea id="promptInput" placeholder="לדוגמה: חתול אסטרונאוט מרחף בתוך חללית, מביט בכדור הארץ מהחלון, תאורה כחולה רכה, צילום קולנועי איטי..."></textarea>
+          <button class="btn btn-ghost" id="improveBtn" type="button" style="margin-top:10px">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6l2.1-2.1"/></svg>
+            שדרוג הפרומפט עם Gemini
+          </button>
+        </div>
+        <div class="field">
+          <label class="fl">Format · פורמט</label>
+          <div class="seg" id="aspectSeg">
+            <button type="button" data-v="16:9" class="on">16:9 מסך רחב</button>
+            <button type="button" data-v="9:16">9:16 סטורי</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="fl">Model · מנוע</label>
+          <select id="modelSelect">
+            <option value="veo-3.1-fast-generate-preview">Veo 3.1 Fast — מהיר וחסכוני (מומלץ)</option>
+            <option value="veo-3.1-generate-preview">Veo 3.1 — איכות מקסימלית + סאונד</option>
+            <option value="veo-3.0-fast-generate-001">Veo 3 Fast</option>
+            <option value="veo-3.0-generate-001">Veo 3</option>
+            <option value="veo-2.0-generate-001">Veo 2 — ללא סאונד</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="fl">Starting image · תמונת פתיחה (רשות)</label>
+          <div class="img-attach" id="imgAttach">
+            <span id="imgAttachLabel">אפשר לצרף תמונה שהסרטון יתחיל ממנה — לחצו כאן</span>
+          </div>
+          <input type="file" id="imgInput" accept="image/png,image/jpeg,image/webp" style="display:none">
+        </div>
+        <button class="btn btn-primary btn-wide" id="generateBtn" type="button">Generate video</button>
+        <div class="counter-line" id="counterLine"></div>
+      </div>
+
+      <!-- Output panel -->
+      <div>
+        <div class="card" id="outputPanel">
+          <div class="panel-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3a6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z"/></svg>
+            הסרטון שלכם
+          </div>
+          <div class="status-box" id="statusBox">
+            <div class="spinner" id="statusSpinner"></div>
+            <div class="status-label" id="statusLabel">Generating</div>
+            <div class="status-text" id="statusText"></div>
+            <div class="status-timer" id="statusTimer">0:00</div>
+          </div>
+          <div id="idleMsg" style="font-family:var(--he);font-weight:300;font-size:.78rem;color:var(--faint);text-align:center;padding:40px 10px;line-height:1.8">
+            כשתלחצו על Generate — הסרטון ייווצר כאן.<br>זה לוקח בדרך כלל דקה עד שלוש דקות.
+          </div>
+          <div class="error-box" id="genError"><div class="et">Something went wrong</div><div class="em" id="genErrorMsg"></div></div>
+          <div class="result-box" id="resultBox">
+            <video id="resultVideo" controls playsinline></video>
+            <div class="result-actions">
+              <button class="btn btn-outline" id="downloadBtn" type="button">Download</button>
+              <button class="btn btn-ghost" id="againBtn" type="button">סרטון חדש</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery">
+      <h2>Class <span class="gt">Gallery</span></h2>
+      <div class="gallery-sub">היצירות של הכיתה מהמחשב הזה. הסרטונים עצמם נשמרים רק כל עוד העמוד פתוח — הורידו כדי לשמור.</div>
+      <div class="g-grid" id="galleryGrid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ TEACHER MODAL ============ -->
+<div class="modal-bg" id="teacherModal">
+  <div class="modal">
+    <button class="modal-close" id="modalCloseBtn" type="button">&times;</button>
+    <!-- PIN gate -->
+    <div id="pinGate">
+      <h3>Teacher <span class="gt">Access</span></h3>
+      <div class="m-sub">הזיני את קוד המורה כדי לפתוח את ההגדרות.</div>
+      <div class="field">
+        <label class="fl">Teacher PIN</label>
+        <input type="password" id="pinInput" autocomplete="off">
+      </div>
+      <button class="btn btn-primary btn-wide" id="pinBtn" type="button">Unlock</button>
+      <div class="error-box" id="pinError"><div class="et">Wrong PIN</div><div class="em">הקוד שגוי, נסי שוב.</div></div>
+    </div>
+    <!-- Settings -->
+    <div id="settingsPane" style="display:none">
+      <h3>Studio <span class="gt">Settings</span></h3>
+      <div class="m-sub">ההגדרות נשמרות בדפדפן הזה בלבד.</div>
+      <div class="field">
+        <label class="fl">Gemini API Key</label>
+        <input type="password" id="setKey" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="fl">Class code · קוד כיתה (ריק = ללא קוד)</label>
+        <input type="text" id="setCode" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="fl">Teacher PIN</label>
+        <input type="password" id="setPin" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="fl">Daily limit per student</label>
+        <input type="number" id="setLimit" min="0" max="50">
+      </div>
+      <button class="btn btn-primary btn-wide" id="settingsSaveBtn" type="button">Save settings</button>
+      <div class="divider"></div>
+      <button class="btn btn-outline btn-wide" id="shareLinkBtn" type="button">Copy class link</button>
+      <div class="hint" style="text-align:center;margin-top:8px" id="shareLinkHint">קישור שמגדיר אוטומטית את הסטודיו על כל מחשב שפותח אותו.</div>
+      <div class="warn"><b>שימי לב:</b> הקישור מכיל את מפתח ה-API בצורה מקודדת — לשלוח רק לתלמידים שלך, לא לפרסם בפומבי. אפשר תמיד להחליף מפתח ב-Google AI Studio.</div>
+      <div class="divider"></div>
+      <button class="btn btn-ghost btn-wide" id="resetBtn" type="button">איפוס מלא של הסטודיו במחשב הזה</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-in">
+    <span class="f-txt">GENIRO.AI — VIDEO STUDIO · POWERED BY GEMINI VEO</span>
+    <span class="f-txt">BY SHELLY OR GISSER · SHOTCALLER</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+var API = 'https://generativelanguage.googleapis.com/v1beta';
+var LS_CFG = 'vs_cfg_v1', LS_HIST = 'vs_hist_v1', LS_COUNT = 'vs_count_v1';
+
+var cfg = null;            // {key, code, pin, limit}
+var student = null;        // name
+var aspect = '16:9';
+var imgData = null;        // {mimeType, bytesBase64Encoded}
+var currentBlobUrl = null;
+var pollTimer = null, tickTimer = null, startTs = 0;
+var sessionVideos = {};    // histId -> blobUrl (session only)
+
+function $(id){ return document.getElementById(id); }
+
+/* ---------- config storage (light obfuscation, not encryption) ---------- */
+function enc(o){ return btoa(unescape(encodeURIComponent(JSON.stringify(o)))); }
+function dec(s){ try { return JSON.parse(decodeURIComponent(escape(atob(s)))); } catch(e){ return null; } }
+function saveCfg(){ localStorage.setItem(LS_CFG, enc(cfg)); }
+function loadCfg(){ var s = localStorage.getItem(LS_CFG); cfg = s ? dec(s) : null; }
+
+/* ---------- history ---------- */
+function loadHist(){ try { return JSON.parse(localStorage.getItem(LS_HIST)) || []; } catch(e){ return []; } }
+function saveHist(h){ localStorage.setItem(LS_HIST, JSON.stringify(h.slice(-60))); }
+
+/* ---------- daily counter ---------- */
+function todayKey(){ var d = new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function loadCounts(){
+  try { var c = JSON.parse(localStorage.getItem(LS_COUNT)) || {}; if (c._day !== todayKey()) c = {_day: todayKey()}; return c; }
+  catch(e){ return {_day: todayKey()}; }
+}
+function usedToday(name){ var c = loadCounts(); return c[name] || 0; }
+function bumpCount(name){ var c = loadCounts(); c[name] = (c[name]||0)+1; localStorage.setItem(LS_COUNT, JSON.stringify(c)); }
+
+/* ---------- screens ---------- */
+function show(id){
+  ['setupScreen','lockScreen','appScreen'].forEach(function(s){ $(s).classList.toggle('on', s===id); });
+}
+function updateChip(){
+  var chip = $('studentChip');
+  if (student){ chip.style.display='inline-block'; chip.innerHTML = 'יוצר/ת: <b></b>'; chip.querySelector('b').textContent = student; }
+  else chip.style.display='none';
+}
+function updateCounter(){
+  var line = $('counterLine');
+  if (!cfg || !student) { line.textContent=''; return; }
+  var lim = parseInt(cfg.limit,10)||0;
+  if (lim <= 0){ line.innerHTML=''; return; }
+  var left = Math.max(0, lim - usedToday(student));
+  line.innerHTML = 'נשארו לך היום <b>'+left+'</b> מתוך '+lim+' סרטונים';
+  $('generateBtn').disabled = left <= 0;
+}
+
+/* ---------- init ---------- */
+function init(){
+  // import config from share link: #cfg=...
+  var m = location.hash.match(/#cfg=([A-Za-z0-9+/=_-]+)/);
+  if (m){
+    var imported = dec(m[1].replace(/-/g,'+').replace(/_/g,'/'));
+    if (imported && imported.key){ cfg = imported; saveCfg(); }
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+  if (!cfg) loadCfg();
+
+  if (!cfg || !cfg.key){ show('setupScreen'); return; }
+  $('loginCodeField').style.display = cfg.code ? 'block' : 'none';
+  show('lockScreen');
+  renderGallery();
+}
+
+/* ---------- setup ---------- */
+$('setupSaveBtn').onclick = function(){
+  var key = $('setupKey').value.trim();
+  var pin = $('setupPin').value.trim();
+  if (!key){ $('setupKey').focus(); return; }
+  if (!pin || pin.length < 4){ $('setupPin').focus(); return; }
+  cfg = { key:key, code:$('setupCode').value.trim(), pin:pin, limit:parseInt($('setupLimit').value,10)||0 };
+  saveCfg();
+  $('loginCodeField').style.display = cfg.code ? 'block' : 'none';
+  show('lockScreen');
+};
+
+/* ---------- login ---------- */
+$('loginBtn').onclick = function(){
+  var name = $('loginName').value.trim();
+  var err = $('loginError');
+  err.classList.remove('on');
+  if (!name){ $('loginErrorMsg').textContent = 'כתבו את השם שלכם כדי להיכנס.'; err.classList.add('on'); return; }
+  if (cfg.code && $('loginCode').value.trim() !== cfg.code){
+    $('loginErrorMsg').textContent = 'קוד הכיתה לא נכון — בדקו עם המורה.'; err.classList.add('on'); return;
+  }
+  student = name;
+  updateChip(); updateCounter();
+  show('appScreen');
+  renderGallery();
+};
+$('loginName').addEventListener('keydown', function(e){ if(e.key==='Enter') $('loginBtn').click(); });
+$('loginCode').addEventListener('keydown', function(e){ if(e.key==='Enter') $('loginBtn').click(); });
+
+/* ---------- aspect segmented ---------- */
+$('aspectSeg').addEventListener('click', function(e){
+  var b = e.target.closest('button'); if (!b) return;
+  aspect = b.dataset.v;
+  this.querySelectorAll('button').forEach(function(x){ x.classList.toggle('on', x===b); });
+});
+
+/* ---------- image attach ---------- */
+$('imgAttach').onclick = function(){ $('imgInput').click(); };
+$('imgInput').onchange = function(){
+  var f = this.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(){
+    var b64 = r.result.split(',')[1];
+    imgData = { mimeType: f.type, bytesBase64Encoded: b64 };
+    $('imgAttach').innerHTML = '<img src="'+r.result+'" alt=""><span style="color:#808080">התמונה צורפה — לחצו כדי להחליף, לחיצה ארוכה להסרה</span>';
+  };
+  r.readAsDataURL(f);
+};
+$('imgAttach').addEventListener('contextmenu', function(e){ e.preventDefault(); clearImage(); });
+var pressTimer;
+$('imgAttach').addEventListener('touchstart', function(){ pressTimer = setTimeout(clearImage, 700); });
+$('imgAttach').addEventListener('touchend', function(){ clearTimeout(pressTimer); });
+function clearImage(){
+  imgData = null; $('imgInput').value = '';
+  $('imgAttach').innerHTML = '<span id="imgAttachLabel">אפשר לצרף תמונה שהסרטון יתחיל ממנה — לחצו כאן</span>';
+}
+
+/* ---------- improve prompt ---------- */
+$('improveBtn').onclick = function(){
+  var p = $('promptInput').value.trim();
+  if (!p) { $('promptInput').focus(); return; }
+  var btn = this; btn.disabled = true; btn.style.opacity = .5;
+  fetch(API + '/models/gemini-2.5-flash:generateContent', {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'x-goog-api-key': cfg.key },
+    body: JSON.stringify({
+      contents:[{ parts:[{ text:
+        'You are a cinematic video prompt expert helping a school student. ' +
+        'Rewrite the following idea as ONE rich English video-generation prompt for Google Veo: ' +
+        'describe subject, action, setting, camera movement, lighting and mood. ' +
+        'Keep it kid-appropriate and under 90 words. Return ONLY the prompt text, nothing else.\n\nIdea: ' + p }]}]
+    })
+  }).then(function(r){ return r.json(); }).then(function(j){
+    var t = j && j.candidates && j.candidates[0] && j.candidates[0].content &&
+            j.candidates[0].content.parts && j.candidates[0].content.parts[0].text;
+    if (t) $('promptInput').value = t.trim();
+    else showError('genError','genErrorMsg','לא הצלחתי לשדרג את הפרומפט הפעם. אפשר להמשיך עם מה שכתבתם.');
+  }).catch(function(e){
+    showError('genError','genErrorMsg','שגיאת רשת בשדרוג הפרומפט: ' + e.message);
+  }).finally(function(){ btn.disabled = false; btn.style.opacity = 1; });
+};
+
+/* ---------- generate ---------- */
+var STATUS_LINES = [
+  'הבינה המלאכותית קוראת את התיאור שלכם...',
+  'בונה את הסצנה, פריים אחרי פריים...',
+  'מכוונת תאורה ומצלמה...',
+  'מרנדרת את הווידאו — עוד קצת סבלנות...',
+  'כמעט מוכן, ליטושים אחרונים...'
+];
+
+$('generateBtn').onclick = function(){
+  var prompt = $('promptInput').value.trim();
+  hideError('genError');
+  if (!prompt){ $('promptInput').focus(); return; }
+  var lim = parseInt(cfg.limit,10)||0;
+  if (lim > 0 && usedToday(student) >= lim){
+    showError('genError','genErrorMsg','הגעתם למגבלת הסרטונים היומית. נסו שוב מחר או בקשו מהמורה להגדיל את המגבלה.');
+    return;
+  }
+
+  var model = $('modelSelect').value;
+  var inst = { prompt: prompt };
+  if (imgData) inst.image = imgData;
+  var params = { aspectRatio: aspect };
+
+  setGenerating(true);
+  fetch(API + '/models/' + model + ':predictLongRunning', {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'x-goog-api-key': cfg.key },
+    body: JSON.stringify({ instances:[inst], parameters: params })
+  }).then(function(r){
+    return r.json().then(function(j){ return { ok:r.ok, status:r.status, j:j }; });
+  }).then(function(res){
+    if (!res.ok || !res.j.name){
+      var msg = (res.j.error && res.j.error.message) || ('HTTP ' + res.status);
+      throw new Error(friendlyError(res.status, msg));
+    }
+    pollOperation(res.j.name, prompt, model);
+  }).catch(function(e){
+    setGenerating(false);
+    showError('genError','genErrorMsg', e.message);
+  });
+};
+
+function pollOperation(opName, prompt, model){
+  var attempts = 0;
+  pollTimer = setInterval(function(){
+    attempts++;
+    if (attempts > 90){ // ~15 min
+      stopPolling(); setGenerating(false);
+      showError('genError','genErrorMsg','היצירה לוקחת יותר מדי זמן. נסו שוב עם פרומפט קצר יותר או מודל Fast.');
+      return;
+    }
+    fetch(API + '/' + opName, { headers:{ 'x-goog-api-key': cfg.key } })
+      .then(function(r){ return r.json(); })
+      .then(function(op){
+        if (!op.done) return;
+        stopPolling();
+        if (op.error){
+          setGenerating(false);
+          showError('genError','genErrorMsg', friendlyError(0, op.error.message || 'שגיאה ביצירה'));
+          return;
+        }
+        var uri = extractVideoUri(op);
+        if (!uri){
+          setGenerating(false);
+          var block = extractBlockReason(op);
+          showError('genError','genErrorMsg', block ||
+            'הסרטון לא נוצר — ייתכן שהתיאור נחסם על ידי מסנני הבטיחות. נסו לנסח אחרת.');
+          return;
+        }
+        $('statusText').textContent = 'מוריד את הסרטון...';
+        fetchVideoBlob(uri).then(function(blobUrl){
+          setGenerating(false);
+          showResult(blobUrl, prompt, model);
+        }).catch(function(e){
+          setGenerating(false);
+          showError('genError','genErrorMsg','הסרטון נוצר אבל ההורדה נכשלה: ' + e.message);
+        });
+      })
+      .catch(function(){ /* transient poll error — keep polling */ });
+  }, 10000);
+}
+
+function extractVideoUri(op){
+  var r = op.response || {};
+  var gv = r.generateVideoResponse || r;
+  var s = (gv.generatedSamples && gv.generatedSamples[0]) ||
+          (gv.generatedVideos && gv.generatedVideos[0]) ||
+          (gv.videos && gv.videos[0]);
+  if (!s) return null;
+  var v = s.video || s;
+  return v.uri || v.videoUri || null;
+}
+function extractBlockReason(op){
+  var r = op.response || {};
+  var gv = r.generateVideoResponse || r;
+  if (gv.raiMediaFilteredReasons && gv.raiMediaFilteredReasons.length)
+    return 'הבקשה נחסמה על ידי מסנן הבטיחות: נסו תיאור אחר, בלי אנשים אמיתיים או תוכן רגיש.';
+  return null;
+}
+
+function fetchVideoBlob(uri){
+  return fetch(uri, { headers:{ 'x-goog-api-key': cfg.key } })
+    .then(function(r){
+      if (r.ok) return r.blob();
+      var sep = uri.indexOf('?') > -1 ? '&' : '?';
+      return fetch(uri + sep + 'key=' + encodeURIComponent(cfg.key))
+        .then(function(r2){ if (!r2.ok) throw new Error('HTTP ' + r2.status); return r2.blob(); });
+    })
+    .then(function(blob){ return URL.createObjectURL(blob); });
+}
+
+function friendlyError(status, msg){
+  if (status === 400 && /API key/i.test(msg)) return 'מפתח ה-API לא תקין. בקשו מהמורה לבדוק את ההגדרות.';
+  if (status === 403) return 'אין הרשאה: ייתכן שהמפתח מוגבל לדומיין אחר, או ש-Billing לא פעיל בחשבון Google. (' + msg + ')';
+  if (status === 429) return 'חרגתם מהמכסה של Google כרגע — חכו כמה דקות ונסו שוב.';
+  if (/not found|is not supported/i.test(msg)) return 'המודל הזה לא זמין במפתח הנוכחי — נסו מודל אחר מהרשימה. (' + msg + ')';
+  return msg;
+}
+
+/* ---------- UI states ---------- */
+function setGenerating(on){
+  var box = $('statusBox');
+  $('idleMsg').style.display = on ? 'none' : ($('resultBox').classList.contains('on') ? 'none' : 'block');
+  box.classList.toggle('on', on);
+  box.classList.toggle('generating', on);
+  $('generateBtn').disabled = on;
+  if (on){
+    $('resultBox').classList.remove('on');
+    hideError('genError');
+    startTs = Date.now();
+    var i = 0;
+    $('statusLabel').textContent = 'Generating';
+    $('statusText').textContent = STATUS_LINES[0];
+    tickTimer = setInterval(function(){
+      var s = Math.floor((Date.now()-startTs)/1000);
+      $('statusTimer').textContent = Math.floor(s/60) + ':' + ('0'+(s%60)).slice(-2);
+      if (s % 20 === 0 && s > 0){ i = Math.min(i+1, STATUS_LINES.length-1); $('statusText').textContent = STATUS_LINES[i]; }
+    }, 1000);
+  } else {
+    clearInterval(tickTimer);
+  }
+}
+function stopPolling(){ clearInterval(pollTimer); }
+
+function showResult(blobUrl, prompt, model){
+  if (currentBlobUrl && currentBlobUrl !== blobUrl){ /* keep old gallery blobs alive */ }
+  currentBlobUrl = blobUrl;
+  $('idleMsg').style.display = 'none';
+  var v = $('resultVideo');
+  v.src = blobUrl;
+  $('resultBox').classList.add('on');
+  v.play().catch(function(){});
+  bumpCount(student);
+  updateCounter();
+  var hist = loadHist();
+  var id = 'v' + Date.now();
+  hist.push({ id:id, name:student, prompt:prompt, model:model, aspect:aspect, ts:Date.now() });
+  saveHist(hist);
+  sessionVideos[id] = blobUrl;
+  renderGallery();
+}
+
+$('downloadBtn').onclick = function(){
+  if (!currentBlobUrl) return;
+  var a = document.createElement('a');
+  a.href = currentBlobUrl;
+  a.download = 'geniro-video-' + (student||'student') + '-' + Date.now() + '.mp4';
+  document.body.appendChild(a); a.click(); a.remove();
+};
+$('againBtn').onclick = function(){
+  $('resultBox').classList.remove('on');
+  $('idleMsg').style.display = 'block';
+  $('promptInput').value = '';
+  clearImage();
+  $('promptInput').focus();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+function showError(boxId, msgId, msg){ $(msgId).textContent = msg; $(boxId).classList.add('on'); }
+function hideError(boxId){ $(boxId).classList.remove('on'); }
+
+/* ---------- gallery ---------- */
+function renderGallery(){
+  var grid = $('galleryGrid');
+  var hist = loadHist().slice().reverse();
+  grid.innerHTML = '';
+  if (!hist.length){
+    grid.innerHTML = '<div class="g-empty">עוד אין יצירות — הסרטון הראשון של הכיתה מחכה לכם.</div>';
+    return;
+  }
+  hist.forEach(function(h){
+    var card = document.createElement('div');
+    card.className = 'g-card';
+    var vhtml = sessionVideos[h.id]
+      ? '<video src="'+sessionVideos[h.id]+'" controls playsinline></video>' : '';
+    var d = new Date(h.ts);
+    card.innerHTML = vhtml +
+      '<div class="g-name"></div>' +
+      '<div class="g-prompt"></div>' +
+      '<div class="g-meta">' + h.aspect + ' · ' + (h.model||'').replace('-generate','').replace('-preview','') +
+      ' · ' + d.toLocaleDateString('he-IL') + '</div>';
+    card.querySelector('.g-name').textContent = h.name || '';
+    card.querySelector('.g-prompt').textContent = h.prompt || '';
+    grid.appendChild(card);
+  });
+}
+
+/* ---------- teacher modal ---------- */
+$('teacherBtn').onclick = function(){
+  if (!cfg){ show('setupScreen'); return; }
+  $('teacherModal').classList.add('on');
+  $('pinGate').style.display = 'block';
+  $('settingsPane').style.display = 'none';
+  $('pinInput').value = '';
+  hideError('pinError');
+  $('pinInput').focus();
+};
+$('modalCloseBtn').onclick = function(){ $('teacherModal').classList.remove('on'); };
+$('teacherModal').addEventListener('click', function(e){ if (e.target === this) this.classList.remove('on'); });
+
+$('pinBtn').onclick = function(){
+  if ($('pinInput').value === cfg.pin){
+    $('pinGate').style.display = 'none';
+    $('settingsPane').style.display = 'block';
+    $('setKey').value = cfg.key;
+    $('setCode').value = cfg.code || '';
+    $('setPin').value = cfg.pin;
+    $('setLimit').value = cfg.limit || 0;
+  } else {
+    $('pinError').classList.add('on');
+  }
+};
+$('pinInput').addEventListener('keydown', function(e){ if(e.key==='Enter') $('pinBtn').click(); });
+
+$('settingsSaveBtn').onclick = function(){
+  var key = $('setKey').value.trim(), pin = $('setPin').value.trim();
+  if (!key || !pin || pin.length < 4) return;
+  cfg = { key:key, code:$('setCode').value.trim(), pin:pin, limit:parseInt($('setLimit').value,10)||0 };
+  saveCfg();
+  $('loginCodeField').style.display = cfg.code ? 'block' : 'none';
+  updateCounter();
+  $('teacherModal').classList.remove('on');
+};
+
+$('shareLinkBtn').onclick = function(){
+  var link = location.origin + location.pathname + '#cfg=' +
+    enc(cfg).replace(/\+/g,'-').replace(/\//g,'_');
+  navigator.clipboard.writeText(link).then(function(){
+    $('shareLinkHint').textContent = 'הקישור הועתק — אפשר לשלוח לתלמידים.';
+  }).catch(function(){
+    prompt('העתיקו את הקישור:', link);
+  });
+};
+
+$('resetBtn').onclick = function(){
+  if (!confirm('לאפס את כל ההגדרות וההיסטוריה במחשב הזה?')) return;
+  localStorage.removeItem(LS_CFG);
+  localStorage.removeItem(LS_HIST);
+  localStorage.removeItem(LS_COUNT);
+  location.reload();
+};
+
+init();
+})();
+</script>
+</body>
+</html>
