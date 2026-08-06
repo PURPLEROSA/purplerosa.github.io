@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Claude Instagram Audit · Decoded</title>
+<link rel="icon" type="image/jpeg" href="aigos.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ========== CIA · BASE TOKENS ========== */
+:root{
+  --bg-deep:#040d1f;
+  --bg-mid:#081633;
+  --bg-card:rgba(255,255,255,0.04);
+  --bg-card-strong:rgba(255,255,255,0.07);
+  --border:rgba(120,200,255,0.14);
+  --border-strong:rgba(120,200,255,0.28);
+  --text:#ffffff;
+  --text-soft:rgba(255,255,255,0.72);
+  --text-mute:rgba(255,255,255,0.5);
+  --cyan:#5be0ff;
+  --cyan-deep:#0c6cd8;
+  --teal:#1ad5b8;
+  --lime:#c7ff3c;
+  --lime-soft:#e6ff8a;
+  --pink:#ff7ad9;
+  --amber:#ffb84d;
+  --red:#ff5e7e;
+  --grad-hero:linear-gradient(120deg,#1ad5b8 0%,#0c6cd8 55%,#0a2147 100%);
+  --grad-card:linear-gradient(160deg,rgba(91,224,255,0.08) 0%,rgba(12,108,216,0.04) 100%);
+  --shadow-card:0 30px 60px -30px rgba(0,0,0,0.6),0 0 0 1px var(--border) inset;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Heebo',sans-serif;
+  background:var(--bg-deep);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(ellipse at 20% -10%, rgba(26,213,184,0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(12,108,216,0.22) 0%, transparent 55%),
+    radial-gradient(circle at 1px 1px, rgba(120,200,255,0.08) 1px, transparent 0);
+  background-size:auto, auto, 28px 28px;
+}
+
+.eng{font-family:'Space Grotesk',sans-serif;letter-spacing:-0.02em}
+.mono{font-family:'JetBrains Mono',monospace}
+.container{max-width:1340px;margin:0 auto;padding:0 32px;position:relative}
+
+/* ========== TOP NAV ========== */
+.topnav{position:sticky;top:0;z-index:100;background:rgba(4,13,31,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 32px}
+.topnav-inner{max-width:1340px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.topnav-logo{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:18px;display:flex;align-items:center;gap:10px}
+.topnav-logo::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime)}
+.topnav-links{display:flex;gap:24px;font-size:14px}
+.topnav-links a{color:var(--text-soft);text-decoration:none}
+.topnav-links a:hover{color:var(--cyan)}
+
+/* ========== HERO ========== */
+.hero{position:relative;min-height:560px;margin:24px;border-radius:28px;overflow:hidden;background:var(--grad-hero);display:flex;align-items:center}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.06) 1px,transparent 0);background-size:24px 24px;pointer-events:none}
+.hero-inner{position:relative;z-index:2;padding:80px 64px;width:100%;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.hero-tag{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.25em;color:#fff;background:rgba(255,255,255,0.1);padding:8px 16px;border-radius:6px;margin-bottom:24px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(48px,6vw,88px);font-weight:800;line-height:0.95;text-transform:uppercase;letter-spacing:-0.02em;margin-bottom:24px}
+.hero h1 span{display:block}
+.hero-sub{font-size:18px;font-weight:400;color:rgba(255,255,255,0.88);max-width:480px;margin-bottom:36px;line-height:1.6}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;background:#fff;color:#061226;padding:14px 28px;border-radius:10px;font-weight:700;font-size:16px;text-decoration:none;font-family:'Heebo',sans-serif;transition:transform 0.2s}
+.hero-cta:hover{transform:translateY(-2px)}
+.hero-cta::before{content:"✦";color:var(--lime)}
+.hero-art{position:relative;height:420px}
+
+.float-card{position:absolute;background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:16px;font-size:13px;color:#fff}
+.float-card.note{background:#cfe3ff;color:#0a2147;width:180px;padding:18px;font-weight:500;line-height:1.5;transform:rotate(-3deg);top:80px;right:20px}
+.float-card.img{width:200px;height:260px;background:linear-gradient(135deg,#2a4365,#1a365d);top:20px;right:220px;border-radius:14px;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding:0}
+
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;font-family:'Space Grotesk',sans-serif}
+.pill.green{background:#7ed957;color:#0a3a0d}
+.pill.lime{background:var(--lime);color:#0a2147}
+.pill.blue{background:linear-gradient(90deg,#3b6ee8,#5e8ff5);color:#fff}
+.pill.dark{background:rgba(10,33,71,0.7);color:#fff;border:1px solid rgba(255,255,255,0.2)}
+.pill-floating{position:absolute}
+.scribble{position:absolute;pointer-events:none}
+
+/* ========== INTRO BLOCK ========== */
+.intro-block{position:relative;padding:120px 32px 80px;text-align:center}
+.intro-block .tag{font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:0.3em;color:var(--cyan);font-weight:700;margin-bottom:18px}
+.intro-block h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,68px);font-weight:800;text-transform:uppercase;letter-spacing:-0.02em;line-height:1;max-width:900px;margin:0 auto;border:2px dashed rgba(91,224,255,0.4);padding:32px 48px;border-radius:6px;display:inline-block}
+.intro-block .he-line{font-size:20px;color:var(--text-soft);margin-top:30px;max-width:640px;margin-left:auto;margin-right:auto}
+.intro-orbit{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:60px auto 0;flex-wrap:wrap;gap:20px}
+.orbit-item{width:150px;height:150px;border-radius:18px;background:var(--bg-card-strong);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;font-size:13px;color:var(--text-soft)}
+.orbit-item .icon{font-size:32px;margin-bottom:8px}
+.orbit-item .label{font-family:'Space Grotesk',sans-serif;font-weight:700;color:#fff;font-size:12px;letter-spacing:0.08em}
+
+/* ========== PHASE DIVIDER ========== */
+.phase-divider{margin:120px 0 60px;text-align:center;position:relative}
+.phase-divider .num{font-family:'Space Grotesk',sans-serif;font-size:14px;letter-spacing:0.3em;color:var(--lime);font-weight:700;margin-bottom:12px}
+.phase-divider h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,5vw,72px);font-weight:800;text-transform:uppercase;letter-spacing:-0.02em;line-height:1;background:linear-gradient(90deg,#fff 30%,var(--cyan) 70%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.phase-divider .he{font-size:18px;color:var(--text-soft);margin-top:14px;font-weight:400}
+
+/* ========== CHAPTER ========== */
+.chapter{position:relative;margin:80px 0;padding:48px;background:var(--grad-card);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow-card)}
+.chapter-num{position:absolute;top:-18px;right:32px;background:var(--lime);color:#0a2147;font-family:'Space Grotesk',sans-serif;font-weight:800;padding:8px 18px;border-radius:100px;font-size:14px;letter-spacing:0.05em;box-shadow:0 8px 24px rgba(199,255,60,0.3)}
+.chapter-eyebrow{font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:0.3em;color:var(--cyan);font-weight:700;margin-bottom:14px}
+.chapter h3{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,3.4vw,52px);font-weight:800;line-height:1;text-transform:uppercase;letter-spacing:-0.02em;margin-bottom:24px;direction:ltr;text-align:right}
+.chapter .he-title{font-size:22px;font-weight:600;color:var(--cyan);margin-bottom:24px}
+.chapter .lead{font-size:19px;color:#fff;line-height:1.7;margin-bottom:24px;font-weight:500}
+.chapter p{font-size:17px;color:var(--text-soft);line-height:1.8;margin-bottom:18px}
+.chapter p strong{color:#fff;font-weight:700}
+.chapter .hl{background:linear-gradient(180deg,transparent 60%,rgba(199,255,60,0.35) 60%);color:#fff;padding:0 2px}
+.chapter-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:flex-start}
+.chapter-grid.reverse{grid-template-columns:1fr 1.1fr}
+.chapter-grid .visual{position:relative;min-height:280px}
+
+/* ========== CALLOUTS ========== */
+.callout{margin-top:24px;padding:20px 24px;border-radius:14px;border-right:3px solid var(--lime);background:rgba(199,255,60,0.07)}
+.callout .label{font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.25em;color:var(--lime);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.callout .label::before{content:"●";font-size:8px}
+.callout p{margin:0;font-size:16px;color:#fff}
+.callout.warn{border-right-color:var(--red);background:rgba(255,94,126,0.07)}
+.callout.warn .label{color:var(--red)}
+.callout.tip{border-right-color:var(--cyan);background:rgba(91,224,255,0.07)}
+.callout.tip .label{color:var(--cyan)}
+
+/* ========== EXAMPLE & CODE ========== */
+.example{margin-top:24px;padding:24px;background:rgba(4,13,31,0.5);border-radius:14px;border:1px solid var(--border)}
+.example-head{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.25em;color:var(--lime);font-weight:700;margin-bottom:14px}
+.example-head::before{content:"▸"}
+.example .quote{font-size:17px;color:#fff;margin-bottom:12px;font-style:italic}
+.example .then{font-size:15px;color:var(--text-soft);border-right:2px dashed var(--border-strong);padding-right:14px}
+.code{margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;background:#040d1f;border:1px solid var(--border);border-radius:12px;padding:20px 24px;direction:ltr;text-align:left;color:#cfe3ff;overflow-x:auto;white-space:pre-wrap}
+.code .k{color:var(--lime)}
+.code .s{color:#ffd28a}
+.code .c{color:var(--text-mute);font-style:italic}
+.code .n{color:var(--cyan)}
+.prompt-block{margin-top:36px}
+.prompt-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.prompt-head .badge{background:var(--lime);color:#0a2147;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:12px;letter-spacing:0.1em;padding:6px 14px;border-radius:100px}
+.prompt-head .title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;letter-spacing:0.12em;color:var(--cyan)}
+.copy-hint{font-size:13px;color:var(--text-mute);margin-top:8px}
+
+/* ========== DIAGRAM BASE ========== */
+.diagram{position:relative;width:100%;background:rgba(4,13,31,0.4);border:1px solid var(--border);border-radius:18px;padding:32px;min-height:300px}
+.diagram-title{font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.3em;color:var(--text-mute);font-weight:700;margin-bottom:24px;text-align:center}
+
+/* Flow steps */
+.flow{display:flex;flex-direction:column;gap:0;direction:rtl}
+.flow-step{display:flex;align-items:flex-start;gap:16px}
+.flow-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--lime);color:#0a2147;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center}
+.flow-body{padding-bottom:8px}
+.flow-body .t{font-weight:700;color:#fff;font-size:15.5px}
+.flow-body .d{font-size:14px;color:var(--text-soft);line-height:1.6}
+.flow-arrow{width:36px;display:flex;justify-content:center;padding:4px 0 10px}
+
+/* Layered diagram */
+.layers{display:flex;flex-direction:column;gap:14px}
+.layer{border-radius:14px;padding:16px 20px;border:1px solid}
+.layer .lt{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.1em}
+.layer .ld{font-size:14px;color:var(--text-soft);margin-top:4px}
+.layer.l1{border-color:rgba(199,255,60,0.5);background:rgba(199,255,60,0.06)}
+.layer.l1 .lt{color:var(--lime)}
+.layer.l2{border-color:rgba(91,224,255,0.5);background:rgba(91,224,255,0.06)}
+.layer.l2 .lt{color:var(--cyan)}
+.layer.l3{border-color:rgba(255,122,217,0.5);background:rgba(255,122,217,0.06)}
+.layer.l3 .lt{color:var(--pink)}
+
+/* Bars */
+.bars{display:flex;flex-direction:column;gap:18px}
+.bar-row .bar-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;font-family:'Space Grotesk',sans-serif;font-weight:600}
+.bar-track{height:14px;border-radius:100px;background:rgba(255,255,255,0.07);overflow:hidden;direction:ltr}
+.bar-fill{height:100%;border-radius:100px}
+
+/* Dual columns */
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dual-col{border-radius:14px;padding:18px;border:1px solid}
+.dual-col.yes{border-color:rgba(199,255,60,0.45);background:rgba(199,255,60,0.05)}
+.dual-col.no{border-color:rgba(255,94,126,0.45);background:rgba(255,94,126,0.05)}
+.dual-col .dh{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;letter-spacing:0.15em;margin-bottom:12px}
+.dual-col.yes .dh{color:var(--lime)}
+.dual-col.no .dh{color:var(--red)}
+.dual-col ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.dual-col li{font-size:13.5px;color:var(--text-soft);line-height:1.5;padding-right:16px;position:relative}
+.dual-col.yes li::before{content:"✓";position:absolute;right:0;color:var(--lime);font-weight:700}
+.dual-col.no li::before{content:"✕";position:absolute;right:0;color:var(--red);font-weight:700}
+
+/* Compare grid (bonus cards) */
+.compare3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cmp-card{border-radius:14px;padding:18px;border:1px solid;background:rgba(4,13,31,0.4)}
+.cmp-card .ch{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:12px;letter-spacing:0.12em;margin-bottom:10px}
+.cmp-card p{font-size:13.5px;color:var(--text-soft);line-height:1.6;margin:0}
+.cmp-card.a{border-color:rgba(199,255,60,0.45)}.cmp-card.a .ch{color:var(--lime)}
+.cmp-card.b{border-color:rgba(91,224,255,0.45)}.cmp-card.b .ch{color:var(--cyan)}
+.cmp-card.c{border-color:rgba(255,122,217,0.45)}.cmp-card.c .ch{color:var(--pink)}
+
+/* Mini audit table mock */
+.mock-table{direction:ltr;font-family:'Space Grotesk',sans-serif;border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:12px}
+.mock-table .mt-head{background:rgba(91,224,255,0.12);padding:10px 14px;font-weight:800;letter-spacing:0.08em;color:#fff;font-size:12px}
+.mock-row{display:grid;grid-template-columns:44px 1fr 1fr;border-top:1px solid var(--border)}
+.mock-row>div{padding:9px 12px}
+.mock-row .rn{color:var(--cyan);font-weight:700}
+.mock-row .good{color:#a5e871}
+.mock-row .bad{color:var(--red)}
+
+/* ========== CLOSING ========== */
+.closing{margin:120px 24px 60px;padding:80px 48px;background:var(--grad-hero);border-radius:28px;text-align:center;position:relative;overflow:hidden}
+.closing::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.06) 1px,transparent 0);background-size:24px 24px}
+.closing-inner{position:relative;z-index:2;max-width:760px;margin:0 auto}
+.closing h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,5vw,64px);font-weight:800;text-transform:uppercase;line-height:1;letter-spacing:-0.02em;margin-bottom:20px}
+.closing p{font-size:20px;color:rgba(255,255,255,0.88);margin-bottom:32px}
+.closing .sig{margin-top:36px;font-size:14px;letter-spacing:0.2em;font-family:'Space Grotesk',sans-serif;color:rgba(255,255,255,0.6)}
+.closing .credit{font-size:14px;color:rgba(255,255,255,0.65);margin-top:10px;margin-bottom:0}
+
+@media (max-width:960px){
+  .hero-inner{grid-template-columns:1fr;padding:48px 32px}
+  .hero-art{display:none}
+  .chapter{padding:32px 24px}
+  .chapter-grid,.chapter-grid.reverse{grid-template-columns:1fr;gap:24px}
+  .compare3{grid-template-columns:1fr}
+  .topnav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== TOP NAV ========== -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-logo eng">IG AUDIT · Decoded</div>
+    <div class="topnav-links">
+      <a href="#phase1">SETUP</a>
+      <a href="#phase2">THE ROAST</a>
+      <a href="#phase3">SCRIPTS</a>
+      <a href="#phase4">GO WIDER</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-tag eng">CLAUDE × INSTAGRAM · THE FULL SYSTEM</span>
+      <h1 class="eng">
+        <span>LET CLAUDE</span>
+        <span>ROAST YOUR</span>
+        <span>INSTAGRAM.</span>
+      </h1>
+      <p class="hero-sub">המדריך המלא: מחברים את האינסטגרם לקלוד, נותנים לו לצלות את החשבון בלי רחמים — ובונים מחדש את אסטרטגיית התוכן על בסיס דאטה אמיתי. כל הפרומפטים בפנים.</p>
+      <a href="#start" class="hero-cta">בואו נבנה את זה</a>
+    </div>
+
+    <div class="hero-art">
+      <!-- Sticky note -->
+      <div class="float-card note">קלוד קורא את הדאטה האמיתי שלך — צפיות, שמירות, שיתופים — לא מנחש.</div>
+
+      <!-- Center card -->
+      <div class="float-card img">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#ff9eb5 0%,#ffd5a8 100%);font-size:88px">🔥</div>
+      </div>
+
+      <!-- Floating pills -->
+      <span class="pill green pill-floating" style="top:30px;right:430px">Windsor.ai</span>
+      <span class="pill lime pill-floating" style="top:60px;right:30px">Roast me!</span>
+      <span class="pill blue pill-floating" style="bottom:60px;right:140px">✨ PDF Audit</span>
+      <span class="pill dark pill-floating" style="bottom:20px;right:0">@your_handle</span>
+
+      <!-- OK scribble -->
+      <svg class="scribble" style="top:0;right:380px;width:60px;height:50px" viewBox="0 0 80 60">
+        <path d="M8 28 Q 14 8, 28 18 Q 36 28, 22 38 Z" fill="none" stroke="#c7ff3c" stroke-width="3" stroke-linecap="round"/>
+        <path d="M38 18 L 38 38 M 38 28 L 54 18 M 38 28 L 54 38" fill="none" stroke="#c7ff3c" stroke-width="3" stroke-linecap="round"/>
+        <path d="M62 30 L 72 30 M 70 26 L 74 30 L 70 34" fill="none" stroke="#c7ff3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+      <!-- Dashed connectors -->
+      <svg style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="none">
+        <path d="M 180 200 Q 280 240, 360 200" stroke="#5be0ff" stroke-width="1.5" stroke-dasharray="3,4" fill="none" opacity="0.5"/>
+        <path d="M 380 80 Q 320 60, 280 110" stroke="#c7ff3c" stroke-width="1.5" stroke-dasharray="3,4" fill="none" opacity="0.6"/>
+        <circle cx="180" cy="200" r="4" fill="#5be0ff"/>
+        <circle cx="380" cy="80" r="4" fill="#c7ff3c"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+<!-- ========== INTRO BLOCK ========== -->
+<section class="intro-block" id="start">
+  <div class="tag eng">THE MENTAL MODEL</div>
+  <h2 class="eng">DATA IN.<br/>STRATEGY OUT.</h2>
+  <p class="he-line">רוב היוצרים מבקשים מ-AI "טיפים לאינסטגרם" ומקבלים תשובות גנריות. המערכת הזאת שונה: קלוד מחובר לדאטה החי של החשבון שלך, מנתח מה באמת עובד — ובונה מזה אסטרטגיה, תסריטים ולוח תוכן.</p>
+
+  <div class="intro-orbit">
+    <div class="orbit-item"><div class="icon">🔌</div><div class="label eng">CONNECT</div><div style="margin-top:6px">Windsor.ai מזרים את הדאטה לקלוד</div></div>
+    <div class="orbit-item"><div class="icon">🔥</div><div class="label eng">ROAST</div><div style="margin-top:6px">אודיט אכזרי של 30-50 רילז</div></div>
+    <div class="orbit-item"><div class="icon">✍️</div><div class="label eng">SCRIPT</div><div style="margin-top:6px">3 תסריטים מוכנים לצילום בקול שלך</div></div>
+    <div class="orbit-item"><div class="icon">🚀</div><div class="label eng">SCALE</div><div style="margin-top:6px">מחקר נישה עם Apify ותזמון עם Metricool</div></div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- =============== PHASE 01 =================== -->
+<!-- ============================================ -->
+<div class="phase-divider" id="phase1">
+  <div class="num eng">PHASE 01 / FOUR</div>
+  <h2 class="eng">THE SETUP</h2>
+  <div class="he">חיבור האינסטגרם לקלוד — פחות משתי דקות, בלי שורת קוד אחת.</div>
+</div>
+
+<!-- Chapter 01 -->
+<section class="chapter">
+  <div class="chapter-num eng">CHAPTER 01</div>
+  <div class="chapter-grid">
+    <div>
+      <div class="chapter-eyebrow eng">WHY THIS WORKS</div>
+      <h3 class="eng">REAL DATA,<br/>NOT GUESSES</h3>
+      <div class="he-title">למה חייבים לחבר את הדאטה, ולא סתם לשאול</div>
+      <p class="lead">קלוד בלי חיבור לא רואה את החשבון שלך. הוא ינחש. עם Windsor.ai — <span class="hl">הוא קורא את המספרים האמיתיים</span>: צפיות, שמירות, שיתופים, זמן צפייה.</p>
+      <p>Windsor.ai הוא גשר חינמי, בלי קוד, שמזרים את נתוני הרילז החיים שלך ישירות לתוך השיחה עם קלוד. ברגע שהוא מחובר — כל פרומפט שתריצי עובד על <strong>הביצועים האמיתיים שלך</strong>, לא על השערות.</p>
+      <div class="callout">
+        <div class="label eng">WHY THIS MATTERS</div>
+        <p>ההבדל בין "טיפים כלליים" לבין אודיט אמיתי הוא הדאטה. אותו פרומפט בדיוק — תוצאה אחרת לגמרי.</p>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="diagram">
+        <div class="diagram-title eng">THE PIPELINE</div>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div class="flow-body"><div class="t">Instagram</div><div class="d">חשבון Business או Creator, מקושר לעמוד פייסבוק</div></div>
+          </div>
+          <div class="flow-arrow"><svg width="14" height="26" viewBox="0 0 14 26"><path d="M7 2 L7 20 M2 15 L7 22 L12 15" stroke="#5be0ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="3,3"/></svg></div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div class="flow-body"><div class="t">Windsor.ai</div><div class="d">הגשר — מושך צפיות, שמירות, שיתופים וזמן צפייה</div></div>
+          </div>
+          <div class="flow-arrow"><svg width="14" height="26" viewBox="0 0 14 26"><path d="M7 2 L7 20 M2 15 L7 22 L12 15" stroke="#5be0ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="3,3"/></svg></div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div class="flow-body"><div class="t">Claude</div><div class="d">מנתח, צולה, ובונה אסטרטגיה — על דאטה חי</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Chapter 02 -->
+<section class="chapter">
+  <div class="chapter-num eng">CHAPTER 02</div>
+  <div class="chapter-grid reverse">
+    <div class="visual">
+      <div class="diagram">
+        <div class="diagram-title eng">SETUP · UNDER 2 MINUTES</div>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div class="flow-body"><div class="t">פותחים Connectors בקלוד</div><div class="d">בקלוד (או Claude Cowork) — Connectors ← מחפשים Windsor ← מוסיפים</div></div>
+          </div>
+          <div class="flow-arrow"><svg width="14" height="26" viewBox="0 0 14 26"><path d="M7 2 L7 20 M2 15 L7 22 L12 15" stroke="#c7ff3c" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="3,3"/></svg></div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div class="flow-body"><div class="t">מחברים את האינסטגרם</div><div class="d">מאשרים את Windsor דרך פייסבוק ובוחרים את הפרופיל. מסמנים Always allow</div></div>
+          </div>
+          <div class="flow-arrow"><svg width="14" height="26" viewBox="0 0 14 26"><path d="M7 2 L7 20 M2 15 L7 22 L12 15" stroke="#c7ff3c" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="3,3"/></svg></div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div class="flow-body"><div class="t">חוזרים לקלוד ומדביקים את הפרומפט</div><div class="d">פרומפט 1 (הרוסט) — וקלוד מוציא אודיט כ-PDF</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="chapter-eyebrow eng">STEP BY STEP</div>
+      <h3 class="eng">CONNECT IN<br/>2 MINUTES</h3>
+      <div class="he-title">שלושה צעדים, בלי קוד</div>
+      <p class="lead">זה כל הסטאפ. <span class="hl">שלושה צעדים</span> — ומהרגע הזה כל שיחה עם קלוד רואה את החשבון שלך.</p>
+      <p>מה צריך מראש: חשבון <strong>Windsor.ai חינמי</strong>, חשבון אינסטגרם <strong>Business או Creator</strong> שמקושר לעמוד פייסבוק, וחשבון קלוד.</p>
+      <div class="callout tip">
+        <div class="label eng">PRO TIP</div>
+        <p>מגדירים את הקונקטור על Always allow — ככה לא צריך לאשר מחדש בכל צ'אט.</p>
+      </div>
+      <div class="callout warn">
+        <div class="label eng">COMMON BLOCKER</div>
+        <p>חשבון אישי רגיל לא יעבוד. חייבים Business/Creator מקושר לעמוד פייסבוק — זה מה שפותח את ה-API של אינסטגרם.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- =============== PHASE 02 =================== -->
+<!-- ============================================ -->
+<div class="phase-divider" id="phase2">
+  <div class="num eng">PHASE 02 / FOUR</div>
+  <h2 class="eng">THE ROAST</h2>
+  <div class="he">פרומפט האודיט — קלוד מוצא מה עובד, מה לא, ומה נקודת העיוורון שלך.</div>
+</div>
+
+<!-- Chapter 03 -->
+<section class="chapter">
+  <div class="chapter-num eng">CHAPTER 03</div>
+  <div class="chapter-grid">
+    <div>
+      <div class="chapter-eyebrow eng">PROMPT 1 · THE AUDIT</div>
+      <h3 class="eng">ROAST ME.<br/>NO MERCY.</h3>
+      <div class="he-title">האודיט: 30-50 רילז נכנסים, טופ 10 + נקודת עיוורון יוצאים</div>
+      <p class="lead">הפרומפט עושה שלושה דברים: מושך את הרילז האחרונים, <span class="hl">מנתח כל אחד מהטופ 10</span> — הוק, נושא, פורמט, מה עובד ומה חוסם — ומוציא הכל כ-PDF מעוצב.</p>
+      <p>שימי לב לפרט הקריטי: הדירוג <strong>לא לפי לייקים</strong>. שמירות ושיתופים מקבלים משקל כבד — כי הם מה שהאלגוריתם באמת מתגמל.</p>
+      <div class="callout">
+        <div class="label eng">THE VERDICT</div>
+        <p>בסוף ה-PDF: פסקת "נקודת העיוורון הגדולה" בשלוש שורות — הדבר האחד שמחזיק אותך מלגדול.</p>
+      </div>
+      <div class="example">
+        <div class="example-head eng">WHY A PDF</div>
+        <div class="quote">"it needs to look GOOD on a phone screen when I film it"</div>
+        <div class="then">האודיט הוא לא רק תובנה — הוא גם תוכן. מצלמים את המסך עם ה-PDF וזה הופך לריל בפני עצמו.</div>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="diagram">
+        <div class="diagram-title eng">OUTPUT · THE AUDIT PDF</div>
+        <div class="mock-table">
+          <div class="mt-head">CLAUDE'S INSTAGRAM AUDIT — @handle</div>
+          <div class="mock-row"><div class="rn">#1</div><div class="good">✓ Hook: bold claim</div><div class="bad">✕ CTA weak</div></div>
+          <div class="mock-row"><div class="rn">#2</div><div class="good">✓ Pacing tight</div><div class="bad">✕ No series tease</div></div>
+          <div class="mock-row"><div class="rn">#3</div><div class="good">✓ Saves heavy</div><div class="bad">✕ Flat opening</div></div>
+          <div class="mock-row"><div class="rn">#4</div><div class="good">✓ Topic pillar</div><div class="bad">✕ Too long</div></div>
+        </div>
+        <div style="margin-top:20px">
+          <div class="bars">
+            <div class="bar-row">
+              <div class="bar-label eng"><span style="color:#c7ff3c">SAVES + SHARES</span><span style="color:#c7ff3c">×3 WEIGHT</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:88%;background:linear-gradient(90deg,#1ad5b8,#c7ff3c)"></div></div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label eng"><span style="color:rgba(255,255,255,0.6)">LIKES</span><span style="color:rgba(255,255,255,0.6)">LOW WEIGHT</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:30%;background:rgba(255,255,255,0.25)"></div></div>
+            </div>
+          </div>
+        </div>
+        <svg class="scribble" style="top:-14px;left:-10px;width:54px;height:44px" viewBox="0 0 80 60">
+          <path d="M10 40 Q 25 10, 45 25 Q 60 36, 50 48" fill="none" stroke="#c7ff3c" stroke-width="3" stroke-linecap="round"/>
+          <path d="M44 46 L 52 50 L 54 41" fill="none" stroke="#c7ff3c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-head"><span class="badge eng">PROMPT 1</span><span class="title eng">THE AUDIT (THE ROAST) — COPY & PASTE</span></div>
+    <div class="code">You have full access to my Instagram account (@handle).
+I want you to roast me, honestly, no sugar-coating. Instagram only, no other platforms.
+
+<span class="k">Step 1:</span> Pull my last 30 to 50 reels. Identify my TOP 10 performing reels
+(by views, saves, shares; weight saves and shares heavily, not just likes).
+
+<span class="k">Step 2:</span> For each of those 10 reels, analyze:
+- Hook type
+- Topic / content pillar
+- Format (talking head, b-roll, text-on-screen, etc.)
+- What's WORKING (be specific: the hook? the pacing? the topic?)
+- What's NOT working / what's holding it back from going bigger
+
+<span class="k">Step 3:</span> Output the analysis as a clean, visually striking PDF I can save and screen-record.
+Requirements for the visual:
+- A big bold table or card layout, one row/card per reel
+- Columns: Reel #, Views, Hook, What's Working (green), What's Not (red)
+- Use color (green = working, red = not), large readable type, generous spacing;
+  it needs to look GOOD on a phone screen when I film it
+- Header at the top: <span class="s">"Claude's Instagram Audit, @handle"</span>
+- At the bottom: a 3-line <span class="s">"biggest blind spot"</span> verdict</div>
+    <div class="copy-hint">מחליפים את handle@ בהאנדל שלך — ומדביקים בקלוד אחרי שהקונקטור מחובר.</div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- =============== PHASE 03 =================== -->
+<!-- ============================================ -->
+<div class="phase-divider" id="phase3">
+  <div class="num eng">PHASE 03 / FOUR</div>
+  <h2 class="eng">THE SCRIPTS</h2>
+  <div class="he">מהאודיט לתסריטים מוכנים לצילום — בקול שלך, במבנה שמוכח שעובד.</div>
+</div>
+
+<!-- Chapter 04 -->
+<section class="chapter">
+  <div class="chapter-num eng">CHAPTER 04</div>
+  <div class="chapter-grid">
+    <div>
+      <div class="chapter-eyebrow eng">PROMPT 2 · THE SCRIPTWRITER</div>
+      <h3 class="eng">3 REELS,<br/>YOUR VOICE</h3>
+      <div class="he-title">הופכים את האודיט ל-3 תסריטים של 30-55 שניות</div>
+      <p class="lead">הקסם כאן הוא <span class="hl">המבנה הנעול</span>: הוק ← קונטקסט ← הבטחה ← טיזר לסדרה ← 3 נקודות ← CTA. קלוד לא ממציא מבנה — הוא ממלא מבנה שכבר הוכיח את עצמו.</p>
+      <p>שלושת כללי הזהב של הנקודות: נקודה אחת <strong>אישית ופגיעה</strong>, נקודה אחת עם <strong>תוצר מוחשי</strong>, ונקודה אחת עם <strong>רגע מטא</strong> שמתייחס לריל עצמו ("הריל שאתם רואים עכשיו הוא התוצאה").</p>
+      <p>לכל תסריט מקבלים גם: 3 וריאציות הוק, טקסטים למסך, וקפשן באותו קול עם אותו CTA.</p>
+      <div class="callout tip">
+        <div class="label eng">VOICE LOCK</div>
+        <p>הפרומפט מושך טון, ניסוחים וקצב מ-20 הקפשנים והרילז האחרונים שלך — ככה התסריט נשמע כמוך, לא כמו AI.</p>
+      </div>
+      <div class="callout warn">
+        <div class="label eng">THE HARD PART</div>
+        <p>לפחות תסריט אחד חייב להיות אישי — משהו שנמנעת מלפרסם. זה בדרך כלל בדיוק מה שנקודת העיוורון באודיט הצביעה עליו.</p>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="diagram">
+        <div class="diagram-title eng">THE REEL STRUCTURE</div>
+        <div class="layers">
+          <div class="layer l1"><div class="lt eng">HOOK · 1 SENTENCE</div><div class="ld">משפט אחד חד שיוצר סקרנות או סיכון</div></div>
+          <div class="layer l2"><div class="lt eng">CONTEXT + PROMISE</div><div class="ld">אמינות והבטחה: "יש לי 455K עוקבים ו..." ← "הנה 3 הדברים..."</div></div>
+          <div class="layer l2"><div class="lt eng">SERIES TEASE</div><div class="ld">"זה פרק X בסדרת [שם]" — סיבה לעקוב</div></div>
+          <div class="layer l3"><div class="lt eng">3 POINTS</div><div class="ld">אישי / תוצר מוחשי / רגע מטא</div></div>
+          <div class="layer l1"><div class="lt eng">CTA × 2</div><div class="ld">"תגיבו [מילה] ואשלח לכם..." + "עקבו לעוד..."</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-head"><span class="badge eng">PROMPT 2</span><span class="title eng">THE REEL SCRIPTWRITER — COPY & PASTE</span></div>
+    <div class="code">Use the reel-scriptwriter skill to write me 3 Instagram Reel scripts
+(30 to 55 seconds each) in MY authentic voice, based on the strategy you just built.
+
+<span class="k">CRITICAL:</span> match the structure of this reel I just shot:
+
+[HOOK: 1 punchy sentence that creates intrigue or stakes]
+[CONTEXT: 1 to 2 sentences that raise the stakes or set up credibility,
+  e.g. <span class="s">"I have 455K followers and..."</span>]
+[PROMISE: <span class="s">"Here are the 3 things..."</span> or equivalent]
+[SERIES TEASE: <span class="s">"This is part X of [series name]"</span>]
+
+<span class="n">#1)</span> [Point one: include a personal/vulnerable beat, not just info]
+<span class="n">#2)</span> [Point two: include a tangible outcome or artifact]
+<span class="n">#3)</span> [Point three: include a meta moment that ties back to THIS reel,
+     e.g. <span class="s">"the reel you're watching right now is the result"</span>]
+
+[CTA: comment-bait with a specific keyword, e.g. <span class="s">"Comment X and I'll send you..."</span>]
+[FOLLOW CTA: <span class="s">"Follow for more..."</span>]
+
+For each script, also give me:
+- 3 hook variants so I can pick the strongest
+- On-screen text cues
+- Caption (in my voice, with the same comment-bait CTA)
+
+Pull tone, phrasing, and rhythm from my last 20 captions and reels.
+My audience: creators, AI-curious professionals, and beginners.
+I'm known for making AI feel approachable.
+At least one of the three scripts should be PERSONAL, something I've been avoiding posting.</div>
+    <div class="copy-hint">מריצים אחרי האודיט, באותה שיחה — כדי שקלוד יבנה על האסטרטגיה שהוא כבר יצר.</div>
+  </div>
+</section>
+
+<!-- Chapter 05 -->
+<section class="chapter">
+  <div class="chapter-num eng">CHAPTER 05</div>
+  <div class="chapter-grid reverse">
+    <div class="visual">
+      <div class="diagram">
+        <div class="diagram-title eng">3 BONUS PROMPTS · ON ROTATION</div>
+        <div class="compare3" style="grid-template-columns:1fr">
+          <div class="cmp-card a"><div class="ch eng">01 · 7-DAY CALENDAR</div><p>לוח תוכן שבועי על בסיס האודיט: פורמט, עמוד תוכן, הוק ולמה זה מתאים. ריאליסטי — פוסט אחד ביום.</p></div>
+          <div class="cmp-card b"><div class="ch eng">02 · THE HOOK DOCTOR</div><p>הוק חלש נכנס — 5 גרסאות יוצאות, לפי נוסחאות ויראליות מוכחות. מתחת ל-12 מילים, כולל ההימור של קלוד.</p></div>
+          <div class="cmp-card c"><div class="ch eng">03 · CAPTION IN MY VOICE</div><p>3 קפשנים בטון של 20 האחרונים שלך, שמתחילים ב-comment-bait עם מילת מפתח.</p></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="chapter-eyebrow eng">BONUS PROMPTS</div>
+      <h3 class="eng">KEEP THE<br/>ENGINE RUNNING</h3>
+      <div class="he-title">שלושה פרומפטים שרצים אחרי האודיט, שוב ושוב</div>
+      <p class="lead">האודיט הוא חד-פעמי. אלה <span class="hl">הפרומפטים של היומיום</span> — לוח תוכן, ניתוח הוקים, וקפשנים.</p>
+      <div class="prompt-block">
+        <div class="prompt-head"><span class="badge eng">BONUS 1</span><span class="title eng">7-DAY CALENDAR</span></div>
+        <div class="code">Based on the audit you just did, build me a 7-day Instagram content calendar.
+For each day give me: the format (reel/carousel/story), the content pillar, a one-line
+hook, and why it fits my strategy. Lead with my strengths, fix my blind spot.
+Keep it realistic for someone posting once a day, not five times a day.</div>
+      </div>
+      <div class="prompt-block">
+        <div class="prompt-head"><span class="badge eng">BONUS 2</span><span class="title eng">THE HOOK DOCTOR</span></div>
+        <div class="code">Here is a hook I wrote: <span class="s">[PASTE YOUR FLAT HOOK]</span>.
+Rewrite it 5 ways using proven viral hook formulas (curiosity gap, bold claim,
+direct question, number + confession, "nobody is talking about this").
+Keep each under 12 words. Tell me which one you'd bet on and why.</div>
+      </div>
+      <div class="prompt-block">
+        <div class="prompt-head"><span class="badge eng">BONUS 3</span><span class="title eng">CAPTION IN MY VOICE</span></div>
+        <div class="code">Write 3 caption options for this reel: <span class="s">[DESCRIBE THE REEL]</span>.
+Match the tone, rhythm, and phrasing of my last 20 captions. Keep it short.
+Start with a comment-bait CTA using the keyword <span class="s">[KEYWORD]</span>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- =============== PHASE 04 =================== -->
+<!-- ============================================ -->
+<div class="phase-divider" id="phase4">
+  <div class="num eng">PHASE 04 / FOUR</div>
+  <h2 class="eng">GO WIDER</h2>
+  <div class="he">מעבר לפרופיל שלך: מחקר נישה עם Apify, ופרסום אוטומטי עם Metricool.</div>
+</div>
+
+<!-- Chapter 06 -->
+<section class="chapter">
+  <div class="chapter-num eng">CHAPTER 06</div>
+  <div class="chapter-grid">
+    <div>
+      <div class="chapter-eyebrow eng">NICHE RESEARCH · APIFY</div>
+      <h3 class="eng">SPY ON YOUR<br/>NICHE</h3>
+      <div class="he-title">מה עובד עכשיו בנישה — לא רק בפרופיל שלך</div>
+      <p class="lead">האודיט מראה מה עובד <span class="hl">אצלך</span>. הקונקטור של Apify מראה מה עובד <span class="hl">בנישה שלך עכשיו</span> — קלוד מושך רילז אמיתיים של יוצרים אחרים ומתמלל אותם.</p>
+      <p>איך בוחרים את היוצרים: 3-5 חשבונות <strong>קצת יותר גדולים ממך</strong>, שהרילז שלהם כל הזמן צצים לך בפיד. המדד החשוב: צפיות ביחס למספר העוקבים — לא צפיות מוחלטות.</p>
+      <div class="example">
+        <div class="example-head eng">THE KILLER MOVE</div>
+        <div class="quote">"use the audit you did on my profile earlier in this chat"</div>
+        <div class="then">השורה האחרונה בפרומפט מצליבה את מחקר הנישה עם האודיט שלך — קלוד ממליץ על פורמט אחד לשחזר, שמתאים לחוזקות שלך.</div>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="diagram">
+        <div class="diagram-title eng">SETUP + WHAT YOU GET</div>
+        <div class="flow">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div class="flow-body"><div class="t">מוסיפים את קונקטור Apify</div><div class="d">Connectors ← Apify ← מתחברים עם חשבון Apify חינמי</div></div>
+          </div>
+          <div class="flow-arrow"><svg width="14" height="26" viewBox="0 0 14 26"><path d="M7 2 L7 20 M2 15 L7 22 L12 15" stroke="#5be0ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="3,3"/></svg></div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div class="flow-body"><div class="t">בוחרים 3-5 יוצרים בנישה</div><div class="d">קצת יותר גדולים ממך, שמופיעים לך בפיד</div></div>
+          </div>
+          <div class="flow-arrow"><svg width="14" height="26" viewBox="0 0 14 26"><path d="M7 2 L7 20 M2 15 L7 22 L12 15" stroke="#5be0ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="3,3"/></svg></div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div class="flow-body"><div class="t">מקבלים פירוק מלא</div><div class="d">הוק מילה במילה, מבנה, למה זה עובד — ואיזה פורמט לשחזר קודם</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-head"><span class="badge eng">RESEARCH</span><span class="title eng">THE NICHE-SPY PROMPT — COPY & PASTE</span></div>
+    <div class="code">Using the Apify connector, pull the most recent reels from these creators in my niche:
+<span class="s">[@creator1, @creator2, @creator3]</span>.
+
+Find the 5 reels with the highest views relative to each creator's follower count.
+Transcribe them, and for each one break down:
+- The hook (first 3 seconds, word for word)
+- The structure (how it holds attention to the end)
+- Why it's working right now (topic, format, or delivery)
+
+Then tell me which ONE format I should recreate first, and why it fits MY account
+(use the audit you did on my profile earlier in this chat).</div>
+  </div>
+</section>
+
+<!-- Chapter 07 -->
+<section class="chapter">
+  <div class="chapter-num eng">CHAPTER 07</div>
+  <div class="chapter-grid reverse">
+    <div class="visual">
+      <div class="diagram">
+        <div class="diagram-title eng">READ VS. POST</div>
+        <div class="dual">
+          <div class="dual-col yes">
+            <div class="dh eng">WINDSOR = READ</div>
+            <ul>
+              <li>קורא צפיות, שמירות, שיתופים</li>
+              <li>מזין את האודיט והאסטרטגיה</li>
+              <li>לא נוגע בחשבון</li>
+            </ul>
+          </div>
+          <div class="dual-col yes">
+            <div class="dh eng">METRICOOL = POST</div>
+            <ul>
+              <li>מתזמן רילז לאינסטגרם</li>
+              <li>גם טיקטוק ולינקדאין</li>
+              <li>בוחר את שעות השיא לפרסום</li>
+            </ul>
+          </div>
+        </div>
+        <div style="margin-top:20px">
+          <div class="callout tip" style="margin-top:0">
+            <div class="label eng">FULL LOOP</div>
+            <p>Windsor מכניס דאטה ← קלוד בונה תוכן ← Metricool מפרסם. מעגל שלם בצ'אט אחד.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="chapter-eyebrow eng">AUTO-POSTING · METRICOOL</div>
+      <h3 class="eng">CLAUDE HITS<br/>PUBLISH</h3>
+      <div class="he-title">מקריאה לפעולה: קלוד מתזמן את הפוסטים בעצמו</div>
+      <p class="lead">Windsor נותן לקלוד <span class="hl">לקרוא</span>. Metricool נותן לו <span class="hl">לפרסם</span> — לתזמן רילז לאינסטגרם, טיקטוק ולינקדאין בשעות החזקות ביותר.</p>
+      <p>הסטאפ זהה: חשבון Metricool חינמי, מחברים אליו את הרשתות, ומוסיפים את הקונקטור בקלוד.</p>
+      <div class="callout warn">
+        <div class="label eng">SAFETY RULE</div>
+        <p>תמיד מוסיפים לפרומפט: "Show me what you scheduled before it goes live" — רואים הכל לפני שזה עולה.</p>
+      </div>
+      <div class="prompt-block">
+        <div class="prompt-head"><span class="badge eng">SCHEDULE</span><span class="title eng">THE POSTING PROMPT</span></div>
+        <div class="code">Schedule this reel to Instagram via Metricool.
+Caption: <span class="s">[paste your caption]</span>
+First check my best times to post this week and pick the strongest slot.
+Show me what you scheduled before it goes live.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div> <!-- /container -->
+
+<!-- ========== CLOSING ========== -->
+<section class="closing">
+  <div class="closing-inner">
+    <div class="eng" style="font-size:13px;letter-spacing:0.3em;color:rgba(255,255,255,0.7);margin-bottom:16px;font-weight:700">THE FULL SYSTEM</div>
+    <h2 class="eng">CONNECT.<br/>ROAST. REBUILD.</h2>
+    <p>אודיט על דאטה אמיתי, תסריטים בקול שלך, מחקר נישה ותזמון אוטומטי — הכל בצ'אט אחד עם קלוד. עכשיו תורך: חברי את החשבון והריצי את פרומפט 1.</p>
+    <p class="credit">מבוסס על השיטה של SHEDOESAI (Gunhild Johanne Reumert) · <a href="https://shedoesai.beehiiv.com/" style="color:#c7ff3c">shedoesai.beehiiv.com</a></p>
+    <div class="sig eng">CLAUDE × INSTAGRAM AUDIT · DECODED · V1.0</div>
+  </div>
+</section>
+
+</body>
+</html>
