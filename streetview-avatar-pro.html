@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Street View Avatar PRO — צילום דמות בכל מקום בעולם</title>
+<meta name="description" content="סטודיו מקצועי: בוחרים לוקיישן אמיתי בגוגל מפס, מעלים תמונת דמות, ו-Gemini מייצר צילום פוטוריאליסטי של הדמות בתוך הסצנה — כולל תאורה, צללים ופרספקטיבה.">
+<link rel="icon" type="image/jpeg" href="aigos.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050505;--text:#F0F0F0;--dim:#A0A0A0;--subtle:#808080;--muted:#606060;--faint:#505050;--ghost:#404040;--dark:#383838;
+  --purple:#c3a6ff;--pink:#ffb7b7;--blue:#96e6ff;--green:#b4ffda;--orange:#ffd8be;--e1:#e1b7ff;
+  --grad:linear-gradient(135deg,#ffb7b7 0%,#e1b7ff 25%,#96e6ff 50%,#b4ffda 75%,#ffd8be 100%);
+  --grad-cta:linear-gradient(135deg,#c3a6ff 0%,#96e6ff 50%,#b4ffda 100%);
+  --card:rgba(255,255,255,0.04);--card-s:rgba(255,255,255,0.03);--card-h:rgba(255,255,255,0.055);
+  --b:rgba(255,255,255,0.08);--b-s:rgba(255,255,255,0.06);--b-h:rgba(255,255,255,0.16);
+  --pb:rgba(195,166,255,0.04);--pb-m:rgba(195,166,255,0.08);--pbd:rgba(195,166,255,0.15);--pbd-m:rgba(195,166,255,0.25);--pbd-s:rgba(195,166,255,0.4);
+  --display:'Urbanist','Heebo',sans-serif;--magic:'Playfair Display',serif;--sans:'DM Sans','Heebo',sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;min-height:100vh}
+::selection{background:var(--purple);color:#000}
+.gt{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Atmosphere */
+.atm{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.atm-glow{position:absolute;border-radius:50%;filter:blur(140px)}
+.atm-glow.g1{width:700px;height:700px;background:var(--purple);top:-200px;right:-250px;opacity:.12}
+.atm-glow.g2{width:600px;height:600px;background:var(--blue);top:20%;left:-300px;opacity:.08}
+.atm-glow.g3{width:500px;height:500px;background:var(--purple);bottom:-150px;right:30%;opacity:.07}
+.atm-glow.g4{width:550px;height:550px;background:var(--pink);bottom:10%;left:-200px;opacity:.06}
+.noise{position:fixed;inset:0;z-index:0;opacity:.025;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px}
+
+/* Topbar */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(5,5,5,0.82);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid var(--b-s)}
+.topbar-in{max-width:1240px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-family:var(--display);font-weight:800;font-size:1.02rem;letter-spacing:-.02em;text-decoration:none;direction:ltr}
+.logo .lg2{color:#808080;font-weight:400}
+.topnav{display:flex;gap:22px;align-items:center}
+.topnav a{font-family:var(--display);font-weight:400;font-size:0.8rem;color:var(--subtle);text-decoration:none;transition:color .3s var(--ease)}
+.topnav a:hover{color:var(--text)}
+
+/* Layout */
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
+.hero{text-align:center;padding:64px 0 40px}
+.eyebrow{font-family:var(--sans);font-weight:500;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--purple);margin-bottom:12px}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,6vw,4rem);letter-spacing:-0.03em;text-transform:uppercase;line-height:1.05;direction:ltr}
+.hero .magic{font-family:var(--magic);font-style:italic;font-weight:400;font-size:clamp(1.05rem,2.2vw,1.5rem);margin-top:18px}
+.hero .sub{font-family:var(--display);font-weight:300;font-size:clamp(0.86rem,1.3vw,1rem);line-height:1.75;color:var(--dim);max-width:640px;margin:14px auto 0}
+
+/* Steps strip */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:36px 0 28px}
+.step{background:var(--card-s);border:1px solid var(--b-s);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:all .4s var(--ease)}
+.step .n{font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--ghost);min-width:26px;direction:ltr;transition:color .4s var(--ease)}
+.step .t{font-family:var(--display);font-weight:600;font-size:0.82rem;color:var(--subtle);transition:color .4s var(--ease)}
+.step.done{border-color:rgba(180,255,218,0.25);background:rgba(180,255,218,0.03)}
+.step.done .n{color:var(--green)}
+.step.done .t{color:var(--text)}
+.step.active{border-color:var(--pbd-m);background:var(--pb)}
+.step.active .n{color:var(--purple)}
+.step.active .t{color:var(--text)}
+
+/* Main grid */
+.main{display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start;padding-bottom:40px}
+.panel{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:22px}
+.block h3{font-family:var(--display);font-weight:600;font-size:0.92rem;letter-spacing:0.02em;display:flex;align-items:center;gap:9px;margin-bottom:12px;color:var(--text)}
+.block h3 svg{flex-shrink:0}
+.block .hint{font-size:0.72rem;color:var(--muted);line-height:1.6;margin-top:8px}
+.block .hint a{color:var(--purple);text-decoration:none}
+.block .hint a:hover{text-decoration:underline}
+
+/* Inputs */
+.field{margin-bottom:10px}
+.field label{display:block;font-family:var(--sans);font-weight:500;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--subtle);margin-bottom:6px}
+.field input[type="text"],.field input[type="password"],.field textarea,.field select{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--b);border-radius:9px;padding:11px 13px;font-family:var(--sans);font-weight:300;font-size:0.84rem;color:var(--text);transition:all .4s var(--ease)}
+.field textarea{resize:vertical;min-height:64px;line-height:1.6}
+.field input::placeholder,.field textarea::placeholder{color:var(--faint)}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--pbd-s);box-shadow:0 0 0 3px rgba(195,166,255,0.08)}
+.field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23808080' fill='none' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 13px center}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--display);text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;border:none;min-height:44px;border-radius:6px;transition:all .3s var(--ease);width:100%}
+.btn-primary{background:var(--grad-cta);color:#0a0a0a;font-weight:600;font-size:0.78rem}
+.btn-primary:hover:not(:disabled){transform:scale(1.02);box-shadow:0 0 30px rgba(195,166,255,0.35)}
+.btn-outline{background:transparent;color:var(--text);font-weight:600;font-size:0.76rem;border:1px solid rgba(255,255,255,0.15)}
+.btn-outline:hover:not(:disabled){border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.04)}
+.btn-ghost{background:transparent;color:var(--subtle);font-weight:500;font-size:0.74rem;border:1px solid var(--b)}
+.btn-ghost:hover:not(:disabled){border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.04);color:var(--text)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-generate{background:var(--grad);color:#0a0a0a;font-weight:700;font-size:0.86rem;min-height:54px;border-radius:8px}
+.btn-generate:hover:not(:disabled){transform:scale(1.02);box-shadow:0 0 40px rgba(195,166,255,0.4)}
+
+/* API keys */
+.keybox{background:var(--pb);border:1px solid var(--pbd);border-radius:12px;padding:14px}
+.keybox + .keybox{margin-top:10px}
+.keybox .kb-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.keybox .kb-t{font-family:var(--display);font-weight:600;font-size:0.76rem;letter-spacing:0.03em;direction:ltr}
+.keybox .kb-status{font-size:0.58rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ghost)}
+.keybox .kb-status.ok{color:var(--green)}
+.keybox input{width:100%;background:rgba(0,0,0,0.3);border:1px solid var(--b);border-radius:7px;padding:9px 11px;font-size:0.78rem;color:var(--text);font-family:var(--sans)}
+.keybox input:focus{outline:none;border-color:var(--pbd-s)}
+.keybox .kb-link{font-size:0.66rem;color:var(--muted);margin-top:6px;display:block}
+.keybox .kb-link a{color:var(--purple);text-decoration:none}
+
+/* Upload zone */
+.dropzone{border:1px dashed rgba(255,255,255,0.18);border-radius:12px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .4s var(--ease);position:relative;overflow:hidden;background:var(--card-s);text-align:center;padding:14px}
+.dropzone:hover,.dropzone.drag{border-color:var(--pbd-s);background:var(--pb)}
+.dropzone .dz-t{font-family:var(--display);font-weight:600;font-size:0.8rem;color:var(--dim)}
+.dropzone .dz-s{font-size:0.68rem;color:var(--muted)}
+.dropzone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s var(--ease)}
+.dropzone.has-img img{opacity:1}
+.dropzone.has-img .dz-t,.dropzone.has-img .dz-s,.dropzone.has-img svg{opacity:0}
+.dropzone .dz-badge{position:absolute;bottom:10px;right:10px;background:rgba(5,5,5,0.75);backdrop-filter:blur(8px);border:1px solid var(--b);border-radius:6px;padding:4px 10px;font-family:var(--display);font-weight:600;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);opacity:0;transition:opacity .5s var(--ease)}
+.dropzone.has-img .dz-badge{opacity:1}
+#avatar-file{display:none}
+
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{background:var(--card-s);border:1px solid var(--b);border-radius:100px;padding:7px 14px;font-family:var(--display);font-weight:500;font-size:0.72rem;color:var(--subtle);cursor:pointer;transition:all .3s var(--ease);user-select:none}
+.chip:hover{border-color:var(--b-h);color:var(--text)}
+.chip.on{background:var(--pb-m);border-color:var(--pbd-s);color:var(--purple)}
+
+/* Street View column */
+.stage{display:flex;flex-direction:column;gap:20px}
+.sv-card{background:var(--card);border:1px solid var(--b);border-radius:16px;overflow:hidden}
+.sv-view{position:relative}
+#streetview{width:100%;height:560px;background:#0c0c0c}
+.sv-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;z-index:2;background:radial-gradient(circle at 50% 40%,rgba(195,166,255,0.06),transparent 60%)}
+.sv-empty .t{font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:0.01em}
+.sv-empty .s{font-size:0.8rem;color:var(--dim);max-width:380px;line-height:1.7}
+.sv-toolbar{display:flex;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--b-s);flex-wrap:wrap}
+.sv-search{flex:1;min-width:200px;display:flex;gap:8px}
+.sv-search input{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--b);border-radius:8px;padding:10px 13px;font-size:0.82rem;color:var(--text);font-family:var(--sans)}
+.sv-search input:focus{outline:none;border-color:var(--pbd-s)}
+.sv-search .btn{width:auto;padding:0 18px;min-height:40px}
+.nav-pad{display:flex;gap:6px}
+.nav-btn{width:38px;height:38px;border-radius:8px;background:var(--card-s);border:1px solid var(--b);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);font-size:0.9rem}
+.nav-btn:hover{border-color:var(--pbd-s);color:var(--purple);background:var(--pb)}
+.sv-meta{padding:0 14px 12px;font-size:0.64rem;color:var(--muted);direction:ltr;text-align:left}
+
+/* Status */
+.status{display:none;background:var(--pb);border:1px solid var(--pbd);border-radius:14px;padding:18px 22px;align-items:center;gap:16px}
+.status.show{display:flex;animation:pulse-border 2s infinite}
+@keyframes pulse-border{0%,100%{border-color:rgba(195,166,255,0.15)}50%{border-color:rgba(195,166,255,0.4)}}
+.spinner{width:22px;height:22px;border:2px solid rgba(195,166,255,0.2);border-top-color:var(--purple);border-radius:50%;animation:spin 0.9s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.status .st-txt{font-family:var(--display);font-weight:600;font-size:0.84rem;flex:1}
+.status .st-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:8px}
+.status .st-fill{height:100%;background:var(--grad-cta);width:0%;transition:width .6s var(--ease)}
+
+/* Results */
+.results{display:none;flex-direction:column;gap:16px}
+.results.show{display:flex}
+.results-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.results-head h2{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:-0.02em;text-transform:uppercase;direction:ltr}
+.results-head .magic{font-family:var(--magic);font-style:italic;font-size:1rem}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.res-item{background:var(--card);border:1px solid var(--b);border-radius:14px;overflow:hidden;transition:all .4s var(--ease);animation:cardIn .5s var(--ease) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.res-item:hover{transform:translateY(-4px);border-color:var(--b-h)}
+.res-item img{width:100%;display:block;background:#0c0c0c}
+.res-item .res-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;gap:8px}
+.res-item .res-cap{font-size:0.64rem;color:var(--muted);direction:ltr}
+.res-item .res-actions{display:flex;gap:6px}
+.res-item .res-actions .btn{width:auto;min-height:34px;padding:0 12px;font-size:0.64rem;border-radius:6px}
+
+/* Error */
+.errbox{display:none;background:rgba(255,183,183,0.05);border:1px solid rgba(255,183,183,0.25);border-radius:12px;padding:14px 18px;font-size:0.78rem;line-height:1.7;color:var(--pink)}
+.errbox.show{display:block}
+
+/* Saved locations */
+.loclist{display:flex;flex-direction:column;gap:6px;max-height:180px;overflow-y:auto}
+.loclist::-webkit-scrollbar{width:4px}
+.loclist::-webkit-scrollbar-thumb{background:var(--ghost);border-radius:2px}
+.loc-item{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card-s);border:1px solid var(--b-s);border-radius:9px;padding:9px 12px;cursor:pointer;transition:all .3s var(--ease)}
+.loc-item:hover{border-color:var(--pbd-s);background:var(--pb)}
+.loc-item .ln{font-family:var(--display);font-weight:600;font-size:0.76rem}
+.loc-item .lc{font-size:0.6rem;color:var(--muted);direction:ltr}
+.loc-item .lx{background:none;border:none;color:var(--ghost);cursor:pointer;font-size:0.85rem;padding:2px 6px;border-radius:4px;transition:color .3s}
+.loc-item .lx:hover{color:var(--pink)}
+.loc-empty{font-size:0.72rem;color:var(--faint);text-align:center;padding:10px}
+
+/* Footer */
+footer{border-top:1px solid var(--b-s);margin-top:20px;position:relative;z-index:1}
+footer .f-in{max-width:1240px;margin:0 auto;padding:26px 40px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+footer .f-t{font-size:0.66rem;color:var(--muted);direction:ltr}
+footer .f-links{display:flex;gap:18px}
+footer .f-links a{font-family:var(--display);font-size:0.7rem;color:var(--subtle);text-decoration:none;transition:color .3s}
+footer .f-links a:hover{color:var(--text)}
+
+/* Reveal */
+.fade-up{opacity:0;transform:translateY(18px);animation:fadeUp .7s var(--ease) forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
+
+@media (max-width:1024px){
+  .main{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  #streetview{height:420px}
+  .wrap{padding:0 22px}
+  .topbar-in{padding:12px 22px}
+  footer .f-in{padding:22px}
+}
+</style>
+</head>
+<body>
+
+<div class="atm">
+  <div class="atm-glow g1"></div>
+  <div class="atm-glow g2"></div>
+  <div class="atm-glow g3"></div>
+  <div class="atm-glow g4"></div>
+</div>
+<div class="noise"></div>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <a class="logo" href="index.html"><span class="gt">SHOTCALLER</span><span class="lg2">.STUDIO</span></a>
+    <nav class="topnav">
+      <a href="guides.html">INDEX</a>
+      <a href="streetview-avatar-studio.html">CLASSIC</a>
+      <a href="video-studio.html">VIDEO</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero fade-up">
+    <div class="eyebrow">SHOTCALLER · AI PHOTO STUDIO</div>
+    <h1>STREET VIEW AVATAR <span class="gt">PRO</span></h1>
+    <div class="magic gt">Any street in the world becomes your set.</div>
+    <p class="sub">בוחרים לוקיישן אמיתי בגוגל מפס, מעלים תמונת דמות, ו-Gemini מייצר צילום פוטוריאליסטי חדש של הדמות בתוך הסצנה — תאורה, צללים ופרספקטיבה כלולים. לא הדבקה. יצירה.</p>
+  </section>
+
+  <!-- STEPS -->
+  <div class="steps fade-up d1">
+    <div class="step" id="step-1"><div class="n">01</div><div class="t">מפתחות API</div></div>
+    <div class="step" id="step-2"><div class="n">02</div><div class="t">בחירת לוקיישן</div></div>
+    <div class="step" id="step-3"><div class="n">03</div><div class="t">העלאת דמות</div></div>
+    <div class="step" id="step-4"><div class="n">04</div><div class="t">יצירת הצילום</div></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- SIDEBAR -->
+    <aside class="panel fade-up d2">
+
+      <!-- API KEYS -->
+      <div class="block">
+        <h3>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3a6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+          מפתחות API
+        </h3>
+        <div class="keybox">
+          <div class="kb-h"><span class="kb-t">Google Maps</span><span class="kb-status" id="maps-status">חסר</span></div>
+          <input type="password" id="google-api-key" placeholder="Maps API Key" autocomplete="off">
+          <span class="kb-link">מפעילים Maps JavaScript + Street View Static + Geocoding · <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">Google Cloud Console</a></span>
+        </div>
+        <div class="keybox">
+          <div class="kb-h"><span class="kb-t">Gemini</span><span class="kb-status" id="gemini-status">חסר</span></div>
+          <input type="password" id="gemini-api-key" placeholder="Gemini API Key" autocomplete="off">
+          <span class="kb-link">מפתח חינמי · <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a></span>
+        </div>
+        <div class="hint">המפתחות נשמרים בדפדפן שלך בלבד (localStorage) ולא נשלחים לשום מקום מלבד Google.</div>
+      </div>
+
+      <!-- AVATAR -->
+      <div class="block">
+        <h3>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3a6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+          תמונת הדמות
+        </h3>
+        <div class="dropzone" id="dropzone">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#606060" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+          <div class="dz-t">גוררים לכאן תמונה או לוחצים לבחירה</div>
+          <div class="dz-s">עדיף פנים ברורות ותאורה טובה · לא צריך רקע שקוף</div>
+          <img id="avatar-thumb" alt="">
+          <div class="dz-badge">דמות נטענה</div>
+        </div>
+        <input type="file" id="avatar-file" accept="image/*">
+        <div class="hint">ה-AI ישמור על הפנים והזהות בדיוק כפי שהם בתמונה.</div>
+      </div>
+
+      <!-- STYLE -->
+      <div class="block">
+        <h3>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3a6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.6L20 10l-5 3.6L16.2 20 12 16.6 7.8 20 9 13.6 4 10l6.1-1.4z"/></svg>
+          סגנון הצילום
+        </h3>
+        <div class="chips" id="style-chips">
+          <span class="chip on" data-style="photoreal">ריאליסטי נקי</span>
+          <span class="chip" data-style="editorial">אדיטוריאל אופנה</span>
+          <span class="chip" data-style="cinematic">קולנועי</span>
+          <span class="chip" data-style="golden">שעת זהב</span>
+          <span class="chip" data-style="neon">לילה וניאון</span>
+          <span class="chip" data-style="film90s">פילם אנלוגי</span>
+        </div>
+        <div style="height:12px"></div>
+        <div class="row2">
+          <div class="field">
+            <label>סוג שוט</label>
+            <select id="shot-type">
+              <option value="full">גוף מלא</option>
+              <option value="half">חצי גוף</option>
+              <option value="close">פורטרט קרוב</option>
+              <option value="wide">שוט רחוק בסצנה</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>יחס תמונה</label>
+            <select id="aspect-ratio">
+              <option value="1:1">1:1 ריבוע</option>
+              <option value="4:5">4:5 פיד</option>
+              <option value="9:16" selected>9:16 סטורי</option>
+              <option value="16:9">16:9 רחב</option>
+              <option value="3:4">3:4 פורטרט</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>וריאציות</label>
+            <select id="variations">
+              <option value="1" selected>תמונה אחת</option>
+              <option value="2">2 וריאציות</option>
+              <option value="3">3 וריאציות</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>שפת גוף</label>
+            <select id="pose">
+              <option value="natural">טבעית · הליכה/עמידה</option>
+              <option value="posing">פוזה למצלמה</option>
+              <option value="candid">רגע גנוב (candid)</option>
+              <option value="sitting">ישיבה בסצנה</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>הנחיות נוספות (אופציונלי)</label>
+          <textarea id="extra-prompt" placeholder="למשל: מעיל טרנץ' ארוך, מחזיקה כוס קפה, מבט לצד..."></textarea>
+        </div>
+      </div>
+
+      <!-- GENERATE -->
+      <div class="block">
+        <button class="btn btn-generate" id="generate-btn">צור את הצילום</button>
+        <div style="height:8px"></div>
+        <button class="btn btn-ghost" id="save-loc-btn">שמור את הלוקיישן הנוכחי</button>
+      </div>
+
+      <!-- SAVED LOCATIONS -->
+      <div class="block">
+        <h3>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3a6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          לוקיישנים שמורים
+        </h3>
+        <div class="loclist" id="loclist">
+          <div class="loc-empty">אין עדיין לוקיישנים שמורים</div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- STAGE -->
+    <section class="stage fade-up d3">
+
+      <div class="sv-card">
+        <div class="sv-view">
+        <div id="streetview"></div>
+        <div class="sv-empty" id="sv-empty">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#c3a6ff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+          <div class="t">העולם מחכה</div>
+          <div class="s">מכניסים Google Maps API Key בצד, מחפשים כתובת או לוקיישן — וה-Street View יעלה כאן. אפשר לגרור, לסובב ולמצוא את הפריים המושלם.</div>
+        </div>
+        </div>
+        <div class="sv-toolbar">
+          <div class="sv-search">
+            <input type="text" id="location-input" placeholder='חפשי לוקיישן — "Shibuya Crossing, Tokyo" · "רוטשילד 1, תל אביב"'>
+            <button class="btn btn-primary" id="search-btn">חפש</button>
+          </div>
+          <div class="nav-pad">
+            <button class="nav-btn" id="nav-rl" title="סיבוב שמאלה">&#8634;</button>
+            <button class="nav-btn" id="nav-fw" title="קדימה">&#8593;</button>
+            <button class="nav-btn" id="nav-rr" title="סיבוב ימינה">&#8635;</button>
+          </div>
+        </div>
+        <div class="sv-meta" id="sv-meta"></div>
+      </div>
+
+      <!-- STATUS -->
+      <div class="status" id="status">
+        <div class="spinner"></div>
+        <div style="flex:1">
+          <div class="st-txt" id="status-text">מתחיל...</div>
+          <div class="st-bar"><div class="st-fill" id="status-fill"></div></div>
+        </div>
+      </div>
+
+      <!-- ERROR -->
+      <div class="errbox" id="errbox"></div>
+
+      <!-- RESULTS -->
+      <div class="results" id="results">
+        <div class="results-head">
+          <h2>THE <span class="gt">SHOTS</span></h2>
+          <span class="magic gt">Directed by you.</span>
+        </div>
+        <div class="res-grid" id="res-grid"></div>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+<footer>
+  <div class="f-in">
+    <span class="f-t">STREET VIEW AVATAR PRO · SHOTCALLER STUDIO · Google Maps + Gemini Image</span>
+    <div class="f-links">
+      <a href="guides.html">ALL TOOLS</a>
+      <a href="streetview-avatar-studio.html">CLASSIC VERSION</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+/* ============ STATE ============ */
+let panorama = null;
+let mapsReady = false;
+let currentPosition = { lat: 48.8584, lng: 2.2945 };
+let currentHeading = 30, currentPitch = 0, currentZoom = 1;
+let currentPlaceName = '';
+let avatarDataUrl = null;       // resized base64 jpeg of the character
+let savedLocations = [];
+let generating = false;
+
+const IMAGE_MODELS = [
+  'gemini-2.5-flash-image',
+  'gemini-2.5-flash-image-preview',
+  'gemini-2.0-flash-preview-image-generation'
+];
+
+const STYLE_PROMPTS = {
+  photoreal: 'Clean photorealistic daylight photography, true-to-life colors, sharp focus, shot on a full-frame camera with a 35mm lens.',
+  editorial: 'High-fashion editorial photography, confident styling, magazine cover quality, refined color grading, shallow depth of field.',
+  cinematic: 'Cinematic movie still, anamorphic lens feel, dramatic composition, filmic color grading with soft teal shadows and warm highlights.',
+  golden:    'Golden hour photography, low warm sun, long soft shadows, glowing rim light on the subject, romantic warm tones.',
+  neon:      'Night scene with neon signage and city lights, wet reflective streets, moody cyberpunk-adjacent color palette, subject lit by mixed neon light.',
+  film90s:   'Analog 35mm film photograph from the 1990s, subtle grain, slightly muted colors, natural flash look, nostalgic snapshot aesthetic.'
+};
+
+const SHOT_PROMPTS = {
+  full:  'Full-body shot: the entire person is visible, standing on the ground plane at a believable human scale within the scene.',
+  half:  'Half-body (waist-up) shot of the person, with the location clearly visible and recognizable behind them.',
+  close: 'Close-up portrait of the person, with the location softly blurred but still recognizable in the background (shallow depth of field).',
+  wide:  'Wide establishing shot: the person appears smaller within the grand scene, emphasizing the architecture and atmosphere of the location.'
+};
+
+const POSE_PROMPTS = {
+  natural: 'Natural relaxed body language, as if casually walking or standing there.',
+  posing:  'Confidently posing for the camera, aware of being photographed.',
+  candid:  'Candid unposed moment, caught mid-motion, not looking at the camera.',
+  sitting: 'Sitting naturally on an existing surface in the scene (steps, bench, ledge).'
+};
+
+/* ============ HELPERS ============ */
+const $ = id => document.getElementById(id);
+
+function setStep(n, state) {
+  const el = $('step-' + n);
+  el.classList.remove('active', 'done');
+  if (state) el.classList.add(state);
+}
+
+function refreshSteps() {
+  const hasKeys = !!($('google-api-key').value && $('gemini-api-key').value);
+  setStep(1, hasKeys ? 'done' : 'active');
+  setStep(2, mapsReady ? 'done' : (hasKeys ? 'active' : null));
+  setStep(3, avatarDataUrl ? 'done' : (mapsReady ? 'active' : null));
+  setStep(4, (hasKeys && mapsReady && avatarDataUrl) ? 'active' : null);
+  $('maps-status').textContent = $('google-api-key').value ? 'מוכן' : 'חסר';
+  $('maps-status').classList.toggle('ok', !!$('google-api-key').value);
+  $('gemini-status').textContent = $('gemini-api-key').value ? 'מוכן' : 'חסר';
+  $('gemini-status').classList.toggle('ok', !!$('gemini-api-key').value);
+}
+
+function showStatus(text, pct) {
+  $('status').classList.add('show');
+  $('status-text').textContent = text;
+  $('status-fill').style.width = (pct || 0) + '%';
+}
+function hideStatus() { $('status').classList.remove('show'); }
+
+function showError(html) {
+  const box = $('errbox');
+  box.innerHTML = html;
+  box.classList.add('show');
+}
+function clearError() { $('errbox').classList.remove('show'); }
+
+/* ============ INIT ============ */
+window.addEventListener('DOMContentLoaded', () => {
+  // restore keys (shared with the classic pages)
+  const mk = localStorage.getItem('googleMapsApiKey');
+  const gk = localStorage.getItem('geminiApiKey');
+  if (mk) $('google-api-key').value = mk;
+  if (gk) $('gemini-api-key').value = gk;
+  if (mk) loadMapsScript(mk);
+
+  $('google-api-key').addEventListener('change', function () {
+    localStorage.setItem('googleMapsApiKey', this.value.trim());
+    refreshSteps();
+    if (this.value.trim() && !mapsReady) loadMapsScript(this.value.trim());
+  });
+  $('gemini-api-key').addEventListener('change', function () {
+    localStorage.setItem('geminiApiKey', this.value.trim());
+    refreshSteps();
+  });
+
+  $('search-btn').addEventListener('click', searchLocation);
+  $('location-input').addEventListener('keypress', e => { if (e.key === 'Enter') searchLocation(); });
+  $('nav-rl').addEventListener('click', () => rotate(-30));
+  $('nav-rr').addEventListener('click', () => rotate(30));
+  $('nav-fw').addEventListener('click', moveForward);
+  $('generate-btn').addEventListener('click', generate);
+  $('save-loc-btn').addEventListener('click', saveLocation);
+
+  // upload
+  const dz = $('dropzone'), fi = $('avatar-file');
+  dz.addEventListener('click', () => fi.click());
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault(); dz.classList.remove('drag');
+    if (e.dataTransfer.files[0]) handleAvatar(e.dataTransfer.files[0]);
+  });
+  fi.addEventListener('change', e => { if (e.target.files[0]) handleAvatar(e.target.files[0]); });
+
+  // style chips — single select
+  $('style-chips').addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    document.querySelectorAll('#style-chips .chip').forEach(c => c.classList.remove('on'));
+    chip.classList.add('on');
+  });
+
+  loadSavedLocations();
+  refreshSteps();
+});
+
+/* ============ GOOGLE MAPS ============ */
+window.gm_authFailure = function () {
+  showError('Google Maps דחה את המפתח. בודקים שה-Maps JavaScript API מופעל בפרויקט ושאין הגבלת דומיין שחוסמת את הדף הזה.');
+};
+
+function loadMapsScript(key) {
+  if (document.getElementById('gmaps-script')) return;
+  const s = document.createElement('script');
+  s.id = 'gmaps-script';
+  s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(key) + '&callback=initStreetView&v=weekly';
+  s.async = true;
+  s.onerror = () => showError('טעינת Google Maps נכשלה — בודקים את החיבור והמפתח.');
+  document.head.appendChild(s);
+}
+
+function initStreetView() {
+  panorama = new google.maps.StreetViewPanorama($('streetview'), {
+    position: currentPosition,
+    pov: { heading: currentHeading, pitch: currentPitch },
+    zoom: currentZoom,
+    addressControl: false,
+    fullscreenControl: true,
+    motionTracking: false
+  });
+  panorama.addListener('position_changed', () => {
+    const p = panorama.getPosition();
+    if (p) { currentPosition = { lat: p.lat(), lng: p.lng() }; updateMeta(); }
+  });
+  panorama.addListener('pov_changed', () => {
+    const pov = panorama.getPov();
+    currentHeading = pov.heading; currentPitch = pov.pitch;
+    currentZoom = panorama.getZoom() || 1;
+    updateMeta();
+  });
+  mapsReady = true;
+  $('sv-empty').style.display = 'none';
+  refreshSteps();
+  updateMeta();
+}
+
+function updateMeta() {
+  $('sv-meta').textContent =
+    (currentPlaceName ? currentPlaceName + ' · ' : '') +
+    currentPosition.lat.toFixed(5) + ', ' + currentPosition.lng.toFixed(5) +
+    ' · heading ' + Math.round(currentHeading) + '° · pitch ' + Math.round(currentPitch) + '°';
+}
+
+function searchLocation() {
+  clearError();
+  const key = $('google-api-key').value.trim();
+  if (!key) { showError('קודם מכניסים Google Maps API Key בצד.'); return; }
+  if (!mapsReady) { loadMapsScript(key); setTimeout(searchLocation, 1200); return; }
+
+  const q = $('location-input').value.trim();
+  if (!q) { showError('כותבים כתובת או שם מקום — ואז חפש.'); return; }
+
+  new google.maps.Geocoder().geocode({ address: q }, (results, status) => {
+    if (status !== 'OK' || !results[0]) {
+      showError('הלוקיישן לא נמצא. מנסים ניסוח אחר או באנגלית.');
+      return;
+    }
+    const loc = results[0].geometry.location;
+    currentPlaceName = results[0].formatted_address || q;
+    // find the nearest actual Street View panorama (up to 300m) instead of a blind jump
+    new google.maps.StreetViewService().getPanorama(
+      { location: loc, radius: 300, source: google.maps.StreetViewSource.OUTDOOR },
+      (data, svStatus) => {
+        if (svStatus === 'OK' && data && data.location) {
+          panorama.setPano(data.location.pano);
+          panorama.setPov({ heading: currentHeading, pitch: 0 });
+          panorama.setVisible(true);
+        } else {
+          showError('אין כיסוי Street View בנקודה הזו — מנסים רחוב סמוך או ציון דרך מפורסם.');
+        }
+      }
+    );
+  });
+}
+
+function rotate(deg) {
+  if (!panorama) return;
+  currentHeading = (currentHeading + deg + 360) % 360;
+  panorama.setPov({ heading: currentHeading, pitch: currentPitch });
+}
+
+function moveForward() {
+  if (!panorama) return;
+  const links = panorama.getLinks();
+  if (!links || !links.length) return;
+  // follow the navigation link closest to where the camera is pointing
+  let best = links[0], bestDiff = 360;
+  links.forEach(l => {
+    const diff = Math.abs(((l.heading - currentHeading + 540) % 360) - 180);
+    if (diff < bestDiff) { bestDiff = diff; best = l; }
+  });
+  panorama.setPano(best.pano);
+}
+
+/* ============ AVATAR ============ */
+function handleAvatar(file) {
+  if (!file.type.startsWith('image/')) { showError('הקובץ חייב להיות תמונה.'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      // resize to max 1024px for a lean API payload
+      const maxSide = 1024;
+      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * scale);
+      c.height = Math.round(img.height * scale);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      avatarDataUrl = c.toDataURL('image/jpeg', 0.92);
+      $('avatar-thumb').src = avatarDataUrl;
+      $('dropzone').classList.add('has-img');
+      clearError();
+      refreshSteps();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ============ STREET VIEW CAPTURE ============ */
+async function captureStreetView() {
+  const key = $('google-api-key').value.trim();
+  // fov derived from the panorama zoom so the capture matches what you see
+  const fov = Math.max(20, Math.min(120, 180 / Math.pow(2, currentZoom)));
+  const url = 'https://maps.googleapis.com/maps/api/streetview' +
+    '?size=640x640' +
+    '&location=' + currentPosition.lat + ',' + currentPosition.lng +
+    '&heading=' + Math.round(currentHeading) +
+    '&pitch=' + Math.round(currentPitch) +
+    '&fov=' + Math.round(fov) +
+    '&source=outdoor&key=' + encodeURIComponent(key);
+
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error('צילום ה-Street View נכשל (' + resp.status + '). בודקים שה-Street View Static API מופעל במפתח.');
+  const blob = await resp.blob();
+  return await new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(blob);
+  });
+}
+
+/* ============ GENERATION ============ */
+function buildPrompt() {
+  const styleKey = document.querySelector('#style-chips .chip.on')?.dataset.style || 'photoreal';
+  const extra = $('extra-prompt').value.trim();
+  return [
+    'You are given two images. IMAGE 1 is a real Google Street View photograph of a location. IMAGE 2 is a reference photo of a person.',
+    'Generate ONE new photorealistic photograph that places this exact person naturally inside this exact location.',
+    '',
+    'Identity rules (highest priority):',
+    '- Preserve the person\'s face, features, skin tone, hair and identity EXACTLY as in IMAGE 2. Do not beautify, slim, age or alter them.',
+    '- Keep their clothing from IMAGE 2 unless instructed otherwise below.',
+    '',
+    'Scene rules:',
+    '- Keep the location from IMAGE 1 clearly recognizable: architecture, signage, colors, geometry and atmosphere.',
+    '- Correct perspective and scale: feet grounded on the actual ground plane.',
+    '- Match the scene\'s light direction and color temperature; add a realistic contact shadow.',
+    '',
+    'Shot: ' + SHOT_PROMPTS[$('shot-type').value],
+    'Pose: ' + POSE_PROMPTS[$('pose').value],
+    'Style: ' + STYLE_PROMPTS[styleKey],
+    extra ? 'Extra direction from the director: ' + extra : '',
+    '',
+    'Output: a single high-resolution professional photograph. No text, no watermark, no borders.'
+  ].filter(Boolean).join('\n');
+}
+
+async function callGeminiImage(model, prompt, streetB64, avatarB64, aspect, withAspect) {
+  const key = $('gemini-api-key').value.trim();
+  const body = {
+    contents: [{
+      parts: [
+        { text: prompt },
+        { inline_data: { mime_type: 'image/jpeg', data: streetB64 } },
+        { inline_data: { mime_type: 'image/jpeg', data: avatarB64 } }
+      ]
+    }],
+    generationConfig: { responseModalities: ['TEXT', 'IMAGE'] }
+  };
+  if (withAspect) body.generationConfig.imageConfig = { aspectRatio: aspect };
+
+  const resp = await fetch(
+    'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(key),
+    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+  );
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) {
+    const msg = data?.error?.message || ('HTTP ' + resp.status);
+    const err = new Error(msg);
+    err.status = resp.status;
+    throw err;
+  }
+  const parts = data?.candidates?.[0]?.content?.parts || [];
+  for (const p of parts) {
+    const inline = p.inlineData || p.inline_data;
+    if (inline?.data) return 'data:' + (inline.mimeType || inline.mime_type || 'image/png') + ';base64,' + inline.data;
+  }
+  const finish = data?.candidates?.[0]?.finishReason || '';
+  throw new Error('המודל לא החזיר תמונה' + (finish ? ' (' + finish + ')' : '') + ' — מנסים שוב או משנים את ההנחיות.');
+}
+
+async function generateOne(prompt, streetB64, avatarB64, aspect) {
+  let lastErr = null;
+  for (const model of IMAGE_MODELS) {
+    // first try with the aspect ratio config, then without it (older models reject imageConfig)
+    for (const withAspect of [true, false]) {
+      try {
+        const img = await callGeminiImage(model, prompt, streetB64, avatarB64, aspect, withAspect);
+        return { img, model };
+      } catch (e) {
+        lastErr = e;
+        // model not found / not allowed → try next model immediately
+        if (e.status === 404 || e.status === 403) break;
+        // bad request with aspect config → retry same model without it
+        if (e.status === 400 && withAspect) continue;
+        break;
+      }
+    }
+  }
+  throw lastErr || new Error('היצירה נכשלה.');
+}
+
+async function generate() {
+  if (generating) return;
+  clearError();
+
+  const mapsKey = $('google-api-key').value.trim();
+  const geminiKey = $('gemini-api-key').value.trim();
+  if (!mapsKey || !geminiKey) { showError('חסרים מפתחות — מכניסים גם Google Maps וגם Gemini API Key.'); return; }
+  if (!mapsReady) { showError('קודם טוענים לוקיישן ב-Street View.'); return; }
+  if (!avatarDataUrl) { showError('קודם מעלים תמונת דמות.'); return; }
+
+  generating = true;
+  const btn = $('generate-btn');
+  btn.disabled = true;
+  btn.textContent = 'מייצר...';
+
+  try {
+    showStatus('לוכד את הפריים מ-Street View...', 12);
+    const streetDataUrl = await captureStreetView();
+    const streetB64 = streetDataUrl.split(',')[1];
+    const avatarB64 = avatarDataUrl.split(',')[1];
+    const aspect = $('aspect-ratio').value;
+    const count = parseInt($('variations').value, 10);
+    const prompt = buildPrompt();
+
+    const grid = $('res-grid');
+    for (let i = 0; i < count; i++) {
+      showStatus('Gemini מייצר את הצילום' + (count > 1 ? ' · ' + (i + 1) + '/' + count : '') + '...', 25 + Math.round(65 * (i / count)));
+      const { img, model } = await generateOne(prompt, streetB64, avatarB64, aspect);
+      addResult(img, model);
+      $('results').classList.add('show');
+      if (i === 0) $('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    showStatus('מוכן.', 100);
+    setTimeout(hideStatus, 900);
+  } catch (e) {
+    hideStatus();
+    let msg = e.message || 'שגיאה לא צפויה.';
+    if (/quota|rate|resource.*exhausted/i.test(msg)) msg = 'עברת את מכסת ה-API של Gemini — מחכים דקה ומנסים שוב, או בודקים את המכסה ב-AI Studio.';
+    if (/api key not valid|invalid.*key/i.test(msg)) msg = 'מפתח ה-Gemini לא תקין — מייצרים מפתח חדש ב-AI Studio ומדביקים שוב.';
+    showError(msg);
+  } finally {
+    generating = false;
+    btn.disabled = false;
+    btn.textContent = 'צור את הצילום';
+  }
+}
+
+let resultCounter = 0;
+function addResult(dataUrl, model) {
+  resultCounter++;
+  const item = document.createElement('div');
+  item.className = 'res-item';
+  const cap = (currentPlaceName || 'Street View') + ' · ' + model;
+  item.innerHTML =
+    '<img alt="Generated shot ' + resultCounter + '">' +
+    '<div class="res-bar">' +
+      '<span class="res-cap"></span>' +
+      '<div class="res-actions">' +
+        '<button class="btn btn-outline res-dl">הורדה</button>' +
+      '</div>' +
+    '</div>';
+  item.querySelector('img').src = dataUrl;
+  item.querySelector('.res-cap').textContent = cap;
+  item.querySelector('.res-dl').addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = 'streetview-avatar-pro-' + Date.now() + '.png';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+  $('res-grid').prepend(item);
+}
+
+/* ============ SAVED LOCATIONS ============ */
+function saveLocation() {
+  if (!mapsReady) { showError('אין עדיין לוקיישן לשמור.'); return; }
+  const name = prompt('שם ללוקיישן:', currentPlaceName || '');
+  if (!name) return;
+  savedLocations.push({ name, position: { ...currentPosition }, heading: currentHeading, pitch: currentPitch });
+  localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+  renderLocations();
+}
+
+function loadSavedLocations() {
+  try { savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || []; }
+  catch { savedLocations = []; }
+  renderLocations();
+}
+
+function renderLocations() {
+  const box = $('loclist');
+  if (!savedLocations.length) {
+    box.innerHTML = '<div class="loc-empty">אין עדיין לוקיישנים שמורים</div>';
+    return;
+  }
+  box.innerHTML = '';
+  savedLocations.forEach((loc, i) => {
+    const el = document.createElement('div');
+    el.className = 'loc-item';
+    el.innerHTML = '<div><div class="ln"></div><div class="lc"></div></div><button class="lx" title="מחיקה">&times;</button>';
+    el.querySelector('.ln').textContent = loc.name;
+    el.querySelector('.lc').textContent = loc.position.lat.toFixed(4) + ', ' + loc.position.lng.toFixed(4);
+    el.addEventListener('click', () => {
+      currentPosition = { ...loc.position };
+      currentHeading = loc.heading; currentPitch = loc.pitch;
+      currentPlaceName = loc.name;
+      if (panorama) {
+        panorama.setPosition(currentPosition);
+        panorama.setPov({ heading: currentHeading, pitch: currentPitch });
+      }
+    });
+    el.querySelector('.lx').addEventListener('click', e => {
+      e.stopPropagation();
+      savedLocations.splice(i, 1);
+      localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+      renderLocations();
+    });
+    box.appendChild(el);
+  });
+}
+</script>
+</body>
+</html>
