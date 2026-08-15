@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="מסגרת עבודה מלאה להקמת ערוץ יוטיוב — נישה ו-CPM, זהות ערוץ, לוח תוכן ל-90 יום, תסריט מלא, SEO ותמבנייל, סטאק מונטיזציה ומערכת מיחזור תוכן. לשלי אור גיסר | SHOTCALLER.">
+<title>YOUTUBE FRAMEWORK · SHOTCALLER</title>
+<link rel="icon" type="image/jpeg" href="aigos.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050505;--text:#F0F0F0;--dim:#A0A0A0;--subtle:#808080;--muted:#606060;--faint:#505050;--ghost:#404040;--dark:#383838;
+  --purple:#c3a6ff;--pink:#ffb7b7;--blue:#96e6ff;--green:#b4ffda;--orange:#ffd8be;--e1:#e1b7ff;
+  --grad:linear-gradient(135deg,#ffb7b7 0%,#e1b7ff 25%,#96e6ff 50%,#b4ffda 75%,#ffd8be 100%);
+  --grad-cta:linear-gradient(135deg,#c3a6ff 0%,#96e6ff 50%,#b4ffda 100%);
+  --card:rgba(255,255,255,0.04);--card-s:rgba(255,255,255,0.03);--card-h:rgba(255,255,255,0.055);
+  --b:rgba(255,255,255,0.08);--b-s:rgba(255,255,255,0.06);--b-h:rgba(255,255,255,0.16);--b-d:rgba(255,255,255,0.1);
+  --pb:rgba(195,166,255,0.04);--pb-m:rgba(195,166,255,0.08);--pbd:rgba(195,166,255,0.15);--pbd-m:rgba(195,166,255,0.25);
+  --display:'Urbanist',sans-serif;--magic:'Playfair Display',serif;--sans:'Heebo',sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--purple);color:#000}
+.gt{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+a{color:inherit}
+
+/* atmosphere */
+.atm{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.atm i{position:absolute;border-radius:50%;filter:blur(140px);display:block}
+.g1{width:700px;height:700px;background:var(--purple);top:-200px;right:-250px;opacity:.12}
+.g2{width:600px;height:600px;background:var(--blue);top:22%;left:-300px;opacity:.08}
+.g3{width:500px;height:500px;background:var(--purple);bottom:-150px;right:30%;opacity:.07}
+.g4{width:550px;height:550px;background:var(--pink);bottom:8%;left:-200px;opacity:.06}
+.noise{position:fixed;inset:0;z-index:0;opacity:.025;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:256px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(5,5,5,.82);backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid var(--b-s)}
+.nav-in{max-width:1100px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:-.02em;direction:ltr}
+.logo span.d{color:var(--subtle);font-weight:400}
+.nav-links{display:flex;gap:22px;font-family:var(--display);font-weight:400;font-size:.82rem;color:var(--subtle)}
+.nav-links a{text-decoration:none;transition:color .3s var(--ease)}
+.nav-links a:hover{color:var(--text)}
+@media(max-width:820px){.nav-links{display:none}.nav-in{padding:14px 22px}}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
+@media(max-width:720px){.wrap{padding:0 22px}}
+
+/* hero */
+.hero{padding:90px 0 60px}
+.eyebrow{font-family:var(--display);font-weight:500;font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--purple);margin-bottom:10px;direction:ltr;text-align:right}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,7vw,4.6rem);line-height:1.02;letter-spacing:-.03em;text-transform:uppercase;direction:ltr;text-align:right}
+.sub{font-weight:300;font-size:clamp(.92rem,1.4vw,1.05rem);line-height:1.8;color:var(--dim);max-width:640px;margin-top:20px}
+.magic{font-family:var(--magic);font-style:italic;font-weight:400;font-size:clamp(1rem,2vw,1.5rem);line-height:1.6;margin-top:26px;max-width:660px}
+
+/* section */
+section{padding:64px 0;border-top:1px solid var(--b-s)}
+.snum{font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:.1em;color:var(--purple);direction:ltr;text-align:right;margin-bottom:8px}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-.02em;line-height:1.2;margin-bottom:12px}
+h3{font-family:var(--display);font-weight:800;font-size:1.15rem;letter-spacing:-.01em;margin-bottom:10px}
+h4{font-family:var(--display);font-weight:600;font-size:1rem;margin-bottom:8px;color:var(--text)}
+p{font-size:.92rem;line-height:1.85;color:var(--dim);margin-bottom:14px}
+.lead{color:var(--text);font-weight:400}
+ul,ol{margin:0 18px 16px 0;padding-right:6px}
+li{font-size:.9rem;line-height:1.8;color:var(--dim);margin-bottom:7px}
+strong{color:var(--text);font-weight:500}
+em.hl{color:var(--purple);font-style:normal;font-weight:500}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--b);border-radius:14px;padding:24px 26px;transition:all .4s var(--ease)}
+.card:hover{background:var(--card-h);border-color:var(--b-h);transform:translateY(-4px)}
+.card.p{background:var(--pb);border-color:var(--pbd)}
+.grid{display:grid;gap:14px;margin:20px 0}
+.g2c{grid-template-columns:1fr 1fr}
+.g3c{grid-template-columns:repeat(3,1fr)}
+.g4c{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.g3c,.g4c{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.g2c,.g3c,.g4c{grid-template-columns:1fr}}
+
+/* table */
+.tw{overflow-x:auto;margin:22px 0;border:1px solid var(--b);border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th{font-family:var(--display);font-weight:600;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--purple);text-align:right;padding:14px 16px;border-bottom:1px solid var(--b-d);background:rgba(255,255,255,.02);white-space:nowrap}
+td{font-size:.84rem;line-height:1.65;color:var(--dim);padding:14px 16px;border-bottom:1px solid var(--b-s);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.n{color:var(--text);font-weight:500;font-family:var(--display);white-space:nowrap}
+td.cpm{color:var(--green);font-weight:500;font-family:var(--display);direction:ltr;white-space:nowrap}
+.tag{display:inline-block;font-family:var(--display);font-weight:500;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;padding:4px 9px;border-radius:6px;border:1px solid var(--b);color:var(--subtle);white-space:nowrap}
+.tag.easy{color:var(--green);border-color:rgba(180,255,218,.25)}
+.tag.mid{color:var(--orange);border-color:rgba(255,216,190,.25)}
+.tag.hard{color:var(--pink);border-color:rgba(255,183,183,.25)}
+
+/* callout */
+.note{border:1px solid var(--pbd);background:var(--pb);border-radius:14px;padding:20px 24px;margin:20px 0}
+.note .lbl{font-family:var(--display);font-weight:600;font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--purple);margin-bottom:8px}
+.note p:last-child{margin-bottom:0}
+
+/* script */
+.beat{border-right:2px solid var(--pbd-m);padding:0 18px 0 0;margin-bottom:26px}
+.tc{font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.08em;color:var(--purple);direction:ltr;text-align:right;margin-bottom:6px;text-transform:uppercase}
+.vo{background:var(--card-s);border:1px solid var(--b-s);border-radius:12px;padding:16px 18px;margin:10px 0;font-size:.9rem;line-height:1.9;color:var(--text);font-weight:300}
+.dir{font-size:.78rem;line-height:1.7;color:var(--muted);margin:6px 0}
+.dir b{color:var(--subtle);font-weight:500;font-family:var(--display);font-size:.66rem;text-transform:uppercase;letter-spacing:.1em}
+
+/* copy blocks */
+.copyblk{background:var(--card-s);border:1px solid var(--b-s);border-radius:14px;padding:20px 22px;margin:14px 0}
+.copyblk .cl{font-family:var(--display);font-weight:600;font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);margin-bottom:10px}
+.mono{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:.78rem;line-height:1.8;color:var(--dim);white-space:pre-wrap;direction:ltr;text-align:left}
+.mono.rtl{direction:rtl;text-align:right;font-family:var(--sans);font-size:.86rem}
+
+/* pills */
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.pill{font-family:var(--display);font-weight:500;font-size:.68rem;padding:6px 12px;border-radius:100px;border:1px solid var(--b);color:var(--dim);background:var(--card-s);direction:ltr}
+
+/* footer */
+footer{border-top:1px solid var(--b-s);padding:44px 0 60px;margin-top:40px}
+.fmicro{font-size:.68rem;color:var(--muted);line-height:1.8}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(18px)}
+.rv.in{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .7s var(--ease)}
+</style>
+</head>
+<body>
+
+<div class="atm"><i class="g1"></i><i class="g2"></i><i class="g3"></i><i class="g4"></i></div>
+<div class="noise"></div>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="logo"><span class="gt">SHOTCALLER</span><span class="d">.YT</span></div>
+    <div class="nav-links">
+      <a href="#niche">נישה</a>
+      <a href="#identity">זהות</a>
+      <a href="#calendar">90 יום</a>
+      <a href="#script">תסריט</a>
+      <a href="#seo">SEO</a>
+      <a href="#money">כסף</a>
+      <a href="#repurpose">מיחזור</a>
+      <a href="guides.html">← כל המדריכים</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero rv">
+    <div class="eyebrow">Built for Shelly Or Gisser · SHOTCALLER</div>
+    <h1>The Youtube<br><span class="gt">Framework</span></h1>
+    <p class="sub">שבע שאלות. שבע תשובות מלאות. מנישה ו-CPM ועד לתסריט מוכן לצילום, תמבנייל, סטאק מונטיזציה ומערכת מיחזור. זה לא סיכום — זה תוכנית עבודה שאפשר להתחיל לבצע ממחר בבוקר.</p>
+    <p class="magic gt">You already direct. This is just a new set.</p>
+  </header>
+
+  <!-- ============ 0 · READ THIS FIRST ============ -->
+  <section class="rv">
+    <div class="snum">00 · Read this first</div>
+    <h2>שלושה דברים שחייבים להיאמר לפני המספרים</h2>
+    <div class="grid g3c">
+      <div class="card p">
+        <h4>המספרים הם טווחים, לא נתונים</h4>
+        <p style="margin:0">כל CPM כאן הוא <strong>טווח הערכה</strong> לפי בנצ'מרקים תעשייתיים, לא מדידה מהחשבון שלך. ה-CPM האמיתי שלך ייקבע תוך 90 יום ויכול לסטות ±40%. תתייחסי לזה כאל מפת דרכים, לא כאל תחזית.</p>
+      </div>
+      <div class="card p">
+        <h4>CPM ≠ מה שנכנס לך</h4>
+        <p style="margin:0">CPM זה מה שהמפרסם משלם. את מקבלת <strong>RPM</strong> — בערך 45–55% ממנו, אחרי חלק יוטיוב וצפיות לא ממומנות. CPM של $30 = בערך $15 לכל 1,000 צפיות. תמיד תחשבי ב-RPM.</p>
+      </div>
+      <div class="card p">
+        <h4>השפה היא המנוף #1</h4>
+        <p style="margin:0">אותו תוכן בדיוק: קהל ישראלי בעברית ≈ <strong>$1.5–4 CPM</strong>. קהל אמריקאי באנגלית ≈ <strong>$15–45</strong>. פי 10–20. זו ההחלטה הכי כלכלית שתקבלי, והיא נופלת עוד לפני הנישה.</p>
+      </div>
+    </div>
+    <div class="note">
+      <div class="lbl">האמת הלא נוחה</div>
+      <p style="margin:0">"CPM גבוה + תחרות נמוכה + ביקוש אֶברגרין" — שלושתם כמעט אף פעם לא מתקיימים יחד. אם CPM גבוה והתחרות נמוכה, בדרך כלל יש סיבה: התוכן קשה להפקה, דורש מומחיות אמיתית, או מסוכן רגולטורית. <em class="hl">החסם הוא הפיצ'ר.</em> החפיר שלך הוא לא מילת מפתח — הוא 20 שנה של בימוי שאף אחד לא יכול לצפות בסרטון וללמוד ב-11 דקות.</p>
+    </div>
+  </section>
+
+  <!-- ============ 1 · NICHE ============ -->
+  <section id="niche" class="rv">
+    <div class="snum">01 · Find your niche</div>
+    <h2>שמונה נישות: CPM, קושי, מונטיזציה, וקונספט בן 3 מילים</h2>
+    <p>CPM = טווח דולרי לקהל אמריקאי דובר אנגלית, 2026. קושי = כמה עבודה נדרשת לפרק אחד ברמה שאפשר להתגאות בה.</p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>נישה</th><th>CPM</th><th>קושי</th><th>מונטיזציה מעבר ל-AdSense</th><th>קונספט ב-3 מילים</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="n">AI Ops לצוותים<br><span style="color:var(--muted);font-weight:300;font-size:.76rem">אוטומציה ותהליכי עבודה ב-B2B</span></td>
+            <td class="cpm">$22–45</td><td><span class="tag mid">בינוני</span></td>
+            <td>אפיליאייט SaaS (30–40% recurring), ייעוץ הטמעה, קורס צוותי, ספונסרים martech</td>
+            <td class="n">AI Ops Room</td>
+          </tr>
+          <tr>
+            <td class="n">כסף לעצמאים<br><span style="color:var(--muted);font-weight:300;font-size:.76rem">מיסוי, תמחור, תזרים לסולו-ביזנס</span></td>
+            <td class="cpm">$28–65</td><td><span class="tag hard">גבוה</span></td>
+            <td>טמפלייטים, ספונסרים פינטק, שותפויות רו"ח, מנוי קהילה</td>
+            <td class="n">Solo Money Systems</td>
+          </tr>
+          <tr>
+            <td class="n">אסטרטגיית מותג<br><span style="color:var(--muted);font-weight:300;font-size:.76rem">נתיחות מותג ל-CMOs ומנהלי שיווק</span></td>
+            <td class="cpm">$20–40</td><td><span class="tag mid">בינוני</span></td>
+            <td>לידים לריטיינר (הכי רווחי), סדנאות ארגוניות, הרצאות, קורס</td>
+            <td class="n">The Brand Autopsy</td>
+          </tr>
+          <tr>
+            <td class="n">AI בענפים מפוקחים<br><span style="color:var(--muted);font-weight:300;font-size:.76rem">משפט, ביטוח, בריאות</span></td>
+            <td class="cpm">$30–70</td><td><span class="tag hard">גבוה</span></td>
+            <td>ייעוץ ארגוני יקר, וובינרים ממומנים, דוחות מחקר בתשלום</td>
+            <td class="n">Regulated AI Desk</td>
+          </tr>
+          <tr>
+            <td class="n">UX ומוצר B2B<br><span style="color:var(--muted);font-weight:300;font-size:.76rem">פירוק ממשקים ומוצרי SaaS</span></td>
+            <td class="cpm">$18–35</td><td><span class="tag mid">בינוני</span></td>
+            <td>אודיטים בתשלום, design systems למכירה, ספונסרים כלי עיצוב</td>
+            <td class="n">Interface Under Knife</td>
+          </tr>
+          <tr>
+            <td class="n">קריירה ומשא ומתן<br><span style="color:var(--muted);font-weight:300;font-size:.76rem">שכר, הצעות עבודה, מעברים</span></td>
+            <td class="cpm">$15–32</td><td><span class="tag easy">נמוך</span></td>
+            <td>ליווי אישי, בדיקת קו"ח, אפיליאייט קורסים, לוח משרות</td>
+            <td class="n">Offer Letter Lab</td>
+          </tr>
+          <tr>
+            <td class="n">נדל"ן ופרופטק<br><span style="color:var(--muted);font-weight:300;font-size:.76rem">שיווק נכסים, השקעות, כלים</span></td>
+            <td class="cpm">$20–42</td><td><span class="tag mid">בינוני</span></td>
+            <td>הפניות למתווכים, קורס שיווק נכסים, ספונסרים משכנתאות</td>
+            <td class="n">Listing Machine Lab</td>
+          </tr>
+          <tr>
+            <td class="n" style="color:var(--purple)">בימוי AI למותגים ★<br><span style="color:var(--muted);font-weight:300;font-size:.76rem">קריאייטיב, קמפיינים, הפקה עם AI</span></td>
+            <td class="cpm">$18–38</td><td><span class="tag mid">בינוני</span></td>
+            <td>GENIRO.AI, קורס, prompt packs, ריטיינרים, הרצאות, ספונסרים כלי AI</td>
+            <td class="n" style="color:var(--purple)">You Direct AI</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>ההמלצה שלי לך — ולמה</h3>
+    <p>מבחינה כלכלית טהורה, <strong>"כסף לעצמאים"</strong> ו<strong>"AI בענפים מפוקחים"</strong> מנצחים בטבלה. אבל את לא מתחילה מאפס — את מתחילה מ-20 שנה של בימוי, מ-GENIRO.AI, מסקילים בנויים ומקהל שכבר מקשיב. להתחיל נישה שאין לך בה סמכות זה לזרוק את הנכס הכי יקר שלך.</p>
+    <p><strong>הבחירה: בימוי AI למותגים.</strong> ה-CPM לא הגבוה בטבלה, אבל שם ה-AdSense הוא ממילא ההכנסה הכי פחות חשובה. הצופה שלך הוא מנהל שיווק, בעל סוכנות או מייסד — כלומר <em class="hl">כל 1,000 צפיות שוות פי 20 מ-CPM כי בתוכן יושבים לקוחות פוטנציאליים ל-GENIRO ולריטיינר</em>. בנישה הזו הערוץ הוא לא מקור הכנסה, הוא מכונת לידים שגם מרוויחה מפרסומות.</p>
+    <div class="note">
+      <div class="lbl">החלטת השפה</div>
+      <p style="margin:0"><strong>אנגלית ראשית, עברית כמנוע גדילה מקומי.</strong> ההמלצה: הערוץ הראשי באנגלית (CPM, שוק, GENIRO גלובלי), והתוכן בעברית חי ברילס/לינקדאין/טיקטוק בישראל ומזרים לערוץ. לא שני ערוצים ביוטיוב — זה מפצל את האלגוריתם ואת אותך. ערוץ אחד, שפה אחת, והעברית עובדת מסביבו.</p>
+    </div>
+  </section>
+
+  <!-- ============ 2 · IDENTITY ============ -->
+  <section id="identity" class="rv">
+    <div class="snum">02 · Channel identity</div>
+    <h2>זהות ערוץ מלאה</h2>
+
+    <h3>5 אפשרויות שם</h3>
+    <div class="grid g2c">
+      <div class="card p"><h4 style="direction:ltr;text-align:right">SHOTCALLER <span class="tag" style="color:var(--green);border-color:rgba(180,255,218,.25)">מומלץ</span></h4><p style="margin:0">כבר שלך. כבר יש לו משמעות. Shot caller = מי שקורא את השוט, וגם מי שמחליט. בעברית ובאנגלית זה עובד. אל תמציאי מותג חדש כשיש לך אחד שכבר עובד.</p></div>
+      <div class="card"><h4 style="direction:ltr;text-align:right">The Direction Room</h4><p style="margin:0">חדר הבימוי. מרמז על מקום פנימי שלא נותנים לך להיכנס אליו. מצוין ל-SEO סביב "direction", חלש בזיהוי אישי.</p></div>
+      <div class="card"><h4 style="direction:ltr;text-align:right">AI CREWS</h4><p style="margin:0">ישיר מהטאגליין. קצר, קליט, גלובלי. חיסרון: גנרי מדי בחיפוש — יש הרבה "AI" בשם.</p></div>
+      <div class="card"><h4 style="direction:ltr;text-align:right">Shelly Directs</h4><p style="margin:0">ערוץ אישי מוצהר. הכי טוב לבניית אמון ולקורסים, הכי קשה למכור אחר כך כנכס שאינו את.</p></div>
+      <div class="card"><h4 style="direction:ltr;text-align:right">Frame Zero</h4><p style="margin:0">הפריים שלפני הפריים הראשון — הרגע של ההחלטה. הכי קולנועי, הכי פחות מובן במבט ראשון.</p></div>
+      <div class="card"><h4 style="direction:ltr;text-align:right">PURPLEROSA STUDIO</h4><p style="margin:0">ממנף את הדומיין והנוכחות הקיימת. מתאים אם את רוצה מטריה אחת לכל הכלים והמדריכים.</p></div>
+    </div>
+
+    <h3>טאגליין</h3>
+    <div class="copyblk">
+      <div class="cl">Primary</div>
+      <div class="mono">You Direct. AI Crews.</div>
+    </div>
+    <p style="font-size:.86rem">הוא כבר שלך והוא טוב: מגדיר יחסי כוח (את הבמאית), מגדיר את הכלי (הצוות), ומכיל הבטחה. חלופות אם תרצי משהו ממוקד-יוטיוב יותר: <span class="pill">The tool is the least important part</span> <span class="pill">Direction over prompts</span> <span class="pill">Made by a director, not a demo</span></p>
+
+    <h3>פרופיל קהל יעד</h3>
+    <div class="grid g2c">
+      <div class="card">
+        <h4>הקהל הראשי — "המוציאה לפועל"</h4>
+        <ul style="margin-bottom:0">
+          <li>מנהלת שיווק / קריאייטיב בסוכנות או in-house, 29–44</li>
+          <li>מקבלת בריף ודדליין קצר, בתקציב שהתכווץ ב-40%</li>
+          <li>יודעת שצריך AI, ניסתה, יצא לה זול ומביך — ופחדה להראות ללקוח</li>
+          <li>הפחד האמיתי: לא "AI יחליף אותי" אלא <strong>"אצטרך להראות עבודה שנראית כמו AI"</strong></li>
+          <li>מחפשת: שיטה, לא כלי. מישהי שכבר עשתה את זה מול לקוח משלם</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>הקהל המשני — "הבעלים"</h4>
+        <ul style="margin-bottom:0">
+          <li>בעל/ת סוכנות בוטיק או מייסד/ת סטארטאפ, 32–50</li>
+          <li>הכאב: עלות הפקה מול מה שהלקוח מוכן לשלם</li>
+          <li>לא רוצה ללמוד פרומפטינג — רוצה לדעת מה להטמיע ובאיזה סדר</li>
+          <li>הקהל הזה הוא <em class="hl">הכסף</em>: ריטיינרים, סדנאות ארגוניות, מנויי GENIRO</li>
+        </ul>
+      </div>
+    </div>
+    <p><strong>מי זה לא:</strong> חובבי AI שרודפים אחרי כלי חדש כל שבוע. הם צופים ולא קונים, והם ידחפו אותך לתוכן חדשות שמת אחרי שבועיים.</p>
+
+    <h3>4 עמודי תוכן</h3>
+    <div class="grid g4c">
+      <div class="card p"><div class="eyebrow" style="text-align:right">Pillar 01</div><h4>THE BUILD</h4><p style="margin:0;font-size:.85rem">הפקה מלאה מתחילה עד סוף. בריף → שוט ליסט → הפקה → תוצר מוגמר. פרק אחד = נכס אחד שאפשר להגיש ללקוח. <strong>זה עמוד הדגל.</strong></p></div>
+      <div class="card"><div class="eyebrow" style="text-align:right">Pillar 02</div><h4>THE SYSTEM</h4><p style="margin:0;font-size:.85rem">שיטות שאפשר לחזור עליהן: Character Lock, שוט ליסט לפני פרומפט, מבנה בריף, ספריית סקילים. הפרקים שאנשים שומרים.</p></div>
+      <div class="card"><div class="eyebrow" style="text-align:right">Pillar 03</div><h4>THE AUTOPSY</h4><p style="margin:0;font-size:.85rem">פירוק קמפיינים אמיתיים — שלהם ושלך. מה עבד, איפה נשבר, ואיך היית מביימת מחדש. הפרקים שבונים סמכות.</p></div>
+      <div class="card"><div class="eyebrow" style="text-align:right">Pillar 04</div><h4>THE ROOM</h4><p style="margin:0;font-size:.85rem">מאחורי הקלעים של המקצוע: תמחור, מול לקוח, מה באמת קורה בסוכנות. הפרקים שבונים קהילה — ומייצרים לידים.</p></div>
+    </div>
+
+    <h3>הזווית שמפרידה אותך מכל השאר</h3>
+    <div class="note">
+      <div class="lbl">The Unique Angle</div>
+      <p class="lead">כל ערוץ AI אחר מודד הצלחה במדד "האם הפלט מרשים?". את מודדת אותה במדד <em class="hl">"האם הייתי מגישה את זה ללקוח משלם?"</em></p>
+      <p style="margin:0">בפועל זה אומר: כל פרק מסתיים בתוצר גמור עם בריף, דדליין ותקציב אמיתיים — לא בדמו של כלי. את מראה את ההחלטות, לא את הכפתורים. את מראה גם את הטייקים שנפסלו ולמה. אף אחד לא עושה את זה, כי לרוב היוצרים בנישה <strong>אין לקוח שיפסול להם</strong>. זה החפיר: אי אפשר לזייף 20 שנה של פסילות.</p>
+    </div>
+  </section>
+
+  <!-- ============ 3 · CALENDAR ============ -->
+  <section id="calendar" class="rv">
+    <div class="snum">03 · 90 days</div>
+    <h2>לוח תוכן ל-90 יום</h2>
+
+    <h3>קצב העלאה — ריאלי, לא שאפתני</h3>
+    <div class="grid g3c">
+      <div class="card"><h4>פרק ארוך אחד בשבוע</h4><p style="margin:0;font-size:.85rem">יום חמישי, 16:00 שעון ישראל (בוקר בארה"ב). 12 פרקים ב-90 יום. זה הקצב היחיד שאפשר לעמוד בו בלי לוותר על איכות — ואיכות היא כל היתרון שלך.</p></div>
+      <div class="card"><h4>3 שורטס בשבוע</h4><p style="margin:0;font-size:.85rem">ראשון / שלישי / שבת. <strong>כולם חתוכים מהפרק הארוך</strong> — אפס הפקה נוספת. השורטס הם מנוע החשיפה, הארוך הוא מנוע האמון.</p></div>
+      <div class="card"><h4>בנק של 3 פרקים לפני העלייה</h4><p style="margin:0;font-size:.85rem">אל תעלי פרק ראשון לפני שיש שלושה מוכנים. הסיבה היחידה שערוצים מתים בחודש השני היא שהם עלו על ריק.</p></div>
+    </div>
+
+    <h3>12 פרקים — מסלול בניית סמכות</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>#</th><th>כותרת</th><th>עמוד</th><th>מטרה</th><th>למה</th></tr></thead>
+        <tbody>
+          <tr><td class="n">01</td><td>I Directed a Full Ad With AI in 6 Hours</td><td>THE BUILD</td><td><span class="tag hard">ויראליות</span></td><td>פרק הדגל. מגדיר את הערוץ בסרטון אחד. זה מה שמצמידים לראש הערוץ.</td></tr>
+          <tr><td class="n">02</td><td>Why Your AI Video Looks Like AI (5 Fixes)</td><td>THE SYSTEM</td><td><span class="tag mid">SEO+ויראלי</span></td><td>הכאב הכי מחופש בנישה. כותרת עם חיפוש קיים והבטחה ברורה.</td></tr>
+          <tr><td class="n">03</td><td>How to Keep the Same Character in Every Shot</td><td>THE SYSTEM</td><td><span class="tag easy">SEO</span></td><td>אֶברגרין טהור. "character consistency" זו שאילתה שרק תגדל. הפרק הזה יעבוד 3 שנים.</td></tr>
+          <tr><td class="n">04</td><td>I Rebuilt a $200K Campaign for $400</td><td>THE AUTOPSY</td><td><span class="tag hard">ויראליות</span></td><td>מספרים בכותרת + השוואה. הפרק שגורם לסוכנויות לשלוח אחד לשני.</td></tr>
+          <tr><td class="n">05</td><td>The Shot List That Replaces 50 Prompts</td><td>THE SYSTEM</td><td><span class="tag easy">SEO</span></td><td>הפרק שמייצר את הליד מגנט. כאן נולדת רשימת התפוצה.</td></tr>
+          <tr><td class="n">06</td><td>What I Charge for AI Work (Real Numbers)</td><td>THE ROOM</td><td><span class="tag mid">SEO+ויראלי</span></td><td>תמחור = CPM גבוה, שיתופים גבוהים, ואמון עצום. הפרק הכי "מסוכן" והכי משתלם.</td></tr>
+          <tr><td class="n">07</td><td>Fashion Film With AI: Full Breakdown</td><td>THE BUILD</td><td><span class="tag mid">SEO+ויראלי</span></td><td>מוכיח טווח. אופנה = ויזואלס שמייצרים שורטס מעולים.</td></tr>
+          <tr><td class="n">08</td><td>Nano Banana vs Midjourney vs Flux for Brand Work</td><td>THE AUTOPSY</td><td><span class="tag easy">SEO</span></td><td>השוואות = מנוע חיפוש. ה"for brand work" הוא מה שמבדל אותך מ-500 השוואות אחרות.</td></tr>
+          <tr><td class="n">09</td><td>I Gave AI a Real Client Brief. It Failed.</td><td>THE AUTOPSY</td><td><span class="tag hard">ויראליות</span></td><td>כישלון מוצהר = הפרק הכי אמין שתעשי. גם מפרק את ההתנגדות "היא רק מוכרת AI".</td></tr>
+          <tr><td class="n">10</td><td>Build a Brand Video in One Weekend</td><td>THE BUILD</td><td><span class="tag easy">SEO</span></td><td>פרק "עשה זאת בעצמך" — הכי גבוה בשמירות ובשיתופים. אֶברגרין.</td></tr>
+          <tr><td class="n">11</td><td>The 3 AI Skills Every Creative Team Needs in 2026</td><td>THE ROOM</td><td><span class="tag mid">SEO+ויראלי</span></td><td>ממוקד בעלי סוכנויות — כלומר ממוקד לידים. הפרק שמייצר פניות.</td></tr>
+          <tr><td class="n">12</td><td>90 Days of Directing AI: Everything I Learned</td><td>THE ROOM</td><td><span class="tag hard">ויראליות</span></td><td>סוגר את הרבעון, פותח את הבא. מייצר "אני חייב לראות איך זה נגמר".</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>איך לחלק בין SEO לוויראליות</h3>
+    <div class="grid g2c">
+      <div class="card p">
+        <h4>SEO (5 מתוך 12)</h4>
+        <p style="margin:0 0 8px">פרקים 03, 05, 08, 10 ובחלקו 02. אלה הפרקים שעונים על שאילתה קיימת: "how to", "vs", "consistency". התשואה שלהם איטית — 60–120 יום — ואז יציבה לשנים. <strong>הם המצע.</strong></p>
+        <p style="margin:0;font-size:.83rem;color:var(--muted)">כלל: כותרת חייבת להכיל את השאילתה כמעט מילה במילה. אל תתחכמי ב-SEO.</p>
+      </div>
+      <div class="card p">
+        <h4>ויראליות (4 מתוך 12)</h4>
+        <p style="margin:0 0 8px">פרקים 01, 04, 09, 12. אלה עובדים על סקרנות ומספרים, לא על חיפוש: "עשיתי X ב-Y", "נכשל", "$200K מול $400". התשואה מיידית — 72 שעות — ואז דועכת. <strong>הם הזרקור.</strong></p>
+        <p style="margin:0;font-size:.83rem;color:var(--muted)">כלל: כל פרק ויראלי חייב לקשר בכרטיסייה לפרק SEO. הזרקור מאכיל את המצע.</p>
+      </div>
+    </div>
+
+    <h3>התקדמות — איך זה בונה סמכות</h3>
+    <ul>
+      <li><strong>ימים 1–30 (פרקים 01–04) · "היא באמת עושה את זה."</strong> — כאן מוכיחים יכולת. פרק 01 מגדיר, 02–03 נותנים ערך מיידי, 04 מייצר את הרגע הראשון של שיתוף. אל תמכרי כלום. שום CTA למוצר. רק ליד מגנט.</li>
+      <li><strong>ימים 31–60 (פרקים 05–08) · "היא יודעת דברים שאני לא."</strong> — כאן עוברים מהדגמה לשיטה. פרק 06 (תמחור) הוא נקודת המפנה: ברגע שאת מדברת כסף אמיתי, את מפסיקה להיות יוצרת תוכן ומתחילה להיות עמיתה בכירה. כאן מתחילים אפיליאייטים ורשימת תפוצה רצינית.</li>
+      <li><strong>ימים 61–90 (פרקים 09–12) · "אני רוצה שהיא תעשה לי את זה."</strong> — כאן פותחים את הדלת. פרק 09 בונה אמון דרך כישלון, 11 מדבר ישירות למקבלי החלטות, 12 סוגר לופ. כאן מציגים את GENIRO ואת השירות — אחרי 11 פרקים של הוכחה, לא לפני.</li>
+    </ul>
+    <div class="note">
+      <div class="lbl">מה למדוד — ורק את זה</div>
+      <p style="margin:0">ב-90 הימים הראשונים <strong>אל תסתכלי על מנויים.</strong> תסתכלי על שלושה: (1) <strong>אחוז צפייה בדקה הראשונה</strong> — מתחת ל-50% ההוק שבור; (2) <strong>CTR של התמבנייל</strong> — מתחת ל-4% התמבנייל שבור; (3) <strong>הרשמות לרשימת התפוצה לכל 1,000 צפיות</strong> — זה המספר היחיד שקשור לכסף. מנויים הם תוצאה, לא מדד.</p>
+    </div>
+  </section>
+
+  <!-- ============ 4 · SCRIPT ============ -->
+  <section id="script" class="rv">
+    <div class="snum">04 · The script</div>
+    <h2>תסריט מלא · פרק 01</h2>
+    <p class="lead" style="direction:ltr;text-align:right;font-family:var(--display);font-weight:600;font-size:1.1rem">"I Directed a Full Ad With AI in 6 Hours"</p>
+    <p style="font-size:.85rem;color:var(--muted)">אורך יעד: 11:00–12:30. כתוב לדיבור, לא לקריאה. המספרים בסוגריים — תחליפי במספרים האמיתיים שלך.</p>
+
+    <div class="beat">
+      <div class="tc">00:00 – 00:30 · Hook</div>
+      <p class="dir"><b>Visual</b> פותחים ישר על הפרסומת המוגמרת. בלי לוגו, בלי אינטרו, בלי "היי חברים". 8 שניות מהתוצר הכי טוב. ואז חתך יבש לפנים שלך.</p>
+      <div class="vo">מה שראית עכשיו עלה [41 דולר] ולקח שש שעות. לפני שנתיים אותו דבר בדיוק היה לוקח חודש וחצי וחמישה אנשים.<br><br>אבל אני לא הולכת להראות לך באיזה כלי השתמשתי — כי הכלי הוא החלק הכי פחות חשוב בסרטון הזה.<br><br>אני הולכת להראות לך את ההחלטות. את שש השעות עצמן, לפי סדר. כולל את הרגע בשעה הרביעית שבו הכל התפרק והייתי צריכה לזרוק ארבעים שוטים לפח.</div>
+      <p class="dir"><b>Why</b> ההוק לא מבטיח "תלמד AI". הוא מבטיח גישה לחדר שסגור בפניך. ההודאה בכישלון בשנייה ה-25 היא מה שקונה את הדקה הבאה.</p>
+    </div>
+
+    <div class="beat">
+      <div class="tc">00:30 – 02:00 · Problem agitation</div>
+      <div class="vo">אם ניסית פעם לעשות וידאו עם AI, אתה כנראה נתקעת באחד משלושה מקומות. ואני יודעת, כי נתקעתי בכל השלושה.<br><br><strong>אחת.</strong> הדמות משתנה. שוט ראשון — מושלם. שוט שני — זה כבר בן דוד שלו. שלישי — אדם אחר לגמרי.<br><br><strong>שתיים.</strong> יוצא לך שוט יפהפה שלא אומר כלום. הוא מרשים למשך שנייה וחצי ואז אתה מבין שאין לו מה לעשות בסרט.<br><br><strong>שלוש.</strong> הכי גרוע — הכל נראה כמו AI. אתה לא יכול להצביע על מה בדיוק, אבל אתה לא תשלח את זה ללקוח.<br><br>ועכשיו הדבר החשוב: אף אחת משלוש הבעיות האלה היא לא בעיה של כלי. שלושתן הן אותה בעיה אחת — <strong>ניסית להפיק לפני שביימת.</strong><br><br>אתה יושב מול תיבת פרומפט וכותב תיאור, ומקווה שממנו ייצא סרט. זה כמו להגיע לסט עם צוות של שלושים איש בלי שוט ליסט ולהגיד "בואו נראה מה יוצא". יש לזה שם בתעשייה. השם הוא: יום מבוזבז.<br><br>וזה בדיוק מה שרוב האנשים עושים עם AI — רק שהם קוראים לזה פרומפטינג.</div>
+      <p class="dir"><b>Visual</b> חלוקת מסך: 3 שוטים עם אותה דמות משתנה. אחר כך שוט "יפה וריק". אחר כך אותו שוט אחרי תיקון. אפס גרפיקות מיותרות.</p>
+    </div>
+
+    <div class="beat">
+      <div class="tc">02:00 – 08:00 · Solution walkthrough</div>
+      <p class="dir"><b>Structure</b> חמישה שלבים, כל אחד עם חותמת זמן על המסך שרצה קדימה. הצופה רואה את השעון של שש השעות מתקדם — זה מה שמחזיק אותו.</p>
+
+      <div class="vo"><strong>שעה 0:00–0:10 · הבריף בשורה אחת.</strong><br>לפני שנגעתי בכלי כלשהו, כתבתי משפט אחד: [מה המוצר עושה לאדם אחד ביום אחד]. אם אני לא מצליחה לכתוב את המשפט הזה, אין לי סרט — יש לי אוסף שוטים. עשר דקות, על נייר.</div>
+
+      <div class="vo"><strong>שעה 0:10–0:50 · שוט ליסט לפני פרומפט אחד.</strong><br>ארבעים דקות של רשימה: [12] שוטים, לכל אחד גודל, תנועה, ומה הוא צריך להגיד. בלי מילה על AI. זה בדיוק אותו שוט ליסט שהייתי כותבת להפקה עם מצלמה — כי זו אותה עבודה. פה נחסכות ארבע שעות בהמשך, וזה הקטע שכולם מדלגים עליו.</div>
+
+      <div class="vo"><strong>שעה 0:50–1:40 · נעילת דמות.</strong><br>לפני שוט אחד של הסרט עצמו, בניתי לדמות גיליון ייחוס: אותו אדם משמונה זוויות, שלושה מצבי הבעה, ותלבושת נעולה. חמישים דקות שנראות כמו בזבוז ובפועל הן הביטוח היחיד שלך. בלי זה — כל שוט הוא הימור מחדש.</div>
+
+      <div class="vo"><strong>שעה 1:40–4:10 · הפקה בסבבים, שלוש גרסאות לשוט.</strong><br>לא שוט-ואז-הבא. סבב שלם, שלוש גרסאות לכל שוט, ואז בוחרים. למה? כי כשאת בוחרת מיד את מתאהבת בגרסה היחידה שראית.<br><br>ופה, בשעה הרביעית, הכל התפרק. [40] שוטים והבנתי שהם לא מתחברים — לא בגלל שהם לא יפים, אלא בגלל שכל אחד מהם צולם בשעה אחרת ביום. אור בוקר, אור ערב, אור בוקר. העין קולטת את זה בלי לדעת למה, וזה בדיוק מה שגורם לתחושת "זה AI".<br><br>זרקתי אותם. הוספתי לכל פרומפט שורת המשכיות אחת — אותה שעה, אותו כיוון אור — והרצתי שוב. שבעים דקות אבודות שהצילו את הסרט.</div>
+
+      <div class="vo"><strong>שעה 4:10–6:00 · עריכה. סאונד קודם.</strong><br>הרכבתי את פס הקול לפני שהרכבתי את התמונה. מוזיקה, נשימות, צעדים, חלל בחדר. רק אחר כך הפלתי את השוטים על הטיימליין.<br><br>שעה וחמישים דקות, והשוטים כמעט לא השתנו — מה שהשתנה זה שהם התחילו להרגיש כאילו הם צולמו במקום אחד.</div>
+      <p class="dir"><b>Visual</b> בכל שלב: מסך מפוצל — מה שראיתי מול מה שקיבלתי. בשלב הכישלון: להראות באמת את השוטים הפסולים. זה החלק שאף אחד לא מראה, וזה החלק שקונה את הקהל.</p>
+    </div>
+
+    <div class="beat">
+      <div class="tc">08:00 – 10:30 · 3 key insights</div>
+      <div class="vo"><strong>תובנה ראשונה: פרומפט הוא לא כתיבה. הוא הוראת בימוי.</strong><br>כשאת מדברת עם צלם את לא מתארת לו את התמונה — את אומרת לו מה חשוב בה. אותו דבר בדיוק כאן. פרומפט טוב הוא לא ארוך יותר, הוא <em>מוכרע</em> יותר: מה הנושא, מה האור, מה הרגש, ומה מותר לוותר עליו.</div>
+      <div class="vo"><strong>תובנה שנייה: עקביות מנצחת יופי. תמיד.</strong><br>סרט של שוטים בינוניים שמרגישים כמו אותו עולם — עובד. סרט של שוטים מדהימים שכל אחד מעולם אחר — מרגיש זול. הצופה לא מנתח, הוא רק מרגיש שמשהו לא בסדר. תשעים אחוז מהתחושה של "זה AI" זה חוסר המשכיות, לא חוסר איכות.</div>
+      <div class="vo"><strong>תובנה שלישית: הסאונד עושה שישים אחוז מהאמינות.</strong><br>קח את השוט הכי חלש שלך, שים מתחתיו נשימה, צעד ורעש חדר — הוא הופך לאמין. קח את השוט הכי טוב שלך בלי סאונד — הוא נשאר הדגמה. וזה גם החלק הכי זול והכי מהיר לתקן.</div>
+      <p class="dir"><b>Visual</b> להדגים כל תובנה, לא לספר אותה. במיוחד השלישית: להשמיע את אותו שוט פעמיים, עם ובלי. זה הרגע שיהפוך לשורט.</p>
+    </div>
+
+    <div class="beat">
+      <div class="tc">10:30 – 11:00 · CTA</div>
+      <div class="vo">השוט ליסט שהשתמשתי בו כאן הוא תבנית קבועה שאני משתמשת בה בכל פרויקט. אני משאירה אותה בקישור הראשון בתיאור — בחינם, בלי טפסים מיותרים.<br><br>ואם אתה מיישם משהו מזה — תכתוב לי בתגובות איזה שלב מהחמישה תפס אותך. אני קוראת את כולן בשבוע הראשון.</div>
+      <p class="dir"><b>Note</b> CTA אחד. לא מנוי + לייק + תגובה + פעמון + קישור. בקשה אחת מקבלת פי שלושה תגובות מארבע בקשות.</p>
+    </div>
+
+    <div class="beat">
+      <div class="tc">11:00 – 11:20 · Next episode tease</div>
+      <div class="vo">בפרק הבא אני לוקחת את החוליה שהכי הרבה אנשים נשברים בה — נעילת הדמות — ומראה איך בונים גיליון ייחוס שעובד בכל כלי, גם כשמחליפים כלי באמצע פרויקט.<br><br>זה הפרק שהייתי צריכה לפני שנתיים.</div>
+      <p class="dir"><b>Visual</b> להראות פריים אחד מהפרק הבא. לא מסך סיום עמוס — פריים אחד וכרטיסייה.</p>
+    </div>
+  </section>
+
+  <!-- ============ 5 · SEO & THUMBNAIL ============ -->
+  <section id="seo" class="rv">
+    <div class="snum">05 · SEO &amp; thumbnail</div>
+    <h2>אריזה לפרק 01</h2>
+
+    <h3>3 קונספטים לתמבנייל</h3>
+    <div class="grid g3c">
+      <div class="card p">
+        <div class="eyebrow" style="text-align:right">Concept A · The Clock</div>
+        <h4>מומלץ</h4>
+        <p style="font-size:.85rem">חצי שמאל: פריים מהפרסומת המוגמרת, קולנועי ורווי. חצי ימין: את מסתכלת ישר לעדשה, פנים נייטרליות (לא הלם). ביניהם קו מפריד דק. פינה עליונה: <strong>6:00:00</strong> בטיפוגרפיה של טיימקוד.</p>
+        <div class="copyblk" style="margin:10px 0 0"><div class="cl">Overlay</div><div class="mono">6 HOURS
+ONE AD</div></div>
+      </div>
+      <div class="card">
+        <div class="eyebrow" style="text-align:right">Concept B · The Price</div>
+        <h4>ניגוד מספרים</h4>
+        <p style="font-size:.85rem">אותו פריים בדיוק, פעמיים. משמאל עם תווית <span style="direction:ltr;display:inline-block">$40,000</span> משוכה בקו אדום, מימין <span style="direction:ltr;display:inline-block">$41</span> בירוק. את קטנה בפינה. המוצר הוא הגיבור.</p>
+        <div class="copyblk" style="margin:10px 0 0"><div class="cl">Overlay</div><div class="mono">$40,000 → $41</div></div>
+      </div>
+      <div class="card">
+        <div class="eyebrow" style="text-align:right">Concept C · The Reject Pile</div>
+        <h4>הכי כנה</h4>
+        <p style="font-size:.85rem">רשת של 9 שוטים, 8 מהם מכוסים ב-X דק, אחד נקי ובוהק. את לא בפריים בכלל. עובד מצוין בפיד רחב, פחות טוב בנייד קטן.</p>
+        <div class="copyblk" style="margin:10px 0 0"><div class="cl">Overlay</div><div class="mono">40 SHOTS
+1 SURVIVED</div></div>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted)">כללי ברזל: מקסימום 4 מילים. גובה טקסט ≥ 12% מגובה התמונה. לבדוק ברוחב 320px לפני העלאה. פנים = כן, אבל בלי הבעות מוגזמות — זה סותר את מיצוב "הבמאית המקצועית".</p>
+
+    <h3>כותרת (מתחת ל-60 תווים)</h3>
+    <div class="copyblk"><div class="cl">Primary · 51 chars</div><div class="mono">I Directed a Full Ad With AI in 6 Hours</div></div>
+    <div class="copyblk"><div class="cl">Backups</div><div class="mono">A Real Ad, Made With AI, in 6 Hours   (37)
+6 Hours. $41. One Finished Ad.        (36)
+How I Direct AI Like a Film Crew      (32)</div></div>
+
+    <h3>תיאור מלא</h3>
+    <div class="copyblk">
+      <div class="mono">In six hours I directed, produced and cut a complete 30-second ad using AI — for about $41. This is the full timeline, decision by decision, including the moment at hour four when I threw out 40 shots and started over.
+
+This is not a tool tutorial. It's a directing walkthrough: brief, shot list, character lock, batch generation, and a sound-first edit.
+
+FREE — the shot list template I use on every project: [link]
+
+CHAPTERS
+0:00  The finished ad
+0:30  The three places everyone gets stuck
+2:00  Hour 0 — the one-line brief
+2:40  Hour 0:10 — shot list before a single prompt
+3:50  Hour 0:50 — locking the character
+5:10  Hour 1:40 — batch generation, 3 variants per shot
+6:20  Hour 4 — where it broke and why
+7:30  Hour 4:10 — editing sound first
+8:00  Insight 1 — a prompt is a directing note
+8:50  Insight 2 — consistency beats beauty
+9:40  Insight 3 — sound is 60% of believability
+10:30 The template
+11:00 Next episode
+
+TOOLS &amp; TIMESTAMPED COSTS
+[tool] — [$] · [tool] — [$] · [tool] — [$]
+Some links are affiliate links. Same price for you, small commission for me. I only list what I actually used in this build.
+
+WHO I AM
+I'm Shelly Or Gisser. I've been directing commercial work for 20 years and I now direct AI crews the same way I direct human ones. SHOTCALLER — you direct, AI crews.
+
+MORE
+Free templates and guides — [link]
+GENIRO.AI — [link]
+Instagram — @ai.gos
+
+Keywords: ai video production, ai commercial, ai advertising workflow,
+character consistency ai video, ai shot list, directing ai video,
+ai video for brands, creative direction ai, ai ad production cost</div>
+    </div>
+
+    <h3>10 תגיות</h3>
+    <div class="pills">
+      <span class="pill">ai video production</span><span class="pill">ai commercial</span><span class="pill">ai advertising</span><span class="pill">directing ai video</span><span class="pill">character consistency ai</span><span class="pill">ai shot list</span><span class="pill">ai video workflow</span><span class="pill">creative direction</span><span class="pill">ai for agencies</span><span class="pill">ai video tutorial</span>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted)">תגיות הן אות דירוג חלש היום. שווה מאמץ של שתי דקות, לא יותר. הכותרת, ה-30 השניות הראשונות והתמבנייל עושים 95% מהעבודה.</p>
+
+    <h3>שתי וריאציות A/B</h3>
+    <div class="grid g2c">
+      <div class="card p"><h4>Variant 1 — הפנים מול המספר</h4><p style="margin:0;font-size:.86rem">קונספט A עם הפנים שלך גדולות (35% מהפריים) מול קונספט A בלי פנים בכלל, רק הפריים והשעון. <strong>מה בודקים:</strong> האם הקהל בא בשביל האדם או בשביל התוצר. התשובה תכתיב את כל התמבניילים הבאים שלך.</p></div>
+      <div class="card p"><h4>Variant 2 — הבטחה מול סקרנות</h4><p style="margin:0;font-size:.86rem">"6 HOURS / ONE AD" (הבטחה) מול "40 SHOTS / 1 SURVIVED" (סקרנות). <strong>מה בודקים:</strong> איזה קרס עובד על הקהל שלך. להריץ 7 ימים מלאים, מינימום 5,000 חשיפות לכל צד, ולא להחליף באמצע.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ 6 · MONETIZATION ============ -->
+  <section id="money" class="rv">
+    <div class="snum">06 · Monetization</div>
+    <h2>סטאק מונטיזציה מעבר ל-AdSense</h2>
+    <p>בנוי בשלוש מדרגות לפי גודל קהל, כי הסדר קובע. הטעות הכי נפוצה היא להתחיל ממוצר דיגיטלי לפני שיש למי למכור אותו.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>מדרגה</th><th>מה מפעילים</th><th>מה לא נוגעים בו עדיין</th><th>יעד חודשי סביר</th></tr></thead>
+        <tbody>
+          <tr><td class="n">0 → 1,000</td><td>רשימת תפוצה, אפיליאייטים, שירות 1:1 (ריטיינר/סדנה)</td><td>מוצרים דיגיטליים, ספונסרים, AdSense</td><td class="cpm">הכנסה מהשירות בלבד</td></tr>
+          <tr><td class="n">1K → 10K</td><td>מוצר דיגיטלי ראשון, ספונסרים קטנים, AdSense נדלק</td><td>קהילה בתשלום, קורס גדול</td><td class="cpm">$800–3,000</td></tr>
+          <tr><td class="n">10K+</td><td>קורס/קהילה, ספונסרים מלאים, GENIRO כמנוע ראשי</td><td>—</td><td class="cpm">$4,000–15,000+</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>אפיליאייטים</h3>
+    <div class="grid g2c">
+      <div class="card"><h4>שכבה 1 — כלי AI ליצירה</h4><p style="margin:0;font-size:.86rem">כלי וידאו וייצור תמונות, קול וסינתזה, עריכה. עמלות טיפוסיות 20–30%, לרוב חוזרות. <strong>אלה הכלים שאת ממילא מראה בכל פרק</strong> — זו ההכנסה הכי טבעית שלך והכי פחות פוגעת באמון, בתנאי שאת מציגה רק מה שבאמת השתמשת בו בפרק.</p></div>
+      <div class="card"><h4>שכבה 2 — תשתית קריאייטיב</h4><p style="margin:0;font-size:.86rem">עיצוב, אתרים, ניהול פרויקטים, אחסון נכסים, מלאי. עמלות 15–40%, לרוב חד-פעמיות גבוהות. פחות רלוונטי לתוכן, אבל מתאים מצוין לרשימת התפוצה ולעמוד "הסטאק שלי".</p></div>
+      <div class="card"><h4>שכבה 3 — חינוך</h4><p style="margin:0;font-size:.86rem">פלטפורמות קורסים וקהילות. 30–50%. להשתמש במשורה — יותר מדי המלצות על קורסים של אחרים מחלישות את המיצוב שלך כמקור.</p></div>
+      <div class="card p"><h4>הכלל היחיד</h4><p style="margin:0;font-size:.86rem">אף פעם אל תמליצי על כלי שלא הפקת איתו נכס אמיתי. בנישה שלך האמינות היא כל המוצר. אפיליאייט אחד גרוע שורף שנה של בנייה, ואת תרוויחי ממנו [$60].</p></div>
+    </div>
+
+    <h3>4 מוצרים דיגיטליים — לפי סדר בנייה</h3>
+    <div class="grid g4c">
+      <div class="card"><div class="eyebrow" style="text-align:right">First · $27–47</div><h4>THE DIRECTION KIT</h4><p style="margin:0;font-size:.84rem">תבנית שוט ליסט, מבנה בריף, צ'קליסט המשכיות, גיליון נעילת דמות. נבנה מהעבודה שממילא עשית בפרק 01. זמן בנייה: יומיים.</p></div>
+      <div class="card"><div class="eyebrow" style="text-align:right">Second · $67–97</div><h4>PROMPT LIBRARY</h4><p style="margin:0;font-size:.84rem">ספריית פרומפטים מסווגת לפי סוג שוט ולפי כלי, עם דוגמאות פלט אמיתיות. מתעדכנת רבעונית — זו הסיבה שאפשר לתמחר אותה גבוה.</p></div>
+      <div class="card"><div class="eyebrow" style="text-align:right">Third · $297–597</div><h4>THE AI CREW COURSE</h4><p style="margin:0;font-size:.84rem">השיטה המלאה מבריף עד מסירה, 6–8 מודולים, עם פרויקט אמיתי לביצוע. רק אחרי 10K מנויים ואחרי ששני הראשונים נמכרו.</p></div>
+      <div class="card p"><div class="eyebrow" style="text-align:right">Always · SaaS</div><h4>GENIRO.AI</h4><p style="margin:0;font-size:.84rem">זה הנכס האמיתי. כל שאר המוצרים הם בעצם מסלול הסברה אליו. הערוץ לא צריך למכור אותו — הוא צריך להוכיח שהשיטה שמאחוריו עובדת.</p></div>
+    </div>
+
+    <h3>תבנית פיץ' לספונסר</h3>
+    <div class="copyblk">
+      <div class="cl">Email · שלחי אחרי שהזכרת אותם אורגנית בפרק אחד לפחות</div>
+      <div class="mono">Subject: [Brand] in front of 1,400 creative directors
+
+Hi [Name],
+
+I direct commercial work — 20 years, real clients — and I now run a
+YouTube channel showing how I direct AI production the same way.
+Audience: creative directors, agency owners and in-house marketing
+leads. Roughly [X]% US/UK/CA. Not hobbyists — buyers.
+
+I used [Product] in episode [N] ([link]) without any arrangement,
+because it solved [specific problem] in [specific step]. That episode
+did [X] views and [Y] comments, several asking what I used.
+
+What I'd propose:
+· A 60-second integration inside a real build — the product doing the
+  job it's actually for, in a project with a brief and a deadline.
+  No feature tour.
+· Placement at [3:00–4:00], after the problem is established, where
+  retention on my channel sits around [X]%.
+· One follow-up mention in my newsletter ([X] subscribers, [X]% open).
+
+Rate: $[X] for the integration, $[X] with the newsletter.
+
+One condition on my side: I run the product on a real project before
+I say a word about it. If it doesn't hold up, I'll tell you and
+refund — I'd rather lose the deal than the audience.
+
+Recent numbers attached. Happy to send a sample script first.
+
+Shelly Or Gisser
+SHOTCALLER · [link]</div>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted)">מה שהופך את הפיץ' הזה לחזק זה התנאי בסוף. הוא מסמן לספונסר שהקהל שלך שווה משהו — וזה בדיוק מה שמצדיק מחיר גבוה יותר.</p>
+
+    <h3>ליד מגנט</h3>
+    <div class="note">
+      <div class="lbl">THE SHOT LIST — the one-page version</div>
+      <p><strong>מה זה:</strong> עמוד אחד. אותו שוט ליסט מפרק 01, ריק ומוכן למילוי, עם דוגמה ממולאת בצד השני. PDF להדפסה + גרסת Notion.</p>
+      <p><strong>למה זה עובד:</strong> זה לא "10 טיפים". זה הכלי שבדיוק ראו אותך משתמשת בו במשך 11 דקות. הפער בין "ראיתי את זה עובד" ל"אני רוצה את זה" הוא אפס.</p>
+      <p style="margin:0"><strong>מה קורה אחריו:</strong> רצף של 4 מיילים — (1) התבנית + איך למלא אותה ב-10 דקות; (2) הטעות הכי נפוצה במילוי; (3) שוט ליסט אמיתי מפרויקט לקוח, עם ההערות; (4) שאלה פתוחה: "על מה את עובדת עכשיו?" — התשובות לרביעי הן צנרת המכירות שלך. לא מוכרים כלום בארבעת המיילים האלה.</p>
+    </div>
+  </section>
+
+  <!-- ============ 7 · REPURPOSE ============ -->
+  <section id="repurpose" class="rv">
+    <div class="snum">07 · Repurpose</div>
+    <h2>פרק אחד → שבעה נכסים</h2>
+    <p>הכל מבוסס על תסריט פרק 01. אפס הפקה נוספת, רק חיתוך וכתיבה מחדש.</p>
+
+    <h3>Threads · שרשור</h3>
+    <div class="copyblk"><div class="mono">1/ ביימתי פרסומת שלמה עם AI בשש שעות.
+
+בשעה הרביעית זרקתי 40 שוטים לפח.
+
+זה מה שלמדתי מהחלק שנזרק. ↓
+
+2/ שלוש הבעיות שכולם נתקעים בהן:
+· הדמות משתנה בין שוטים
+· יוצא שוט יפה שלא אומר כלום
+· הכל מרגיש "כמו AI"
+
+שלושתן הן אותה בעיה אחת.
+
+3/ הבעיה: ניסית להפיק לפני שביימת.
+
+לשבת מול תיבת פרומפט ולקוות שייצא סרט זה כמו להגיע לסט עם 30 איש בלי שוט ליסט.
+
+בתעשייה קוראים לזה יום מבוזבז.
+
+4/ מה שעבד — לפי שעות:
+
+0:00 בריף בשורה אחת
+0:10 שוט ליסט. לפני פרומפט אחד
+0:50 נעילת דמות
+1:40 הפקה בסבבים, 3 גרסאות לשוט
+4:10 עריכה — סאונד קודם
+
+5/ בשעה 4 הכל התפרק.
+
+40 שוטים שלא התחברו. לא בגלל שהם מכוערים —
+בגלל שכל אחד "צולם" בשעה אחרת ביום.
+
+העין קולטת. המוח לא יודע להסביר.
+זה בדיוק מה שמייצר את התחושה "זה AI".
+
+6/ שלוש מסקנות:
+
+פרומפט הוא הוראת בימוי, לא תיאור.
+עקביות מנצחת יופי. תמיד.
+סאונד עושה 60% מהאמינות.
+
+7/ הכלי הוא החלק הכי פחות חשוב.
+
+ההחלטה מה לא לצלם — היא כל העבודה.
+
+הפרק המלא + תבנית השוט ליסט: [link]</div></div>
+    <p style="font-size:.83rem;color:var(--muted)">כלל לתראדס: כל פוסט עומד בפני עצמו. אין "המשך בפוסט הבא" — יש רק סיבה להמשיך.</p>
+
+    <h3>LinkedIn</h3>
+    <div class="copyblk"><div class="mono rtl">בשעה הרביעית זרקתי 40 שוטים לפח.
+
+לא בגלל שהם היו מכוערים. בגלל שכל אחד מהם נראה כאילו צולם בשעה אחרת ביום.
+
+בניתי פרסומת שלמה עם AI בשש שעות, בעלות של כמה עשרות דולרים. אבל הדבר שהכי הפתיע אותי לא היה כמה מהר זה הלך — אלא כמה מעט מזה היה קשור לטכנולוגיה.
+
+חמש השעות הראשונות היו עבודת בימוי רגילה לחלוטין. בריף. שוט ליסט. המשכיות. בדיוק אותה עבודה שעשיתי עשרים שנה עם מצלמות וצוותים של שלושים איש.
+
+זה מה שאני רואה קורה עכשיו בארגונים: מכניסים כלי AI לצוותי קריאייטיב ומצפים לתפוקה, ומקבלים אוסף של נכסים יפים שלא מתחברים לכלום. ואז מסיקים שהטכנולוגיה לא בשלה.
+
+הטכנולוגיה בשלה. מה שחסר זה מישהו שיודע להגיד לה לא.
+
+שלוש מסקנות שאני לוקחת לכל פרויקט מכאן:
+
+← פרומפט הוא הוראת בימוי, לא תיאור. ההבדל הוא בין "תאר לי תמונה" ל"תגיד לי מה חשוב בה".
+
+← עקביות מנצחת יופי. סרט של שוטים בינוניים שמרגישים כמו עולם אחד עובד. סרט של שוטים מדהימים מעולמות שונים מרגיש זול.
+
+← סאונד עושה 60% מהאמינות, ועולה כמעט כלום.
+
+הכלי הוא החלק הכי פחות חשוב בסיפור הזה. ההחלטה מה לא לצלם — זו כל העבודה.
+
+פירקתי את כל שש השעות, כולל 40 השוטים שנזרקו: [link]
+
+#CreativeDirection #AI #Advertising</div></div>
+
+    <h3>3 הוקים לשורטס</h3>
+    <div class="grid g3c">
+      <div class="card"><div class="eyebrow" style="text-align:right">Short 01 · 0–3s</div><p style="margin:0;font-size:.87rem"><strong>"זרקתי 40 שוטים לפח בשעה הרביעית. זו הסיבה."</strong><br><span style="color:var(--muted);font-size:.8rem">חתוך מ-06:20. פותח על רשת השוטים הפסולים. 38 שניות. סוגר על התיקון של שורה אחת בפרומפט.</span></p></div>
+      <div class="card"><div class="eyebrow" style="text-align:right">Short 02 · 0–3s</div><p style="margin:0;font-size:.87rem"><strong>"אותו שוט בדיוק. פעם בלי סאונד, פעם עם."</strong><br><span style="color:var(--muted);font-size:.8rem">חתוך מ-09:40. הדגמה טהורה, כמעט בלי דיבור. הכי בעל פוטנציאל שיתוף מבין השלושה.</span></p></div>
+      <div class="card"><div class="eyebrow" style="text-align:right">Short 03 · 0–3s</div><p style="margin:0;font-size:.87rem"><strong>"הסיבה שהוידאו שלך נראה כמו AI היא לא הכלי."</strong><br><span style="color:var(--muted);font-size:.8rem">חתוך מ-01:20. הוק של התנגדות. הכי מייצר תגובות — כלומר הכי טוב לאלגוריתם.</span></p></div>
+    </div>
+
+    <h3>ניוזלטר</h3>
+    <div class="copyblk">
+      <div class="cl">Subject line</div>
+      <div class="mono rtl">מה שזרקתי לפח (ולמה זה היה החלק החשוב)</div>
+      <div class="cl" style="margin-top:16px">Body</div>
+      <div class="mono rtl">היי,
+
+השבוע ביימתי פרסומת שלמה עם AI בשש שעות. אבל אני רוצה לספר לך על השעה הרביעית, כי שם היה כל הלימוד.
+
+היו לי 40 שוטים מוכנים. כל אחד מהם, בפני עצמו, נראה טוב. ביחד — זה לא עבד, ולא הצלחתי להסביר לעצמי למה במשך עשרים דקות.
+
+ואז הבנתי: כל שוט "צולם" בשעה אחרת ביום. אור בוקר, אור ערב, ואז שוב בוקר. אף אחד לא היה מזהה את זה במודע. כולם היו מרגישים את זה.
+
+זרקתי הכל. הוספתי לכל פרומפט שורה אחת של המשכיות — אותה שעה, אותו כיוון אור — והרצתי מחדש. שבעים דקות אבודות שהצילו את הסרט.
+
+השורה שאני לוקחת מזה:
+עקביות מנצחת יופי. תמיד.
+
+שוטים בינוניים שמרגישים כמו אותו עולם — עובדים.
+שוטים מדהימים מעולמות שונים — מרגישים זול.
+
+תשעים אחוז מהתחושה "זה AI" זה חוסר המשכיות, לא חוסר איכות. וזה חדשות טובות, כי המשכיות זה משהו שאפשר לתכנן.
+
+הפרק המלא עם כל שש השעות: [link]
+תבנית השוט ליסט שהשתמשתי בה: [link]
+
+בשבוע הבא: איך בונים גיליון נעילת דמות שעובד בכל כלי.
+
+שלי</div>
+    </div>
+
+    <h3>Pinterest</h3>
+    <div class="copyblk"><div class="mono">AI Video Shot List Template — Free
+
+The shot list I use to direct AI video like a real film crew. Plan
+your shots before writing a single prompt: shot size, movement,
+lighting continuity and character lock in one page. Used on a full
+30-second ad produced in 6 hours. Free download — no signup wall.
+
+ai video production · ai shot list · creative direction ·
+ai commercial · video planning template · ai for marketers</div></div>
+
+    <h3>אילו פלטפורמות לתעדף — ולמה</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>עדיפות</th><th>פלטפורמה</th><th>מה היא נותנת לך</th><th>השקעה שבועית</th></tr></thead>
+        <tbody>
+          <tr><td class="n" style="color:var(--purple)">1</td><td class="n">YouTube</td><td>הנכס. אֶברגרין, מתגלה בחיפוש, ומייצר את כל השאר. כל דבר אחר הוא נגזרת.</td><td class="cpm">70%</td></tr>
+          <tr><td class="n" style="color:var(--purple)">2</td><td class="n">LinkedIn</td><td><strong>כאן יושבים הקונים.</strong> מנהלי שיווק ובעלי סוכנויות. הפלטפורמה שהכי מייצרת ריטיינרים והרצאות בישראל ובעולם. גם ה-CPM הכי גבוה של תשומת לב.</td><td class="cpm">15%</td></tr>
+          <tr><td class="n">3</td><td class="n">Instagram / Reels</td><td>הבית הקיים שלך (@ai.gos) והכי חזק ויזואלית לנישה. שורטס אנכיים עוברים כמו שהם. שומר על הקהל הישראלי חם.</td><td class="cpm">10%</td></tr>
+          <tr><td class="n">4</td><td class="n">ניוזלטר</td><td>הנכס היחיד שאף אלגוריתם לא יכול לקחת ממך. קטן היום, קריטי בעוד שנה.</td><td class="cpm">5%</td></tr>
+          <tr><td class="n">—</td><td class="n" style="color:var(--muted)">Threads / X</td><td>לפרסם, לא להשקיע. חמש דקות של הדבקה. אם משהו מתחיל לרוץ שם — לתת לו תשומת לב אז, לא לפני.</td><td class="cpm">0%</td></tr>
+          <tr><td class="n">—</td><td class="n" style="color:var(--muted)">Pinterest</td><td>להעלות ולשכוח. תנועה איטית ואֶברגרין לליד מגנט. עשר דקות בחודש, לא יותר.</td><td class="cpm">0%</td></tr>
+          <tr><td class="n">—</td><td class="n" style="color:var(--muted)">TikTok</td><td><strong>לדלג בינתיים.</strong> הקהל שם צעיר ולא קונה שירותי בימוי. תחזרי אליו רק כשיהיה מוצר דיגיטלי בטווח $27–47.</td><td class="cpm">0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <div class="lbl">ההיגיון מאחורי הסדר</div>
+      <p style="margin:0">הנישה שלך היא B2B במסווה של קריאייטיב. הקהל שקונה ממך יושב בלינקדאין, לא בטיקטוק. לכן: יוטיוב בונה את הסמכות, לינקדאין הופך אותה לכסף, אינסטגרם שומר על החום, והשאר זה הדבקה של חמש דקות. <em class="hl">כל שעה שתשקיעי בטיקטוק בשלב הזה נלקחת מהפרק הבא</em> — וזו העסקה הכי גרועה שאפשר לעשות ב-90 הימים האלה.</p>
+    </div>
+  </section>
+
+  <!-- ============ FIRST WEEK ============ -->
+  <section class="rv">
+    <div class="snum">Next · Start here</div>
+    <h2>שבעת הימים הראשונים</h2>
+    <div class="grid g3c">
+      <div class="card p"><h4>יום 1–2</h4><p style="margin:0;font-size:.86rem">להחליט שם ושפה. לפתוח את הערוץ. לכתוב את הבריף בשורה אחת ואת השוט ליסט לפרק 01. אפס הפקה.</p></div>
+      <div class="card p"><h4>יום 3–5</h4><p style="margin:0;font-size:.86rem">להפיק את הפרסומת של פרק 01 באמת — עם דדליין ותקציב אמיתיים. <strong>לתעד הכל תוך כדי</strong>, כולל מה שנפסל. זה החומר של הפרק.</p></div>
+      <div class="card p"><h4>יום 6–7</h4><p style="margin:0;font-size:.86rem">לצלם את הקטעים מול המצלמה, לערוך, לבנות את הליד מגנט בעמוד אחד. <strong>לא להעלות</strong> — להתחיל את פרק 02.</p></div>
+    </div>
+    <p class="magic gt" style="margin-top:28px">The tool is the least important part. Deciding what not to shoot — that's the whole job.</p>
+  </section>
+
+  <footer>
+    <p class="fmicro">
+      YOUTUBE FRAMEWORK · נבנה עבור שלי אור גיסר · SHOTCALLER<br>
+      נתוני CPM הם טווחי הערכה תעשייתיים לקהל אמריקאי דובר אנגלית, לא מדידה מחשבון ספציפי. מספרים בסוגריים מרובעים — להחליף בנתונים האמיתיים שלך.<br>
+      <a href="guides.html" style="color:var(--purple);text-decoration:none">← חזרה לכל המדריכים</a>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i,6)*0.06)+'s';io.observe(el)});
+</script>
+</body>
+</html>
