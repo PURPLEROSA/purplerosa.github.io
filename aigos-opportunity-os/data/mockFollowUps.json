@@ -1,0 +1,115 @@
+[
+  {
+    "id": "f-001",
+    "createdAt": "2026-05-08T11:00:00.000Z",
+    "contactId": "c-001",
+    "opportunityId": "o-001",
+    "contactName": "דנה לוי",
+    "dueDate": "2026-05-22",
+    "reminderText": "לחזור לדנה עם חידושים בוידאו AI ולהציע סשן עדכון.",
+    "reason": "דנה ביקשה מפורשות שתחזרי אליה החודש. החודש הזה נגמר.",
+    "suggestedTopic": "3 יכולות וידאו AI חדשות לצוותי שיווק",
+    "suggestedOffer": "סשן עדכון של 90 דקות לצוות",
+    "suggestedEmailDraft": {
+      "subject": "חשבתי שזה יכול לעניין אותך",
+      "body": "היי דנה,\nנזכרתי שאמרת שנדבר שוב כשיהיו חידושים מעניינים סביב וידאו AI.\nיש עכשיו כמה כיוונים שיכולים להיות רלוונטיים ממש עבורכם.\nאפשר לקבוע פגישת עדכון קצרה, או לבנות לצוות סשן ממוקד. רוצה שאשלח אופציות?\n\nשלי"
+    },
+    "status": "Pending",
+    "isCalendarCreated": false,
+    "needsApproval": true
+  },
+  {
+    "id": "f-002",
+    "createdAt": "2026-05-17T09:00:00.000Z",
+    "contactId": "c-005",
+    "opportunityId": "o-002",
+    "contactName": "אבי שמש",
+    "dueDate": "2026-05-21",
+    "reminderText": "לשלוח לאבי את הצעת המחיר לליווי אישי. כבר באיחור.",
+    "reason": "אבי ביקש מחיר לפני 6 ימים וענה מהר. כל יום נוסף מקרר את הליד.",
+    "suggestedTopic": "הצעת ליווי אישי — חבילת 3 פגישות",
+    "suggestedOffer": "ליווי אישי בטווח 4,500-6,000 ש\"ח",
+    "suggestedEmailDraft": {
+      "subject": "הצעה לליווי אישי — מוכן להתחיל",
+      "body": "היי אבי,\nתודה על הסבלנות. ריכזתי הצעה לליווי אישי שמתאים לשלב שאתם בו.\nאשמח לשלוח פירוט מלא ולתאם שיחת התנעה השבוע. איזה יום נוח לך?\n\nשלי"
+    },
+    "status": "Pending",
+    "isCalendarCreated": false,
+    "needsApproval": true
+  },
+  {
+    "id": "f-003",
+    "createdAt": "2026-05-15T14:30:00.000Z",
+    "contactId": "c-002",
+    "opportunityId": "o-004",
+    "contactName": "יעל בר",
+    "dueDate": "2026-05-26",
+    "reminderText": "לעקוב אחרי ההצעה לתוכנית ההכשרה שנשלחה לטקנובה.",
+    "reason": "ההצעה נשלחה לפני 11 יום. הצעות לא מתאשרות לבד.",
+    "suggestedTopic": "סטטוס ההצעה לתוכנית ההכשרה",
+    "suggestedOffer": "תזכורת ידידותית + הצעה לתפוס תאריך",
+    "suggestedEmailDraft": {
+      "subject": "בודקת שהכל ברור לגבי ההצעה",
+      "body": "היי יעל,\nרק מוודאת שההצעה לתוכנית ההכשרה הגיעה וברורה.\nאם יש שאלה פתוחה — אני כאן. אשמח לתפוס תאריך לפני שהיומן מתמלא.\n\nשלי"
+    },
+    "status": "Pending",
+    "isCalendarCreated": false,
+    "needsApproval": true
+  },
+  {
+    "id": "f-004",
+    "createdAt": "2026-05-17T09:45:00.000Z",
+    "contactId": "c-003",
+    "opportunityId": "o-003",
+    "contactName": "רונן כץ",
+    "dueDate": "2026-05-25",
+    "reminderText": "להחזיר לרונן תשובה על זמינות ומחיר להרצאת הכנס.",
+    "reason": "רונן מחכה לתשובה. מפיק עסוק שוכח מהר מי לא ענה.",
+    "suggestedTopic": "זמינות ומחיר להרצאת מפתח",
+    "suggestedOffer": "2-3 חלונות זמן + טווח מחיר 6,000-7,500 ש\"ח",
+    "suggestedEmailDraft": {
+      "subject": "כיף לחזור לכנס שלך",
+      "body": "היי רונן,\nשמחה שחשבת עליי שוב. אשמח לקחת חלק.\nאני יכולה להחזיק שניים-שלושה חלונות זמן ברבעון הבא. נסגור מהר?\n\nשלי"
+    },
+    "status": "Pending",
+    "isCalendarCreated": false,
+    "needsApproval": true
+  },
+  {
+    "id": "f-005",
+    "createdAt": "2026-05-05T10:00:00.000Z",
+    "contactId": "c-007",
+    "contactName": "תומר גולד",
+    "dueDate": "2026-06-15",
+    "reminderText": "להציע לתומר חזרה — עברו 4 חודשים מסיום הריטיינר.",
+    "reason": "לקוח עבר חזק שנסגר יפה. הזמן המתוק להחייאה הוא עכשיו.",
+    "suggestedTopic": "מה חדש ב-AI לסטודיו עיצוב מאז ינואר",
+    "suggestedOffer": "מקצה ריטיינר קצר או סשן רענון לצוות",
+    "suggestedEmailDraft": {
+      "subject": "עבר יותר מדי זמן",
+      "body": "היי תומר,\nעבר רבעון מאז שסיימנו וזה מרגיש כמו הזמן הנכון לבדוק מה חדש.\nקרו כמה דברים מעניינים ב-AI לסטודיו שיכולים להתאים לכם.\nרוצה שנקבע שיחת רענון קצרה?\n\nשלי"
+    },
+    "status": "Pending",
+    "isCalendarCreated": false,
+    "needsApproval": true
+  },
+  {
+    "id": "f-006",
+    "createdAt": "2026-05-19T08:00:00.000Z",
+    "contactId": "c-004",
+    "opportunityId": "o-005",
+    "contactName": "מאיה כהן",
+    "dueDate": "2026-05-23",
+    "reminderText": "לתאם עם מאיה חלון זמן לראיון לכתבה.",
+    "reason": "מאיה מבקשת ראיון. חשיפה בכלכליסט לא נופלת מהשמיים פעמיים.",
+    "suggestedTopic": "תיאום ראיון לכתבה על נשים ב-AI",
+    "suggestedOffer": "2 חלונות זמן לראיון של 20 דקות",
+    "suggestedEmailDraft": {
+      "subject": "אשמח להשתתף בכתבה",
+      "body": "היי מאיה,\nתודה על הפנייה. אשמח להתראיין.\nנוחים לך יום ראשון בבוקר או יום שלישי אחר הצהריים?\n\nשלי"
+    },
+    "status": "Snoozed",
+    "isCalendarCreated": false,
+    "needsApproval": true
+  }
+]

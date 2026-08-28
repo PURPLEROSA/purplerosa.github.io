@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-ink text-slate-100 antialiased;
+    background-image:
+      radial-gradient(900px 500px at 100% -5%, rgba(168, 85, 247, 0.16), transparent),
+      radial-gradient(800px 460px at -8% 8%, rgba(236, 72, 153, 0.13), transparent),
+      radial-gradient(700px 500px at 50% 115%, rgba(251, 146, 60, 0.1), transparent);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgba(168, 85, 247, 0.4);
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-ink-border bg-ink-card/80 shadow-card backdrop-blur-sm;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:border-brand-purple/50 hover:shadow-glow;
+  }
+
+  .gradient-text {
+    @apply bg-brand-gradient bg-clip-text text-transparent;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold
+      transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-gradient text-white shadow-glow hover:opacity-90 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply btn border border-ink-border bg-ink-raised/60 text-slate-200 hover:border-brand-purple/50 hover:bg-ink-raised;
+  }
+
+  .btn-soft {
+    @apply btn bg-ink-raised text-slate-300 hover:bg-ink-border/70;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-ink-border bg-ink-soft px-3.5 py-2.5 text-sm text-slate-100
+      placeholder:text-slate-500 focus:border-brand-purple/60 focus:outline-none focus:ring-1 focus:ring-brand-purple/40;
+  }
+
+  .section-title {
+    @apply text-xs font-bold uppercase tracking-[0.18em] text-slate-400;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a3c;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a52;
+  background-clip: content-box;
+}
