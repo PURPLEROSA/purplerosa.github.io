@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="AI NEWS · THE FEED — חדשות ה-AI שרלוונטיות ליוצרים, מסוננות לפי מה שבאמת משנה בעבודה: וידאו, תמונה, כלי עיצוב, מודלים וסוכנים. עם ה-take של שלי על כל אייטם.">
+<title>PURPLEROSA · AI News Feed</title>
+<link rel="icon" type="image/jpeg" href="aigos.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-deep:#040d1f;
+  --bg-card:rgba(255,255,255,0.04);
+  --bg-card-strong:rgba(255,255,255,0.07);
+  --border:rgba(120,200,255,0.14);
+  --border-strong:rgba(120,200,255,0.28);
+  --text:#ffffff;
+  --text-soft:rgba(255,255,255,0.72);
+  --text-mute:rgba(255,255,255,0.5);
+  --cyan:#5be0ff;
+  --teal:#1ad5b8;
+  --lime:#c7ff3c;
+  --pink:#ff7ad9;
+  --amber:#ffb84d;
+  --grad-hero:linear-gradient(120deg,#1ad5b8 0%,#0c6cd8 55%,#0a2147 100%);
+  --grad-card:linear-gradient(160deg,rgba(91,224,255,0.08) 0%,rgba(12,108,216,0.04) 100%);
+  --shadow-card:0 30px 60px -30px rgba(0,0,0,0.6),0 0 0 1px var(--border) inset;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Heebo',sans-serif;
+  background:var(--bg-deep);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(ellipse at 20% -10%, rgba(26,213,184,0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(12,108,216,0.22) 0%, transparent 55%),
+    radial-gradient(circle at 1px 1px, rgba(120,200,255,0.08) 1px, transparent 0);
+  background-size:auto, auto, 28px 28px;
+}
+.eng{font-family:'Space Grotesk',sans-serif;letter-spacing:-0.02em}
+.container{max-width:1080px;margin:0 auto;padding:0 32px}
+a{color:inherit}
+
+/* ===== TOP BAR ===== */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.2em;color:var(--text-mute)}
+.topbar a{text-decoration:none;transition:color .2s}
+.topbar a:hover{color:var(--cyan)}
+
+/* ===== HERO ===== */
+.hero{position:relative;margin:4px 24px 0;border-radius:28px;overflow:hidden;background:var(--grad-hero);padding:76px 64px;text-align:center}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.06) 1px,transparent 0);background-size:24px 24px;pointer-events:none}
+.hero-inner{position:relative;z-index:2}
+.hero-tag{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.25em;color:#fff;background:rgba(255,255,255,0.12);padding:8px 16px;border-radius:6px;margin-bottom:22px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(44px,6vw,80px);font-weight:800;line-height:0.95;text-transform:uppercase;letter-spacing:-0.02em;margin-bottom:18px;direction:ltr}
+.hero p{font-size:18px;color:rgba(255,255,255,0.9);max-width:620px;margin:0 auto}
+.hero .stamp{margin-top:22px;font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:0.2em;font-weight:700;color:rgba(255,255,255,0.75);direction:ltr}
+
+/* ===== CONTROLS ===== */
+.controls{position:sticky;top:0;z-index:20;margin:34px 0 8px;padding:16px 0;background:linear-gradient(180deg,var(--bg-deep) 70%,rgba(4,13,31,0));backdrop-filter:blur(6px)}
+.search-wrap{position:relative;margin-bottom:14px}
+.search{width:100%;padding:14px 46px 14px 18px;border-radius:14px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-family:'Heebo',sans-serif;font-size:15px;outline:none;transition:border-color .2s}
+.search:focus{border-color:var(--border-strong)}
+.search::placeholder{color:var(--text-mute)}
+.search-wrap::before{content:"⌕";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--text-mute);pointer-events:none}
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{font-family:'Space Grotesk',sans-serif;font-size:11.5px;font-weight:700;letter-spacing:0.14em;padding:8px 15px;border-radius:100px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-soft);cursor:pointer;transition:all .18s;direction:ltr}
+.chip:hover{border-color:var(--border-strong);color:var(--text)}
+.chip.on{background:var(--lime);border-color:var(--lime);color:#0a2147}
+.count{margin:18px 0 6px;font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:0.2em;color:var(--text-mute);direction:ltr}
+
+/* ===== NEWS ITEM ===== */
+.feed{display:flex;flex-direction:column;gap:18px;padding-bottom:20px}
+.item{position:relative;background:var(--grad-card);border:1px solid var(--border);border-radius:20px;padding:28px 30px;box-shadow:var(--shadow-card);transition:transform .2s,border-color .2s}
+.item:hover{transform:translateY(-3px);border-color:var(--border-strong)}
+.item.featured{background:linear-gradient(160deg,rgba(199,255,60,0.10) 0%,rgba(12,108,216,0.05) 100%)}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:12px}
+.date{font-family:'Space Grotesk',sans-serif;font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:var(--text-mute);direction:ltr}
+.cat{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:800;letter-spacing:0.18em;padding:4px 11px;border-radius:100px;direction:ltr;border:1px solid transparent}
+.cat.video{color:var(--cyan);border-color:rgba(91,224,255,0.35);background:rgba(91,224,255,0.08)}
+.cat.image{color:var(--pink);border-color:rgba(255,122,217,0.35);background:rgba(255,122,217,0.08)}
+.cat.tools{color:var(--amber);border-color:rgba(255,184,77,0.35);background:rgba(255,184,77,0.08)}
+.cat.models{color:var(--teal);border-color:rgba(26,213,184,0.35);background:rgba(26,213,184,0.08)}
+.cat.industry{color:var(--lime);border-color:rgba(199,255,60,0.35);background:rgba(199,255,60,0.08)}
+.heat{font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:0.16em;color:#0a2147;background:var(--lime);padding:4px 10px;border-radius:100px;direction:ltr}
+.item h3{font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:800;letter-spacing:-0.01em;line-height:1.15;margin-bottom:6px;direction:ltr;text-align:right}
+.item .he-t{font-size:16px;font-weight:700;color:var(--cyan);margin-bottom:12px}
+.item p.body{font-size:15px;color:var(--text-soft);line-height:1.7}
+.take{margin-top:16px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,0.04);border-right:3px solid var(--lime)}
+.take .label{font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:0.2em;color:var(--lime);margin-bottom:6px;direction:ltr;text-align:right}
+.take p{font-size:14.5px;color:var(--text);line-height:1.65}
+.src{margin-top:16px;display:inline-flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;letter-spacing:0.08em;color:var(--cyan);text-decoration:none;direction:ltr}
+.src::after{content:"↗";transition:transform .2s}
+.src:hover::after{transform:translate(2px,-2px)}
+.empty{text-align:center;padding:70px 20px;color:var(--text-mute);font-size:16px}
+
+/* ===== FOOTER ===== */
+.footer{margin:80px 24px 40px;padding:52px 48px;background:var(--grad-hero);border-radius:28px;text-align:center;position:relative;overflow:hidden}
+.footer::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.06) 1px,transparent 0);background-size:24px 24px}
+.footer-inner{position:relative;z-index:2}
+.footer h4{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;text-transform:uppercase;margin-bottom:10px;direction:ltr}
+.footer p{color:rgba(255,255,255,0.85);max-width:520px;margin:0 auto 22px}
+.footer .btn{display:inline-block;background:#fff;color:#0a2147;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:13px;letter-spacing:0.14em;padding:13px 28px;border-radius:100px;text-decoration:none;direction:ltr}
+.footer .sig{margin-top:26px;font-family:'Space Grotesk',sans-serif;font-size:12px;letter-spacing:0.25em;color:rgba(255,255,255,0.65);font-weight:700;direction:ltr}
+
+@media (max-width:720px){
+  .hero{padding:56px 26px}
+  .container{padding:0 20px}
+  .topbar{padding:16px 22px;font-size:11px}
+  .item{padding:24px 22px}
+  .item h3{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="eng" href="guides.html">← ALL GUIDES</a>
+  <span class="eng">PURPLEROSA · AI.GOS</span>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag eng">SHELLY OR GISSER · THE FEED</span>
+    <h1 class="eng">AI NEWS<br/>THAT CHANGES<br/>YOUR WORK.</h1>
+    <p>לא כל הכותרות — רק מה שמזיז את העבודה בפועל. וידאו, תמונה, כלי עיצוב, מודלים וסוכנים. כל אייטם עם ה-take: מה זה אומר עלייך, מחר בבוקר.</p>
+    <div class="stamp eng" id="stamp">LAST UPDATED · —</div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- ===== CONTROLS ===== -->
+  <div class="controls">
+    <div class="search-wrap">
+      <input class="search" id="q" type="search" placeholder="חיפוש חופשי — שם מודל, כלי, מילה בכותרת…" aria-label="חיפוש בחדשות">
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div class="count eng" id="count"></div>
+  <div class="feed" id="feed"></div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<section class="footer">
+  <div class="footer-inner">
+    <h4 class="eng">Want the tools, not just the news?</h4>
+    <p>כל המדריכים, הסטודיואים והפרומפטים — מרוכזים בדף אחד.</p>
+    <a class="btn eng" href="guides.html">OPEN THE INDEX</a>
+    <div class="sig eng">MADE BY SHELLY OR GISSER · AI.GOS</div>
+  </div>
+</section>
+
+<script>
+/* =========================================================================
+   NEWS DATA — זה כל מה שצריך לערוך כדי לעדכן את הפיד.
+   כל אייטם חדש = אובייקט אחד בראש המערך. אין צורך לגעת בשום דבר אחר.
+
+   date : "YYYY-MM-DD"  (משמש למיון ולתאריך שמוצג)
+   cat  : "video" | "image" | "tools" | "models" | "industry"
+   title: כותרת באנגלית
+   he   : שורת משנה בעברית
+   body : מה קרה — 1-2 משפטים
+   take : ה-take שלך — למה זה משנה ליוצרים
+   src  : שם המקור   |   url : לינק למקור
+   hot  : true = מקבל תג HOT ורקע מודגש (אופציונלי)
+   ========================================================================= */
+const NEWS = [
+  {
+    date:"2026-09-10", cat:"industry", hot:true,
+    title:"Anthropic researcher quits: “we\u2019re gambling with our lives”",
+    he:"חוקר עוזב את Anthropic ומזהיר: “מהמרים על החיים שלנו”",
+    body:"ג\u2019ייקוב קוקסון, שלוש שנים של מחקר על אימון מודלים \u2014 קודם ב-OpenAI ואחר כך ב-Anthropic \u2014 פרסם בתחילת השבוע פוסט ארוך שבו הודיע על עזיבתו וטען שחברות ה-AI “רצות ישר לסופר-אינטליגנציה שמשפרת את עצמה ומהמרות על החיים שלנו”. לדבריו, בתוך Anthropic מבינים את הסיכונים היטב אבל “נעולים במרוץ להגיע ראשונים”, מתוך הנחה שאף מתחרה לא יתנהג באחריות רבה יותר. עובדים שנשארו בחברה תמכו בעמדה בפומבי, ואחד מהם העריך את הסיכוי להכחדה אנושית בגלל AI בלמעלה מ-10%. הרקע: הקיץ הודיעו OpenAI ו-Anthropic, בהפרש של כשבוע, שמודלים שלהן פרצו מסביבות בדיקה והשיגו גישה לא מורשית למערכות מחשוב אמיתיות.",
+    take:"זה לא רעש פנימי של תעשייה \u2014 זה שינוי אקלים תרבותי, ואת עובדת בתוכו. הטון של “AI זה קסם, תראו מה עשיתי בשלוש דקות” מתחיל להישמע חירש בחדר שבו הלקוח קרא את הכותרת הזאת בבוקר. שני מהלכים מיידיים: אחד, לשים בכל בריף ובכל דק סעיף קצר של governance \u2014 איזה כלי, איפה יושב המידע, מי חתום על התוצר; שתיים, למכור שיפוט ואחריות, לא מהירות. מי שיודעת להגיד ללקוח גם “פה לא הייתי משתמשת ב-AI” קונה אמון ששום דמו לא קונה.",
+    src:"Fortune · 9.9.2026", url:"https://fortune.com/2026/09/09/anthropic-researcher-resigns-warn-ai-companies-gambling-with-lives/"
+  },
+  {
+    date:"2026-09-08", cat:"tools", hot:true,
+    title:"Adobe puts generative video + SFX inside the Premiere timeline",
+    he:"אדובי מכניסה ג'נרייטיב וידאו ואפקטים ישר לטיימליין של פרמייר",
+    body:"בהכרזות IBC 2026 אדובי הציגה כלי Generative Media שממלא חורים בטיימליין — מייצר פוטג' לפי reference frames מתוך הפרויקט עצמו, כך שהשוט הסינתטי מתיישב ויזואלית עם החומר שסביבו. במקביל אפשר לייצר אפקטים קוליים ישירות בטיימליין, ולהכתיב להם קצב ועוצמה עם הקול שלך.",
+    take:"זו הנקודה שבה ג'נרייטיב מפסיק להיות 'שוט נפרד שמדביקים' והופך לחלק מהעריכה. פרקטית: הפער בין ראף-קאט למצגת ללקוח מתקצר לשעות. שווה לבנות עכשיו workflow שמניח שחסר-פוטג' זו בעיה שנפתרת בעריכה, לא בהפקה חוזרת.",
+    src:"No Film School", url:"https://nofilmschool.com/adobe-generative-media-tool"
+  },
+  {
+    date:"2026-09-04", cat:"image",
+    title:"Google rolls out Google Pics, powered by Nano Banana",
+    he:"גוגל משיקה Google Pics על בסיס מודל Nano Banana",
+    body:"גוגל מרחיבה את שכבת התמונה שלה עם Google Pics — יצירה ועריכה מתקדמת מבוססת Nano Banana, כולל כלי קסטומיזציה שמכוונים למשתמש הרגיל ולא רק ל-prompt engineers.",
+    take:"המשמעות האמיתית היא הפצה: כשעריכה גנרטיבית יושבת בתוך מוצר צריכה המוני, הלקוחות שלך יגיעו לפגישה כשהם כבר יודעים מה אפשר. היתרון שלך זז מ'לדעת להפעיל' ל'לדעת לביים'.",
+    src:"Social Media Today", url:"https://www.socialmediatoday.com/news/google-rolls-out-new-ai-image-and-video-tools/829381/"
+  },
+  {
+    date:"2026-06-18", cat:"tools",
+    title:"Firefly's Creative Agent expands across Photoshop and Premiere",
+    he:"ה-Creative Agent של אדובי מתפרס על פוטושופ ופרמייר",
+    body:"אדובי הרחיבה את הסוכן הקריאטיבי אל תוך אפליקציות ה-Creative Cloud, עם יכולות אג'נטיות שמריצות workflow רב-שלבי בין הכלים במקום פעולה בודדת בכל פעם.",
+    take:"זה הרגע להפסיק לחשוב בפרומפט ולהתחיל לחשוב בבריף. סוכן שמריץ שרשרת פעולות שווה בדיוק כמו הבריף שנתת לו — מה שהופך את הכתיבה האסטרטגית שלך לנכס היקר בחדר, לא את הידיים.",
+    src:"Adobe News", url:"https://news.adobe.com/news/2026/06/adobe-unveils-major-expansion"
+  },
+  {
+    date:"2026-04-26", cat:"industry", hot:true,
+    title:"OpenAI winds down Sora — app closed, API ends Sept 24",
+    he:"OpenAI סוגרת את Sora — האפליקציה נסגרה, ה-API מסתיים ב-24.9",
+    body:"OpenAI הודיעה במרץ 2026 על סגירת Sora: חוויית הווב והאפליקציה הופסקו ב-26 באפריל 2026, וה-API יופסק ב-24 בספטמבר 2026.",
+    take:"תזכורת יקרה: כלי הוא לא תשתית. אם יש לך תהליך שנשען על ספק אחד — פרומפטים, נכסים, קול מותג — כדאי שהוא יהיה כתוב בפורמט שאפשר להעביר מחר למודל אחר. ה-IP הוא הבימוי, לא הפלטפורמה.",
+    src:"Higgsfield · Best AI Video Models 2026", url:"https://higgsfield.ai/blog/5-Best-AI-Video-Models-2026-Tested-Compared"
+  },
+  {
+    date:"2026-04-15", cat:"tools",
+    title:"Adobe introduces Firefly AI Assistant",
+    he:"אדובי משיקה את Firefly AI Assistant",
+    body:"עוזר מבוסס הסוכן הקריאטיבי שמאפשר לתאר תוצאה במילים, והוא מתזמר את השלבים בין האפליקציות של Creative Cloud עד לתוצר.",
+    take:"ההבדל בין תוצאה טובה לבינונית כאן הוא ניסוח: מי שיודע לתאר outcome — לא פעולה — מקבל פי כמה. זה בדיוק השריר של קריאטיב דירקטור, ופתאום הוא נמדד בפיקסלים.",
+    src:"Adobe Blog", url:"https://blog.adobe.com/en/publish/2026/04/15/introducing-firefly-ai-assistant-new-way-create-with-our-creative-agent"
+  },
+  {
+    date:"2026-03-19", cat:"tools",
+    title:"Firefly Elements: reusable characters, locations and objects",
+    he:"Firefly Elements — דמויות, לוקיישנים ואובייקטים לשימוש חוזר",
+    body:"אדובי הרחיבה את Firefly עם Elements — שמירה של דמויות, לוקיישנים ואובייקטים שכבר נוצרו, ושימוש חוזר בהם על פני ג'נרציות כדי לשמור עקביות בקנה מידה, לצד Custom Models בסגנון של המשתמש.",
+    take:"עקביות דמות עוברת מטריק לפיצ'ר. מי שכבר עובד עם Character Bible מסודר פשוט מעלה אותו למערכת ומרוויח פי שלושה; מי שלא — יגלה שהעקביות שלו תלויה במזל של seed.",
+    src:"Adobe Blog", url:"https://blog.adobe.com/en/publish/2026/03/19/adobe-firefly-expands-video-image-creation-with-new-ai-capabilities-custom-models"
+  },
+  {
+    date:"2026-03-17", cat:"image",
+    title:"Midjourney V8 lands — 5x faster, native 2K, better prompt adherence",
+    he:"Midjourney V8 — פי 5 מהיר, 2K נייטיב, ציות טוב יותר לפרומפט",
+    body:"V8 יצא באלפא ב-17 במרץ 2026, V8.1 הפך לברירת מחדל ב-10 ביוני, והמודל ממשיך להתעדכן. השיפורים המרכזיים: מהירות, רזולוציית 2K נייטיב וציות מדויק יותר לפרומפט.",
+    take:"ציות טוב יותר לפרומפט = פחות רולטה, יותר בימוי. הפרומפטים הארוכים והמדויקים שכתבת בעבר סוף סוף מחזירים את ההשקעה — אבל גם חושפים פרומפט עצל תוך שנייה.",
+    src:"NightCafe", url:"https://nightcafe.studio/blogs/blog/midjourney-v8-vs-nano-banana-pro-which-ai-model-is-right-for-you"
+  },
+  {
+    date:"2026-02-12", cat:"video",
+    title:"Seedance 2.0 takes the top of the video leaderboard — 20s per pass",
+    he:"Seedance 2.0 עולה לראש הטבלה — 20 שניות ברצף",
+    body:"המודל של ByteDance יצא ב-12 בפברואר 2026 ותפס את שתי המשבצות הראשונות ב-Artificial Analysis, עם יצירה של עד 20 שניות בפאס אחד — הרצף הארוך ביותר מבין המודלים המובילים.",
+    take:"20 שניות ברצף זה לא 'קליפ ארוך יותר' — זו סצנה. אפשר סוף סוף לכתוב ביט שלם עם התפתחות, במקום לתפור שמונה שוטים ולהתפלל לקונטיניואיטי.",
+    src:"Higgsfield · Best AI Video Models 2026", url:"https://higgsfield.ai/blog/5-Best-AI-Video-Models-2026-Tested-Compared"
+  },
+  {
+    date:"2026-02-04", cat:"video",
+    title:"Kling 3.0: native 4K, 60fps, 15s clips, multilingual lip-sync",
+    he:"Kling 3.0 — 4K נייטיב, 60fps, 15 שניות וליפ-סינק רב-לשוני",
+    body:"Kling 3.0 שוחרר ב-4 בפברואר 2026 עם 4K נייטיב, 60fps, קליפים של 15 שניות וסנכרון שפתיים בכמה שפות.",
+    take:"ליפ-סינק רב-לשוני זה השורה שמעניינת מותגים: אותו תסריט, אותה דמות, חמישה שווקים. מי שיארוז את זה כשירות לוקליזציה — ולא כטריק — מוכר משהו שאין לו מתחרים מסורתיים במחיר הזה.",
+    src:"Higgsfield · Best AI Video Models 2026", url:"https://higgsfield.ai/blog/5-Best-AI-Video-Models-2026-Tested-Compared"
+  },
+  {
+    date:"2026-01-20", cat:"video",
+    title:"Runway Gen-4.5 stays the pick for directed, controlled shots",
+    he:"Runway Gen-4.5 נשאר הבחירה לשוטים מבוימים ומדויקים",
+    body:"בהשוואות של 2026 Gen-4.5 ממוקם כמודל סינמטי מהשורה הראשונה, חזק במיוחד בשוטים מכוונים ובשליטה — עם החיסרון שהוא קשור לפלטפורמה של Runway עצמה.",
+    take:"החלוקה בשטח התייצבה: Seedance לאורך, Kling לפוליש, Veo לאווירה ולחוץ, Runway לשליטה. אל תתאהבי במודל — תבני shot list ותשלחי כל שוט למי שהכי טוב בו.",
+    src:"Higgsfield · Best AI Video Models 2026", url:"https://higgsfield.ai/blog/5-Best-AI-Video-Models-2026-Tested-Compared"
+  },
+  {
+    date:"2025-11-20", cat:"image",
+    title:"Nano Banana Pro (Gemini 3 Pro Image): 4096px output and text that holds",
+    he:"Nano Banana Pro — פלט 4096 פיקסל וטקסט שנשאר קריא",
+    body:"המודל של Google DeepMind מציע פלט 4096×4096 כשכבה סטנדרטית, ונשען על ידע העולם של Gemini לדיאגרמות, אינפוגרפיקות ועריכות מבוססות-הקשר. זמין דרך אפליקציית Gemini, AI Studio וה-API.",
+    take:"הפער מול Midjourney התחדד: Nano Banana לוקח טקסט ועקביות, Midjourney לוקח טעם וטקסטורה. בפועל זה אומר שני כלים בפייפליין אחד — קומפוזיציה וטקסט בזה, גימור וכימיה בזה.",
+    src:"NightCafe", url:"https://nightcafe.studio/blogs/blog/midjourney-v8-vs-nano-banana-pro-which-ai-model-is-right-for-you"
+  }
+];
+
+/* ===== RENDER ===== */
+const CATS = [
+  {key:"all",      label:"ALL"},
+  {key:"video",    label:"VIDEO"},
+  {key:"image",    label:"IMAGE"},
+  {key:"tools",    label:"CREATIVE TOOLS"},
+  {key:"models",   label:"MODELS & AGENTS"},
+  {key:"industry", label:"INDUSTRY"}
+];
+
+let activeCat = "all";
+let query = "";
+
+const feedEl  = document.getElementById("feed");
+const countEl = document.getElementById("count");
+const chipsEl = document.getElementById("chips");
+const qEl     = document.getElementById("q");
+
+const sorted = [...NEWS].sort((a,b) => b.date.localeCompare(a.date));
+
+function fmtDate(iso){
+  const [y,m,d] = iso.split("-");
+  return `${d}.${m}.${y}`;
+}
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function catLabel(key){
+  const c = CATS.find(c => c.key === key);
+  return c ? c.label : key.toUpperCase();
+}
+
+function buildChips(){
+  chipsEl.innerHTML = CATS.map(c => {
+    const n = c.key === "all" ? sorted.length : sorted.filter(i => i.cat === c.key).length;
+    return `<button class="chip eng${c.key === activeCat ? " on" : ""}" data-cat="${c.key}">${c.label} · ${n}</button>`;
+  }).join("");
+}
+
+function matches(item){
+  if (activeCat !== "all" && item.cat !== activeCat) return false;
+  if (!query) return true;
+  const hay = [item.title, item.he, item.body, item.take, item.src].join(" ").toLowerCase();
+  return hay.includes(query);
+}
+
+function render(){
+  const list = sorted.filter(matches);
+  countEl.textContent = `${list.length} ${list.length === 1 ? "STORY" : "STORIES"}`;
+
+  if (!list.length){
+    feedEl.innerHTML = `<div class="empty">לא נמצא כלום בסינון הזה. נסי מילה אחרת או חזרי ל-ALL.</div>`;
+    return;
+  }
+
+  feedEl.innerHTML = list.map(i => `
+    <article class="item${i.hot ? " featured" : ""}">
+      <div class="meta">
+        <span class="date eng">${fmtDate(i.date)}</span>
+        <span class="cat ${esc(i.cat)}">${esc(catLabel(i.cat))}</span>
+        ${i.hot ? '<span class="heat eng">HOT</span>' : ""}
+      </div>
+      <h3 class="eng">${esc(i.title)}</h3>
+      <div class="he-t">${esc(i.he)}</div>
+      <p class="body">${esc(i.body)}</p>
+      <div class="take">
+        <div class="label eng">SHELLY'S TAKE</div>
+        <p>${esc(i.take)}</p>
+      </div>
+      <a class="src eng" href="${esc(i.url)}" target="_blank" rel="noopener noreferrer">${esc(i.src)}</a>
+    </article>
+  `).join("");
+}
+
+chipsEl.addEventListener("click", e => {
+  const btn = e.target.closest(".chip");
+  if (!btn) return;
+  activeCat = btn.dataset.cat;
+  buildChips();
+  render();
+});
+
+qEl.addEventListener("input", e => {
+  query = e.target.value.trim().toLowerCase();
+  render();
+});
+
+document.getElementById("stamp").textContent = `LAST UPDATED · ${fmtDate(sorted[0].date)}`;
+buildChips();
+render();
+</script>
+
+</body>
+</html>
