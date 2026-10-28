@@ -30,6 +30,7 @@ body{font-family:Inter,system-ui,sans-serif;background:var(--pr-bg-2);color:var(
   opacity:calc(1 - var(--p)*1.4);transform:scale(calc(1 + var(--p)*.25))}
 .pr-word .hi-u{background:linear-gradient(180deg,var(--pr-navy) 10%,var(--pr-steel) 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .has-video .pr-word{mix-blend-mode:multiply}
+.pr .hi-standin{z-index:2} /* subject layer sits ABOVE the letters (the sandwich) */
 /* stand-in subject: porcelain orb with cobalt leopard rosettes */
 .pr-subject{position:absolute;left:50%;top:53%;width:34vmin;height:44vmin;translate:-50% -50%;z-index:2;border-radius:46% 46% 40% 40%/50% 50% 45% 45%;
   background:radial-gradient(circle,var(--pr-cobalt) 0 22%,transparent 24%) 0 0/34px 30px,radial-gradient(circle,#6f8fd0 0 14%,transparent 16%) 17px 15px/34px 30px,
