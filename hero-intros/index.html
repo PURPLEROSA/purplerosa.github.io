@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PURPLEROSA · Hero Intros</title>
+<meta name="description" content="חמישה פתיחי Hero קולנועיים: תבנית חיה, סקיל מלא עם טיימליין תנועה, פרומפטים לווידאו וקוד להטמעה בכל אתר.">
+<link rel="icon" type="image/jpeg" href="../aigos.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#040d1f;--card:rgba(255,255,255,.04);--line:rgba(120,200,255,.14);--line-2:rgba(120,200,255,.28);
+  --text:#fff;--soft:rgba(255,255,255,.72);--mute:rgba(255,255,255,.5);
+  --cyan:#5be0ff;--lime:#c7ff3c;--pink:#ff7ad9;--amber:#ffb84d;--teal:#1ad5b8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Heebo,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;
+  background-image:radial-gradient(ellipse at 20% -10%,rgba(26,213,184,.16),transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(12,108,216,.2),transparent 55%)}
+.eng{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em;direction:ltr}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-size:14px}
+.top a{color:var(--soft);text-decoration:none}
+.hero{padding:60px 0 40px;text-align:center}
+.kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.25em;color:var(--lime);border:1px solid var(--line-2);padding:6px 14px;border-radius:99px;margin-bottom:22px}
+.hero h1{font-size:clamp(44px,7vw,96px);font-weight:700;line-height:.95;text-transform:uppercase}
+.hero h1 span{background:linear-gradient(90deg,var(--teal),var(--cyan),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:620px;margin:22px auto 0;color:var(--soft);font-size:18px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:40px 0 70px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.step b{font-family:'Space Grotesk';color:var(--cyan);font-size:13px;letter-spacing:.2em}
+.step h3{font-size:18px;margin:6px 0 6px}
+.step p{font-size:14px;color:var(--soft)}
+.hero-card{display:grid;grid-template-columns:1.35fr 1fr;gap:28px;align-items:start;margin-bottom:70px;padding-bottom:70px;border-bottom:1px solid var(--line)}
+.preview{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid var(--line-2);background:#000;box-shadow:0 40px 80px -40px rgba(0,0,0,.8)}
+.preview iframe{position:absolute;top:0;left:0;width:1440px;height:810px;border:0;transform-origin:0 0}
+.pv-bar{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:9px 16px;border-radius:99px;border:1px solid var(--line-2);background:var(--card);text-decoration:none;color:var(--text);cursor:pointer;font-family:inherit}
+.btn.primary{background:#fff;color:#040d1f;border-color:#fff}
+.btn:hover{border-color:var(--cyan)}
+.hint{font-size:12px;color:var(--mute);margin-top:8px}
+.num{font-family:'Space Grotesk';font-size:13px;letter-spacing:.3em;color:var(--mute)}
+.info h2{font-family:'Space Grotesk';font-size:clamp(34px,4vw,54px);line-height:1;margin:6px 0 4px;text-transform:uppercase}
+.info .tag{font-family:'Space Grotesk';font-size:14px;color:var(--cyan)}
+.info p{color:var(--soft);margin:14px 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.chip{font-size:12px;padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.sw{display:flex;gap:6px;margin:10px 0 16px}
+.sw i{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.25)}
+.tl{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+.tl td{padding:6px 0;border-bottom:1px solid var(--line);color:var(--soft)}
+.tl td:first-child{font-family:'Space Grotesk';color:var(--lime);width:76px;direction:ltr;text-align:right;padding-left:12px}
+.api{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;margin-bottom:80px}
+.api h2{font-family:'Space Grotesk';font-size:28px;margin-bottom:8px}
+pre{direction:ltr;text-align:left;background:#020814;border:1px solid var(--line);border-radius:12px;padding:16px;overflow-x:auto;font-size:12.5px;line-height:1.55;color:#cfe9ff;margin-top:12px}
+footer{text-align:center;color:var(--mute);font-size:13px;padding:30px 0 50px}
+@media (max-width:900px){.hero-card{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a href="../guides.html">→ כל המדריכים</a><span class="eng">PURPLEROSA · HERO INTROS</span></div>
+
+  <header class="hero">
+    <div class="kicker eng">5 SKILLS · LIVE TEMPLATES</div>
+    <h1 class="eng">Hero <span>Intros</span></h1>
+    <p>חמישה פתיחי אתר קולנועיים, כל אחד כסקיל מלא: טיימליין תנועה עד רמת המילישנייה, מערכת צבע וטיפוגרפיה, פרומפטים להפקת הווידאו, וקוד שמוטמע בכל אתר. מנוע אחד, בלי ספריות.</p>
+  </header>
+
+  <div class="steps">
+    <div class="step"><b class="eng">01</b><h3>בוחרים פתיח</h3><p>צופים בתבנית החיה למטה. בפתיחים עם גלילה, גוללים בתוך התצוגה.</p></div>
+    <div class="step"><b class="eng">02</b><h3>מורידים את הסקיל</h3><p>ZIP עם SKILL.md, תבנית ומנוע. מעלים ל‑Claude (Settings → Skills) או מעתיקים לפרויקט.</p></div>
+    <div class="step"><b class="eng">03</b><h3>מפיקים ומטמיעים</h3><p>מייצרים את הווידאו לפי הפרומפט, מקודדים לפי הפקודה, ומחליפים את <span class="eng">src</span>. זהו.</p></div>
+  </div>
+
+  <div id="list"></div>
+
+  <section class="api">
+    <h2 class="eng">The Engine · hero-intro.js</h2>
+    <p style="color:var(--soft)">כל חמשת הפתיחים רצים על אותו מנוע (4KB, vanilla). תנועה מוגדרת ב‑HTML עם data attributes, כך שאפשר לבנות פתיח חדש בלי לכתוב JavaScript.</p>
+<pre>&lt;link rel="stylesheet" href="hero-intro.css"&gt;
+&lt;section data-hero data-scroll="260"&gt;              &lt;!-- scroll length in vh · 0 = intro only --&gt;
+  &lt;div class="hi-stage"&gt;
+    &lt;video class="hi-video" data-hero-video data-mode="scrub" muted playsinline src="hero.mp4"&gt;&lt;/video&gt;
+    &lt;h1 data-in="letters" data-fx="rise" data-at="200" data-stagger="90"&gt;Secret&lt;/h1&gt;
+    &lt;nav data-in="drop" data-at="900" data-ease="back"&gt;…&lt;/nav&gt;
+    &lt;div data-scroll-range="0.45,1"&gt;Chapter two&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+&lt;script src="hero-intro.js"&gt;&lt;/script&gt;
+
+data-in     fade-up · fade · blur · scale · drop · rise · line · slide-r · slide-l · letters · words
+data-fx     child effect for letters/words  (letter-blur · rise · slide-l · fade-up …)
+data-ease   out (expo) · back (overshoot) · inout · soft
+CSS hooks   --p (scroll 0→1) · .hi-started · .has-video · .hi-reduced
+Test        any-template.html?video=https://your-cdn/clip.mp4
+
+# scrub-ready encode (every frame a keyframe)
+ffmpeg -i in.mp4 -vf "scale=1920:-2,fps=30" -c:v libx264 -crf 22 -preset slow \
+  -x264-params keyint=1:scenecut=0 -pix_fmt yuv420p -movflags +faststart -an hero-scrub.mp4</pre>
+  </section>
+  <footer class="eng">PURPLEROSA · Hero Intros v1 · engine + 5 skills</footer>
+</div>
+
+<script>
+const REPO = 'https://github.com/PURPLEROSA/purplerosa.github.io/blob/main/hero-intros/skills/';
+const HEROES = [
+  { id:'bluebird', name:'Bluebird', tag:'Fly in · land · reveal', mode:'AUTOPLAY · 5.8s',
+    dna:'הווידאו הוא הפתיח. הסובייקט עף פנימה ונוחת בקלוז‑אפ, וה‑UI נוחת איתו: מילת רפאים בסריף, כרטיסי זכוכית, nav גלולה. בהיר, אוורירי, הייטקי.',
+    fit:['סייבר','פינטק','AI / SaaS'], sw:['#dbe8f3','#a9c6de','#6f9cc2','#1f5eff','#ffffff'],
+    tl:[['0–5800','וידאו: הציפור עפה ונוחתת'],['3500','מילת רפאים, blur ← חד'],['3900','nav נופל מלמעלה'],['4300','כותרת מילה‑מילה מתוך מסכה'],['5000+','3 כרטיסים, 150ms ביניהם']] },
+  { id:'primal', name:'Primal', tag:'Spell the name · step through it', mode:'SCRUB · intro 2.45s',
+    dna:'אותיות סריף ענקיות נכתבות אחת‑אחת מאחורי הסובייקט (סנדוויץ׳ שכבות). הגלילה מקרבת אותו, והאותיות מתפזרות ונעלמות.',
+    fit:['תכשיטים','אופנה','בשמים'], sw:['#e9eef4','#c5d0dd','#8c9bb0','#1b2c4f','#2c4f9b'],
+    tl:[['250+190i','P·R·I·M·A·L, אות כל 190ms'],['1500','כפתור Explore עגול + טבעת פועמת'],['1800','top bar'],['2100','תגליין + תמונות מוצר'],['scroll','אותיות מתרחבות, סובייקט ×1.75']] },
+  { id:'secret', name:'Secret', tag:'The word rises out of the land', mode:'SCRUB · intro 2.2s',
+    dna:'מילת ענק עולה מאחורי הגבעות שבחזית, באווירה כהה עם צבע אחד בוער. הגלילה היא תנועת מצלמה דרך השער אל פרק שני.',
+    fit:['תיירות / מלון','ספא','גיימינג'], sw:['#071317','#123038','#e3262b','#1f2a1d','#eef1ef'],
+    tl:[['100+90i','S·e·c·r·e·t עולות מתוך מסכה'],['900','nav'],['1200','כותרת מילה‑מילה'],['1500–1800','עמודות 01–04'],['scroll','push‑in, המילה שוקעת, פרק 2']] },
+  { id:'arborea', name:'Arborea', tag:'Calm architecture · living object', mode:'SCRUB · intro 2.3s',
+    dna:'קודם המבנה (קווי גריד נמתחים), אחר כך המילים (אות‑אות), ובסוף החיים: אובייקט מרחף ונושם על ‎#454640. איטי ושקט.',
+    fit:['קיימות','וולנס','עיצוב פנים'], sw:['#454640','#3a3b36','#5f7d2e','#9bb34a','#f1f1ec'],
+    tl:[['0–320','5 קווי גריד, scaleY מלמעלה'],['600','"Find your" אות כל 45ms'],['1050','"inner green"'],['1700','גלולת זכוכית מעל האובייקט'],['∞','ריחוף ±2.2vh, 6s']] },
+  { id:'runshift', name:'Runshift', tag:'Forward motion · world shift', mode:'SCRUB · intro 1.75s',
+    dna:'הדמות רצה ולא עוצרת, ואתם שולטים בעולם. הגלילה מחליפה סצנה ושקופית. רווי, איטלקי וכבד.',
+    fit:['גיימינג','ספורט','אפליקציות Gen‑Z'], sw:['#2ab3d6','#6b3fd1','#e2336b','#ff8a2a','#ffd34d'],
+    tl:[['150','nav זכוכית נופל עם קפיצה'],['550+35i','ENDLESS WORLDS נכנסת מימין'],['1350','CTA'],['1600','מונה 3.2M + טבעת'],['0.45','החלפת עולם + שקופית HERO GEAR']] }
+];
+const list = document.getElementById('list');
+HEROES.forEach((h, i) => {
+  const el = document.createElement('article');
+  el.className = 'hero-card';
+  el.innerHTML = `
+    <div>
+      <div class="preview"><iframe loading="lazy" src="${h.id}.html" title="${h.name} hero preview"></iframe></div>
+      <div class="pv-bar">
+        <button class="btn" data-replay>↻ הפעלה מחדש</button>
+        <a class="btn" href="${h.id}.html" target="_blank" rel="noopener">מסך מלא ↗</a>
+        <a class="btn primary" href="downloads/hero-${h.id}.zip" download>הורדת הסקיל (ZIP)</a>
+        <a class="btn" href="${REPO}hero-${h.id}/SKILL.md" target="_blank" rel="noopener">SKILL.md</a>
+      </div>
+      <div class="hint">${h.mode.startsWith('SCRUB') ? 'גללו עם העכבר בתוך התצוגה כדי לראות את הווידאו נשלט בגלילה. ' : ''}התצוגה משתמשת ב‑stand‑in ב‑CSS; עם וידאו אמיתי: <span class="eng">${h.id}.html?video=URL</span></div>
+    </div>
+    <div class="info">
+      <div class="num eng">0${i + 1} / 05 · ${h.mode}</div>
+      <h2 class="eng">${h.name}</h2>
+      <div class="tag eng">${h.tag}</div>
+      <p>${h.dna}</p>
+      <div class="sw">${h.sw.map(c => `<i style="background:${c}" title="${c}"></i>`).join('')}</div>
+      <div class="chips">${h.fit.map(f => `<span class="chip">${f}</span>`).join('')}</div>
+      <table class="tl">${h.tl.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>
+    </div>`;
+  list.appendChild(el);
+  const frame = el.querySelector('iframe'), box = el.querySelector('.preview');
+  new ResizeObserver(() => { frame.style.transform = `scale(${box.clientWidth / 1440})`; }).observe(box);
+  el.querySelector('[data-replay]').onclick = () => { frame.src = frame.src; };
+});
+</script>
+</body>
+</html>
