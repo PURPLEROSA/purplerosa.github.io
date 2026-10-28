@@ -3,7 +3,8 @@
 **Concept:** In an endless field of pink cosmos, a crew of iridescent animals runs a tiny, perfect "office" of cream retro tech. Everyone is working toward one delivery: the scent, for her.
 **Lead:** Shelly in "Disco Couture": a floor-length, body-skimming gown of tiny hand-set mirror tiles (a disco ball as fabric), long sleeves, an open back and a short fishtail train. Wet-look hair slicked back, glass skin, silver inner-corner liner.
 **Product:** a faceted blush-pink glass bottle with a silver cap and a liquid-chrome bow, carrying no text.
-**Look:** Kodak Ektachrome E100, cobalt sky, hard late-afternoon sun, real flares, pollen, fine grain. Shot like a 35mm fashion editorial: handheld, with wind.
+**Look (approved after take 2):** ARRI Alexa 35 with Cooke S4 lenses, a natural colour grade and fine 35mm grain. Soft, hazy late-afternoon sun from the side, diffused through thin high clouds. A pale, desaturated blue-grey sky with layered clouds, and the field receding into atmospheric haze with a faint tree line for depth. NO lens flare, NO sun glare, NO light rays on the face or hair, NO saturated cobalt sky. Hyper-realistic documentary fashion cinematography.
+**Wardrobe lock:** always write "floor-length gown that covers her feet, with a long train trailing behind her" plus the negatives "no slit, no short dress". Keep the flowers "short, only up to her ankles".
 **Camera curve:** 2 → 3 → 2 → 4 → 3 → 2 → 1 → 2 → 1
 
 ## References to wire
