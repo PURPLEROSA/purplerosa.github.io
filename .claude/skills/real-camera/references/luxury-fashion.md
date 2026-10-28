@@ -29,6 +29,15 @@ Luxury needs **perfection in the object** and **imperfection in the camera**. Th
 - **Gold liquid (perfume worlds):** golden hour, liquid gold, a slow pour, droplets.
 - **Houndstooth:** a graphic texture and a macro rhythm.
 
+## Couture styling: the anti-catalogue rules
+Lesson learned: a "character sheet on a studio backdrop" produces catalogue clothes. Couture has to be **designed and shot as an editorial**, never as a reference sheet.
+- **Exaggerate the silhouette.** Name the extreme: an extreme wasp waist, an enormous pleated skirt, a train that spills into the set, sculpted shoulders. "Nice jacket and skirt" = catalogue.
+- **Name the craft:** hand-embroidered, knife-pleated, organza petals, mirror paillettes, silk shantung, wool crêpe, corseted bodice.
+- **Style head to toe:** hat, gloves, jewellery, shoes, **hair styling** (a chignon, wet-look, sculpted waves) and **editorial makeup** (a red lip, graphic liner, glass skin).
+- **Shoot it in the world, not in a studio:** the first frame of a look is already a campaign image in the set, with attitude and a pose (mid-stride, over the shoulder, chin lifted).
+- **Name the photographer's language:** Paolo Roversi, Tim Walker, Steven Meisel, Vogue Paris / Italia, medium format (Pentax 67), a named stock.
+- Lock identity with the person's own photos as references in every look frame. The identity-lock sheet comes **after** the look is approved, not before.
+
 ## Wardrobe and material physics (Seedance's strength)
 - `heavy silk faille skirt swings with real weight and settles a beat after she stops`
 - `organza layers catch the air and drift down slowly in slow motion`
