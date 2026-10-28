@@ -1,13 +1,13 @@
 # "DELIVERED" — spec film, 30s, 16:9 (Seedance 2.5)
 
 **Concept:** In an endless field of pink cosmos, a crew of iridescent animals runs a tiny, perfect "office" of cream retro tech. Everyone is working toward one delivery: the scent, for her.
-**Lead:** Shelly (character sheet ref) in "Bar Chrome": a liquid-silver lamé Bar jacket, a full blush-tulle skirt, silver slingbacks and a star pendant.
+**Lead:** Shelly in "Disco Couture": a floor-length, body-skimming gown of tiny hand-set mirror tiles (a disco ball as fabric), long sleeves, an open back and a short fishtail train. Wet-look hair slicked back, glass skin, silver inner-corner liner.
 **Product:** a faceted blush-pink glass bottle with a silver cap and a liquid-chrome bow, carrying no text.
 **Look:** Kodak Ektachrome E100, cobalt sky, hard late-afternoon sun, real flares, pollen, fine grain. Shot like a 35mm fashion editorial: handheld, with wind.
 **Camera curve:** 2 → 3 → 2 → 4 → 3 → 2 → 1 → 2 → 1
 
 ## References to wire
-- @image1: the character sheet (her, in the look)
+- @image1: the Disco Couture hero frame and the close-up (her identity and look)
 - @image2: the hero bottle
 - @image3: the master plate (field and chair)
 - @image4–7: chameleon, pelican with envelope, pelican with headphones, giraffe
@@ -24,7 +24,7 @@ A 30-second luxury fragrance film in nine shots, shot like a 35mm fashion editor
 
 [9–12s] Cut to Shot 4: Fast whip-pan with heavy horizontal motion blur kept in frame, settling with an overshoot on the giraffe, which lowers its head into frame, curious, its lashes catching the sun. A live zoom snaps in to its eye and drifts back out.
 
-[12–16s] Cut to Shot 5: Steadicam at knee height gliding backward, with a gentle float and a tiny bump. The woman walks through the cosmos toward camera in a liquid-silver Bar jacket and a full blush-pink tulle skirt; the tulle lifts in the wind and brushes the flowers, settling with real weight. The sun flares behind her shoulder.
+[12–16s] Cut to Shot 5: Steadicam at knee height gliding backward, with a gentle float and a tiny bump. The woman walks slowly through the cosmos toward camera in a floor-length, body-skimming mirror-tile gown, her wet-look hair slicked back; the short fishtail train drags through the flowers and petals lift behind it. The mirror tiles throw hundreds of moving light spots across the flowers, and the sun flares behind her shoulder.
 
 [16–19s] Cut to Shot 6: Handheld, Dutch angle rolled 10 degrees, slowly levelling. The pelican lands beside her with a heavy wingbeat and offers the envelope; she takes it. Feathers and petals scatter in the air.
 
