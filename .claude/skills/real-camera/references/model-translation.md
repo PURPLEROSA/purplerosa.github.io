@@ -13,6 +13,7 @@ The shot DNA stays the same (rig → move → operator → subject → environme
 - **Start and end frames:** write the **bridge** ("from closed bottle in her palm to mist hanging in the light"), not a static description.
 - **Edit / Extend:** `seedance-v2.5-edit` changes an existing clip ("add handheld breathing motion and film grain"). `seedance-v2.5-extend` continues from the last frame.
 - **Audio:** if music is wired as a reference, keep `generate_audio` = true.
+- **Reference leak (seen in production):** Seedance 2.5 can cut the wired reference images into the clip as flash frames at the start or end. Wire only the references you need, check the first and last second, and trim them in post (`ffmpeg -ss <in> -to <out>`) instead of re-generating.
 
 ## Kling 3.0 Pro / Kling 4.0
 - Lead with the camera verb: `Handheld camera, slow push-in, …`.
